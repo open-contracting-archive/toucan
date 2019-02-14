@@ -1,0 +1,2 @@
+-e git+https://github.com/OpenDataServices/lib-cove-web.git@v0.1.0#egg=libcoveweb
+django==2.1.7
