@@ -1,0 +1,34 @@
+{% load static %}
+<!doctype html>
+<html>
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">    
+    
+    <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+    <link href="{% static "bootstrap/css/bootstrap.min.css" %}" rel="stylesheet">
+    <link href="{% static "css/custom.css" %}" rel="stylesheet">
+    
+    <title>{% block title %}{% endblock %}</title>
+  </head>
+  <body>
+    {% include 'default/logo.html' %}
+    <nav class="navbar navbar-inverse navbar-static-top">
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand ocp-logo" href="http://open-contracting.org">
+            <svg style="">
+              <use xlink:href="#ocp-logo" />
+            </svg>
+          </a>
+        </div>
+      </div>
+    </nav>
+    <div class="container">
+      {% block body %}{% endblock %}
+    </div>
+    <script src="{% static "bootstrap/js/bootstrap.min.js" %}"></script>
+    <script src="https://use.typekit.net/xpw3jps.js"></script>
+    <script>try{Typekit.load({ async: true });}catch(e){}</script>
+  </body>
+</html>
