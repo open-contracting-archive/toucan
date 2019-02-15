@@ -1,0 +1,57 @@
+{% extends 'default/base.html' %}
+{# extend this template to include a default upload view using jquery-fileupload plugin #}
+{% load static %}
+
+{% block css %}
+<!-- CSS to style the file input field as button and adjust the Bootstrap progress bars -->
+<link rel="stylesheet" href="{% static "css/jquery.fileupload.css" %}">
+<link rel="stylesheet" href="{% static "css/jquery.fileupload-ui.css" %}">
+<link rel="stylesheet" href="{% static "css/uploader.css" %}">
+{% endblock css %}
+
+{% block body %}
+<form id="fileupload" method="POST" action="http://httpstat.us/200" data-form-data='{"csrfmiddlewaretoken": "{{csrf_token}}"}'>
+  <table class="form-head">
+    <tr>
+      <td class="buttons">
+        <span class="btn btn-success fileinput-button">
+          <i class="glyphicon glyphicon-plus"></i>
+          <span>Add files...</span>
+          <!-- The file input field used as target for the file upload widget -->
+          <input type="file" name="file" multiple>
+        </span>
+        <span class="btn btn-primary" id="upload-button" disabled>
+          <i class="glyphicon glyphicon-upload"></i>
+  	      <span>Upload</span>
+        </span>
+      </td>
+      <td class="progress-bar-container hidden">
+        <div class="progress">
+          <div class="progress-bar progress-bar-striped active" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+            Processing...
+          </div>
+        </div>
+      </td>
+    </tr>
+  </table>
+  <!-- The container for the uploaded files -->
+  <div class="drop-area bg-primary">
+    <table id="files" class="table">
+      <tbody class="files"></tbody>
+    </table>
+    <span class="help">drop files here (.json only)</span>
+  </div>
+</form>
+{% endblock body %}
+
+{% block scripts %}
+<script src="{% static "js/vendor/jquery.ui.widget.js" %}"></script>
+<script src="https://blueimp.github.io/JavaScript-Templates/js/tmpl.min.js"></script>
+<script src="{% static "js/jquery.iframe-transport.js" %}"></script>
+<script src="{% static "js/jquery.fileupload.js" %}"></script>
+<script src="{% static "js/jquery.fileupload-process.js" %}"></script>
+<script src="{% static "js/jquery.fileupload-ui.js" %}"></script>
+{% include "jquery-file-upload/upload.html"%}
+{% include "jquery-file-upload/download.html"%}
+<script src="{% static "js/uploader.js" %}"></script>
+{% endblock scripts %}

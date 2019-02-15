@@ -6,10 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">    
     
     <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
-    <link href="{% static "bootstrap/css/bootstrap.min.css" %}" rel="stylesheet">
+    <link href="{% static "css/bootstrap.min.css" %}" rel="stylesheet">
     <link href="{% static "css/custom.css" %}" rel="stylesheet">
+    {# custom css files here #}
+    {% block css %}{% endblock %}
     
-    <title>{% block title %}{% endblock %}</title>
+    <title>{% block title %}OCDS Web Tools{% endblock %}</title>
   </head>
   <body>
     {% include 'default/logo.html' %}
@@ -25,10 +27,17 @@
       </div>
     </nav>
     <div class="container">
+      <div class="page-header">
+        <h1>OCDS Web Tools <small>{% block subtitle %}{% endblock %}</h1>
+      </div>
+      {# page content here #}
       {% block body %}{% endblock %}
     </div>
-    <script src="{% static "bootstrap/js/bootstrap.min.js" %}"></script>
+    <script src="{% static "js/jquery-3.3.1.min.js" %}"></script>
+    <script src="{% static "js/bootstrap.min.js" %}"></script>
     <script src="https://use.typekit.net/xpw3jps.js"></script>
     <script>try{Typekit.load({ async: true });}catch(e){}</script>
+    {# additional scripts here #}
+    {% block scripts %}{% endblock %}
   </body>
 </html>

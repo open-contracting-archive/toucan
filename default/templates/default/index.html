@@ -1,17 +1,46 @@
 {% extends 'default/base.html' %}
 {% block title %}OCDS Web Tools - Home{% endblock %}
 {% block body %}
-  <div class="page-header">
-    <h1>OCDS Web Tools</h1>
+<div class="home row">
+  <div class="home-title col-xs-6">
+    OCDS Kit
   </div>
-  <div class="panel panel-primary">
-    <div class="panel-heading">OCDS Kit <span class="badge">alpha</span></div>
-    <div class="panel-body">
-    </div>
+  <div class="col-xs-6">
+    <a href="#" class="btn btn-default btn-lg btn-block">
+      Create Release packages
+    </a>
+    <a href="#" class="btn btn-default btn-lg btn-block">
+      Create Record packages
+    </a>
+    <a href="#" class="btn btn-default btn-lg btn-block">
+      Create Compiled and Versioned Releases
+    </a>
+    <a href="upgrade/" class="btn btn-default btn-lg btn-block">
+      Upgrade from 1.0 to 1.1
+    </a>
+    <a href="#" class="btn btn-default btn-lg btn-block">
+      Generate a spreadsheet version of schema
+    </a>
   </div>
-  <div class="panel panel-primary">
-    <div class="panel-heading">Other OCDS Tools</div>
-    <div class="panel-body">
-    </div  >
+</div>
+<hr/>
+<div class="home row">
+  <div class="home-title col-xs-6">
+    More tools
   </div>
+  <div class="col-xs-6">
+    <a href="http://standard.open-contracting.org/review/" 
+      class="btn btn-default btn-lg btn-block"
+      target="_blank"
+      >
+      Data Review Tool
+    </a>
+    <a href="https://open-contracting.github.io/extension_creator/" 
+      class="btn btn-default btn-lg btn-block"
+      target="_blank"
+      >
+      OCDS Extension Creator
+    </a>
+  </div>
+</div>
 {% endblock %}

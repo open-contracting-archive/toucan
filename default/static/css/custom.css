@@ -2,3 +2,20 @@
   height: 40px; 
   margin-top: -7px;
 }
+.home .home-title
+{
+  text-align: center;
+  min-height: 250px;
+  line-height: 250px;
+  text-transform: uppercase;
+  color: #eee;
+  font-size: 2em;
+  font-weight: bold;
+  background: transparent url('../img/diamond.svg') no-repeat center center;
+}
+
+.home .btn.btn-default
+{
+  color: #eee;
+  background-color: #23b2a7;
+}

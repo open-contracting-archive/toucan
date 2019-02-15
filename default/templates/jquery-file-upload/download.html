@@ -1,0 +1,22 @@
+<script id="template-download" type="text/x-tmpl">
+{% templatetag openblock %} for (var i=0, file; file=o.files[i]; i++) { {% templatetag closeblock %}
+    <tr class="template-download fade">
+        <td class="actions"></td>
+        <td>
+            <p class="name">
+                <span>{% templatetag openblock %}=file.name{% templatetag closeblock%}</span>
+            </p>
+        </td>
+        <td>
+            <span class="size">{% templatetag openblock %}=o.formatFileSize(file.size){% templatetag closeblock %}</span>
+        </td>
+        <td>
+            {% templatetag openblock %} if (file.error) { {% templatetag closeblock %}
+                <span class="text-danger">Error</span> {% templatetag openblock %}=file.error{% templatetag closeblock %}
+            {% templatetag openblock %} } else { {% templatetag closeblock %}
+                <span class="text-success">Upload successful</span>
+            {% templatetag openblock %} } {% templatetag closeblock %}
+        </td>
+    </tr>
+{% templatetag openblock %} } {% templatetag closeblock %}
+</script>
