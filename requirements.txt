@@ -1,1 +1,2 @@
 django==2.1.7
+ocdskit==0.0.5

@@ -10,20 +10,32 @@
 {% endblock css %}
 
 {% block body %}
-<form id="fileupload" method="POST" action="http://httpstat.us/200" data-form-data='{"csrfmiddlewaretoken": "{{csrf_token}}"}'>
+<div class="alert alert-success response hidden">
+</div>
+<form 
+    id="fileupload" 
+    method="POST" 
+    action="/upload/"
+    data-accept-file-types="/(\.|\/)json$/i"
+    data-files-container=".files"
+    data-sequencial-uploads="true"
+    data-form-data='{"csrfmiddlewaretoken": "{{csrf_token}}"}'
+    data-max-number-of-files="{{maxNumOfFiles}}"
+    data-max-file-size="{{maxFileSize}}"
+  >
   <table class="form-head">
     <tr>
       <td class="buttons">
-        <span class="btn btn-success fileinput-button">
+        <div class="btn btn-primary fileinput-button">
           <i class="glyphicon glyphicon-plus"></i>
           <span>Add files...</span>
           <!-- The file input field used as target for the file upload widget -->
-          <input type="file" name="file" multiple>
-        </span>
-        <span class="btn btn-primary" id="upload-button" disabled>
+          <input type="file" name="file" accept=".json" multiple>
+        </div>
+        <button type="button" class="btn btn-primary" id="upload-button" disabled>
           <i class="glyphicon glyphicon-upload"></i>
   	      <span>Upload</span>
-        </span>
+        </button>
       </td>
       <td class="progress-bar-container hidden">
         <div class="progress">
@@ -50,6 +62,7 @@
 <script src="{% static "js/jquery.iframe-transport.js" %}"></script>
 <script src="{% static "js/jquery.fileupload.js" %}"></script>
 <script src="{% static "js/jquery.fileupload-process.js" %}"></script>
+<script src="{% static "js/jquery.fileupload-validate.js" %}"></script>
 <script src="{% static "js/jquery.fileupload-ui.js" %}"></script>
 {% include "jquery-file-upload/upload.html"%}
 {% include "jquery-file-upload/download.html"%}
