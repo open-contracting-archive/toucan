@@ -1,12 +1,17 @@
-def get_files(session):
-  for _file in session['files']:
-    yield _file['info'], _file['size']
+from collections import OrderedDict
+from .file import FilenameHandler
 
-def has_files(session):
-  return 'files' in session
+def get_files_contents(session):
+    """ Generator that returns file contents from session info. """
+    for fileinfo in session['files']:
+        file_handler = FilenameHandler(**fileinfo)
+        filename = file_handler.get_full_path()
+        with open(filename, 'r', encoding='utf-8') as f:
+            buf = f.read()
+        yield file_handler, buf
 
-def save_in_session(session, info_dict, size):
+def save_in_session(session, info):
   if not 'files' in session:
     session['files'] = []
-  session['files'].append({'info': info_dict, 'size': size})
+  session['files'].append(info)
   session.modified = True

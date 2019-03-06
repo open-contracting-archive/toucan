@@ -33,7 +33,6 @@
     {
       enableUploadButton();
     }
-	console.debug(data);
   }
 
   var whenUploadFailed = function(e, data)
@@ -69,18 +68,17 @@
     disableUploadButton();
     disableAddFiles();
 	myfiles = $.map(_fileItems, function(obj){
-			return obj.files[0];
+	    return obj.files[0];
 	});
     
 	var promises = $.map(_fileItems, function(val)
     {
   		return val.submit();
-	  });
+	});
     $.when.apply($, promises)
-      .done(function(){
-        // do something here
-        alert('Success!');
-		$.ajax('/upgrade/go/')
+        .done(function(){
+            $('.progress-bar-container').removeClass('hidden');
+    		$.ajax($('#fileupload').attr('data-perform-action'))
 				.done(function(data){
 					$('.response').html('<b>Success!</b>'
 							+ ' result.zip (' 
@@ -90,11 +88,14 @@
 							+ '">Download</a>');
 					$('.response').removeClass('hidden');
 				});
-        })
-      .fail(function(){
-        alert('The upload failed for some files');
-        enableUploadButton();
-        })
+            })
+        .fail(function(){
+            alert('The upload failed for some files');
+            enableUploadButton();
+            })
+        .always(function(){
+            $('.progress-bar-container').addClass('hidden');
+            });
   }
 
   /** plugin initialization **/

@@ -10,18 +10,20 @@
 {% endblock css %}
 
 {% block body %}
-<div class="alert alert-success response hidden">
+<div class="alert alert-info response hidden">
 </div>
+<div class="info">{% block info %}{% endblock %}</div>
 <form 
     id="fileupload" 
     method="POST" 
     action="/upload/"
     data-accept-file-types="/(\.|\/)json$/i"
     data-files-container=".files"
-    data-sequencial-uploads="true"
+    data-sequential-uploads="true"
     data-form-data='{"csrfmiddlewaretoken": "{{csrf_token}}"}'
     data-max-number-of-files="{{maxNumOfFiles}}"
     data-max-file-size="{{maxFileSize}}"
+    data-perform-action="{{performAction}}"
   >
   <table class="form-head">
     <tr>
