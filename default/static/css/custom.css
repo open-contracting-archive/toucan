@@ -1,15 +1,39 @@
-.navbar-brand.ocp-logo svg{
+.navbar-brand.ocp-logo svg
+{
   height: 40px; 
   margin-top: -7px;
 }
-.home .home-title
+.home .panel
 {
-  text-align: center;
-  min-height: 250px;
-  line-height: 250px;
-  text-transform: uppercase;
-  color: #eee;
-  font-size: 2em;
-  font-weight: bold;
-  background: transparent url('../img/diamond.svg') no-repeat center center;
+    -webkit-box-shadow: 0 2px 20px 0 rgba(0,0,0,0.2);
+    -moz-box-shadow: 0 2px 20px 0 rgba(0,0,0,0.2);
+    box-shadow: 0 2px 20px 0 rgba(0,0,0,0.2);
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+}
+.home .panel .panel-body
+{
+    color: #fff;
+    text-align: center;
+    font-size: 100px;
+    height: 150px;
+    background-color: #9BAF00;
+    -webkit-border-radius: 5px 5px 0 0;
+    -moz-border-radius: 5px 5px 0 0;
+    border-radius: 5px 5px 0 0;
+}
+.home .panel .panel-footer
+{
+    text-align: center;
+    color: #9BAF00;
+    font-weight: bold;
+    -webkit-border-radius: 0 0 5px 5px;
+    -moz-border-radius: 0 0 5px 5px;
+    border-radius: 0 0 5px 5px;
+}
+.home a:hover, 
+.home a:focus
+{
+    text-decoration: none;
 }

@@ -75,11 +75,18 @@
     {
   		return val.submit();
 	});
+    var failFunc = function(){
+        $('.response').addClass('alert-danger');
+        $('.response').html('<b>An error has ocurred!</b>'
+            +' Please verify that all your files are valid OCDS JSON, and try again in a few minutes.');
+        $('.response').removeClass('hidden');
+    };
     $.when.apply($, promises)
         .done(function(){
-            $('.progress-bar-container').removeClass('hidden');
+            $('#processing-modal').modal('show');
     		$.ajax($('#fileupload').attr('data-perform-action'))
 				.done(function(data){
+                    $('.response').addClass('alert-info');
 					$('.response').html('<b>Success!</b>'
 							+ ' result.zip (' 
 							+  readableFileSize(data.size)
@@ -87,14 +94,14 @@
 							+ data.url
 							+ '">Download</a>');
 					$('.response').removeClass('hidden');
-				});
+				})
+                .fail(failFunc);
             })
-        .fail(function(){
-            alert('The upload failed for some files');
-            enableUploadButton();
-            })
+        .fail(failFunc)
         .always(function(){
-            $('.progress-bar-container').addClass('hidden');
+            $('#processing-modal').modal('hide');
+            $('.drop-area').hide();
+            $('.buttons').hide();
             });
   }
 

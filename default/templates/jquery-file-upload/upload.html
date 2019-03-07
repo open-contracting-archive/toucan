@@ -1,19 +1,25 @@
 <script id="template-upload" type="text/x-tmpl">
 {% templatetag openblock %} for (var i=0, file; file=o.files[i]; i++) { {% templatetag closeblock %}
-    <tr class="template-upload fade">
-        <td class="actions">
-            <button class="btn btn-danger cancel">
-                <i class="glyphicon glyphicon-trash"></i>
-            </button>
-        </td>
-        <td class="name">
-            <p class="name">{% templatetag openblock%}=file.name{% templatetag closeblock%}</p>
-            <strong class="error text-danger"></strong>
-        </td>
-        <td>
-            <span class="size">Processing...</span>
-            <div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="progress-bar progress-bar-success" style="width:0%;"></div></div>
-        </td>
-    </tr>
+    <div class="template-upload fade">
+        <div class="name">
+            <span>{% templatetag openblock%}=file.name{% templatetag closeblock%}</span>
+            <span class="error text-danger"></span>
+        </div>
+        <table>
+            <tr>
+                <td>
+                    <div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+                        <div class="progress-bar" style="width:0%;"></div>
+                    </div>
+                </td>
+                <td class="actions">
+                    <a href="javascript:void(0)" class="cancel pull-right" title="Delete">
+                        <i class="glyphicon glyphicon-trash"></i>
+                    </a>
+                </td>
+            </tr>
+        </table>
+        <div class="size">Processing...</div>
+    </div>
 {% templatetag openblock %} } {% templatetag closeblock %}
 </script>

@@ -1,43 +1,80 @@
 {% extends 'default/base.html' %}
+{% load static %}
 {% block title %}OCDS Web Tools - Home{% endblock %}
+{% block css %}
+    <link href="{% static "css/ocdskitwebicons.css"%}" rel="stylesheet"/>
+{% endblock %}
 {% block body %}
 <div class="home row">
-  <div class="home-title col-xs-5">
-    OCDS Kit
-  </div>
-  <div class="col-xs-7">
-    <a href="package-releases/" class="btn btn-primary btn-lg btn-block">
-      Create Release packages
+    <a href="package-releases/" class="col-xs-3">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <i class="ok-package-releases"></i>
+            </div>
+            <div class="panel-footer">
+                Create Release packages
+            </div>
+        </div>
     </a>
-    <a href="merge/" class="btn btn-primary btn-lg btn-block">
-      Merge Release Packages
+    <a href="merge/" class="col-xs-3">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <i class="ok-compile-releases"></i>
+            </div>
+            <div class="panel-footer">
+                Merge Release Packages
+            </div>
+        </div>
     </a>
-    <a href="upgrade/" class="btn btn-primary btn-lg btn-block">
-      Upgrade from 1.0 to 1.1
+    <a href="upgrade/" class="col-xs-3">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <i class="ok-upgrade"></i>
+            </div>
+            <div class="panel-footer">
+                Upgrade from 1.0 to 1.1
+            </div>
+        </div>
     </a>
-    <a href="mapping-sheet/" class="btn btn-primary btn-lg btn-block">
-      Generate a spreadsheet version of schema
+    <a href="mapping-sheet/" class="col-xs-3">
+        <div class="panel panel-default">
+        <div class="panel-body">
+            <i class="ok-schema-spreadsheet"></i>
+        </div>
+            <div class="panel-footer">
+                Generate a spreadsheet version of schema
+            </div>
+        </div>
     </a>
-  </div>
 </div>
 <hr/>
+<h3>More Tools</h3>
 <div class="home row">
-  <div class="home-title col-xs-5">
-    More tools
-  </div>
-  <div class="col-xs-7">
     <a href="http://standard.open-contracting.org/review/" 
-      class="btn btn-primary btn-lg btn-block"
+      class="col-xs-3"
       target="_blank"
       >
-      Data Review Tool
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <i class="ok-data-review"></i>
+            </div>
+            <div class="panel-footer">
+                Data Review Tool
+            </div>
+        </div>
     </a>
     <a href="https://open-contracting.github.io/extension_creator/" 
-      class="btn btn-primary btn-lg btn-block"
+      class="col-xs-3"
       target="_blank"
       >
-      OCDS Extension Creator
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <i class="ok-extension-creator"></i>
+            </div>
+            <div class="panel-footer">
+                OCDS Extension Creator
+            </div>
+        </div>
     </a>
-  </div>
 </div>
 {% endblock %}
