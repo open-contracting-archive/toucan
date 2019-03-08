@@ -1,3 +1,5 @@
+{% load i18n %}
+
 <script id="template-download" type="text/x-tmpl">
 {% templatetag openblock %} for (var i=0, file; file=o.files[i]; i++) { {% templatetag closeblock %}
     <div class="template-download fade">
@@ -6,7 +8,7 @@
             {% templatetag openblock %} if (file.error) { {% templatetag closeblock %}
                 <span class="text-danger pull-right"><b>Error</b>: {% templatetag openblock %}=file.error{% templatetag closeblock %}</span>
             {% templatetag openblock %} } else { {% templatetag closeblock %}
-                <span class="text-success pull-right">Upload successful</span>
+                <span class="text-success pull-right">{% trans "Upload successful" %}</span>
             {% templatetag openblock %} } {% templatetag closeblock %}
         </div>
         <div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">

@@ -1,4 +1,6 @@
 {% load static %}
+{% load i18n %}
+
 <!doctype html>
 <html>
   <head>
@@ -11,7 +13,7 @@
     {# custom css files here #}
     {% block css %}{% endblock %}
     
-    <title>{% block title %}OCDS Web Tools{% endblock %}</title>
+    <title>{% block title %}{% trans "OCDS Web Tools" %}{% endblock %}</title>
   </head>
   <body>
     {% include 'default/logo.html' %}
@@ -24,11 +26,31 @@
             </svg>
           </a>
         </div>
+        <ul class="nav navbar-nav navbar-right">
+            <li class="dropdown">
+                {% get_current_language as LANGUAGE_CODE %}
+                {% get_available_languages as LANGUAGES %}
+                {% get_language_info_list for LANGUAGES as languages %}
+                {% get_language_info for LANGUAGE_CODE as current_lang %}
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                    <i class="glyphicon glyphicon-globe"></i> {{ current_lang.name_local|title }}
+                </a>
+                <ul class="dropdown-menu">
+                    {% for language in languages %}
+                        <li>
+                            <a href="javascript:void(0)" class="language-option" data-language-code="{{language.code}}" data-token="{{csrf_token}}">
+                                {{ language.name_local|title }}
+                            </a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </li>
+        </ul>
       </div>
     </nav>
     <div class="container">
       <div class="page-header">
-        <h1><a href="/">OCDS Web Tools</a> <small>{% block subtitle %}{% endblock %}</small></h1>
+        <h1><a href="/">{% trans "OCDS Web Tools" %}</a> <small>{% block subtitle %}{% endblock %}</small></h1>
       </div>
       {# page content here #}
       {% block body %}{% endblock %}
@@ -36,6 +58,7 @@
     <script src="{% static "js/jquery-3.3.1.min.js" %}"></script>
     <script src="{% static "js/bootstrap.min.js" %}"></script>
     <script src="https://use.typekit.net/xpw3jps.js"></script>
+    <script src="{% static "js/language.js" %}"></script>
     <script>try{Typekit.load({ async: true });}catch(e){}</script>
     {# additional scripts here #}
     {% block scripts %}{% endblock %}

@@ -1,5 +1,7 @@
 {% extends 'default/base.html' %}
 {% load static %}
+{% load i18n %}
+
 {% block title %}OCDS Web Tools - Home{% endblock %}
 {% block css %}
     <link href="{% static "css/ocdskitwebicons.css"%}" rel="stylesheet"/>
@@ -12,7 +14,7 @@
                 <i class="ok-package-releases"></i>
             </div>
             <div class="panel-footer">
-                Create Release packages
+                {% trans "Create Release Packages" %}
             </div>
         </div>
     </a>
@@ -22,7 +24,7 @@
                 <i class="ok-compile-releases"></i>
             </div>
             <div class="panel-footer">
-                Merge Release Packages
+                {% trans "Merge Release Packages" %}
             </div>
         </div>
     </a>
@@ -32,7 +34,7 @@
                 <i class="ok-upgrade"></i>
             </div>
             <div class="panel-footer">
-                Upgrade from 1.0 to 1.1
+                {% trans "Upgrade from 1.0 to 1.1" %}
             </div>
         </div>
     </a>
@@ -42,13 +44,13 @@
             <i class="ok-schema-spreadsheet"></i>
         </div>
             <div class="panel-footer">
-                Generate a spreadsheet version of schema
+                {% trans "Generate a spreadsheet version of schema" %}
             </div>
         </div>
     </a>
 </div>
 <hr/>
-<h3>More Tools</h3>
+<h3>{% trans "More Tools" %}</h3>
 <div class="home row">
     <a href="http://standard.open-contracting.org/review/" 
       class="col-xs-3"
@@ -59,7 +61,7 @@
                 <i class="ok-data-review"></i>
             </div>
             <div class="panel-footer">
-                Data Review Tool
+                {% trans "Data Review Tool" %}
             </div>
         </div>
     </a>
@@ -72,7 +74,7 @@
                 <i class="ok-extension-creator"></i>
             </div>
             <div class="panel-footer">
-                OCDS Extension Creator
+                {% trans "OCDS Extension Creator" %}
             </div>
         </div>
     </a>

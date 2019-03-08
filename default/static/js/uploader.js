@@ -76,24 +76,16 @@
   		return val.submit();
 	});
     var failFunc = function(){
-        $('.response').addClass('alert-danger');
-        $('.response').html('<b>An error has ocurred!</b>'
-            +' Please verify that all your files are valid OCDS JSON, and try again in a few minutes.');
-        $('.response').removeClass('hidden');
+        $('.response-fail').removeClass('hidden');
     };
     $.when.apply($, promises)
         .done(function(){
             $('#processing-modal').modal('show');
     		$.ajax($('#fileupload').attr('data-perform-action'))
 				.done(function(data){
-                    $('.response').addClass('alert-info');
-					$('.response').html('<b>Success!</b>'
-							+ ' result.zip (' 
-							+  readableFileSize(data.size)
-							+ ') <a href="'
-							+ data.url
-							+ '">Download</a>');
-					$('.response').removeClass('hidden');
+                    $('.response-success .file-size').html(readableFileSize(data.size));
+                    $('.response-success .download').attr('href', data.url);
+					$('.response-success').removeClass('hidden');
 				})
                 .fail(failFunc);
             })

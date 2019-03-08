@@ -1,6 +1,11 @@
 {% extends 'default/base-uploader.html' %}
+{% load i18n %}
 
-{% block subtitle %} &gt;&gt; Create Release Packages {% endblock %}
+{% block subtitle %} &gt;&gt; {% trans "Create Release Packages" %}{% endblock %}
 {% block info %}
-<p>Create a Release Package from several Release files. Please upload valid OCDS JSON files (Release only, Release packages are not valid).</p>
+<p>
+{% blocktrans trimmed%}
+Create a Release Package from several Release files. Please upload valid OCDS JSON files (Release only, Release packages are not valid).
+{% endblocktrans %}
+</p>
 {% endblock %}

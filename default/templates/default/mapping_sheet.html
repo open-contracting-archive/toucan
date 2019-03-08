@@ -1,9 +1,13 @@
 {% extends 'default/base.html' %}
-{% block subtitle %} &gt;&gt; Generate mapping sheet {% endblock %}
+{% load i18n %}
+
+{% block subtitle %} &gt;&gt; {% trans "Generate mapping sheet" %} {% endblock %}
 {% block body %}
 <p>
-This feature uses the <a href="http://standard.open-contracting.org/latest/en/release-schema.json" target="_blank">latest OCDS schema (1.1)</a> by default.
+{% blocktrans with schema_url="http://standard.open-contracting.org/latest/en/release-schema.json" trimmed%}
+This feature uses the <a href="{{schema_url}}" target="_blank">latest OCDS schema (1.1)</a> by default.
 Alternatively, you can provide another version:
+{% endblocktrans %}
 </p>
 <form method="POST" enctype="multipart/form-data">{% csrf_token %}
     {{ form.non_field_errors }}
@@ -15,7 +19,7 @@ Alternatively, you can provide another version:
                 {% endfor %}
             </ul>
         {% endif %}
-        <label for="{{ form.url.id_for_label }}">Provide an URL:</label>
+        <label for="{{ form.url.id_for_label }}">{% trans "Provide an URL:" %}</label>
         {{ form.url }}
     </div>
     <div class="form-group">
@@ -26,10 +30,10 @@ Alternatively, you can provide another version:
                 {% endfor %}
             </ul>
         {% endif %}
-        <label for="{{ form.file.id_for_label }}">Or upload a file:</label>
+        <label for="{{ form.file.id_for_label }}">{% trans "Or upload a file:" %}</label>
         {{ form.file }}
-        <p class="help-block">Only .json files accepted.</p>
+        <p class="help-block">{% trans "Only .json files accepted." %}</p>
     </div>
-    <button type="submit" class="btn btn-primary">Generate</button>
+    <button type="submit" class="btn btn-primary">{% trans "Generate" %}</button>
 </form>
 {% endblock %}

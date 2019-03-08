@@ -1,3 +1,5 @@
+{% load i18n %}
+
 <script id="template-upload" type="text/x-tmpl">
 {% templatetag openblock %} for (var i=0, file; file=o.files[i]; i++) { {% templatetag closeblock %}
     <div class="template-upload fade">
@@ -13,13 +15,13 @@
                     </div>
                 </td>
                 <td class="actions">
-                    <a href="javascript:void(0)" class="cancel pull-right" title="Delete">
+                    <a href="javascript:void(0)" class="cancel pull-right" title="{% trans "Delete" %}">
                         <i class="glyphicon glyphicon-trash"></i>
                     </a>
                 </td>
             </tr>
         </table>
-        <div class="size">Processing...</div>
+        <div class="size">{% trans "Processing..." %}</div>
     </div>
 {% templatetag openblock %} } {% templatetag closeblock %}
 </script>

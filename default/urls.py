@@ -1,9 +1,10 @@
-from django.urls import path
+from django.urls import path, include
 
 from . import views
 
 urlpatterns = [
     path('', views.index, name='index'),
+    path('i18n/', include('django.conf.urls.i18n')),
     path('upload/', views.uploadfile, name='upload'),
     path('result/<str:folder>/<uuid:id>/', views.retrieve_result, name='retrieve_result'),
     path('upgrade/', views.upgrade, name='upgrade'),
