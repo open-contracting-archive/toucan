@@ -45,6 +45,9 @@
       <i class="glyphicon glyphicon-cloud-upload"></i>
       <span>{% trans "Upload" %}</span>
     </button>
+    <div class="action-extra-params pull-right">
+    {% block extraoptions %}{% endblock %}
+    </div>
   </div>
   <!-- The container for the uploaded files -->
   <div class="drop-area bg-primary">
@@ -79,4 +82,5 @@
 {% include "jquery-file-upload/upload.html"%}
 {% include "jquery-file-upload/download.html"%}
 <script src="{% static "js/uploader.js" %}"></script>
+<script type="text-javascript"></script>
 {% endblock scripts %}

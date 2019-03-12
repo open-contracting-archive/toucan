@@ -87,12 +87,13 @@ def merge(request):
 def perform_merge(request):
     """ Performs the merge operation. """
     packages = []
+    include_versioned = request.GET.get('includeVersioned', '') == 'true'
     for filename_handler, package in get_files_contents(request.session):
         packages.append(package)
     zipname_handler = FilenameHandler('result', '.zip')
     full_path = zipname_handler.generate_full_path()
     with ZipFile(full_path, 'w', compression=ZIP_DEFLATED) as rezip:
-        rezip.writestr('result.json', command_compile(packages))
+        rezip.writestr('result.json', command_compile(packages, include_versioned))
     zip_size = os.path.getsize(full_path)
     return JsonResponse({'url': '/result/{}/{}/'.format(zipname_handler.folder, zipname_handler.get_id()), 'size': zip_size})
 

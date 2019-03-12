@@ -1,31 +1,38 @@
+var app = {};
 (function(){
 
   var _fileItems=[];
+  var _beforeSend = null;
+
+  this.beforeSend = function(func)
+  {
+      _beforeSend = func;
+  }
   
   /** functions **/
 
-  var isUploadButtonEnabled = function()
+  function isUploadButtonEnabled()
   {
     return !$('#upload-button').is(':disabled');
   }
 
-  var enableUploadButton = function()
+  function enableUploadButton()
   {
     $('#upload-button').removeAttr('disabled');
   }
 
-  var disableUploadButton = function()
+  function disableUploadButton()
   {
     $('#upload-button').attr('disabled', true);
   }
 
-  var disableAddFiles = function()
+  function disableAddFiles()
   {
     $('.fileinput-button').attr('disabled', true);
     $('.fileinput-button input:file').attr('disabled', true);
   }
 
-  var whenUploadAdded = function(e, data)
+  function whenUploadAdded(e, data)
   {
     data.myID = $.now();
     _fileItems.push(data);
@@ -35,7 +42,7 @@
     }
   }
 
-  var whenUploadFailed = function(e, data)
+  function whenUploadFailed(e, data)
   {
     if (data.errorThrown == 'abort'){
       // not really an error, but file has been removed by user
@@ -63,7 +70,7 @@
 	return size.toFixed(1) + ' ' + units[i];
   }
 
-  var upload = function()
+  function upload()
   {
     disableUploadButton();
     disableAddFiles();
@@ -81,7 +88,16 @@
     $.when.apply($, promises)
         .done(function(){
             $('#processing-modal').modal('show');
-    		$.ajax($('#fileupload').attr('data-perform-action'))
+            var params = {};
+            if (_beforeSend && typeof _beforeSend === "function")
+            {
+                var res = _beforeSend();
+                if(res)
+                {
+                    params = res
+                }
+            } 
+    		$.ajax($('#fileupload').attr('data-perform-action'), { data: params })
 				.done(function(data){
                     $('.response-success .file-size').html(readableFileSize(data.size));
                     $('.response-success .download').attr('href', data.url);
@@ -108,4 +124,5 @@
 
   /** upload call binding **/
   $("#upload-button").click(upload);
-})();
+
+}).apply(app);

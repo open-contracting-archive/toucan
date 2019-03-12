@@ -9,3 +9,23 @@ Generate Record Packages with Compiled Releases from Release Packages.
 {% endblocktrans %}
 </p>
 {% endblock %}
+{% block extraoptions %}
+<div class="checkbox">
+    <label>
+        <input type="checkbox" class="include-versioned"> {% trans "Include Versioned Releases" %}
+    </label>
+</div>
+{% endblock %}
+{% block scripts %}
+    {{ block.super }}
+    <script type="text/javascript">
+    (function(){
+        app.beforeSend(function(){
+            if ($('.include-versioned').is(':checked') )
+                return { includeVersioned: true };
+            else
+                return { includeVersioned: false };
+        });  
+    })();
+    </script>
+{% endblock %}
