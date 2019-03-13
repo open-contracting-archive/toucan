@@ -127,9 +127,9 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-MEDIA_ROOT = '/tmp/uploads/'
+MEDIA_ROOT = os.environ['OCDSKIT_WEB_MEDIA_ROOT']
 
-LOCALE_PATHS = [ os.path.join(BASE_DIR, 'locale'), ]
+LOCALE_PATHS = [ os.environ['OCDSKIT_WEB_LOCALE_PATH'] ]
 
 LANGUAGES = [
     ('en', _('English')),
@@ -137,3 +137,9 @@ LANGUAGES = [
 ]
 
 LANGUAGE_CODE = 'en-us'
+
+OCDSKIT_WEB_UPLOAD_OPTIONS = {
+    'maxNumOfFiles': os.environ['OCDSKIT_WEB_MAXNUMFILES'],
+    'maxFileSize': os.environ['OCDSKIT_WEB_MAXFILESIZE'] # in bytes
+}
+

@@ -9,6 +9,7 @@ from zipfile import ZipFile, ZIP_DEFLATED
 from django.http import HttpResponse, JsonResponse, FileResponse
 from django.shortcuts import render
 from django.views.decorators.http import require_POST, require_GET
+from django.conf import settings as django_settings
 from ocdskit.upgrade import upgrade_10_11
 from .file import FilenameHandler, save_file
 from .sessions import get_files_contents, save_in_session
@@ -17,11 +18,6 @@ from .decorators import require_files
 from .forms import MappingSheetOptionsForm
 
 # Create your views here.
-
-UPLOAD_OPTIONS = {
-    'maxNumOfFiles': 20,
-    'maxFileSize': 10000000
-     }
 
 OCDS_SCHEMA_URL = 'http://standard.open-contracting.org/latest/en/release-schema.json'
 
@@ -39,7 +35,7 @@ def retrieve_result(request, folder, id):
 def upgrade(request):
     """ Returns the upgrade page. """
     request.session['files'] = []
-    options = UPLOAD_OPTIONS
+    options = django_settings.OCDSKIT_WEB_UPLOAD_OPTIONS
     options['performAction'] = '/upgrade/go/'
     return render(request, 'default/upgrade.html', options)
 
@@ -59,9 +55,9 @@ def perform_upgrade(request):
 def package_releases(request):
     """ Returns the Create Release Packages page. """
     request.session['files'] = []
-    options = UPLOAD_OPTIONS
+    options = django_settings.OCDSKIT_WEB_UPLOAD_OPTIONS
     options['performAction'] = '/package-releases/go/'
-    return render(request, 'default/release-packages.html', UPLOAD_OPTIONS)
+    return render(request, 'default/release-packages.html', options)
 
 @require_files
 def perform_package_releases(request):
@@ -79,9 +75,9 @@ def perform_package_releases(request):
 def merge(request):
     """ Merges Release packages into Record Packages, including compiled releases by default."""
     request.session['files'] = []
-    options = UPLOAD_OPTIONS
+    options = django_settings.OCDSKIT_WEB_UPLOAD_OPTIONS
     options['performAction'] = '/merge/go/'
-    return render(request, 'default/merge.html', UPLOAD_OPTIONS)
+    return render(request, 'default/merge.html', options)
 
 @require_files
 def perform_merge(request):
