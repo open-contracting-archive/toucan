@@ -19,8 +19,6 @@ from .forms import MappingSheetOptionsForm
 
 # Create your views here.
 
-OCDS_SCHEMA_URL = 'http://standard.open-contracting.org/latest/en/release-schema.json'
-
 logger = logging.getLogger(__name__)
 
 def index(request):
@@ -94,28 +92,23 @@ def perform_merge(request):
     return JsonResponse({'url': '/result/{}/{}/'.format(zipname_handler.folder, zipname_handler.get_id()), 'size': zip_size})
 
 def mapping_sheet(request):
+    options = django_settings.OCDSKIT_WEB_SCHEMA_OPTIONS
+    dic = {
+        'versionOptions': options 
+    }
     if request.method == 'POST':
-        form = MappingSheetOptionsForm(request.POST, request.FILES)
+        form = MappingSheetOptionsForm(request.POST)
         if form.is_valid():
-            logging.warning(request.FILES)
-            if 'file' in request.FILES:
-                # use this file
-                logging.warning('Loading from file')
-                json_schema = request.FILES['file'].read().decode('utf-8')
-            else:
-                if form.cleaned_data['url']:
-                    url = form.cleaned_data['url']
-                else:
-                    url = OCDS_SCHEMA_URL
-                json_schema = requests.get(url).text
-            with io.StringIO(json_schema) as buf:
-                response_content = command_mapping_sheet(buf)
-            response =  HttpResponse(response_content, content_type='text/csv')
-            response['Content-Disposition'] = 'attachment; filename="mapping-sheet.csv"'
-            return response
-    else:
-        form = MappingSheetOptionsForm()
-    return render(request, 'default/mapping_sheet.html', {'form': form}) 
+            file_type, ocds_version = form.cleaned_data['version'].split('/', 1)
+            if file_type in options and ocds_version in options[file_type]:
+                json_schema = requests.get(options[file_type][ocds_version]).text
+                with io.StringIO(json_schema) as buf:
+                    response_content = command_mapping_sheet(buf)
+                response =  HttpResponse(response_content, content_type='text/csv')
+                response['Content-Disposition'] = 'attachment; filename="mapping-sheet.csv"'
+                return response
+        dic['error'] = _('Invalid option! Please verify and try again')
+    return render(request, 'default/mapping_sheet.html', dic) 
 
 @require_GET
 def get_mapping_sheet(request):

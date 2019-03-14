@@ -1,38 +1,23 @@
 {% extends 'default/base.html' %}
 {% load i18n %}
 
-{% block subtitle %} &gt;&gt; {% trans "Generate mapping sheet" %} {% endblock %}
+{% block subtitle %} &gt;&gt; {% trans "Generate a spreadsheet version of the schema" %} {% endblock %}
 {% block body %}
 <p>
-{% blocktrans with schema_url="http://standard.open-contracting.org/latest/en/release-schema.json" trimmed%}
-This feature uses the <a href="{{schema_url}}" target="_blank">latest OCDS schema (1.1)</a> by default.
-Alternatively, you can provide another version:
+{% blocktrans trimmed%}
+Here you can generate a spreadsheet version of any of the OCDS Schemas.
 {% endblocktrans %}
 </p>
-<form method="POST" enctype="multipart/form-data">{% csrf_token %}
-    {{ form.non_field_errors }}
-    <div class="form-group {% if form.url.errors%}has-error{% endif %}">
-        {% if form.url.errors %}
-            <ul class="list-unstyled">
-                {% for error in form.url.errors %}
-                    <li class="text-danger">{{ error|escape }}</li>
-                {% endfor %}
-            </ul>
-        {% endif %}
-        <label for="{{ form.url.id_for_label }}">{% trans "Provide an URL:" %}</label>
-        {{ form.url }}
-    </div>
+<form method="POST" class="form-inline">{% csrf_token %}
     <div class="form-group">
-        {% if form.file.errors %}
-            <ul class="list-unstyled">
-                {% for error in form.file.errors %}
-                    <li class="text-danger">{{ error|escape }}</li>
+        <label for="version">{% trans "Select an schema and version" %}:</label>
+        <select name="version" class="form-control">
+            {% for file_type, versions in versionOptions.items %}
+                {% for version, url in versions.items %}
+                    <option value="{{file_type}}/{{version}}">({{ version }}) {% trans file_type %}</li>
                 {% endfor %}
-            </ul>
-        {% endif %}
-        <label for="{{ form.file.id_for_label }}">{% trans "Or upload a file:" %}</label>
-        {{ form.file }}
-        <p class="help-block">{% trans "Only .json files accepted." %}</p>
+            {% endfor %}
+        </select>
     </div>
     <button type="submit" class="btn btn-primary">{% trans "Generate" %}</button>
 </form>

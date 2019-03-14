@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-03-08 17:35-0300\n"
+"POT-Creation-Date: 2019-03-14 10:22-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -46,11 +46,11 @@ msgstr "Agregar archivos..."
 msgid "Upload"
 msgstr "Subir"
 
-#: default/templates/default/base-uploader.html:51
+#: default/templates/default/base-uploader.html:54
 msgid "drop files here (.json only)"
 msgstr "arrastre y suelte archivos aquí (sólo .json)"
 
-#: default/templates/default/base-uploader.html:60
+#: default/templates/default/base-uploader.html:63
 msgid ""
 "Processing operation. Please don't refresh nor close the browser window!"
 msgstr ""
@@ -58,8 +58,8 @@ msgstr ""
 
 #: default/templates/default/base.html:16
 #: default/templates/default/base.html:53
-msgid "OCDS Web Tools"
-msgstr "Herramientas Web OCDS/EDCA"
+msgid "OCDS Kit Web Tools"
+msgstr "OCDS Kit - Herramientas Web"
 
 #: default/templates/default/index.html:17
 #: default/templates/default/release-packages.html:4
@@ -93,33 +93,20 @@ msgid "OCDS Extension Creator"
 msgstr "Creador de Extensiones OCDS/EDCA"
 
 #: default/templates/default/mapping_sheet.html:4
-msgid "Generate mapping sheet"
-msgstr "Generar planilla de mapeo"
+msgid "Generate a spreadsheet version of the schema"
+msgstr "Generar una planilla del esquema"
 
 #: default/templates/default/mapping_sheet.html:7
-#, python-format
-msgid ""
-"This feature uses the <a href=\"%(schema_url)s\" target=\"_blank\">latest "
-"OCDS schema (1.1)</a> by default. Alternatively, you can provide another "
-"version:"
+msgid "Here you can generate a spreadsheet version of any of the OCDS Schemas."
 msgstr ""
-"Esta función usa el último <a href=\"%(schema_url)s\" target=\"_blank"
-"\">esquema EDCA (1.1)</a> por defecto. Si lo desea, puede proveer otra "
-"versión:"
+"Aquí puede generar una planilla a partir de cualquiera de los esquemas EDCA/"
+"OCDS."
+
+#: default/templates/default/mapping_sheet.html:13
+msgid "Select an schema and version"
+msgstr "Seleccione un esquema y versión"
 
 #: default/templates/default/mapping_sheet.html:22
-msgid "Provide an URL:"
-msgstr "Ingrese una URL:"
-
-#: default/templates/default/mapping_sheet.html:33
-msgid "Or upload a file:"
-msgstr "O suba un archivo:"
-
-#: default/templates/default/mapping_sheet.html:35
-msgid "Only .json files accepted."
-msgstr "Sólo se aceptan archivos en formato JSON (.json)."
-
-#: default/templates/default/mapping_sheet.html:37
 msgid "Generate"
 msgstr "Generar"
 
@@ -128,6 +115,10 @@ msgid "Generate Record Packages with Compiled Releases from Release Packages."
 msgstr ""
 "Genera Paquetes de Registros con Entregas Compiladas incluidas, a partir de "
 "Paquetes de Entregas."
+
+#: default/templates/default/merge.html:15
+msgid "Include Versioned Releases"
+msgstr "Incluir el bloque versionedRelease"
 
 #: default/templates/default/release-packages.html:7
 msgid ""
@@ -158,6 +149,11 @@ msgstr "Borrar"
 msgid "Processing..."
 msgstr "Procesando..."
 
+#: default/views.py:110
+msgid "Invalid option! Please verify and try again"
+msgstr ""
+"La opción recibida es inválida. Por favor verifique e intente de nuevo."
+
 #: ocdskitweb/settings.py:135
 msgid "English"
 msgstr "Inglés"
@@ -165,6 +161,16 @@ msgstr "Inglés"
 #: ocdskitweb/settings.py:136
 msgid "Spanish"
 msgstr "Español"
+
+#: Mapping sheet schema options
+msgid "Release Schema"
+msgstr "Esquema de Entregas"
+
+msgid "Release Package Schema"
+msgstr "Esquema de Paquete de Entregas"
+
+msgid "Record Package Schema"
+msgstr "Esquema de Paquete de Registros"
 
 #: venv/lib/python3.6/site-packages/django/contrib/messages/apps.py:7
 msgid "Messages"
@@ -1375,5 +1381,3 @@ msgid ""
 "Error message: {}"
 msgstr ""
 
-#~ msgid "Language"
-#~ msgstr "Idioma"
