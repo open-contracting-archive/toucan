@@ -34,28 +34,29 @@
     data-max-file-size="{{maxFileSize}}"
     data-perform-action="{{performAction}}"
   >
-  <div class="buttons">
-    <div class="btn btn-primary fileinput-button">
-      <i class="glyphicon glyphicon-plus"></i>
-      <span>{% trans "Add files..." %}</span>
-      <!-- The file input field used as target for the file upload widget -->
-      <input type="file" name="file" accept=".json" multiple>
+  <!-- The container for the uploaded files -->
+  <div class="drop-area empty">
+    <!-- The file input field used as target for the file upload widget -->
+    <input type="file" name="file" id="file" accept=".json" multiple/>
+    <span class="file-selector-empty"><label for="file">Add a file</label> or drag and drop here</span>
+    <div class="files hidden">
     </div>
-    <button type="button" class="btn btn-primary" id="upload-button" disabled>
-      <i class="glyphicon glyphicon-cloud-upload"></i>
-      <span>{% trans "Upload" %}</span>
-    </button>
-    <div class="action-extra-params pull-right">
+  </div>
+  <div class="buttons hidden">
+    <div class="btn btn-default fileinput-button">
+      <i class="glyphicon glyphicon-plus"></i>
+      <label for="file" id="file-selector">{% trans "Add more files" %}</label>
+    </div>
+    <div class="action-extra-params">
     {% block extraoptions %}{% endblock %}
     </div>
-  </div>
-  <!-- The container for the uploaded files -->
-  <div class="drop-area bg-primary">
-    <span class="help">{% trans "drop files here (.json only)" %}</span>
-  </div>
-  <div class="files">
+    <button type="button" class="btn btn-primary pull-right" id="upload-button" disabled>
+      <i class="glyphicon glyphicon-cloud-upload"></i>
+      <span>{% trans "Start" %}</span>
+    </button>
   </div>
 </form>
+<!-- Processing modal, active when all files has been uploaded and the requested operation is in progress -->
 <div id="processing-modal" class="modal fade" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog modal-sm" role="document">
         <div class="modal-content">

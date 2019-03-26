@@ -40,6 +40,14 @@ var app = {};
     {
       enableUploadButton();
     }
+    if (_fileItems.length == 1)
+    {
+       $('.file-selector-empty').addClass('hidden');     
+       $('.buttons').removeClass('hidden');
+       $('.files').removeClass('hidden');
+       $('.drop-area').removeClass('empty');
+       $('.drop-area').addClass('row');
+    }
   }
 
   function whenUploadFailed(e, data)
@@ -108,7 +116,7 @@ var app = {};
         .fail(failFunc)
         .always(function(){
             $('#processing-modal').modal('hide');
-            $('.drop-area').hide();
+            // $('.drop-area').hide();
             $('.buttons').hide();
             });
   }
