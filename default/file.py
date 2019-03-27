@@ -46,6 +46,9 @@ class FilenameHandler:
         filename = self.get_full_name()
         return os.path.join(settings.MEDIA_ROOT, self.folder, filename)
 
+    def get_folder(self):
+        return os.path.join(settings.MEDIA_ROOT, self.folder)
+
     def generate_full_path(self):
         path_folder = os.path.join( \
                           settings.MEDIA_ROOT, \

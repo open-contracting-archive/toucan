@@ -38,7 +38,7 @@
   <div class="drop-area empty">
     <!-- The file input field used as target for the file upload widget -->
     <input type="file" name="file" id="file" accept=".json" multiple/>
-    <span class="file-selector-empty"><label for="file">Add a file</label> or drag and drop here</span>
+    <span class="file-selector-empty"><label for="file">{% trans "Add a file" %}</label> {% trans "or drag and drop here." %}</span>
     <div class="files hidden">
     </div>
   </div>
@@ -82,6 +82,7 @@
 <script src="{% static "js/jquery.fileupload-ui.js" %}"></script>
 {% include "jquery-file-upload/upload.html"%}
 {% include "jquery-file-upload/download.html"%}
+<script src="{% static "js/utils.js" %}"></script>
 <script src="{% static "js/uploader.js" %}"></script>
 <script type="text-javascript"></script>
 {% endblock scripts %}

@@ -7,11 +7,14 @@ urlpatterns = [
     path('i18n/', include('django.conf.urls.i18n')),
     path('upload/', views.uploadfile, name='upload'),
     path('result/<str:folder>/<uuid:id>/', views.retrieve_result, name='retrieve_result'),
+    path('result/<str:folder>/<uuid:id>/<str:format>/', views.retrieve_result, name='retrieve_result'),
     path('upgrade/', views.upgrade, name='upgrade'),
     path('upgrade/go/', views.perform_upgrade, name='perform_upgrade'),
     path('package-releases/', views.package_releases, name='package_releases'),
     path('package-releases/go/', views.perform_package_releases, name='perform_package_releases'),
     path('merge/', views.merge, name='merge'),
     path('merge/go/', views.perform_merge, name='perform_merge'),
-    path('mapping-sheet/', views.mapping_sheet, name='mapping_sheet')
+    path('mapping-sheet/', views.mapping_sheet, name='mapping_sheet'),
+    path('to-spreadsheet/', views.to_spreadsheet, name='to_spreadsheet'),
+    path('to-spreadsheet/go/', views.perform_to_spreadsheet, name='perform_to_spreadsheet')
 ]

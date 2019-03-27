@@ -67,17 +67,6 @@ var app = {};
     }
   }
 
-  // https://stackoverflow.com/questions/20459630/javascript-human-readable-filesize
-  function readableFileSize(size) {
-	var units = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
-	var i = 0;
-	while(size >= 1024) {
-		size /= 1024;
-		++i;
-	}
-	return size.toFixed(1) + ' ' + units[i];
-  }
-
   function upload()
   {
     disableUploadButton();
@@ -107,7 +96,7 @@ var app = {};
             } 
     		$.ajax($('#fileupload').attr('data-perform-action'), { data: params })
 				.done(function(data){
-                    $('.response-success .file-size').html(readableFileSize(data.size));
+                    $('.response-success .file-size').html(utils.readableFileSize(data.size));
                     $('.response-success .download').attr('href', data.url);
 					$('.response-success').removeClass('hidden');
 				})
@@ -116,8 +105,8 @@ var app = {};
         .fail(failFunc)
         .always(function(){
             $('#processing-modal').modal('hide');
-            // $('.drop-area').hide();
             $('.buttons').hide();
+            $('#fileupload').fileupload('destroy');
             });
   }
 

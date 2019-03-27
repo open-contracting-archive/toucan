@@ -10,12 +10,14 @@ from django.http import HttpResponse, JsonResponse, FileResponse
 from django.shortcuts import render
 from django.views.decorators.http import require_POST, require_GET
 from django.conf import settings as django_settings
+from django.http import Http404
 from ocdskit.upgrade import upgrade_10_11
 from .file import FilenameHandler, save_file
 from .sessions import get_files_contents, save_in_session
 from .ocdskit_overrides import command_package_releases, command_compile, command_mapping_sheet
 from .decorators import require_files
 from .forms import MappingSheetOptionsForm
+from .flatten import flatten
 
 # Create your views here.
 
@@ -24,11 +26,30 @@ logger = logging.getLogger(__name__)
 def index(request):
     return render(request, 'default/index.html')
 
-def retrieve_result(request, folder, id):
+def retrieve_result(request, folder, id, format=None):
     """ Retrieve a previously generated result. """
-    name_handler = FilenameHandler('result', '.zip', id=str(id), folder=folder)
+    
+    filename = None
+    if format is None:
+        prefix = 'result'
+        ext = '.zip'
+        filename = 'result.zip'
+    elif format == 'csv':
+        prefix = 'flatten-csv'
+        ext = '.zip'
+        filename = 'result-csv.zip'
+    elif format == 'xlsx':
+        prefix = 'flatten'
+        ext = '.xlsx'
+        filename = 'result.xlsx'
+    else:
+        raise Http404('Invalid option')
+    
+    name_handler = FilenameHandler(prefix, ext, id=str(id), folder=folder)
     path = name_handler.get_full_path()
-    return FileResponse(open(path, 'rb'), filename='result.zip', as_attachment=True)
+
+    if filename is not None:
+        return FileResponse(open(path, 'rb'), filename=filename, as_attachment=True)
 
 def upgrade(request):
     """ Returns the upgrade page. """
@@ -116,6 +137,44 @@ def get_mapping_sheet(request):
     response =  HttpResponse(s, content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="mapping-sheet.csv"'
     return response
+
+def to_spreadsheet(request):
+    request.session['files'] = []
+    return render(request, 'default/to-spreadsheet.html')
+
+@require_files
+def perform_to_spreadsheet(request):
+    res = {}
+    try:
+        file_conf = request.session['files'][0]
+        filename_handler = FilenameHandler(**file_conf) 
+        flatten(filename_handler)
+        url_base = '/result/{}/{}/'.format(file_conf['folder'], file_conf['id'])
+        csv_size = os.path.getsize( \
+            os.path.join( \
+                filename_handler.get_folder(),  \
+                'flatten-csv-' + file_conf['id'] + '.zip' \
+            ) \
+        )
+        xlsx_size = os.path.getsize( \
+            os.path.join( \
+                filename_handler.get_folder(),  \
+                'flatten-' + file_conf['id'] + '.xlsx' \
+            ) \
+        )
+        res = {
+            'csv': { 
+                'url': url_base + 'csv/',
+                'size': csv_size
+            },
+            'xlsx': {
+                'url': url_base + 'xlsx/',
+                'size': xlsx_size
+            }
+        }
+        return JsonResponse(res)
+    except Exception:
+        return JsonResponse({'error': True}, status=400)
 
 @require_POST
 def uploadfile(request):
