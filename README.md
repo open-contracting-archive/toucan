@@ -69,15 +69,16 @@ Página principal de la aplicación:
 
 ![alt text](https://github.com/lucianovh95/ocdskit-web/blob/ocdskit-web-uca/blob/img/landing_page.png "Página de inicio")
 
-Vista de funcionalidades, el diseño es el mismo:
+Vista de funcionalidades, el diseño es el mismo en la mayoría de los casos:
 
 ![alt text](https://github.com/lucianovh95/ocdskit-web/blob/ocdskit-web-uca/blob/img/feature_view.png "Diseño para las funcionalidades")
 
 ### Restricciones
 Las restricciones del sistema son las siguientes:
 
-Tamaño máximo de archivos | 10MB
+Restricción | Valor
 --- | ---
+Tamaño máximo de archivos | 10MB
 Cantidad máxima de archivos por operación | 20
 Timeout de sesión | 24 horas
 
