@@ -62,14 +62,16 @@ Enlaza a la [Herramienta de Creación de Extensiones OCDS](https://open-contract
 Se utiliza Django Framework para construir los módulos Fron-end y Back-end para la aplicación.
 El módulo Front-end contiene los elementos de presentación para interactuar con el usuario.
 En el módulo Back-end se encuentran implementados el OCDS Kit y el flatten-tool como librerias que implementan las funcionalidades.
-![alt text](https://github.com/lucianovh95/ocdskit-web/blob/img/architecture.png "Diagrama General")
+![alt text](https://github.com/lucianovh95/ocdskit-web/blob/ocdskit-web-uca/blob/img/architecture.png "Diagrama General")
 
 ### Diseño
 Página principal de la aplicación:
-![alt text](https://github.com/lucianovh95/ocdskit-web/blob/img/landing_page.png "Página de inicio")
+
+![alt text](https://github.com/lucianovh95/ocdskit-web/blob/ocdskit-web-uca/blob/img/landing_page.png "Página de inicio")
 
 Vista de funcionalidades, el diseño es el mismo:
-![alt text](https://github.com/lucianovh95/ocdskit-web/blob/img/feature_view.png "Diseño para las funcionalidades")
+
+![alt text](https://github.com/lucianovh95/ocdskit-web/blob/ocdskit-web-uca/blob/img/feature_view.png "Diseño para las funcionalidades")
 
 ### Restricciones
 Las restricciones del sistema son las siguientes:
@@ -83,15 +85,18 @@ Timeout de sesión | 24 horas
 ### Crear un Release Package
 1. Agregar uno o más archivos release.
 2. Generar Release Package.
-![alt text](https://github.com/lucianovh95/ocdskit-web/img/example1_a.png "Página de la función.")
+
+![alt text](https://github.com/lucianovh95/ocdskit-web/blob/ocdskit-web-uca/blob/img/example1_a.png "Página de la función.")
 
 Al generar con éxito un Release Package, aparece el siguiente mensaje para descargar el archivo.
-![alt text](https://github.com/lucianovh95/ocdskit-web/img/example1_b.png "Mensaje de éxito.")
+
+![alt text](https://github.com/lucianovh95/ocdskit-web/blob/ocdskit-web-uca/blob/img/example1_b.png "Mensaje de éxito.")
 
 ### Generar una versión spreadsheet de un OCDS schema
 1. Seleccionar la versión y tipo de archivo a generar.
 2. Genera y descarga el archivo.
-![alt text](https://github.com/lucianovh95/ocdskit-web/img/example2.png "Página de la función.")
+
+![alt text](https://github.com/lucianovh95/ocdskit-web/blob/ocdskit-web-uca/blob/img/example2.png "Página de la función.")
 
 ## Herramientas utilizadas
 * [Python 3.5+](https://www.python.org/) - Lenguaje de programación interpretado.
