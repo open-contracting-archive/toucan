@@ -1,0 +1,60 @@
+{
+  "ocid": "ocds-4f64a2-2",
+  "id": "ocds-4f64a2-2/1",
+  "date": "2019-02-15",
+  "tag": ["tender"],
+  "initiationType": "tender",
+  "parties": [
+    {
+      "name": "Fictional Government Agency",
+      "id": "10001",
+      "identifier": {
+        "scheme": "FGA-Reg",
+        "id": "N001-002",
+        "legalName": "Fictional Government Agency"
+      },
+      "address": {
+        "streetAddress": "Mariscal Lopez 502",
+        "locality": "Asuncion",
+        "region": "Central",
+        "countryName": "Paraguay"
+      },
+      "contactPoint": {
+        "name": "Juan Lopez",
+        "email": "juan.lopez@fictionalagency.gov.py",
+        "telephone": "021111222"
+      },
+      "roles": ["buyer"]
+    }
+  ],
+  "buyer": {
+    "name": "Fictional Procurement Agency",
+    "id": "10001"
+  },
+  "tender": {
+    "id": "2",
+    "title": "Fictional Acquisition 2",
+    "description": "A fictional acquisition",
+    "status": "active",
+    "items": [
+      {
+        "id": "Desk",
+        "description": "Desk",
+        "quantity": "1"
+      }
+    ],
+    "value": {
+      "amount": "750000",
+      "currency": "PYG"
+    },
+    "procurementMethod": "open",
+    "procurementMethodDetails": "Open tender",
+    "mainProcurementCategory": "goods",
+    "submissionMethod": ["electronicSubmission"],
+    "tenderPeriod": {
+      "startDate": "2019-02-15T10:00:00",
+      "endDate": "2019-02-17T15:00:00"
+    }
+  },
+  "language": "en"
+}
