@@ -91,16 +91,16 @@ def perform_package_releases(request):
     zip_size = os.path.getsize(full_path)
     return JsonResponse({'url': '/result/{}/{}/'.format(zipname_handler.folder, zipname_handler.get_id()), 'size': zip_size})
 
-def merge(request):
-    """ Merges Release packages into Record Packages, including compiled releases by default."""
+def compile(request):
+    """ Compiles Releases into Records, including compiled releases by default."""
     request.session['files'] = []
     options = django_settings.OCDSKIT_WEB_UPLOAD_OPTIONS
-    options['performAction'] = '/merge/go/'
-    return render(request, 'default/merge.html', options)
+    options['performAction'] = '/compile/go/'
+    return render(request, 'default/compile.html', options)
 
 @require_files
-def perform_merge(request):
-    """ Performs the merge operation. """
+def perform_compile(request):
+    """ Performs the compile operation. """
     packages = []
     include_versioned = request.GET.get('includeVersioned', '') == 'true'
     for filename_handler, package in get_files_contents(request.session):

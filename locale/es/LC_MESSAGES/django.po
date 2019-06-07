@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-03-27 10:15-0400\n"
+"POT-Creation-Date: 2019-06-07 14:33-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -44,12 +44,12 @@ msgstr ""
 "estándar EDCA, e intente de nuevo en unos minutos."
 
 #: default/templates/default/base-uploader.html:41
-#: default/templates/default/to-spreadsheet.html:44
+#: default/templates/default/to-spreadsheet.html:46
 msgid "Add a file"
 msgstr "Agregue un archivo"
 
 #: default/templates/default/base-uploader.html:41
-#: default/templates/default/to-spreadsheet.html:45
+#: default/templates/default/to-spreadsheet.html:47
 msgid "or drag and drop here."
 msgstr "o arrastre y suelte aquí"
 
@@ -58,12 +58,12 @@ msgid "Add more files"
 msgstr "Agregar más archivos"
 
 #: default/templates/default/base-uploader.html:55
-#: default/templates/default/to-spreadsheet.html:51
+#: default/templates/default/to-spreadsheet.html:53
 msgid "Start"
 msgstr "Procesar"
 
 #: default/templates/default/base-uploader.html:64
-#: default/templates/default/to-spreadsheet.html:59
+#: default/templates/default/to-spreadsheet.html:61
 msgid ""
 "Processing operation. Please don't refresh nor close the browser window!"
 msgstr ""
@@ -74,15 +74,27 @@ msgstr ""
 msgid "OCDS Kit Web Tools"
 msgstr "OCDS Kit - Herramientas Web"
 
+#: default/templates/default/compile.html:4
+#: default/templates/default/index.html:27
+msgid "Compile Releases"
+msgstr "Compilar Releases"
+
+#: default/templates/default/compile.html:7
+msgid ""
+"Generates Records with Compiled Releases, from releases within Release "
+"Packages."
+msgstr ""
+"Genera Registros con Releases Compilados, de releases contenidos en "
+"Paquetes de Entrega"
+
+#: default/templates/default/compile.html:15
+msgid "Include Versioned Releases"
+msgstr "Incluir el bloque versionedRelease"
+
 #: default/templates/default/index.html:17
 #: default/templates/default/release-packages.html:4
 msgid "Create Release Packages"
 msgstr "Crear Paquetes de Entregas"
-
-#: default/templates/default/index.html:27
-#: default/templates/default/merge.html:4
-msgid "Merge Release Packages"
-msgstr "Mezclar Paquetes de Entregas"
 
 #: default/templates/default/index.html:37
 #: default/templates/default/upgrade.html:4
@@ -128,16 +140,6 @@ msgstr "Seleccione un esquema y versión"
 msgid "Generate"
 msgstr "Generar"
 
-#: default/templates/default/merge.html:7
-msgid "Generate Record Packages with Compiled Releases from Release Packages."
-msgstr ""
-"Genera Paquetes de Registros con Entregas Compiladas incluidas, a partir de "
-"Paquetes de Entregas."
-
-#: default/templates/default/merge.html:15
-msgid "Include Versioned Releases"
-msgstr "Incluir el bloque versionedRelease"
-
 #: default/templates/default/release-packages.html:7
 msgid ""
 "Create a Release Package from several Release files. Please upload valid "
@@ -154,7 +156,7 @@ msgstr ""
 "Use esta página para convertir un <strong>Paquete de Entregas</strong> a una "
 "versión CSV/Excel. Sólo puede procesar un archivo a la vez."
 
-#: default/templates/default/to-spreadsheet.html:81
+#: default/templates/default/to-spreadsheet.html:82
 msgid "Added"
 msgstr "Añadido"
 
@@ -183,13 +185,16 @@ msgid "Invalid option! Please verify and try again"
 msgstr ""
 "La opción recibida es inválida. Por favor verifique e intente de nuevo."
 
-#: ocdskitweb/settings.py:135
+#: ocdskitweb/settings.py:134
 msgid "English"
 msgstr "Inglés"
 
-#: ocdskitweb/settings.py:136
+#: ocdskitweb/settings.py:135
 msgid "Spanish"
 msgstr "Español"
+
+#~ msgid "Merge Release Packages"
+#~ msgstr "Mezclar Paquetes de Entregas"
 
 #~ msgid "Upload"
 #~ msgstr "Subir"
