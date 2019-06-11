@@ -10,6 +10,7 @@ Generates Records with Compiled Releases, from releases within Release Packages.
 </p>
 {% endblock %}
 {% block extraoptions %}
+{% include "default/snippets/published_date.html" %}
 <div class="checkbox">
     <label>
         <input type="checkbox" class="include-versioned"> {% trans "Include Versioned Releases" %}
@@ -20,12 +21,14 @@ Generates Records with Compiled Releases, from releases within Release Packages.
     {{ block.super }}
     <script type="text/javascript">
     (function(){
-        app.beforeSend(function(){
+        app.setParams(function(params){
             if ($('.include-versioned').is(':checked') )
-                return { includeVersioned: true };
+                params['includeVersioned'] = true;
             else
-                return { includeVersioned: false };
-        });  
+                params['includeVersioned'] = false;
+            return params;
+        });
     })();
     </script>
+    {% include "default/snippets/published_date_scripts.html" %}
 {% endblock %}

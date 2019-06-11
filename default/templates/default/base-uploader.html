@@ -13,7 +13,7 @@
 {% block body %}
 <div class="response-success alert alert-info hidden">
     <b>{% trans "Success!" %}</b> result.zip(<span class="file-size"></span>)
-    <a href="javascript:void(0)" class="download">{% trans "Download" %}</a>
+    <a href="javascript:void(0)" class="download" target="_blank">{% trans "Download" %}</a>
 </div>
 <div class="response-fail alert alert-danger hidden">
     <b>{% trans "An error has ocurred!" %}</b>
@@ -25,7 +25,7 @@
     id="fileupload" 
     method="POST" 
     action="/upload/"
-    {#action="http://httpstat.us/500"#}
+    onsubmit="return false;"
     data-accept-file-types="/(\.|\/)json$/i"
     data-files-container=".files"
     data-sequential-uploads="true"
@@ -42,18 +42,20 @@
     <div class="files hidden">
     </div>
   </div>
-  <div class="buttons hidden">
-    <div class="btn btn-default fileinput-button">
-      <i class="glyphicon glyphicon-plus"></i>
-      <label for="file" id="file-selector">{% trans "Add more files" %}</label>
+  <div class="actions hidden">
+    <div class="action-extra-params form-inline">
+      {% block extraoptions %}{% endblock %}
     </div>
-    <div class="action-extra-params">
-    {% block extraoptions %}{% endblock %}
-    </div>
-    <button type="button" class="btn btn-primary pull-right" id="upload-button" disabled>
-      <i class="glyphicon glyphicon-cloud-upload"></i>
-      <span>{% trans "Start" %}</span>
+    <div class="buttons">
+      <div class="btn btn-default fileinput-button">
+        <i class="glyphicon glyphicon-plus"></i>
+        <label for="file" id="file-selector">{% trans "Add more files" %}</label>
+      </div>
+      <button type="button" class="btn btn-primary pull-right" id="upload-button" disabled>
+        <i class="glyphicon glyphicon-cloud-upload"></i>
+        <span>{% trans "Start" %}</span>
     </button>
+    </div>
   </div>
 </form>
 <!-- Processing modal, active when all files has been uploaded and the requested operation is in progress -->
@@ -80,6 +82,7 @@
 <script src="{% static "js/jquery.fileupload-process.js" %}"></script>
 <script src="{% static "js/jquery.fileupload-validate.js" %}"></script>
 <script src="{% static "js/jquery.fileupload-ui.js" %}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.js"></script>
 {% include "jquery-file-upload/upload.html"%}
 {% include "jquery-file-upload/download.html"%}
 <script src="{% static "js/utils.js" %}"></script>

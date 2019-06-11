@@ -1,12 +1,13 @@
 var app = {};
 (function(){
 
-  var _fileItems=[];
-  var _beforeSend = null;
+  var _fileItems = [];
+  var _paramSetters = []; 
+  var _done = false;
 
-  this.beforeSend = function(func)
+  this.setParams = function(func)
   {
-      _beforeSend = func;
+      _paramSetters.push(func);
   }
   
   /** functions **/
@@ -43,7 +44,7 @@ var app = {};
     if (_fileItems.length == 1)
     {
        $('.file-selector-empty').addClass('hidden');     
-       $('.buttons').removeClass('hidden');
+       $('.actions').removeClass('hidden');
        $('.files').removeClass('hidden');
        $('.drop-area').removeClass('empty');
        $('.drop-area').addClass('row');
@@ -81,31 +82,28 @@ var app = {};
 	});
     var failFunc = function(){
         $('.response-fail').removeClass('hidden');
+        $('#processing-modal').modal('hide');
     };
     $.when.apply($, promises)
         .done(function(){
             $('#processing-modal').modal('show');
-            var params = {};
-            if (_beforeSend && typeof _beforeSend === "function")
-            {
-                var res = _beforeSend();
-                if(res)
-                {
-                    params = res
-                }
-            } 
-    		$.ajax($('#fileupload').attr('data-perform-action'), { data: params })
+            actionParams = {}
+            _paramSetters.forEach(function(f){
+                f(actionParams);
+                });
+    		$.ajax($('#fileupload').attr('data-perform-action'), { data: actionParams })
 				.done(function(data){
                     $('.response-success .file-size').html(utils.readableFileSize(data.size));
                     $('.response-success .download').attr('href', data.url);
 					$('.response-success').removeClass('hidden');
+                    $('#processing-modal').modal('hide');
 				})
-                .fail(failFunc);
+                .fail(failFunc)
+                .always(function(){_done=true});
             })
         .fail(failFunc)
         .always(function(){
-            $('#processing-modal').modal('hide');
-            $('.buttons').hide();
+            $('.actions').hide();
             $('#fileupload').fileupload('destroy');
             });
   }
@@ -122,4 +120,19 @@ var app = {};
   /** upload call binding **/
   $("#upload-button").click(upload);
 
+  /* add warning before closing/navigating away from page */
+  window.onload = function() {
+    window.addEventListener("beforeunload", function (e) {
+      if (_fileItems.length == 0 || _done) {
+        return undefined;
+      }
+      var confirmationMessage = 'It looks like you have been editing something. '
+        + 'If you leave before saving, your changes will be lost.';
+
+      (e || window.event).returnValue = confirmationMessage; //Gecko + IE
+      return confirmationMessage; //Gecko + Webkit, Safari, Chrome etc.
+    });
+  };
+
 }).apply(app);
+

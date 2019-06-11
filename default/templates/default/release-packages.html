@@ -9,3 +9,10 @@ Create a Release Package from several Release files. Please upload valid OCDS JS
 {% endblocktrans %}
 </p>
 {% endblock %}
+{% block extraoptions %}
+{% include "default/snippets/published_date.html" %}
+{% endblock %}
+{% block scripts %}
+    {{ block.super }}
+    {% include "default/snippets/published_date_scripts.html" %}
+{% endblock %}

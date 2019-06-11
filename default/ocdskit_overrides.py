@@ -2,6 +2,7 @@ import io
 import types
 import argparse
 from contextlib import redirect_stdout
+from datetime import datetime
 from ocdskit.cli.commands import package_releases, compile, mapping_sheet
 
 def _execute_command(package, input_buffer, namespace):
@@ -21,12 +22,13 @@ def _execute_command(package, input_buffer, namespace):
 
     return f.getvalue()
 
-def command_package_releases(input_buffer):
-    namespace = argparse.Namespace(extension=None, pretty=False, ascii=False)
+def command_package_releases(input_buffer, published_date=datetime.now().isoformat()):
+    # TODO provide inputs for additional options
+    namespace = argparse.Namespace(extension=None, pretty=False, ascii=False, uri='', publisher_name='', publisher_uri='', publisher_scheme='', publisher_uid='', published_date=published_date)
     return _execute_command(package_releases, input_buffer, namespace)
 
-def command_compile(input_buffer, include_versioned=False):
-    namespace = argparse.Namespace(pretty=False, ascii=False, schema=None, package=True, uri='', published_date='', linked_releases=False, versioned=include_versioned)
+def command_compile(input_buffer, include_versioned=False, published_date=datetime.now().isoformat()):
+    namespace = argparse.Namespace(pretty=False, ascii=False, schema=None, package=True, uri='', publisher_name='', publisher_uri='', publisher_scheme='', publisher_uid='', published_date=published_date, linked_releases=False, versioned=include_versioned)
     return _execute_command(compile, input_buffer, namespace)
 
 def command_mapping_sheet(input_buffer):

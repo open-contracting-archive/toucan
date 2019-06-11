@@ -1,10 +1,3 @@
-pip==19.0.3
-Django==2.1.7
-ocdskit==0.0.5
-requests==2.21.0
--e git+https://github.com/OpenDataServices/flatten-tool.git@4c13ef0b32a59e810919a3de09bc8f64ce8f9392#egg=flattentool
--e git+https://github.com/open-contracting/lib-cove-ocds.git@f705ae7ec729eb094b8c06a0dc9ec8dfae438554#egg=libcoveocds
-## The following requirements were added by pip freeze:
 attrs==19.1.0
 bleach==3.1.0
 cached-property==1.5.1
@@ -12,19 +5,24 @@ certifi==2019.3.9
 chardet==3.0.4
 commonmark==0.8.1
 contextlib2==0.5.5
+Django==2.1.7
 et-xmlfile==1.0.1
+-e git+https://github.com/OpenDataServices/flatten-tool.git@4c13ef0b32a59e810919a3de09bc8f64ce8f9392#egg=flattentool
 future==0.17.1
 idna==2.8
 jdcal==1.4
 json-merge-patch==0.2
 jsonref==0.2
 jsonschema==3.0.1
+-e git+https://github.com/open-contracting/lib-cove-ocds.git@f705ae7ec729eb094b8c06a0dc9ec8dfae438554#egg=libcoveocds
 lxml==4.3.3
-ocdsmerge==0.5.1
+-e git+https://github.com/open-contracting/ocdskit.git@e535e19ed0f6fa09683583f5e82dced2ae612f7a#egg=ocdskit
+ocdsmerge==0.5.2
 openpyxl==2.6.1
 pyrsistent==0.14.11
 python-dateutil==2.8.0
 pytz==2018.9
+requests==2.21.0
 rfc3987==1.3.8
 schema==0.7.0
 six==1.12.0

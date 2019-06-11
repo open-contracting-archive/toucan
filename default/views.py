@@ -12,6 +12,7 @@ from django.views.decorators.http import require_POST, require_GET
 from django.conf import settings as django_settings
 from django.http import Http404
 from ocdskit.upgrade import upgrade_10_11
+from dateutil import parser
 from .file import FilenameHandler, save_file
 from .sessions import get_files_contents, save_in_session
 from .ocdskit_overrides import command_package_releases, command_compile, command_mapping_sheet
@@ -82,12 +83,22 @@ def package_releases(request):
 def perform_package_releases(request):
     """ Performs the package-releases operation """
     releases = []
+    compile_parameters = {}
+    argPublishedDate = request.GET.get('publishedDate', '')
+    if argPublishedDate:
+        try:
+            parser.parse(argPublishedDate)
+            compile_parameters['published_date'] = argPublishedDate
+        except ValueError:
+            # invalid date has been received
+            # TODO send a warning to client side
+            logging.debug('Invalid date submitted: {}, ignoring'.format(argPublishedDate))
     for filename_handler, release in get_files_contents(request.session):
         releases.append(release)
     zipname_handler = FilenameHandler('result', '.zip')
     full_path = zipname_handler.generate_full_path()
     with ZipFile(full_path, 'w', compression=ZIP_DEFLATED) as rezip:
-        rezip.writestr('result.json', command_package_releases(releases))
+        rezip.writestr('result.json', command_package_releases(releases, **compile_parameters))
     zip_size = os.path.getsize(full_path)
     return JsonResponse({'url': '/result/{}/{}/'.format(zipname_handler.folder, zipname_handler.get_id()), 'size': zip_size})
 
@@ -102,13 +113,24 @@ def compile(request):
 def perform_compile(request):
     """ Performs the compile operation. """
     packages = []
-    include_versioned = request.GET.get('includeVersioned', '') == 'true'
+    compile_parameters = {}
+    if request.GET.get('includeVersioned', '') == 'true':
+        compile_parameters['include_versioned'] = True
+    argPublishedDate = request.GET.get('publishedDate', '')
+    if argPublishedDate:
+        try:
+            parser.parse(argPublishedDate)
+            compile_parameters['published_date'] = argPublishedDate
+        except ValueError:
+            # invalid date has been received
+            # TODO send a warning to client side
+            logging.debug('Invalid date submitted: {}, ignoring'.format(argPublishedDate))
     for filename_handler, package in get_files_contents(request.session):
         packages.append(package)
     zipname_handler = FilenameHandler('result', '.zip')
     full_path = zipname_handler.generate_full_path()
     with ZipFile(full_path, 'w', compression=ZIP_DEFLATED) as rezip:
-        rezip.writestr('result.json', command_compile(packages, include_versioned))
+        rezip.writestr('result.json', command_compile(packages, **compile_parameters))
     zip_size = os.path.getsize(full_path)
     return JsonResponse({'url': '/result/{}/{}/'.format(zipname_handler.folder, zipname_handler.get_id()), 'size': zip_size})
 

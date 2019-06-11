@@ -1,3 +1,6 @@
+.navbar-brand.ocp-logo{
+    max-width: 330px;
+}
 .navbar-brand.ocp-logo svg
 {
   height: 40px; 
