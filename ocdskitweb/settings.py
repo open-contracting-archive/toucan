@@ -144,15 +144,15 @@ OCDSKIT_WEB_UPLOAD_OPTIONS = {
 
 OCDSKIT_WEB_SCHEMA_OPTIONS = {
     'Release Schema': {
-        '1.0': 'http://sta ndard.open-contracting.org/legacy/r/1__0__0/release-schema.json',
+        '1.0': 'https://standard.open-contracting.org/schema/1__0__3/release-schema.json',
         '1.1': 'https://standard.open-contracting.org/latest/en/release-schema.json'
     },
     'Release Package Schema': {
-        '1.0': 'https://standard.open-contracting.org/legacy/r/1__0__0/release-package-schema.json',
+        '1.0': 'https://standard.open-contracting.org/schema/1__0__3/release-package-schema.json',
         '1.1': 'https://standard.open-contracting.org/latest/en/release-package-schema.json'
     },
     'Record Package Schema': {
-        '1.0': 'https://standard.open-contracting.org/legacy/r/1__0__0/record-package-schema.json',
+        '1.0': 'https://standard.open-contracting.org/schema/1__0__3/record-package-schema.json',
         '1.1': 'https://standard.open-contracting.org/latest/en/record-package-schema.json'
     }
 }
