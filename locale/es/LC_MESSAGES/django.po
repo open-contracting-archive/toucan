@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-06-07 14:33-0400\n"
+"POT-Creation-Date: 2019-07-01 18:19-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -41,29 +41,29 @@ msgid ""
 "few minutes."
 msgstr ""
 "Por favor verifique que todos sus archivos son válidos de acuerdo al "
-"estándar EDCA, e intente de nuevo en unos minutos."
+"estándar OCDS, e intente de nuevo en unos minutos."
 
-#: default/templates/default/base-uploader.html:41
-#: default/templates/default/to-spreadsheet.html:46
+#: default/templates/default/base-uploader.html:45
+#: default/templates/default/to-spreadsheet.html:47
 msgid "Add a file"
 msgstr "Agregue un archivo"
 
-#: default/templates/default/base-uploader.html:41
-#: default/templates/default/to-spreadsheet.html:47
+#: default/templates/default/base-uploader.html:45
+#: default/templates/default/to-spreadsheet.html:48
 msgid "or drag and drop here."
 msgstr "o arrastre y suelte aquí"
 
-#: default/templates/default/base-uploader.html:48
+#: default/templates/default/base-uploader.html:53
 msgid "Add more files"
 msgstr "Agregar más archivos"
 
-#: default/templates/default/base-uploader.html:55
-#: default/templates/default/to-spreadsheet.html:53
+#: default/templates/default/base-uploader.html:57
+#: default/templates/default/to-spreadsheet.html:54
 msgid "Start"
 msgstr "Procesar"
 
-#: default/templates/default/base-uploader.html:64
-#: default/templates/default/to-spreadsheet.html:61
+#: default/templates/default/base-uploader.html:67
+#: default/templates/default/to-spreadsheet.html:62
 msgid ""
 "Processing operation. Please don't refresh nor close the browser window!"
 msgstr ""
@@ -79,15 +79,58 @@ msgstr "OCDS Kit - Herramientas Web"
 msgid "Compile Releases"
 msgstr "Compilar Releases"
 
-#: default/templates/default/compile.html:7
+#: default/templates/default/compile.html:6
 msgid ""
-"Generates Records with Compiled Releases, from releases within Release "
-"Packages."
+"Drag and drop one or more <a href=\"https://standard.open-contracting.org/"
+"latest/en/schema/release_package/\" target=\"_blank\">Release Packages</a> "
+"to generate a\n"
+"<a href=\"https://standard.open-contracting.org/latest/en/schema/"
+"record_package/\" target=\"_blank\">Record Package</a> with Compiled "
+"Releases included."
 msgstr ""
-"Genera Registros con Releases Compilados, de releases contenidos en "
-"Paquetes de Entrega"
+"Arrastre y suelte uno o más <a href=\"https://standard.open-contracting.org/"
+"latest/es/schema/release_package/\" target=\"_blank\">Paquetes de Release</"
+"a> para generar un\n"
+"<a href=\"https://standard.open-contracting.org/latest/es/schema/"
+"record_package/\" target=\"_blank\">Paquete de Record</a> con Compiled "
+"Releases incluidos."
 
-#: default/templates/default/compile.html:15
+#: default/templates/default/compile.html:8
+#: default/templates/default/release-packages.html:8
+msgid "You can also click the <strong>Add a file</strong> link below."
+msgstr ""
+"También puede hacer clic en el enlace de <strong>Agregue un archivo</strong> "
+"más abajo."
+
+#: default/templates/default/compile.html:9
+#: default/templates/default/release-packages.html:9
+msgid ""
+"Use the <strong>Published Date</strong> option to set the Published Date in "
+"the output package."
+msgstr ""
+"Use la opción <strong>Fecha de Publicación</strong> para establecer la Fecha de "
+"Publicación del paquete de salida."
+
+#: default/templates/default/compile.html:10
+msgid ""
+"Check the <strong>Include Versioned Releases</strong> option if you want to "
+"add a Versioned Release to each Record. Read more about Compiled and "
+"Versioned releases in the\n"
+"<a href=\"https://standard.open-contracting.org/latest/en/schema/merging/\" "
+"target=\"_blank\">OCDS documentation</a>."
+msgstr ""
+"Seleccione la opción <strong>Incluir Versioned Releases</strong> si quiere "
+"añadir un Versioned Release para cada Record. Lea más sobre Compiled y "
+"Versioned releases en la\n"
+"<a href=\"https://standard.open-contracting.org/latest/es/schema/merging/\" "
+"target=\"_blank\">documentación de OCDS</a>."
+
+#: default/templates/default/compile.html:12
+msgid "Please verify that your files are Release Packages before uploading."
+msgstr ""
+"Favor verifique que sus archivos sean Paquetes de Release antes de subirlos."
+
+#: default/templates/default/compile.html:18
 msgid "Include Versioned Releases"
 msgstr "Incluir el bloque versionedRelease"
 
@@ -120,17 +163,19 @@ msgstr "Herramienta de Revisión de Datos"
 
 #: default/templates/default/index.html:87
 msgid "OCDS Extension Creator"
-msgstr "Creador de Extensiones OCDS/EDCA"
+msgstr "Creador de Extensiones OCDS"
 
 #: default/templates/default/mapping_sheet.html:4
 msgid "Generate a spreadsheet version of the schema"
 msgstr "Generar una planilla del esquema"
 
-#: default/templates/default/mapping_sheet.html:7
-msgid "Here you can generate a spreadsheet version of any of the OCDS Schemas."
+#: default/templates/default/mapping_sheet.html:8
+msgid ""
+"Select any of the OCDS Schemas in the combobox below to generate its "
+"spreadsheet version."
 msgstr ""
-"Aquí puede generar una planilla a partir de cualquiera de los esquemas EDCA/"
-"OCDS."
+"Seleccione cualquiera de los esquemas OCDS en la caja más abajo para generar "
+"su versión en planilla."
 
 #: default/templates/default/mapping_sheet.html:13
 msgid "Select an schema and version"
@@ -140,33 +185,69 @@ msgstr "Seleccione un esquema y versión"
 msgid "Generate"
 msgstr "Generar"
 
-#: default/templates/default/release-packages.html:7
+#: default/templates/default/release-packages.html:6
 msgid ""
-"Create a Release Package from several Release files. Please upload valid "
-"OCDS JSON files (Release only, Release packages are not valid)."
+"Drag and drop one or more <a href=\"https://standard.open-contracting.org/"
+"latest/en/getting_started/releases_and_records/#releases\" target=\"_blank"
+"\">Release</a> files\n"
+"in the box below to create a <a href=\"https://standard.open-contracting.org/"
+"latest/en/schema/release_package/\" target=\"_blank\">Release Package</a> "
 msgstr ""
-"Crea un Paquete de Entregas a partir de varios archivos de Entrega. Por "
-"favor suba archivos de entrega EDCA JSON (no Paquetes de Entrega)."
+"Arrastre y suelte uno o más archivos de <a href=\"https://standard.open-"
+"contracting.org/latest/es/getting_started/releases_and_records/#releases\" "
+"target=\"_blank\">Release</a>\n"
+"en la caja más abajo para crear un <a href=\"https://standard."
+"open-contracting.org/latest/es/schema/release_package/\" target=\"_blank"
+"\">Paquete de Release</a> "
 
-#: default/templates/default/to-spreadsheet.html:27
+#: default/templates/default/release-packages.html:10
+msgid "The input files must be JSON files with a single Release each."
+msgstr "Los archivos de entrada deben ser JSON con un solo Release cada uno."
+
+#: default/templates/default/snippets/published_date.html:3
+msgid "Published date: "
+msgstr "Fecha de Publicación: "
+
+#: default/templates/default/to-spreadsheet.html:29
 msgid ""
-"Use this page to convert a <strong>Release Package</strong> to its CSV/Excel "
-"version. Currently only one file is accepted."
+"Use this page to convert a <a href=\"https://standard.open-contracting.org/"
+"latest/en/schema/release_package/\" target=\"_blank\">Release Package</a> to "
+"its CSV and Excel version. Please upload no more than one file by dragging "
+"and dropping in the box below or using the <strong>Add a file</strong> link."
 msgstr ""
-"Use esta página para convertir un <strong>Paquete de Entregas</strong> a una "
-"versión CSV/Excel. Sólo puede procesar un archivo a la vez."
+"Use esta página para convertir un <a href=\"https://standard.open-"
+"contracting.org/latest/es/schema/release_package/\" target=\"_blank"
+"\">Paquete de Release</a> a su versión CSV y Excel. Por favor no suba más de un archivo "
+"arrastrándolo y soltándolo en la caja de abajo o usando el enlace "
+"<strong>Añadir un archivo</strong>."
 
-#: default/templates/default/to-spreadsheet.html:82
+#: default/templates/default/to-spreadsheet.html:83
 msgid "Added"
 msgstr "Añadido"
 
 #: default/templates/default/upgrade.html:7
 msgid ""
-"Upgrade Release or Record Packages to OCDS 1.1. Please upload valid OCDS "
-"JSON files only."
+"Drag and drop one of more OCDS <a href=\"https://standard.open-contracting."
+"org/latest/en/getting_started/releases_and_records/#releases\" target="
+"\"_blank\">Release</a> files or \n"
+"<a href=\"https://standard.open-contracting.org/latest/en/schema/"
+"release_package/\" target=\"_blank\">Release</a>/<a href=\"https://standard."
+"open-contracting.org/latest/en/schema/record_package/\" target=\"_blank"
+"\">Record</a> Package files to update them to OCDS 1.1."
 msgstr ""
-"Actualiza la versión de archivos a EDCA 1.1. Por favor suba archivos EDCA "
-"válidos solamente."
+"Arrastre y suelte uno o más archivos de <a href=\"https://standard.open-contracting."
+"org/latest/es/getting_started/releases_and_records/#releases\" target=\"_blank\">Release</a> OCDS o Paquete de \n"
+"<a href=\"https://standard.open-contracting.org/latest/es/schema/"
+"release_package/\" target=\"_blank\">Release</a>/<a href=\"https://standard."
+"open-contracting.org/latest/es/schema/record_package/\" target=\"_blank"
+"\">Record</a> para actualizarlos a OCDS 1.1."
+
+#: default/templates/default/upgrade.html:9
+msgid ""
+"You can also click the <strong>Add a file</strong> link below to add files."
+msgstr ""
+"También puede hacer click en el enlace <strong>Añadir un archivo</strong> "
+"más abajo para agregar archivos."
 
 #: default/templates/jquery-file-upload/download.html:14
 msgid "Upload successful"
@@ -180,7 +261,7 @@ msgstr "Borrar"
 msgid "Processing..."
 msgstr "Procesando..."
 
-#: default/views.py:131
+#: default/views.py:153
 msgid "Invalid option! Please verify and try again"
 msgstr ""
 "La opción recibida es inválida. Por favor verifique e intente de nuevo."
@@ -192,24 +273,3 @@ msgstr "Inglés"
 #: ocdskitweb/settings.py:135
 msgid "Spanish"
 msgstr "Español"
-
-#~ msgid "Merge Release Packages"
-#~ msgstr "Mezclar Paquetes de Entregas"
-
-#~ msgid "Upload"
-#~ msgstr "Subir"
-
-#~ msgid "drop files here (.json only)"
-#~ msgstr "arrastre y suelte archivos aquí (sólo .json)"
-
-#~ msgid "Release Schema"
-#~ msgstr "Esquema de Entregas"
-
-#~ msgid "Release Package Schema"
-#~ msgstr "Esquema de Paquete de Entregas"
-
-#~ msgid "Record Package Schema"
-#~ msgstr "Esquema de Paquete de Registros"
-
-#~ msgid "Messages"
-#~ msgstr "Mensajes"

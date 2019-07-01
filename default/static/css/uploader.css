@@ -49,19 +49,25 @@
 .buttons
 {
   width: 100%;
-  background-color: #eee;
-  box-shadow: 0 0 0 10px #eee;
+  background-color: #e4eff7;
+  border-top: 2px dashed #ccc;
+  padding: 5px 10px;
 }
 .action-extra-params{
     width: 100%;
     padding: 5px 2px;
     display: inline-block;
-    margin-bottom: 10px;
+    border-top: 2px dashed #ccc;
+    background-color: #e1f2f5;
+    margin-bottom: 5px;
+}
+.action-extra-params:empty{
+  display: none;
 }
 .drop-area
 {
   position: relative;
-  margin: 20px 0 15px 0;
+  margin: 10px 0 15px 0;
   min-height: 250px;
   padding: 10px 5px 20px 5px;
   background-color: rgb(246, 249, 219);
@@ -94,6 +100,7 @@
 .drop-area.empty label
 {
     cursor: pointer;
+    border-bottom: dashed 2px #fff;
 }
 .fileinput-button label
 {

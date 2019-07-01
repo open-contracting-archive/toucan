@@ -3,11 +3,11 @@
 
 {% block subtitle %} &gt;&gt; {% trans "Generate a spreadsheet version of the schema" %} {% endblock %}
 {% block body %}
-<p>
-{% blocktrans trimmed%}
-Here you can generate a spreadsheet version of any of the OCDS Schemas.
-{% endblocktrans %}
-</p>
+<div class="info panel panel-default">
+  <div class="panel-body">
+  {% blocktrans %}Select any of the OCDS Schemas in the combobox below to generate its spreadsheet version.{% endblocktrans %}
+  </div>
+</div>
 <form method="POST" class="form-inline">{% csrf_token %}
     <div class="form-group">
         <label for="version">{% trans "Select an schema and version" %}:</label>

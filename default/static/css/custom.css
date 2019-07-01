@@ -48,3 +48,11 @@
 {
     text-decoration: none;
 }
+.info.panel .panel-body:before{
+    content: '\e085';
+    font-family: "Glyphicons Halflings";
+    font-size: 2em;
+    float: left;
+    margin-right: 10px;
+    color: #9BAF00; 
+}
