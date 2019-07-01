@@ -60,7 +60,7 @@ class FilenameHandler:
     def _truncate_prefix(self, prefix, length):
         if len(prefix) <= length:
             return prefix
-        return name[:prefix + 1]
+        return prefix[:length + 1]
 
     def name_only_with_suffix(self, suffix):
         "Adds a suffix to the file name."

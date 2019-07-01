@@ -1,3 +1,6 @@
+.navbar-brand.ocp-logo{
+    max-width: 330px;
+}
 .navbar-brand.ocp-logo svg
 {
   height: 40px; 
@@ -44,4 +47,12 @@
 .home a:focus
 {
     text-decoration: none;
+}
+.info.panel .panel-body:before{
+    content: '\e085';
+    font-family: "Glyphicons Halflings";
+    font-size: 2em;
+    float: left;
+    margin-right: 10px;
+    color: #9BAF00; 
 }
