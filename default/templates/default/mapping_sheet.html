@@ -3,6 +3,11 @@
 
 {% block subtitle %} &gt;&gt; {% trans "Generate a spreadsheet version of the schema" %} {% endblock %}
 {% block body %}
+{% if error %}
+<div class="alert alert-warning">
+{{ error }}
+</div>
+{% endif %}
 <div class="info panel panel-default">
   <div class="panel-body">
   {% blocktrans %}Select any of the OCDS Schemas in the combobox below to generate its spreadsheet version.{% endblocktrans %}
@@ -12,10 +17,12 @@
     <div class="form-group">
         <label for="version">{% trans "Select an schema and version" %}:</label>
         <select name="version" class="form-control">
-            {% for file_type, versions in versionOptions.items %}
-                {% for version, url in versions.items %}
-                    <option value="{{file_type}}/{{version}}">({{ version }}) {% trans file_type %}</li>
+            {% for version, schema_files in versionOptions.items %}
+                <optgroup label="{{version}}">
+                {% for schema_file, url in schema_files.items %}
+                    <option value="{{version}}-{{schema_file}}">{{ version }}-{{schema_file}}</li>
                 {% endfor %}
+                </optgroup>
             {% endfor %}
         </select>
     </div>

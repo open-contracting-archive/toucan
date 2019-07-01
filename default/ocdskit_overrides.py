@@ -32,7 +32,7 @@ def command_compile(input_buffer, include_versioned=False, published_date=dateti
     return _execute_command(compile, input_buffer, namespace)
 
 def command_mapping_sheet(input_buffer):
-    namespace = argparse.Namespace(pretty=False,ascii=False)
+    namespace = argparse.Namespace(file=input_buffer.read(), pretty=False,ascii=False,order_by=False,infer_required=False)
     return _execute_command(mapping_sheet, input_buffer, namespace)
 
 if __name__ == '__main__':

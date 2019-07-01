@@ -4,6 +4,7 @@ import json
 import logging
 import datetime
 import requests
+import jsonref
 from collections import OrderedDict
 from zipfile import ZipFile, ZIP_DEFLATED
 from django.http import HttpResponse, JsonResponse, FileResponse
@@ -12,6 +13,7 @@ from django.views.decorators.http import require_POST, require_GET
 from django.conf import settings as django_settings
 from django.http import Http404
 from ocdskit.upgrade import upgrade_10_11
+from ocdskit.mapping_sheet import  MappingSheet
 from dateutil import parser
 from .file import FilenameHandler, save_file
 from .sessions import get_files_contents, save_in_session
@@ -19,6 +21,7 @@ from .ocdskit_overrides import command_package_releases, command_compile, comman
 from .decorators import require_files
 from .forms import MappingSheetOptionsForm
 from .flatten import flatten
+from django.utils.translation import gettext as _
 
 # Create your views here.
 
@@ -92,7 +95,7 @@ def perform_package_releases(request):
         except ValueError:
             # invalid date has been received
             # TODO send a warning to client side
-            logging.debug('Invalid date submitted: {}, ignoring'.format(argPublishedDate))
+            logger.debug('Invalid date submitted: {}, ignoring'.format(argPublishedDate))
     for filename_handler, release in get_files_contents(request.session):
         releases.append(release)
     zipname_handler = FilenameHandler('result', '.zip')
@@ -124,7 +127,7 @@ def perform_compile(request):
         except ValueError:
             # invalid date has been received
             # TODO send a warning to client side
-            logging.debug('Invalid date submitted: {}, ignoring'.format(argPublishedDate))
+            logger.debug('Invalid date submitted: {}, ignoring'.format(argPublishedDate))
     for filename_handler, package in get_files_contents(request.session):
         packages.append(package)
     zipname_handler = FilenameHandler('result', '.zip')
@@ -142,23 +145,16 @@ def mapping_sheet(request):
     if request.method == 'POST':
         form = MappingSheetOptionsForm(request.POST)
         if form.is_valid():
-            file_type, ocds_version = form.cleaned_data['version'].split('/', 1)
+            file_type, ocds_version = form.cleaned_data['version'].split('-', 1)
             if file_type in options and ocds_version in options[file_type]:
-                json_schema = requests.get(options[file_type][ocds_version]).text
-                with io.StringIO(json_schema) as buf:
-                    response_content = command_mapping_sheet(buf)
-                response =  HttpResponse(response_content, content_type='text/csv')
+                json_schema = jsonref.loads(requests.get(options[file_type][ocds_version]).text,object_pairs_hook=OrderedDict)
+                buf = io.StringIO()
+                MappingSheet().run(json_schema, buf)
+                response =  HttpResponse(buf.getvalue(), content_type='text/csv')
                 response['Content-Disposition'] = 'attachment; filename="mapping-sheet.csv"'
                 return response
         dic['error'] = _('Invalid option! Please verify and try again')
     return render(request, 'default/mapping_sheet.html', dic) 
-
-@require_GET
-def get_mapping_sheet(request):
-    s = io.StringIO(command_mapping_sheet())
-    response =  HttpResponse(s, content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="mapping-sheet.csv"'
-    return response
 
 def to_spreadsheet(request):
     request.session['files'] = []
@@ -204,7 +200,6 @@ def uploadfile(request):
     upload = request.FILES['file']
     new_file_dict = save_file(upload)
     save_in_session(request.session, new_file_dict)
-    logger.warning(request.session['files'])
     r['files'].append({
         'name': upload.name,
         'size': upload.size

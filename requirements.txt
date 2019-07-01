@@ -16,7 +16,7 @@ jsonref==0.2
 jsonschema==3.0.1
 -e git+https://github.com/open-contracting/lib-cove-ocds.git@f705ae7ec729eb094b8c06a0dc9ec8dfae438554#egg=libcoveocds
 lxml==4.3.3
--e git+https://github.com/open-contracting/ocdskit.git@e535e19ed0f6fa09683583f5e82dced2ae612f7a#egg=ocdskit
+-e git+https://github.com/open-contracting/ocdskit.git@acc91a2a31d15b3c025a8f18d07a80e5ef12e832#egg=ocdskit
 ocdsmerge==0.5.2
 openpyxl==2.6.1
 pyrsistent==0.14.11
