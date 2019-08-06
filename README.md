@@ -1,9 +1,6 @@
-# OCDS Kit web
+# OCDS Toucan
 
-OCDS Kit web is Django-based application for manipulation of OCDS files based
-on [OCDS Kit](https://github.com/open-contracting/ocdskit). Additionally, OCDS
-Kit Web uses the [Flatten Tool](https://github.com/open-contracting/ocdskit) to
-provide a serialization to CSV/Excel feature.
+OCDS Toucan is a web application to transform OCDS files using [OCDS Kit](https://github.com/open-contracting/ocdskit), and to convert OCDS files to CSV or Excel using [Flatten Tool](https://github.com/OpenDataServices/flatten-tool).
 
 ## Features
 
