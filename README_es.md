@@ -1,6 +1,7 @@
-# OCDS Kit Web
-OCDS Kit Web es una aplicación web para la manipulación de archivos OCDS basada en el proyecto [OCDS Kit](https://github.com/open-contracting/ocdskit).
-OCDS Kit Web provee al usuario las mismas funcionalidades de OCDS Kit a través de una interfaz web intuitiva y fácil de utilizar.
+# OCDS Toucan
+
+OCDS Toucan es una aplicación web para la manipulación de archivos OCDS basada en el proyecto [OCDS Kit](https://github.com/open-contracting/ocdskit).
+OCDS Toucan provee al usuario las mismas funcionalidades de OCDS Kit a través de una interfaz web intuitiva y fácil de utilizar.
 
 ## Inicio
 ### Prerequisitos

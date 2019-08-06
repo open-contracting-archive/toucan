@@ -71,8 +71,8 @@ msgstr ""
 
 #: default/templates/default/base.html:16
 #: default/templates/default/base.html:53
-msgid "OCDS Kit Web Tools"
-msgstr "OCDS Kit - Herramientas Web"
+msgid "OCDS Toucan"
+msgstr "OCDS Toucan"
 
 #: default/templates/default/compile.html:4
 #: default/templates/default/index.html:27
