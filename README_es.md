@@ -14,10 +14,10 @@ OCDS Kit Web provee al usuario las mismas funcionalidades de OCDS Kit a través 
 pip install -r requirements.txt
 ```
 2. Definir las siguientes variables de entorno:
-* OCDSKIT_WEB_MEDIA_ROOT: ruta del directorio donde se guardan los archivos subidos. A libre elección.
-* OCDSKIT_WEB_LOCALE_PATH: Debe apuntar al directorio locale/ dentro del proyecto.
-* OCDSKIT_WEB_MAXNUMFILES: número máximo de archivos a subir por operación.
-* OCDSKIT_WEB_MAXFILESIZE: tamaño máximo de archivos a subir en bytes.
+* OCDS_TOUCAN_MEDIA_ROOT: ruta del directorio donde se guardan los archivos subidos. A libre elección.
+* OCDS_TOUCAN_LOCALE_PATH: Debe apuntar al directorio locale/ dentro del proyecto.
+* OCDS_TOUCAN_MAXNUMFILES: número máximo de archivos a subir por operación.
+* OCDS_TOUCAN_MAXFILESIZE: tamaño máximo de archivos a subir en bytes.
 
 ### Levantar el proyecto
 Levantar el servidor de desarrollo:

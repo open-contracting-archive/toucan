@@ -58,7 +58,7 @@ def retrieve_result(request, folder, id, format=None):
 def upgrade(request):
     """ Returns the upgrade page. """
     request.session['files'] = []
-    options = django_settings.OCDSKIT_WEB_UPLOAD_OPTIONS
+    options = django_settings.OCDS_TOUCAN_UPLOAD_OPTIONS
     options['performAction'] = '/upgrade/go/'
     return render(request, 'default/upgrade.html', options)
 
@@ -78,7 +78,7 @@ def perform_upgrade(request):
 def package_releases(request):
     """ Returns the Create Release Packages page. """
     request.session['files'] = []
-    options = django_settings.OCDSKIT_WEB_UPLOAD_OPTIONS
+    options = django_settings.OCDS_TOUCAN_UPLOAD_OPTIONS
     options['performAction'] = '/package-releases/go/'
     return render(request, 'default/release-packages.html', options)
 
@@ -108,7 +108,7 @@ def perform_package_releases(request):
 def compile(request):
     """ Compiles Releases into Records, including compiled releases by default."""
     request.session['files'] = []
-    options = django_settings.OCDSKIT_WEB_UPLOAD_OPTIONS
+    options = django_settings.OCDS_TOUCAN_UPLOAD_OPTIONS
     options['performAction'] = '/compile/go/'
     return render(request, 'default/compile.html', options)
 
@@ -138,7 +138,7 @@ def perform_compile(request):
     return JsonResponse({'url': '/result/{}/{}/'.format(zipname_handler.folder, zipname_handler.get_id()), 'size': zip_size})
 
 def mapping_sheet(request):
-    options = django_settings.OCDSKIT_WEB_SCHEMA_OPTIONS
+    options = django_settings.OCDS_TOUCAN_SCHEMA_OPTIONS
     dic = {
         'versionOptions': options 
     }
