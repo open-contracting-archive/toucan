@@ -266,10 +266,10 @@ msgid "Invalid option! Please verify and try again"
 msgstr ""
 "La opción recibida es inválida. Por favor verifique e intente de nuevo."
 
-#: ocdskitweb/settings.py:134
+#: ocdstoucan/settings.py:134
 msgid "English"
 msgstr "Inglés"
 
-#: ocdskitweb/settings.py:135
+#: ocdstoucan/settings.py:135
 msgid "Spanish"
 msgstr "Español"

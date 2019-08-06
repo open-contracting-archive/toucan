@@ -1,17 +1,17 @@
 @font-face {
-  font-family: 'ocdskit-web';
-  src:  url('../fonts/ocdskit-web.eot?b5hkoq');
-  src:  url('../fonts/ocdskit-web.eot?b5hkoq#iefix') format('embedded-opentype'),
-    url('../fonts/ocdskit-web.ttf?b5hkoq') format('truetype'),
-    url('../fonts/ocdskit-web.woff?b5hkoq') format('woff'),
-    url('../fonts/ocdskit-web.svg?b5hkoq#ocdskit-web') format('svg');
+  font-family: 'ocdstoucan';
+  src:  url('../fonts/ocdstoucan.eot?b5hkoq');
+  src:  url('../fonts/ocdstoucan.eot?b5hkoq#iefix') format('embedded-opentype'),
+    url('../fonts/ocdstoucan.ttf?b5hkoq') format('truetype'),
+    url('../fonts/ocdstoucan.woff?b5hkoq') format('woff'),
+    url('../fonts/ocdstoucan.svg?b5hkoq#ocdstoucan') format('svg');
   font-weight: normal;
   font-style: normal;
 }
 
 [class^="ok-"], [class*=" ok-"] {
   /* use !important to prevent issues with browser extensions that change fonts */
-  font-family: 'ocdskit-web' !important;
+  font-family: 'ocdstoucan' !important;
   speak: none;
   font-style: normal;
   font-weight: normal;
