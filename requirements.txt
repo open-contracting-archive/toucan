@@ -8,7 +8,7 @@ commonmark==0.9.0
 contextlib2==0.5.5
 Django==2.1.12
 et-xmlfile==1.0.1
--e git+https://github.com/OpenDataServices/flatten-tool.git@4c13ef0b32a59e810919a3de09bc8f64ce8f9392#egg=flattentool
+flattentool==0.8.0
 future==0.17.1
 idna==2.8
 -e git+https://github.com/ICRAR/ijson.git@e4ab60c22c5a836ce28e1da8e82e4f4c22830557#egg=ijson

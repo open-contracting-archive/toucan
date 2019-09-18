@@ -1,7 +1,7 @@
 Django>=2.1.11,<2.2
-ocdskit>=0.1.0
+flattentool
 libcoveocds
+ocdskit>=0.1.0
 python-dateutil
 requests
 -e git+https://github.com/ICRAR/ijson.git#egg=ijson
--e git+https://github.com/OpenDataServices/flatten-tool.git@v0.5.0#egg=flattentool
