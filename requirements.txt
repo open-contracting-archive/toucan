@@ -16,7 +16,7 @@ jdcal==1.4.1
 json-merge-patch==0.2
 jsonref==0.2
 jsonschema==3.0.2
--e git+https://github.com/open-contracting/lib-cove-ocds.git@f705ae7ec729eb094b8c06a0dc9ec8dfae438554#egg=libcoveocds
+libcoveocds==0.7.1
 lxml==4.4.1
 ocdsextensionregistry==0.0.13
 ocdskit==0.1.0

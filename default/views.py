@@ -3,11 +3,11 @@ import json
 import logging
 import os
 from collections import OrderedDict
-from dateutil import parser
 from zipfile import ZipFile, ZIP_DEFLATED
 
 import requests
 import jsonref
+from dateutil import parser
 from django.conf import settings as django_settings
 from django.http import HttpResponse, JsonResponse, FileResponse, Http404
 from django.shortcuts import render
