@@ -1,1 +1,99 @@
-{"uri":"http://example.com","publisher":{"name":"Test data publisher"},"publishedDate":"2019-04-01T00:00:00Z","version":"1.1","extensions":[],"releases":[{"ocid":"ocds-4f64a2-1","id":"ocds-4f64a2-1/2","date":"2019-01-15","tag":["tender"],"initiationType":"tender","parties":[{"name":"Fictional Government Agency","id":"10001","identifier":{"scheme":"FGA-Reg","id":"N001-002","legalName":"Fictional Government Agency"},"address":{"streetAddress":"Mariscal Lopez 502","locality":"Asuncion","region":"Central","countryName":"Paraguay"},"contactPoint":{"name":"Juan Lopez","email":"juan.lopez@fictionalagency.gov.py","telephone":"021111222"},"roles":["buyer"]},{"name":"Fictional Company","id":"80050564","identifier":{"scheme":"RUC","id":"80050564","legalName":"Fictional Company"},"address":{"streetAddress":"Ceibo 701","locality":"Asuncion","region":"Central","countryName":"Paraguay"},"contactPoint":{"name":"Maria Gimenez","email":"maria.gimenez@fictionalcompany.com.py","telephone":"021555222"},"roles":["supplier"]}],"buyer":{"name":"Fictional Procurement Agency","id":"10001"},"awards":[{"id":"1","title":"Fictional Acquisition 1","description":"A fictional acquisition","status":"active","date":"2019-02-12T10:00:00","value":{"amount":"500000","currency":"PYG"},"suppliers":[{"name":"Fictional Company","id":"80050564"}],"items":[{"id":"Desk chairs","description":"Desk chairs","quantity":"2"}]}],"language":"en"}]}
+{
+  "uri": "http://example.com",
+  "publisher": {
+    "name": "Test data publisher"
+  },
+  "publishedDate": "2019-04-01T00:00:00Z",
+  "version": "1.1",
+  "extensions": [],
+  "releases": [
+    {
+      "ocid": "ocds-4f64a2-1",
+      "id": "ocds-4f64a2-1/2",
+      "date": "2019-01-15",
+      "tag": [
+        "tender"
+      ],
+      "initiationType": "tender",
+      "parties": [
+        {
+          "name": "Fictional Government Agency",
+          "id": "10001",
+          "identifier": {
+            "scheme": "FGA-Reg",
+            "id": "N001-002",
+            "legalName": "Fictional Government Agency"
+          },
+          "address": {
+            "streetAddress": "Mariscal Lopez 502",
+            "locality": "Asuncion",
+            "region": "Central",
+            "countryName": "Paraguay"
+          },
+          "contactPoint": {
+            "name": "Juan Lopez",
+            "email": "juan.lopez@fictionalagency.gov.py",
+            "telephone": "021111222"
+          },
+          "roles": [
+            "buyer"
+          ]
+        },
+        {
+          "name": "Fictional Company",
+          "id": "80050564",
+          "identifier": {
+            "scheme": "RUC",
+            "id": "80050564",
+            "legalName": "Fictional Company"
+          },
+          "address": {
+            "streetAddress": "Ceibo 701",
+            "locality": "Asuncion",
+            "region": "Central",
+            "countryName": "Paraguay"
+          },
+          "contactPoint": {
+            "name": "Maria Gimenez",
+            "email": "maria.gimenez@fictionalcompany.com.py",
+            "telephone": "021555222"
+          },
+          "roles": [
+            "supplier"
+          ]
+        }
+      ],
+      "buyer": {
+        "name": "Fictional Procurement Agency",
+        "id": "10001"
+      },
+      "awards": [
+        {
+          "id": "1",
+          "title": "Fictional Acquisition 1",
+          "description": "A fictional acquisition",
+          "status": "active",
+          "date": "2019-02-12T10:00:00",
+          "value": {
+            "amount": "500000",
+            "currency": "PYG"
+          },
+          "suppliers": [
+            {
+              "name": "Fictional Company",
+              "id": "80050564"
+            }
+          ],
+          "items": [
+            {
+              "id": "Desk chairs",
+              "description": "Desk chairs",
+              "quantity": "2"
+            }
+          ]
+        }
+      ],
+      "language": "en"
+    }
+  ]
+}

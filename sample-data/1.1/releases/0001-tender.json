@@ -2,7 +2,9 @@
   "ocid": "ocds-4f64a2-1",
   "id": "ocds-4f64a2-1/1",
   "date": "2019-01-01",
-  "tag": ["tender"],
+  "tag": [
+    "tender"
+  ],
   "initiationType": "tender",
   "parties": [
     {
@@ -24,7 +26,9 @@
         "email": "juan.lopez@fictionalagency.gov.py",
         "telephone": "021111222"
       },
-      "roles": ["buyer"]
+      "roles": [
+        "buyer"
+      ]
     }
   ],
   "buyer": {
@@ -50,7 +54,9 @@
     "procurementMethod": "open",
     "procurementMethodDetails": "Open tender",
     "mainProcurementCategory": "goods",
-    "submissionMethod": ["electronicSubmission"],
+    "submissionMethod": [
+      "electronicSubmission"
+    ],
     "tenderPeriod": {
       "startDate": "2019-02-01T10:00:00",
       "endDate": "2019-02-03T15:00:00"

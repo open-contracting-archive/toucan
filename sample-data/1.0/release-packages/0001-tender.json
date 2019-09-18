@@ -1,66 +1,66 @@
 {
-    "publishedDate": "2019-04-01T00:00:00Z",
-    "publisher": {
-        "name": "Test data publisher"
-    },
-    "releases": [
-        {
-            "buyer": {
-                "address": {
-                    "countryName": "Paraguay",
-                    "locality": "Asuncion",
-                    "region": "Central",
-                    "streetAddress": "Mariscal Lopez 502"
-                },
-                "contactPoint": {
-                    "email": "juan.lopez@fictionalagency.gov.py",
-                    "name": "Juan Lopez",
-                    "telephone": "021111222"
-                },
-                "id": "10001",
-                "identifier": {
-                    "id": "N001-002",
-                    "legalName": "Fictional Government Agency",
-                    "scheme": "FGA-Reg"
-                },
-                "name": "Fictional Government Agency"
-            },
-            "date": "2019-01-01",
-            "id": "ocds-4f64a2-1/1",
-            "initiationType": "tender",
-            "language": "en",
-            "ocid": "ocds-4f64a2-1",
-            "tag": [
-                "tender"
-            ],
-            "tender": {
-                "description": "A fictional acquisition",
-                "id": "1",
-                "items": [
-                    {
-                        "description": "Desk chairs",
-                        "id": "Desk chairs",
-                        "quantity": "2"
-                    }
-                ],
-                "mainProcurementCategory": "goods",
-                "procurementMethod": "open",
-                "procurementMethodDetails": "Open tender",
-                "status": "active",
-                "submissionMethod": [
-                    "electronicSubmission"
-                ],
-                "tenderPeriod": {
-                    "endDate": "2019-02-03T15:00:00",
-                    "startDate": "2019-02-01T10:00:00"
-                },
-                "title": "Fictional Acquisition 1",
-                "value": {
-                    "amount": "500000",
-                    "currency": "PYG"
-                }
-            }
+  "publishedDate": "2019-04-01T00:00:00Z",
+  "publisher": {
+    "name": "Test data publisher"
+  },
+  "releases": [
+    {
+      "buyer": {
+        "address": {
+          "countryName": "Paraguay",
+          "locality": "Asuncion",
+          "region": "Central",
+          "streetAddress": "Mariscal Lopez 502"
+        },
+        "contactPoint": {
+          "email": "juan.lopez@fictionalagency.gov.py",
+          "name": "Juan Lopez",
+          "telephone": "021111222"
+        },
+        "id": "10001",
+        "identifier": {
+          "id": "N001-002",
+          "legalName": "Fictional Government Agency",
+          "scheme": "FGA-Reg"
+        },
+        "name": "Fictional Government Agency"
+      },
+      "date": "2019-01-01",
+      "id": "ocds-4f64a2-1/1",
+      "initiationType": "tender",
+      "language": "en",
+      "ocid": "ocds-4f64a2-1",
+      "tag": [
+        "tender"
+      ],
+      "tender": {
+        "description": "A fictional acquisition",
+        "id": "1",
+        "items": [
+          {
+            "description": "Desk chairs",
+            "id": "Desk chairs",
+            "quantity": "2"
+          }
+        ],
+        "mainProcurementCategory": "goods",
+        "procurementMethod": "open",
+        "procurementMethodDetails": "Open tender",
+        "status": "active",
+        "submissionMethod": [
+          "electronicSubmission"
+        ],
+        "tenderPeriod": {
+          "endDate": "2019-02-03T15:00:00",
+          "startDate": "2019-02-01T10:00:00"
+        },
+        "title": "Fictional Acquisition 1",
+        "value": {
+          "amount": "500000",
+          "currency": "PYG"
         }
-    ],
-    "uri": "http://example.com"
+      }
+    }
+  ],
+  "uri": "http://example.com"
 }
