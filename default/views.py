@@ -13,14 +13,15 @@ from django.http import HttpResponse, JsonResponse, FileResponse, Http404
 from django.shortcuts import render
 from django.utils.translation import gettext as _
 from django.views.decorators.http import require_POST
-from ocdskit.upgrade import upgrade_10_11
+from ocdskit.combine import package_releases as package_releases_method
 from ocdskit.mapping_sheet import mapping_sheet as mapping_sheet_method
+from ocdskit.upgrade import upgrade_10_11
 
 from .decorators import require_files
 from .file import FilenameHandler, save_file
 from .flatten import flatten
 from .forms import MappingSheetOptionsForm
-from .ocdskit_overrides import command_package_releases, command_compile
+from .ocdskit_overrides import command_compile
 from .sessions import get_files_contents, save_in_session
 
 logger = logging.getLogger(__name__)
@@ -93,12 +94,12 @@ def package_releases(request):
 def perform_package_releases(request):
     """ Performs the package-releases operation """
     releases = []
-    compile_parameters = {}
+    kwargs = {}
     argPublishedDate = request.GET.get('publishedDate', '')
     if argPublishedDate:
         try:
             parser.parse(argPublishedDate)
-            compile_parameters['published_date'] = argPublishedDate
+            kwargs['published_date'] = argPublishedDate
         except ValueError:
             # invalid date has been received
             # TODO send a warning to client side
@@ -108,7 +109,7 @@ def perform_package_releases(request):
     zipname_handler = FilenameHandler('result', '.zip')
     full_path = zipname_handler.generate_full_path()
     with ZipFile(full_path, 'w', compression=ZIP_DEFLATED) as rezip:
-        rezip.writestr('result.json', command_package_releases(releases, **compile_parameters))
+        rezip.writestr('result.json', package_releases_method(releases, **kwargs))
     zip_size = os.path.getsize(full_path)
     return JsonResponse({
         'url': '/result/{}/{}/'.format(zipname_handler.folder, zipname_handler.get_id()),
