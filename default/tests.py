@@ -1,11 +1,11 @@
 import os
-import requests
 import tempfile
-from django.test import TestCase, override_settings
-from .flatten import flatten
-from .file import FilenameHandler
 
-# Create your tests here.
+import requests
+from django.test import TestCase, override_settings
+
+from .file import FilenameHandler
+from .flatten import flatten
 
 EXAMPLE_RELEASE_URL = 'https://raw.githubusercontent.com/open-contracting/sample-data/master/fictional-example/1.1/ocds-213czf-000-00001-01-planning.json'  # noqa
 

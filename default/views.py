@@ -1,28 +1,27 @@
-import os
 import io
 import json
 import logging
+import os
+from collections import OrderedDict
+from dateutil import parser
+from zipfile import ZipFile, ZIP_DEFLATED
+
 import requests
 import jsonref
-from collections import OrderedDict
-from zipfile import ZipFile, ZIP_DEFLATED
-from django.http import HttpResponse, JsonResponse, FileResponse
-from django.shortcuts import render
-from django.views.decorators.http import require_POST
 from django.conf import settings as django_settings
-from django.http import Http404
-from ocdskit.upgrade import upgrade_10_11
-from ocdskit.mapping_sheet import mapping_sheet_method
-from dateutil import parser
-from .file import FilenameHandler, save_file
-from .sessions import get_files_contents, save_in_session
-from .ocdskit_overrides import command_package_releases, command_compile
-from .decorators import require_files
-from .forms import MappingSheetOptionsForm
-from .flatten import flatten
+from django.http import HttpResponse, JsonResponse, FileResponse, Http404
+from django.shortcuts import render
 from django.utils.translation import gettext as _
+from django.views.decorators.http import require_POST
+from ocdskit.upgrade import upgrade_10_11
+from ocdskit.mapping_sheet import mapping_sheet as mapping_sheet_method
 
-# Create your views here.
+from .decorators import require_files
+from .file import FilenameHandler, save_file
+from .flatten import flatten
+from .forms import MappingSheetOptionsForm
+from .ocdskit_overrides import command_package_releases, command_compile
+from .sessions import get_files_contents, save_in_session
 
 logger = logging.getLogger(__name__)
 

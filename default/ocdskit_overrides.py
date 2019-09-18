@@ -1,8 +1,9 @@
+import argparse
 import io
 import types
-import argparse
 from contextlib import redirect_stdout
 from datetime import datetime
+
 from ocdskit.cli.commands import package_releases, compile
 
 

@@ -1,6 +1,7 @@
 import os
-import flattentool
 from zipfile import ZipFile, ZIP_DEFLATED
+
+import flattentool
 from libcoveocds.config import LibCoveOCDSConfig
 
 
