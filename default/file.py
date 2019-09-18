@@ -3,6 +3,7 @@ import uuid
 from datetime import date
 from django.conf import settings
 
+
 def save_file(uploadedfile):
     name, ext = uploadedfile.name.rsplit('.', 1)
     name_handler = FilenameHandler(name, '.' + ext)
@@ -12,29 +13,30 @@ def save_file(uploadedfile):
             newfile.write(chunk)
     return name_handler.as_dict()
 
+
 class FilenameHandler:
     sep = '-'
 
-    def __init__(self, prefix, ext,\
-            id=str(uuid.uuid4()),\
-            generation_date=date.today(),
-            truncate_prefix_by=20,
-            folder=None):
+    def __init__(self, prefix, ext,
+                 id=str(uuid.uuid4()),
+                 generation_date=date.today(),
+                 truncate_prefix_by=20,
+                 folder=None):
         self.prefix = self._truncate_prefix(prefix, truncate_prefix_by)
         self.ext = ext
-        self.id = id 
+        self.id = id
         if folder is not None:
             self.folder = folder
         else:
             self.folder = '{:%Y-%m-%d}'.format(generation_date)
-            
+
     def as_dict(self):
-        return { \
-                'id': self.id, \
-                'prefix': self.prefix, \
-                'folder': self.folder, \
-                'ext': self.ext \
-                }
+        return {
+            'id': self.id,
+            'prefix': self.prefix,
+            'folder': self.folder,
+            'ext': self.ext
+        }
 
     def get_id(self):
         return self.id
@@ -50,9 +52,9 @@ class FilenameHandler:
         return os.path.join(settings.MEDIA_ROOT, self.folder)
 
     def generate_full_path(self):
-        path_folder = os.path.join( \
-                          settings.MEDIA_ROOT, \
-                          self.folder)
+        path_folder = os.path.join(
+            settings.MEDIA_ROOT,
+            self.folder)
         if not os.path.exists(path_folder):
             os.makedirs(path_folder)
         return self.get_full_path()

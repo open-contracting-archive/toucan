@@ -1,5 +1,5 @@
-from collections import OrderedDict
 from .file import FilenameHandler
+
 
 def get_files_contents(session):
     """ Generator that returns file contents from session info. """
@@ -10,8 +10,9 @@ def get_files_contents(session):
             buf = f.read()
         yield file_handler, buf
 
+
 def save_in_session(session, info):
-  if not 'files' in session:
-    session['files'] = []
-  session['files'].append(info)
-  session.modified = True
+    if 'files' not in session:
+        session['files'] = []
+    session['files'].append(info)
+    session.modified = True

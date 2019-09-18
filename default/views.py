@@ -2,22 +2,21 @@ import os
 import io
 import json
 import logging
-import datetime
 import requests
 import jsonref
 from collections import OrderedDict
 from zipfile import ZipFile, ZIP_DEFLATED
 from django.http import HttpResponse, JsonResponse, FileResponse
 from django.shortcuts import render
-from django.views.decorators.http import require_POST, require_GET
+from django.views.decorators.http import require_POST
 from django.conf import settings as django_settings
 from django.http import Http404
 from ocdskit.upgrade import upgrade_10_11
-from ocdskit.mapping_sheet import mapping_sheet
+from ocdskit.mapping_sheet import mapping_sheet_method
 from dateutil import parser
 from .file import FilenameHandler, save_file
 from .sessions import get_files_contents, save_in_session
-from .ocdskit_overrides import command_package_releases, command_compile, command_mapping_sheet
+from .ocdskit_overrides import command_package_releases, command_compile
 from .decorators import require_files
 from .forms import MappingSheetOptionsForm
 from .flatten import flatten
@@ -27,12 +26,14 @@ from django.utils.translation import gettext as _
 
 logger = logging.getLogger(__name__)
 
+
 def index(request):
     return render(request, 'default/index.html')
 
+
 def retrieve_result(request, folder, id, format=None):
     """ Retrieve a previously generated result. """
-    
+
     filename = None
     if format is None:
         prefix = 'result'
@@ -48,12 +49,13 @@ def retrieve_result(request, folder, id, format=None):
         filename = 'result.xlsx'
     else:
         raise Http404('Invalid option')
-    
+
     name_handler = FilenameHandler(prefix, ext, id=str(id), folder=folder)
     path = name_handler.get_full_path()
 
     if filename is not None:
         return FileResponse(open(path, 'rb'), filename=filename, as_attachment=True)
+
 
 def upgrade(request):
     """ Returns the upgrade page. """
@@ -61,6 +63,7 @@ def upgrade(request):
     options = django_settings.OCDS_TOUCAN_UPLOAD_OPTIONS
     options['performAction'] = '/upgrade/go/'
     return render(request, 'default/upgrade.html', options)
+
 
 @require_files
 def perform_upgrade(request):
@@ -73,7 +76,11 @@ def perform_upgrade(request):
             upgrade_10_11(package)
             rezip.writestr(filename_handler.name_only_with_suffix('_updated'), json.dumps(package))
     zip_size = os.path.getsize(full_path)
-    return JsonResponse({'url': '/result/{}/{}/'.format(zipname_handler.folder, zipname_handler.get_id()), 'size': zip_size})
+    return JsonResponse({
+        'url': '/result/{}/{}/'.format(zipname_handler.folder, zipname_handler.get_id()),
+        'size': zip_size,
+    })
+
 
 def package_releases(request):
     """ Returns the Create Release Packages page. """
@@ -81,6 +88,7 @@ def package_releases(request):
     options = django_settings.OCDS_TOUCAN_UPLOAD_OPTIONS
     options['performAction'] = '/package-releases/go/'
     return render(request, 'default/release-packages.html', options)
+
 
 @require_files
 def perform_package_releases(request):
@@ -103,7 +111,11 @@ def perform_package_releases(request):
     with ZipFile(full_path, 'w', compression=ZIP_DEFLATED) as rezip:
         rezip.writestr('result.json', command_package_releases(releases, **compile_parameters))
     zip_size = os.path.getsize(full_path)
-    return JsonResponse({'url': '/result/{}/{}/'.format(zipname_handler.folder, zipname_handler.get_id()), 'size': zip_size})
+    return JsonResponse({
+        'url': '/result/{}/{}/'.format(zipname_handler.folder, zipname_handler.get_id()),
+        'size': zip_size,
+    })
+
 
 def compile(request):
     """ Compiles Releases into Records, including compiled releases by default."""
@@ -111,6 +123,7 @@ def compile(request):
     options = django_settings.OCDS_TOUCAN_UPLOAD_OPTIONS
     options['performAction'] = '/compile/go/'
     return render(request, 'default/compile.html', options)
+
 
 @require_files
 def perform_compile(request):
@@ -135,53 +148,60 @@ def perform_compile(request):
     with ZipFile(full_path, 'w', compression=ZIP_DEFLATED) as rezip:
         rezip.writestr('result.json', command_compile(packages, **compile_parameters))
     zip_size = os.path.getsize(full_path)
-    return JsonResponse({'url': '/result/{}/{}/'.format(zipname_handler.folder, zipname_handler.get_id()), 'size': zip_size})
+    return JsonResponse({
+        'url': '/result/{}/{}/'.format(zipname_handler.folder, zipname_handler.get_id()),
+        'size': zip_size,
+    })
+
 
 def mapping_sheet(request):
     options = django_settings.OCDS_TOUCAN_SCHEMA_OPTIONS
     dic = {
-        'versionOptions': options 
+        'versionOptions': options
     }
     if request.method == 'POST':
         form = MappingSheetOptionsForm(request.POST)
         if form.is_valid():
             file_type, ocds_version = form.cleaned_data['version'].split('-', 1)
             if file_type in options and ocds_version in options[file_type]:
-                json_schema = jsonref.loads(requests.get(options[file_type][ocds_version]).text,object_pairs_hook=OrderedDict)
+                json_schema = jsonref.loads(requests.get(
+                    options[file_type][ocds_version]).text, object_pairs_hook=OrderedDict)
                 buf = io.StringIO()
-                mapping_sheet(json_schema, buf)
-                response =  HttpResponse(buf.getvalue(), content_type='text/csv')
+                mapping_sheet_method(json_schema, buf)
+                response = HttpResponse(buf.getvalue(), content_type='text/csv')
                 response['Content-Disposition'] = 'attachment; filename="mapping-sheet.csv"'
                 return response
         dic['error'] = _('Invalid option! Please verify and try again')
-    return render(request, 'default/mapping_sheet.html', dic) 
+    return render(request, 'default/mapping_sheet.html', dic)
+
 
 def to_spreadsheet(request):
     request.session['files'] = []
     return render(request, 'default/to-spreadsheet.html')
+
 
 @require_files
 def perform_to_spreadsheet(request):
     res = {}
     try:
         file_conf = request.session['files'][0]
-        filename_handler = FilenameHandler(**file_conf) 
+        filename_handler = FilenameHandler(**file_conf)
         flatten(filename_handler)
         url_base = '/result/{}/{}/'.format(file_conf['folder'], file_conf['id'])
-        csv_size = os.path.getsize( \
-            os.path.join( \
-                filename_handler.get_folder(),  \
-                'flatten-csv-' + file_conf['id'] + '.zip' \
-            ) \
+        csv_size = os.path.getsize(
+            os.path.join(
+                filename_handler.get_folder(),
+                'flatten-csv-' + file_conf['id'] + '.zip'
+            )
         )
-        xlsx_size = os.path.getsize( \
-            os.path.join( \
-                filename_handler.get_folder(),  \
-                'flatten-' + file_conf['id'] + '.xlsx' \
-            ) \
+        xlsx_size = os.path.getsize(
+            os.path.join(
+                filename_handler.get_folder(),
+                'flatten-' + file_conf['id'] + '.xlsx'
+            )
         )
         res = {
-            'csv': { 
+            'csv': {
                 'url': url_base + 'csv/',
                 'size': csv_size
             },
@@ -193,6 +213,7 @@ def perform_to_spreadsheet(request):
         return JsonResponse(res)
     except Exception:
         return JsonResponse({'error': True}, status=400)
+
 
 @require_POST
 def uploadfile(request):

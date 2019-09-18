@@ -7,12 +7,13 @@ from .file import FilenameHandler
 
 # Create your tests here.
 
-EXAMPLE_RELEASE_URL = 'https://raw.githubusercontent.com/open-contracting/sample-data/master/fictional-example/1.1/ocds-213czf-000-00001-01-planning.json'
+EXAMPLE_RELEASE_URL = 'https://raw.githubusercontent.com/open-contracting/sample-data/master/fictional-example/1.1/ocds-213czf-000-00001-01-planning.json'  # noqa
+
 
 class FlattenTest(TestCase):
     @override_settings(MEDIA_ROOT=tempfile.gettempdir())
     def setUp(self):
-        # bring 
+        # bring
         self.handler = FilenameHandler('test', '.json', id='release', folder='test')
         if not os.path.isdir(self.handler.get_folder()):
             os.mkdir(self.handler.get_folder())

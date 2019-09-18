@@ -26,7 +26,7 @@ SECRET_KEY = '0cxa(_o&i+f%3ua3c-%ox-lf_f_-8)%tc2x8zr4^iblbn9yp3d'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False if os.getenv('DEBUG', 'True').lower() == 'false' else True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1'] 
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 if os.getenv('ALLOWED_HOSTS') is not None:
     ALLOWED_HOSTS.extend(os.getenv('ALLOWED_HOSTS').split(','))
@@ -62,7 +62,7 @@ TEMPLATES = [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.template.context_processors.i18n',
-                 # 'django.contrib.auth.context_processors.auth',
+                # 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
         },
@@ -129,7 +129,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 MEDIA_ROOT = os.getenv('OCDS_TOUCAN_MEDIA_ROOT', 'media')
 
-LOCALE_PATHS = [ os.getenv('OCDS_TOUCAN_LOCALE_PATH', 'locale') ]
+LOCALE_PATHS = [os.getenv('OCDS_TOUCAN_LOCALE_PATH', 'locale')]
 
 LANGUAGES = [
     ('en', _('English')),
@@ -140,7 +140,7 @@ LANGUAGE_CODE = 'en-us'
 
 OCDS_TOUCAN_UPLOAD_OPTIONS = {
     'maxNumOfFiles': os.getenv('OCDS_TOUCAN_MAXNUMFILES', 20),
-    'maxFileSize': os.getenv('OCDS_TOUCAN_MAXFILESIZE', 10000000) # in bytes
+    'maxFileSize': os.getenv('OCDS_TOUCAN_MAXFILESIZE', 10000000)  # in bytes
 }
 
 OCDS_TOUCAN_SCHEMA_OPTIONS = {
