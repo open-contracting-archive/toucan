@@ -72,7 +72,7 @@ def perform_upgrade(request):
     with ZipFile(full_path, 'w', compression=ZIP_DEFLATED) as rezip:
         for filename_handler, content in get_files_contents(request.session):
             package = json.loads(content, object_pairs_hook=OrderedDict)
-            upgrade_10_11(package)
+            package = upgrade_10_11(package)
             rezip.writestr(filename_handler.name_only_with_suffix('_updated'), json.dumps(package))
     zip_size = os.path.getsize(full_path)
     return JsonResponse({
