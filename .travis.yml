@@ -11,6 +11,6 @@ install:
   - pip install coveralls
 script:
   - curl -s -S --retry 3 $BASEDIR/tests/script.sh | bash -
-  - coverage run --source=ocdstoucan manage.py test
+  - coverage run manage.py test
 after_success:
   coveralls
