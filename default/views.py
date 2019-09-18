@@ -13,7 +13,7 @@ from django.views.decorators.http import require_POST, require_GET
 from django.conf import settings as django_settings
 from django.http import Http404
 from ocdskit.upgrade import upgrade_10_11
-from ocdskit.mapping_sheet import  MappingSheet
+from ocdskit.mapping_sheet import mapping_sheet
 from dateutil import parser
 from .file import FilenameHandler, save_file
 from .sessions import get_files_contents, save_in_session
@@ -149,7 +149,7 @@ def mapping_sheet(request):
             if file_type in options and ocds_version in options[file_type]:
                 json_schema = jsonref.loads(requests.get(options[file_type][ocds_version]).text,object_pairs_hook=OrderedDict)
                 buf = io.StringIO()
-                MappingSheet().run(json_schema, buf)
+                mapping_sheet(json_schema, buf)
                 response =  HttpResponse(buf.getvalue(), content_type='text/csv')
                 response['Content-Disposition'] = 'attachment; filename="mapping-sheet.csv"'
                 return response
