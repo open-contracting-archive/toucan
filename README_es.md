@@ -1,6 +1,6 @@
 # OCDS Toucan
 
-OCDS Toucan es una aplicación web para la manipulación de archivos OCDS basada en el proyecto [OCDS Kit](https://github.com/open-contracting/ocdskit).
+OCDS Toucan es una aplicación web para la manipulación de archivos OCDS basada en el proyecto [OCDS Kit](https://ocdskit.readthedocs.io/).
 OCDS Toucan provee al usuario las mismas funcionalidades de OCDS Kit a través de una interfaz web intuitiva y fácil de utilizar.
 
 ## Inicio
@@ -29,22 +29,22 @@ python manage.py runserver
 ## Funcionalidades
 ### Create Release Packages
 Genera un [Release Package](http://standard.open-contracting.org/latest/en/getting_started/publication_patterns/#packaging-releases-and-records) a partir de varios archivos [Release](http://standard.open-contracting.org/latest/en/getting_started/releases_and_records/#releases).  
-Utiliza el comando `package-releases`. [Más información](https://github.com/open-contracting/ocdskit#package-releases).
+Utiliza el comando `package-releases`. [Más información](https://ocdskit.readthedocs.io/en/latest/cli/ocds.html#package-releases).
 >Tipo de archivo válido: Release.
 
 ### Compile Releases
 Genera un [Record Package](http://standard.open-contracting.org/latest/en/getting_started/publication_patterns/#packaging-releases-and-records) a partir de archivos Release Package.  
-Utiliza el comando `compile`. **Observación**: este comando utiliza como parámetros `--package` y `--versioned`, visite la [documentación](https://github.com/open-contracting/ocdskit#compile) del comando para más información.
+Utiliza el comando `compile`. **Observación**: este comando utiliza como parámetros `--package` y `--versioned`, visite la [documentación](https://ocdskit.readthedocs.io/en/latest/cli/ocds.html#compile) del comando para más información.
 >Tipo de archivo válido: Release Package.
 
 ### Upgrade from 1.0 to 1.1
 Actualiza packages y releases de la versión 1.0 de OCDS a la 1.1.  
-Utiliza el comando `upgrade`. [Más información](https://github.com/open-contracting/ocdskit#upgrade).
+Utiliza el comando `upgrade`. [Más información](https://ocdskit.readthedocs.io/en/latest/cli/ocds.html#upgrade).
 >Tipo de archivo válido: cualquier tipo.
 
 ### Generate a spreadsheet version of schema
 Genera un spreadsheet de cualquier versión de un OCDS schema.  
-Utiliza el comando `mapping-sheet`. [Más información](https://github.com/open-contracting/ocdskit#mapping-sheet).
+Utiliza el comando `mapping-sheet`. [Más información](https://ocdskit.readthedocs.io/en/latest/cli/schema.html#mapping-sheet).
 >Puede generar spreadsheets de Release, Release Package o Record Package.
 
 ### Convert to CSV/Excel
