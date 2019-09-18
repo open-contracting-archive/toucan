@@ -6,7 +6,7 @@ cffi==1.12.3
 chardet==3.0.4
 commonmark==0.9.0
 contextlib2==0.5.5
-Django==2.1.7
+Django==2.1.12
 et-xmlfile==1.0.1
 -e git+https://github.com/OpenDataServices/flatten-tool.git@4c13ef0b32a59e810919a3de09bc8f64ce8f9392#egg=flattentool
 future==0.17.1
@@ -26,12 +26,13 @@ pycparser==2.19
 pyrsistent==0.15.4
 python-dateutil==2.8.0
 pytz==2019.2
-requests==2.21.0
+requests==2.22.0
 rfc3987==1.3.8
 schema==0.7.1
 six==1.12.0
 SQLAlchemy==1.3.8
+sqlparse==0.3.0
 strict-rfc3339==0.7
-urllib3==1.24.3
+urllib3==1.25.3
 webencodings==0.5.1
 xmltodict==0.12.0
