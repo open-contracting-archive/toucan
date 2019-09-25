@@ -4,4 +4,3 @@ libcoveocds
 ocdskit>=0.1.0
 python-dateutil
 requests
--e git+https://github.com/ICRAR/ijson.git#egg=ijson

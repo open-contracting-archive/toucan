@@ -11,7 +11,7 @@ et-xmlfile==1.0.1
 flattentool==0.8.0
 future==0.17.1
 idna==2.8
--e git+https://github.com/ICRAR/ijson.git@e4ab60c22c5a836ce28e1da8e82e4f4c22830557#egg=ijson
+ijson==2.5
 jdcal==1.4.1
 json-merge-patch==0.2
 jsonref==0.2
