@@ -4,8 +4,8 @@ import tempfile
 import requests
 from django.test import TestCase, override_settings
 
-from .file import FilenameHandler
-from .flatten import flatten
+from default.file import FilenameHandler
+from default.flatten import flatten
 
 EXAMPLE_RELEASE_URL = 'https://raw.githubusercontent.com/open-contracting/sample-data/master/fictional-example/1.1/ocds-213czf-000-00001-01-planning.json'  # noqa
 
