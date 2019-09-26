@@ -16,6 +16,7 @@ from django.views.decorators.http import require_POST
 from ocdskit.combine import package_releases as package_releases_method, compile_release_packages
 from ocdskit.mapping_sheet import mapping_sheet as mapping_sheet_method
 from ocdskit.upgrade import upgrade_10_11
+from ocdskit.util import json_dumps, json_loads
 
 from .decorators import require_files
 from .file import FilenameHandler, save_file
@@ -71,9 +72,9 @@ def perform_upgrade(request):
     full_path = zipname_handler.generate_full_path()
     with ZipFile(full_path, 'w', compression=ZIP_DEFLATED) as rezip:
         for filename_handler, content in get_files_contents(request.session):
-            package = json.loads(content, object_pairs_hook=OrderedDict)
+            package = json_loads(content)
             package = upgrade_10_11(package)
-            rezip.writestr(filename_handler.name_only_with_suffix('_updated'), json.dumps(package))
+            rezip.writestr(filename_handler.name_only_with_suffix('_updated'), json_dumps(package))
     zip_size = os.path.getsize(full_path)
     return JsonResponse({
         'url': '/result/{}/{}/'.format(zipname_handler.folder, zipname_handler.get_id()),
@@ -108,7 +109,7 @@ def perform_package_releases(request):
     zipname_handler = FilenameHandler('result', '.zip')
     full_path = zipname_handler.generate_full_path()
     with ZipFile(full_path, 'w', compression=ZIP_DEFLATED) as rezip:
-        rezip.writestr('result.json', package_releases_method(releases, **kwargs))
+        rezip.writestr('result.json', json_dumps(package_releases_method(releases, **kwargs)))
     zip_size = os.path.getsize(full_path)
     return JsonResponse({
         'url': '/result/{}/{}/'.format(zipname_handler.folder, zipname_handler.get_id()),
@@ -141,11 +142,11 @@ def perform_compile(request):
             # TODO send a warning to client side
             logger.debug('Invalid date submitted: {}, ignoring'.format(argPublishedDate))
     for filename_handler, package in get_files_contents(request.session):
-        packages.append(package)
+        packages.append(json_loads(package))
     zipname_handler = FilenameHandler('result', '.zip')
     full_path = zipname_handler.generate_full_path()
     with ZipFile(full_path, 'w', compression=ZIP_DEFLATED) as rezip:
-        rezip.writestr('result.json', compile_release_packages(packages, **kwargs))
+        rezip.writestr('result.json', json_dumps(compile_release_packages(packages, **kwargs)))
     zip_size = os.path.getsize(full_path)
     return JsonResponse({
         'url': '/result/{}/{}/'.format(zipname_handler.folder, zipname_handler.get_id()),
