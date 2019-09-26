@@ -1,12 +1,10 @@
 import io
-import logging
 import os
 from collections import OrderedDict
 from zipfile import ZipFile, ZIP_DEFLATED
 
 import requests
 import jsonref
-from dateutil import parser
 from django.conf import settings as django_settings
 from django.http import HttpResponse, JsonResponse, FileResponse, Http404
 from django.shortcuts import render
@@ -17,13 +15,11 @@ from ocdskit.mapping_sheet import mapping_sheet as mapping_sheet_method
 from ocdskit.upgrade import upgrade_10_11
 from ocdskit.util import json_dumps, json_loads
 
-from .decorators import require_files
+from .decorators import published_date, require_files
 from .file import FilenameHandler, save_file
 from .flatten import flatten
 from .forms import MappingSheetOptionsForm
 from .sessions import get_files_contents, save_in_session
-
-logger = logging.getLogger(__name__)
 
 
 def index(request):
@@ -90,19 +86,13 @@ def package_releases(request):
 
 
 @require_files
-def perform_package_releases(request):
+@published_date
+def perform_package_releases(request, published_date=''):
     """ Performs the package-releases operation """
     releases = []
-    kwargs = {}
-    argPublishedDate = request.GET.get('publishedDate', '')
-    if argPublishedDate:
-        try:
-            parser.parse(argPublishedDate)
-            kwargs['published_date'] = argPublishedDate
-        except ValueError:
-            # invalid date has been received
-            # TODO send a warning to client side
-            logger.debug('Invalid date submitted: {}, ignoring'.format(argPublishedDate))
+    kwargs = {
+        'published_date': published_date,
+    }
     for filename_handler, release in get_files_contents(request.session):
         releases.append(json_loads(release))
     zipname_handler = FilenameHandler('result', '.zip')
@@ -125,21 +115,16 @@ def compile(request):
 
 
 @require_files
-def perform_compile(request):
+@published_date
+def perform_compile(request, published_date=''):
     """ Performs the compile operation. """
     packages = []
-    kwargs = {'return_package': True}
+    kwargs = {
+        'published_date': published_date,
+        'return_package': True,
+    }
     if request.GET.get('includeVersioned', '') == 'true':
         kwargs['return_versioned_release'] = True
-    argPublishedDate = request.GET.get('publishedDate', '')
-    if argPublishedDate:
-        try:
-            parser.parse(argPublishedDate)
-            kwargs['published_date'] = argPublishedDate
-        except ValueError:
-            # invalid date has been received
-            # TODO send a warning to client side
-            logger.debug('Invalid date submitted: {}, ignoring'.format(argPublishedDate))
     for filename_handler, package in get_files_contents(request.session):
         packages.append(json_loads(package))
     zipname_handler = FilenameHandler('result', '.zip')
