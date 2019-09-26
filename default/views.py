@@ -128,7 +128,7 @@ def compile(request):
 def perform_compile(request):
     """ Performs the compile operation. """
     packages = []
-    kwargs = {}
+    kwargs = {'return_package': True}
     if request.GET.get('includeVersioned', '') == 'true':
         kwargs['return_versioned_release'] = True
     argPublishedDate = request.GET.get('publishedDate', '')
@@ -145,7 +145,7 @@ def perform_compile(request):
     zipname_handler = FilenameHandler('result', '.zip')
     full_path = zipname_handler.generate_full_path()
     with ZipFile(full_path, 'w', compression=ZIP_DEFLATED) as rezip:
-        rezip.writestr('result.json', json_dumps(compile_release_packages(packages, **kwargs)))
+        rezip.writestr('result.json', json_dumps(next(compile_release_packages(packages, **kwargs))) + '\n')
     zip_size = os.path.getsize(full_path)
     return JsonResponse({
         'url': '/result/{}/{}/'.format(zipname_handler.folder, zipname_handler.get_id()),
