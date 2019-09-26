@@ -17,5 +17,5 @@ class ToSpreadsheetTestCase(ViewTestCase, ViewTests):
         self.assertEqual(len(content['xlsx']), 2)
         self.assertEqual(content['csv']['size'], 946)
         self.assertRegex(content['csv']['url'], r'^/result/' + '{:%Y-%m-%d}'.format(date.today()) + r'/[0-9a-f-]{36}/csv/$')
-        self.assertEqual(content['xlsx']['size'], 6362)
+        self.assertAlmostEqual(content['xlsx']['size'], 6362, delta=1)
         self.assertRegex(content['xlsx']['url'], r'^/result/' + '{:%Y-%m-%d}'.format(date.today()) + r'/[0-9a-f-]{36}/xlsx/$')
