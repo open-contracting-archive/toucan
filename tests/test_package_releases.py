@@ -1,5 +1,3 @@
-from datetime import date
-
 from tests import ViewTestCase, ViewTests, PublishedDateTests
 
 
