@@ -10,7 +10,9 @@ class CompileTestCase(ViewTestCase, ViewTests, PublishedDateTests):
         '1.1/release-packages/0001-award.json',
         '1.1/release-packages/0002-tender.json',
     ]
-    result = 'results/compile.json'
+    results = {
+        'result.json': 'results/compile.json',
+    }
 
     def test_go_with_include_versioned(self):
         content = self.upload_and_go({'includeVersioned': 'true'})

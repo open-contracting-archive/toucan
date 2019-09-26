@@ -1,5 +1,6 @@
 import json
 import os.path
+import re
 from datetime import date
 from io import BytesIO
 from zipfile import ZipFile
@@ -34,6 +35,22 @@ class ViewTestCase(TestCase):
         content = json.loads(response.content.decode('utf-8'))
         return content
 
+    def assertResults(self, data, results):
+        content = self.upload_and_go(data)
+
+        self.assertEqual(len(content), 2)
+        self.assertIsInstance(content['size'], int)
+        self.assertRegex(content['url'], r'^/result/' + '{:%Y-%m-%d}'.format(date.today()) + r'/[0-9a-f-]{36}/$')
+
+        response = self.client.get(content['url'])
+        zipfile = ZipFile(BytesIO(response.getvalue()))
+        names = zipfile.namelist()
+
+        self.assertEqual(len(names), len(results))
+        for name in names:
+            path = next(path for pattern, path in results.items() if pattern == name or re.search(pattern, name))
+            self.assertEqual(zipfile.read(name).decode('utf-8'), read(path))
+
 
 class ViewTests:
     def test_get(self):
@@ -42,18 +59,7 @@ class ViewTests:
         self.assertEqual(response['Content-Type'], 'text/html; charset=utf-8')
 
     def test_go_with_files(self):
-        content = self.upload_and_go()
-
-        self.assertEqual(len(content), 2)
-        self.assertIsInstance(content['size'], int)
-        self.assertRegex(content['url'], r'^/result/' + '{:%Y-%m-%d}'.format(date.today()) + r'/[0-9a-f-]{36}/$')
-
-        if getattr(self, 'result', None):
-            response = self.client.get(content['url'])
-            zipfile = ZipFile(BytesIO(response.getvalue()))
-            names = zipfile.namelist()
-            self.assertEqual(names, ['result.json'])
-            self.assertEqual(zipfile.read(names[0]).decode('utf-8'), read(self.result))
+        self.assertResults({}, self.results)
 
     def test_go_without_files(self):
         response = self.client.get(self.url + 'go/')

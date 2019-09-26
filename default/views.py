@@ -73,7 +73,7 @@ def perform_upgrade(request):
         for filename_handler, content in get_files_contents(request.session):
             package = json_loads(content)
             package = upgrade_10_11(package)
-            rezip.writestr(filename_handler.name_only_with_suffix('_updated'), json_dumps(package))
+            rezip.writestr(filename_handler.name_only_with_suffix('_updated'), json_dumps(package) + '\n')
     zip_size = os.path.getsize(full_path)
     return JsonResponse({
         'url': '/result/{}/{}/'.format(zipname_handler.folder, zipname_handler.get_id()),
@@ -104,11 +104,11 @@ def perform_package_releases(request):
             # TODO send a warning to client side
             logger.debug('Invalid date submitted: {}, ignoring'.format(argPublishedDate))
     for filename_handler, release in get_files_contents(request.session):
-        releases.append(release)
+        releases.append(json_loads(release))
     zipname_handler = FilenameHandler('result', '.zip')
     full_path = zipname_handler.generate_full_path()
     with ZipFile(full_path, 'w', compression=ZIP_DEFLATED) as rezip:
-        rezip.writestr('result.json', json_dumps(package_releases_method(releases, **kwargs)))
+        rezip.writestr('result.json', json_dumps(package_releases_method(releases, **kwargs)) + '\n')
     zip_size = os.path.getsize(full_path)
     return JsonResponse({
         'url': '/result/{}/{}/'.format(zipname_handler.folder, zipname_handler.get_id()),
