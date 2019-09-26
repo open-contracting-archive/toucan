@@ -1,5 +1,7 @@
 from django.test import TestCase
 
+from tests import read
+
 
 class MappingSheetTestCase(TestCase):
     url = '/mapping-sheet/'
@@ -14,6 +16,7 @@ class MappingSheetTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response['Content-Type'], 'text/csv')
         self.assertEqual(response['Content-Disposition'], 'attachment; filename="mapping-sheet.csv"')
+        self.assertEqual(response.content.decode('utf-8'), read('results/mapping-sheet.csv'))
 
     def test_post_without_version(self):
         response = self.client.post(self.url)

@@ -1,6 +1,8 @@
 from datetime import date
+from io import BytesIO
+from zipfile import ZipFile
 
-from tests import ViewTestCase, ViewTests
+from tests import ViewTestCase, ViewTests, path, read
 
 
 class ToSpreadsheetTestCase(ViewTestCase, ViewTests):
@@ -10,15 +12,49 @@ class ToSpreadsheetTestCase(ViewTestCase, ViewTests):
     ]
 
     def test_go_with_files(self):
-        content = self.upload_and_go()
+        results = {
+            'csv': [
+                'releases.csv',
+                'ten_items.csv',
+                'parties.csv',
+            ],
+            'xlsx': [
+                'xl/worksheets/sheet1.xml',
+                'xl/worksheets/sheet2.xml',
+                'xl/worksheets/sheet3.xml',
+            ]
+        }
 
-        self.assertEqual(len(content), 2)
-        self.assertEqual(len(content['csv']), 2)
-        self.assertEqual(len(content['xlsx']), 2)
+        contents = self.upload_and_go()
 
-        pattern_prefix = r'^/result/' + '{:%Y-%m-%d}'.format(date.today()) + r'/[0-9a-f-]{36}/'
+        self.assertEqual(len(contents), len(results))
 
-        self.assertEqual(content['csv']['size'], 946)
-        self.assertRegex(content['csv']['url'], pattern_prefix + r'csv/$')
-        self.assertAlmostEqual(content['xlsx']['size'], 6362, delta=1)
-        self.assertRegex(content['xlsx']['url'], pattern_prefix + r'xlsx/$')
+        prefix = r'^/result/' + '{:%Y-%m-%d}'.format(date.today()) + r'/[0-9a-f-]{36}/'
+
+        for extension, content in contents.items():
+            self.assertEqual(len(content), 2)
+            self.assertIsInstance(content['size'], int)
+            self.assertRegex(content['url'], prefix + extension + r'/$')
+
+        zipfile = self._response_zipfile(contents['csv'])
+
+        self.assertEqual(len(zipfile.namelist()), len(results['csv']))
+        for name in results['csv']:
+            self.assertEqual(zipfile.read(name).decode('utf-8').replace('\r\n', '\n'), read('results/flattened/' + name))  # noqa
+
+        actual = self._response_zipfile(contents['xlsx'])
+        with open(path('results/flattened.xlsx'), 'rb') as f:
+            expected = ZipFile(f)
+
+            self.assertEqual(_worksheets_length(actual), _worksheets_length(expected))
+            for name in results['xlsx']:
+                self.assertEqual(actual.read(name), expected.read(name))
+
+
+    def _response_zipfile(self, content):
+        response = self.client.get(content['url'])
+        return ZipFile(BytesIO(response.getvalue()))
+
+
+def _worksheets_length(zipfile):
+    return len([name for name in zipfile.namelist() if name.startswith('xl/worksheets')])

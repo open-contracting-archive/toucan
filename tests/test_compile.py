@@ -1,22 +1,30 @@
-from datetime import date
-
-from tests import ViewTestCase, ViewTests, PublishedDateTests
+from tests import ViewTestCase, ViewTests
 
 
-class CompileTestCase(ViewTestCase, ViewTests, PublishedDateTests):
+class CompileTestCase(ViewTestCase, ViewTests):
     url = '/compile/'
     files = [
         '1.1/release-packages/0001-tender.json',
         '1.1/release-packages/0001-award.json',
         '1.1/release-packages/0002-tender.json',
     ]
-    results = {
-        'result.json': 'results/compile.json',
-    }
+
+    def test_go_with_files(self):
+        self.assertResults({}, {
+            'result.json': 'results/compile.json',
+        })
+
+    def test_go_with_valid_published_date(self):
+        self.assertResults({'publishedDate': '2001-02-03T00:00:00Z'}, {
+            'result.json': 'results/compile_published-date.json',
+        })
+
+    def test_go_with_invalid_published_date(self):
+        self.assertResults({'publishedDate': '2000-00-00T00:00:00Z'}, {
+            'result.json': 'results/compile.json',
+        })
 
     def test_go_with_include_versioned(self):
-        content = self.upload_and_go({'includeVersioned': 'true'})
-
-        self.assertEqual(len(content), 2)
-        self.assertIsInstance(content['size'], int)
-        self.assertRegex(content['url'], r'^/result/' + '{:%Y-%m-%d}'.format(date.today()) + r'/[0-9a-f-]{36}/$')
+        self.assertResults({'includeVersioned': 'true'}, {
+            'result.json': 'results/compile_versioned.json',
+        })

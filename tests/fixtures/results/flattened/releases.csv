@@ -1,0 +1,2 @@
+ocid,id,date,tag,initiationType,buyer/id,buyer/name,tender/id,tender/title,tender/description,tender/status,tender/value/amount,tender/value/currency,tender/procurementMethod,tender/procurementMethodDetails,tender/mainProcurementCategory,tender/submissionMethod,tender/tenderPeriod/startDate,tender/tenderPeriod/endDate,language
+ocds-4f64a2-1,ocds-4f64a2-1/1,2019-01-01,tender,tender,10001,Fictional Procurement Agency,1,Fictional Acquisition 1,A fictional acquisition,active,500000,PYG,open,Open tender,goods,electronicSubmission,2019-02-01T10:00:00,2019-02-03T15:00:00,en
