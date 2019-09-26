@@ -16,10 +16,10 @@ from ocdskit.upgrade import upgrade_10_11
 from ocdskit.util import json_dumps, json_loads
 
 from .decorators import published_date, require_files
-from .file import FilenameHandler, save_file
+from .file import FilenameHandler
 from .flatten import flatten
 from .forms import MappingSheetOptionsForm
-from .sessions import get_files_contents, save_in_session
+from .sessions import get_files_contents
 
 
 def index(request):
@@ -94,7 +94,7 @@ def perform_package_releases(request, published_date=''):
     kwargs = {
         'published_date': published_date,
     }
-    for _, release in get_files_contents(request.session):
+    for filename_handler, release in get_files_contents(request.session):
         releases.append(json_loads(release))
 
     zipname_handler = FilenameHandler('result', '.zip')
@@ -119,7 +119,7 @@ def perform_compile(request, published_date=''):
     }
     if request.GET.get('includeVersioned', '') == 'true':
         kwargs['return_versioned_release'] = True
-    for _, package in get_files_contents(request.session):
+    for filename_handler, package in get_files_contents(request.session):
         packages.append(json_loads(package))
 
     zipname_handler = FilenameHandler('result', '.zip')
@@ -194,12 +194,23 @@ def perform_to_spreadsheet(request):
 
 @require_POST
 def uploadfile(request):
-    r = {'files': []}
-    upload = request.FILES['file']
-    new_file_dict = save_file(upload)
-    save_in_session(request.session, new_file_dict)
-    r['files'].append({
-        'name': upload.name,
-        'size': upload.size
+    file = request.FILES['file']
+    name, extension = os.path.splitext(file.name)
+    handler = FilenameHandler(name, extension)
+
+    path = handler.generate_full_path()
+    with open(path, 'wb') as f:
+        for chunk in file.chunks():
+            f.write(chunk)
+
+    if 'files' not in request.session:
+        request.session['files'] = []
+    request.session['files'].append(handler.as_dict())
+    request.session.modified = True
+
+    return JsonResponse({
+        'files': [{
+            'name': file.name,
+            'size': file.size,
+        }],
     })
-    return JsonResponse(r)

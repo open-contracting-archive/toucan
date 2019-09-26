@@ -5,16 +5,6 @@ from datetime import date
 from django.conf import settings
 
 
-def save_file(uploadedfile):
-    name, ext = uploadedfile.name.rsplit('.', 1)
-    name_handler = FilenameHandler(name, '.' + ext)
-    file_path = name_handler.generate_full_path()
-    with open(file_path, 'wb') as newfile:
-        for chunk in uploadedfile.chunks():
-            newfile.write(chunk)
-    return name_handler.as_dict()
-
-
 class FilenameHandler:
     sep = '-'
 

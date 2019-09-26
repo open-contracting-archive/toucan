@@ -9,10 +9,3 @@ def get_files_contents(session):
         with open(filename, 'r', encoding='utf-8') as f:
             buf = f.read()
         yield file_handler, buf
-
-
-def save_in_session(session, info):
-    if 'files' not in session:
-        session['files'] = []
-    session['files'].append(info)
-    session.modified = True
