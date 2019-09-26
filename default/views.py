@@ -52,6 +52,22 @@ def retrieve_result(request, folder, id, format=None):
         return FileResponse(open(path, 'rb'), filename=filename, as_attachment=True)
 
 
+def compile(request):
+    """ Compiles Releases into Records, including compiled releases by default."""
+    request.session['files'] = []
+    options = django_settings.OCDS_TOUCAN_UPLOAD_OPTIONS
+    options['performAction'] = '/compile/go/'
+    return render(request, 'default/compile.html', options)
+
+
+def package_releases(request):
+    """ Returns the Create Release Packages page. """
+    request.session['files'] = []
+    options = django_settings.OCDS_TOUCAN_UPLOAD_OPTIONS
+    options['performAction'] = '/package-releases/go/'
+    return render(request, 'default/release-packages.html', options)
+
+
 def upgrade(request):
     """ Returns the upgrade page. """
     request.session['files'] = []
@@ -77,14 +93,6 @@ def perform_upgrade(request):
     })
 
 
-def package_releases(request):
-    """ Returns the Create Release Packages page. """
-    request.session['files'] = []
-    options = django_settings.OCDS_TOUCAN_UPLOAD_OPTIONS
-    options['performAction'] = '/package-releases/go/'
-    return render(request, 'default/release-packages.html', options)
-
-
 @require_files
 @published_date
 def perform_package_releases(request, published_date=''):
@@ -104,14 +112,6 @@ def perform_package_releases(request, published_date=''):
         'url': '/result/{}/{}/'.format(zipname_handler.folder, zipname_handler.get_id()),
         'size': zip_size,
     })
-
-
-def compile(request):
-    """ Compiles Releases into Records, including compiled releases by default."""
-    request.session['files'] = []
-    options = django_settings.OCDS_TOUCAN_UPLOAD_OPTIONS
-    options['performAction'] = '/compile/go/'
-    return render(request, 'default/compile.html', options)
 
 
 @require_files
