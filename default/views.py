@@ -163,36 +163,33 @@ def to_spreadsheet(request):
 @require_files
 def perform_to_spreadsheet(request):
     res = {}
-    try:
-        file_conf = request.session['files'][0]
-        filename_handler = FilenameHandler(**file_conf)
-        flatten(filename_handler)
-        url_base = '/result/{}/{}/'.format(file_conf['folder'], file_conf['id'])
-        csv_size = os.path.getsize(
-            os.path.join(
-                filename_handler.directory,
-                'flatten-csv-' + file_conf['id'] + '.zip'
-            )
+    file_conf = request.session['files'][0]
+    filename_handler = FilenameHandler(**file_conf)
+    flatten(filename_handler)
+    url_base = '/result/{}/{}/'.format(file_conf['folder'], file_conf['id'])
+    csv_size = os.path.getsize(
+        os.path.join(
+            filename_handler.directory,
+            'flatten-csv-' + file_conf['id'] + '.zip'
         )
-        xlsx_size = os.path.getsize(
-            os.path.join(
-                filename_handler.directory,
-                'flatten-' + file_conf['id'] + '.xlsx'
-            )
+    )
+    xlsx_size = os.path.getsize(
+        os.path.join(
+            filename_handler.directory,
+            'flatten-' + file_conf['id'] + '.xlsx'
         )
-        res = {
-            'csv': {
-                'url': url_base + 'csv/',
-                'size': csv_size
-            },
-            'xlsx': {
-                'url': url_base + 'xlsx/',
-                'size': xlsx_size
-            }
+    )
+    res = {
+        'csv': {
+            'url': url_base + 'csv/',
+            'size': csv_size
+        },
+        'xlsx': {
+            'url': url_base + 'xlsx/',
+            'size': xlsx_size
         }
-        return JsonResponse(res)
-    except Exception:
-        return JsonResponse({'error': True}, status=400)
+    }
+    return JsonResponse(res)
 
 
 @require_POST
