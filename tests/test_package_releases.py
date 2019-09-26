@@ -1,6 +1,6 @@
 from datetime import date
 
-from default.tests import ViewTestCase, ViewTests, PublishedDateTests
+from tests import ViewTestCase, ViewTests, PublishedDateTests
 
 
 class PackageReleasesTestCase(ViewTestCase, ViewTests, PublishedDateTests):

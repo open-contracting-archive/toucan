@@ -1,6 +1,6 @@
 from datetime import date
 
-from default.tests import ViewTestCase, ViewTests
+from tests import ViewTestCase, ViewTests
 
 
 class UpgradeTestCase(ViewTestCase, ViewTests):
