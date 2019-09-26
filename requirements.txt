@@ -19,7 +19,7 @@ jsonschema==3.0.2
 libcoveocds==0.7.1
 lxml==4.4.1
 ocdsextensionregistry==0.0.13
-ocdskit==0.1.0
+ocdskit==0.1.2
 ocdsmerge==0.5.7
 openpyxl==2.6.3
 pycparser==2.19
