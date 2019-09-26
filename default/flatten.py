@@ -8,7 +8,6 @@ from libcoveocds.config import LibCoveOCDSConfig
 def flatten(filename_handler, version='1.1'):
     lib_cove_config = LibCoveOCDSConfig()
     schema_url = lib_cove_config.config['schema_version_choices'][version][1] + 'release-schema.json'
-    print(schema_url)
 
     folder = filename_handler.get_folder()
     flatten_kwargs = dict(
