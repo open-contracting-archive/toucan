@@ -52,28 +52,23 @@ def retrieve_result(request, folder, id, format=None):
         return FileResponse(open(path, 'rb'), filename=filename, as_attachment=True)
 
 
-def compile(request):
-    """ Compiles Releases into Records, including compiled releases by default."""
+def _ocds_command(request, command):
     request.session['files'] = []
     options = django_settings.OCDS_TOUCAN_UPLOAD_OPTIONS
-    options['performAction'] = '/compile/go/'
-    return render(request, 'default/compile.html', options)
+    options['performAction'] = '/{}/go/'.format(command)
+    return render(request, 'default/{}.html'.format(command), options)
+
+
+def compile(request):
+    return _ocds_command(request, 'compile')
 
 
 def package_releases(request):
-    """ Returns the Create Release Packages page. """
-    request.session['files'] = []
-    options = django_settings.OCDS_TOUCAN_UPLOAD_OPTIONS
-    options['performAction'] = '/package-releases/go/'
-    return render(request, 'default/release-packages.html', options)
+    return _ocds_command(request, 'package-releases')
 
 
 def upgrade(request):
-    """ Returns the upgrade page. """
-    request.session['files'] = []
-    options = django_settings.OCDS_TOUCAN_UPLOAD_OPTIONS
-    options['performAction'] = '/upgrade/go/'
-    return render(request, 'default/upgrade.html', options)
+    return _ocds_command(request, 'upgrade')
 
 
 @require_files
