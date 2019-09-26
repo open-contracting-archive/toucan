@@ -1,29 +1,21 @@
-import os
-import tempfile
+from datetime import date
 
-import requests
-from django.test import TestCase, override_settings
-
-from default.file import FilenameHandler
-from default.flatten import flatten
-
-EXAMPLE_RELEASE_URL = 'https://raw.githubusercontent.com/open-contracting/sample-data/master/fictional-example/1.1/ocds-213czf-000-00001-01-planning.json'  # noqa
+from default.tests import ViewTestCase, ViewTests
 
 
-class ToSpreadsheetTestCase(TestCase):
-    @override_settings(MEDIA_ROOT=tempfile.gettempdir())
-    def setUp(self):
-        # bring
-        self.handler = FilenameHandler('test', '.json', id='release', folder='test')
-        if not os.path.isdir(self.handler.get_folder()):
-            os.mkdir(self.handler.get_folder())
-        if not os.path.isfile(self.handler.get_full_path()):
-            contents = requests.get(EXAMPLE_RELEASE_URL).text
-            with open(self.handler.get_full_path(), 'w') as testfile:
-                testfile.write(contents)
+class ToSpreadsheetTestCase(ViewTestCase, ViewTests):
+    url = '/to-spreadsheet/'
+    files = [
+        '1.1/release-packages/0001-tender.json',
+    ]
 
-    @override_settings(MEDIA_ROOT=tempfile.gettempdir())
-    def test_flatten(self):
-        flatten(self.handler)
-        self.assertTrue(os.path.isfile(os.path.join(self.handler.get_folder(), 'flatten-release.xlsx')))
-        self.assertTrue(os.path.isfile(os.path.join(self.handler.get_folder(), 'flatten-csv-release.zip')))
+    def test_go_with_files(self):
+        content = self.upload_and_go()
+
+        self.assertEqual(len(content), 2)
+        self.assertEqual(len(content['csv']), 2)
+        self.assertEqual(len(content['xlsx']), 2)
+        self.assertEqual(content['csv']['size'], 946)
+        self.assertRegex(content['csv']['url'], r'^/result/' + '{:%Y-%m-%d}'.format(date.today()) + r'/[0-9a-f-]{36}/csv/$')
+        self.assertEqual(content['xlsx']['size'], 6362)
+        self.assertRegex(content['xlsx']['url'], r'^/result/' + '{:%Y-%m-%d}'.format(date.today()) + r'/[0-9a-f-]{36}/xlsx/$')

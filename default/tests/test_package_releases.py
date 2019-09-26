@@ -1,21 +1,14 @@
 from datetime import date
 
-from django.test import TestCase
-
-from default.tests import ViewTests
+from default.tests import ViewTestCase, ViewTests, PublishedDateTests
 
 
-class PackageReleasesTestCase(TestCase, ViewTests):
+class PackageReleasesTestCase(ViewTestCase, ViewTests, PublishedDateTests):
     url = '/package-releases/'
+    size = 1037
+    size_with_published_date = 1049
     files = [
         '1.1/releases/0001-tender.json',
         '1.1/releases/0002-tender.json',
         '1.1/releases/0001-award.json',
     ]
-
-    def test_go(self):
-        content = self.upload_and_go()
-
-        self.assertEqual(len(content), 2)
-        self.assertEqual(content['size'], 1037)
-        self.assertRegex(content['url'], r'^/result/' + '{:%Y-%m-%d}'.format(date.today()) + r'/[0-9a-f-]{36}/$')
