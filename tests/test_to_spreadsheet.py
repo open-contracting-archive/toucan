@@ -50,7 +50,6 @@ class ToSpreadsheetTestCase(ViewTestCase, ViewTests):
             for name in results['xlsx']:
                 self.assertEqual(actual.read(name), expected.read(name))
 
-
     def _response_zipfile(self, content):
         response = self.client.get(content['url'])
         return ZipFile(BytesIO(response.getvalue()))
