@@ -9,9 +9,9 @@ def flatten(filename_handler, version='1.1'):
     lib_cove_config = LibCoveOCDSConfig()
     schema_url = lib_cove_config.config['schema_version_choices'][version][1] + 'release-schema.json'
 
-    folder = filename_handler.get_folder()
+    folder = filename_handler.directory
     flatten_kwargs = dict(
-        output_name=os.path.join(folder, 'flatten-' + filename_handler.get_id()),
+        output_name=os.path.join(folder, 'flatten-' + filename_handler.id),
         main_sheet_name=lib_cove_config.config['root_list_path'],
         root_list_path=lib_cove_config.config['root_list_path'],
         root_id=lib_cove_config.config['root_id'],
@@ -21,11 +21,11 @@ def flatten(filename_handler, version='1.1'):
         root_is_list=lib_cove_config.config.get('root_is_list', False),
     )
 
-    flattentool.flatten(filename_handler.get_full_path(), **flatten_kwargs)
+    flattentool.flatten(filename_handler.path, **flatten_kwargs)
 
     # compress csv files
-    zipfile_path = os.path.join(folder, 'flatten-csv-' + filename_handler.get_id() + '.zip')
-    csv_folder = os.path.join(folder, 'flatten-' + filename_handler.get_id())
+    zipfile_path = os.path.join(folder, 'flatten-csv-' + filename_handler.id + '.zip')
+    csv_folder = os.path.join(folder, 'flatten-' + filename_handler.id)
     with ZipFile(zipfile_path, 'w', compression=ZIP_DEFLATED) as myzip:
         for file in os.listdir(csv_folder):
             filename = os.fsdecode(file)

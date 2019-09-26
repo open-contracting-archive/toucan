@@ -18,53 +18,52 @@ def save_file(uploadedfile):
 class FilenameHandler:
     sep = '-'
 
-    def __init__(self, prefix, ext,
-                 id=str(uuid.uuid4()),
-                 generation_date=date.today(),
-                 truncate_prefix_by=20,
-                 folder=None):
-        self.prefix = self._truncate_prefix(prefix, truncate_prefix_by)
+    def __init__(self, prefix, ext, id=None, folder=None):
+        if len(prefix) > 20:
+            prefix = prefix[:20 + 1]
+
+        self.prefix = prefix
         self.ext = ext
-        self.id = id
+        self.id = id or str(uuid.uuid4())
+
         if folder is not None:
             self.folder = folder
         else:
-            self.folder = '{:%Y-%m-%d}'.format(generation_date)
+            self.folder = '{:%Y-%m-%d}'.format(date.today())
 
     def as_dict(self):
-        return {
-            'id': self.id,
-            'prefix': self.prefix,
-            'folder': self.folder,
-            'ext': self.ext
-        }
+        return self.__dict__
 
-    def get_id(self):
-        return self.id
+    @property
+    def name(self):
+        """
+        Returns the file name.
+        """
+        return self.prefix + self.sep + self.id + self.ext
 
-    def get_full_name(self):
-        return self.prefix + FilenameHandler.sep + self.id + self.ext
+    def name_with_suffix(self, suffix):
+        """
+        Returns the file name, with a suffix before its extension.
+        """
+        return self.prefix + self.sep + self.id + suffix + self.ext
 
-    def get_full_path(self):
-        filename = self.get_full_name()
-        return os.path.join(settings.MEDIA_ROOT, self.folder, filename)
-
-    def get_folder(self):
+    @property
+    def directory(self):
+        """
+        Returns the directory containing the file.
+        """
         return os.path.join(settings.MEDIA_ROOT, self.folder)
 
+    @property
+    def path(self):
+        """
+        Returns the full path to the file.
+        """
+        return os.path.join(self.directory, self.name)
+
     def generate_full_path(self):
-        path_folder = os.path.join(
-            settings.MEDIA_ROOT,
-            self.folder)
-        if not os.path.exists(path_folder):
-            os.makedirs(path_folder)
-        return self.get_full_path()
-
-    def _truncate_prefix(self, prefix, length):
-        if len(prefix) <= length:
-            return prefix
-        return prefix[:length + 1]
-
-    def name_only_with_suffix(self, suffix):
-        "Adds a suffix to the file name."
-        return self.prefix + FilenameHandler.sep + self.id + suffix + self.ext
+        """
+        Returns the full path to the file, creating its containing directory if non-existent.
+        """
+        os.makedirs(self.directory, exist_ok=True)
+        return self.path

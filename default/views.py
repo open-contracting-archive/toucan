@@ -46,7 +46,7 @@ def retrieve_result(request, folder, id, format=None):
         raise Http404('Invalid option')
 
     name_handler = FilenameHandler(prefix, ext, id=str(id), folder=folder)
-    path = name_handler.get_full_path()
+    path = name_handler.path
 
     if filename is not None:
         return FileResponse(open(path, 'rb'), filename=filename, as_attachment=True)
@@ -73,17 +73,16 @@ def upgrade(request):
 
 @require_files
 def perform_upgrade(request):
-    """ Performs the upgrade operation. """
     zipname_handler = FilenameHandler('result', '.zip')
     full_path = zipname_handler.generate_full_path()
     with ZipFile(full_path, 'w', compression=ZIP_DEFLATED) as rezip:
         for filename_handler, content in get_files_contents(request.session):
-            package = json_loads(content)
-            package = upgrade_10_11(package)
-            rezip.writestr(filename_handler.name_only_with_suffix('_updated'), json_dumps(package) + '\n')
+            package = upgrade_10_11(json_loads(content))
+            rezip.writestr(filename_handler.name_with_suffix('_updated'), json_dumps(package) + '\n')
+
     zip_size = os.path.getsize(full_path)
     return JsonResponse({
-        'url': '/result/{}/{}/'.format(zipname_handler.folder, zipname_handler.get_id()),
+        'url': '/result/{}/{}/'.format(zipname_handler.folder, zipname_handler.id),
         'size': zip_size,
     })
 
@@ -91,20 +90,21 @@ def perform_upgrade(request):
 @require_files
 @published_date
 def perform_package_releases(request, published_date=''):
-    """ Performs the package-releases operation """
     releases = []
     kwargs = {
         'published_date': published_date,
     }
-    for filename_handler, release in get_files_contents(request.session):
+    for _, release in get_files_contents(request.session):
         releases.append(json_loads(release))
+
     zipname_handler = FilenameHandler('result', '.zip')
     full_path = zipname_handler.generate_full_path()
     with ZipFile(full_path, 'w', compression=ZIP_DEFLATED) as rezip:
         rezip.writestr('result.json', json_dumps(package_releases_method(releases, **kwargs)) + '\n')
+
     zip_size = os.path.getsize(full_path)
     return JsonResponse({
-        'url': '/result/{}/{}/'.format(zipname_handler.folder, zipname_handler.get_id()),
+        'url': '/result/{}/{}/'.format(zipname_handler.folder, zipname_handler.id),
         'size': zip_size,
     })
 
@@ -112,7 +112,6 @@ def perform_package_releases(request, published_date=''):
 @require_files
 @published_date
 def perform_compile(request, published_date=''):
-    """ Performs the compile operation. """
     packages = []
     kwargs = {
         'published_date': published_date,
@@ -120,15 +119,17 @@ def perform_compile(request, published_date=''):
     }
     if request.GET.get('includeVersioned', '') == 'true':
         kwargs['return_versioned_release'] = True
-    for filename_handler, package in get_files_contents(request.session):
+    for _, package in get_files_contents(request.session):
         packages.append(json_loads(package))
+
     zipname_handler = FilenameHandler('result', '.zip')
     full_path = zipname_handler.generate_full_path()
     with ZipFile(full_path, 'w', compression=ZIP_DEFLATED) as rezip:
         rezip.writestr('result.json', json_dumps(next(compile_release_packages(packages, **kwargs))) + '\n')
+
     zip_size = os.path.getsize(full_path)
     return JsonResponse({
-        'url': '/result/{}/{}/'.format(zipname_handler.folder, zipname_handler.get_id()),
+        'url': '/result/{}/{}/'.format(zipname_handler.folder, zipname_handler.id),
         'size': zip_size,
     })
 
@@ -169,13 +170,13 @@ def perform_to_spreadsheet(request):
         url_base = '/result/{}/{}/'.format(file_conf['folder'], file_conf['id'])
         csv_size = os.path.getsize(
             os.path.join(
-                filename_handler.get_folder(),
+                filename_handler.directory,
                 'flatten-csv-' + file_conf['id'] + '.zip'
             )
         )
         xlsx_size = os.path.getsize(
             os.path.join(
-                filename_handler.get_folder(),
+                filename_handler.directory,
                 'flatten-' + file_conf['id'] + '.xlsx'
             )
         )
