@@ -1,11 +1,9 @@
 import os
 import shutil
-from collections import OrderedDict
 from io import StringIO
 from zipfile import ZipFile, ZIP_DEFLATED
 
 import flattentool
-import requests
 import jsonref
 from django.conf import settings as django_settings
 from django.http import HttpResponse, JsonResponse, FileResponse, Http404
