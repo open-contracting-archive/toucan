@@ -12,5 +12,5 @@ To regenerate the result fixtures:
     cat tests/fixtures/1.0/release-packages/0001-tender.json | ocdskit upgrade 1.0:1.1 > tests/fixtures/results/upgrade.json
 
     curl -O https://standard.open-contracting.org/latest/en/release-schema.json
-    ocdskit mapping-sheet release-schema.json > tests/fixtures/results/mapping-sheet.csv
+    ocdskit mapping-sheet --infer-required release-schema.json > tests/fixtures/results/mapping-sheet.csv
     rm -f release-schema.json

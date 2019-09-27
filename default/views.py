@@ -23,8 +23,6 @@ from .data_file import DataFile
 
 
 def retrieve_result(request, folder, id, format=None):
-    """ Retrieve a previously generated result. """
-
     if format is None:
         prefix = 'result'
         ext = '.zip'
@@ -45,9 +43,9 @@ def retrieve_result(request, folder, id, format=None):
 
 
 def _ocds_command(request, command):
-    options = django_settings.OCDS_TOUCAN_UPLOAD_OPTIONS
-    options['performAction'] = '/{}/go/'.format(command)
-    return render(request, 'default/{}.html'.format(command), options)
+    context = django_settings.OCDS_TOUCAN_UPLOAD_OPTIONS
+    context['performAction'] = '/{}/go/'.format(command)
+    return render(request, 'default/{}.html'.format(command), context)
 
 
 def index(request):
@@ -119,23 +117,26 @@ def perform_compile(request, published_date=''):
 
 def mapping_sheet(request):
     options = django_settings.OCDS_TOUCAN_SCHEMA_OPTIONS
-    dic = {
+    context = {
         'versionOptions': options,
     }
+
     if request.method == 'POST':
         form = MappingSheetOptionsForm(request.POST)
         if form.is_valid():
             file_type, ocds_version = form.cleaned_data['version'].split('-', 1)
             if file_type in options and ocds_version in options[file_type]:
-                json_schema = jsonref.loads(requests.get(
-                    options[file_type][ocds_version]).text, object_pairs_hook=OrderedDict)
                 io = StringIO()
-                mapping_sheet_method(json_schema, io)
+                schema = jsonref.load_uri(options[file_type][ocds_version])
+                mapping_sheet_method(schema, io, infer_required=True)
+
                 response = HttpResponse(io.getvalue(), content_type='text/csv')
                 response['Content-Disposition'] = 'attachment; filename="mapping-sheet.csv"'
                 return response
-        dic['error'] = _('Invalid option! Please verify and try again')
-    return render(request, 'default/mapping_sheet.html', dic)
+
+        context['error'] = _('Invalid option! Please verify and try again')
+
+    return render(request, 'default/mapping_sheet.html', context)
 
 
 @require_files
