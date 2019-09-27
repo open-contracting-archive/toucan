@@ -116,23 +116,20 @@ def perform_compile(request, published_date=''):
 
 
 def mapping_sheet(request):
-    options = django_settings.OCDS_TOUCAN_SCHEMA_OPTIONS
     context = {
-        'versionOptions': options,
+        'versionOptions': django_settings.OCDS_TOUCAN_SCHEMA_OPTIONS,
     }
 
     if request.method == 'POST':
         form = MappingSheetOptionsForm(request.POST)
         if form.is_valid():
-            file_type, ocds_version = form.cleaned_data['version'].split('-', 1)
-            if file_type in options and ocds_version in options[file_type]:
-                io = StringIO()
-                schema = jsonref.load_uri(options[file_type][ocds_version])
-                mapping_sheet_method(schema, io, infer_required=True)
+            io = StringIO()
+            schema = jsonref.load_uri(form.cleaned_data['url'])
+            mapping_sheet_method(schema, io, infer_required=True)
 
-                response = HttpResponse(io.getvalue(), content_type='text/csv')
-                response['Content-Disposition'] = 'attachment; filename="mapping-sheet.csv"'
-                return response
+            response = HttpResponse(io.getvalue(), content_type='text/csv')
+            response['Content-Disposition'] = 'attachment; filename="mapping-sheet.csv"'
+            return response
 
         context['error'] = _('Invalid option! Please verify and try again')
 

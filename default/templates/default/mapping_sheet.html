@@ -15,12 +15,12 @@
 </div>
 <form method="POST" class="form-inline">{% csrf_token %}
     <div class="form-group">
-        <label for="version">{% trans "Select an schema and version" %}:</label>
-        <select name="version" class="form-control">
-            {% for version, schema_files in versionOptions.items %}
-                <optgroup label="{{version}}">
-                {% for schema_file, url in schema_files.items %}
-                    <option value="{{version}}-{{schema_file}}">{{ version }}-{{schema_file}}</li>
+        <label for="url">{% trans "Select a schema and version" %}:</label>
+        <select name="url" class="form-control">
+            {% for version, schemas in versionOptions.items %}
+                <optgroup label="{{ version }}">
+                {% for label, url in schemas.items %}
+                    <option value="{{ url }}">{{ version }}-{{ label }}</li>
                 {% endfor %}
                 </optgroup>
             {% endfor %}

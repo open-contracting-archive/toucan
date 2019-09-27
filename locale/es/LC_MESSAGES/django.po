@@ -178,7 +178,7 @@ msgstr ""
 "su versión en planilla."
 
 #: default/templates/default/mapping_sheet.html:13
-msgid "Select an schema and version"
+msgid "Select a schema and version"
 msgstr "Seleccione un esquema y versión"
 
 #: default/templates/default/mapping_sheet.html:22
