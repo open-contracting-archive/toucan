@@ -7,6 +7,15 @@ from django.http import JsonResponse
 logger = logging.getLogger(__name__)
 
 
+def clear_files(function):
+    @wraps(function)
+    def wrap(request, *args, **kwargs):
+        request.session['files'] = []
+        return function(request, *args, **kwargs)
+
+    return wrap
+
+
 def require_files(function):
     @wraps(function)
     def wrap(request, *args, **kwargs):

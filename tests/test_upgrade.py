@@ -9,5 +9,5 @@ class UpgradeTestCase(ViewTestCase, ViewTests):
 
     def test_go_with_files(self):
         self.assertResults({}, {
-            r'^0001-tender-[0-9a-f-]{36}_updated.json$': 'results/upgrade.json',
+            r'^0001-tender-[0-9a-f-]{36}-upgraded.json$': 'results/upgrade.json',
         })
