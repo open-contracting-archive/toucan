@@ -39,7 +39,7 @@ class DataFile:
 
         :param str suffix: a suffix to the file's name
         """
-        return self.prefix + self.sep + self.id + suffix + self.ext
+        return self.prefix + self.sep + self.id + self.sep + suffix + self.ext
 
     @property
     def path(self):

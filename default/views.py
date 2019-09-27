@@ -19,7 +19,7 @@ from ocdskit.upgrade import upgrade_10_11
 
 from .decorators import clear_files, require_files, published_date
 from .forms import MappingSheetOptionsForm
-from .util import DataFile
+from .data_file import DataFile
 
 
 def retrieve_result(request, folder, id, format=None):
@@ -91,7 +91,7 @@ def _json_response(files):
 
 @require_files
 def perform_upgrade(request):
-    return _json_response((file.name_with_suffix('-upgraded'), upgrade_10_11(file.json()))
+    return _json_response((file.name_with_suffix('upgraded'), upgrade_10_11(file.json()))
                           for file in _get_files_from_session(request))
 
 

@@ -35,7 +35,6 @@ def published_date(function):
                 parser.parse(published_date)
                 kwargs['published_date'] = published_date
             except ValueError:
-                # invalid date has been received
                 # TODO send a warning to client side
                 logger.debug('Invalid date submitted: {}, ignoring'.format(published_date))
         return function(request, *args, **kwargs)
