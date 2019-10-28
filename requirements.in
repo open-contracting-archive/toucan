@@ -4,3 +4,4 @@ libcoveocds
 ocdskit
 python-dateutil
 requests
+sentry-sdk
