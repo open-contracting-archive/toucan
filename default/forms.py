@@ -1,5 +1,6 @@
 from django import forms
 from django.utils.translation import gettext as _
+from .mapping_sheet import get_standard_tags
 
 TYPE_CHOICES = (('select', 'Select a Schema'),
                 ('url', 'Provide an URL'),
@@ -12,6 +13,9 @@ class MappingSheetOptionsForm(forms.Form):
     select_url = forms.URLField(required=False)
     custom_url = forms.URLField(required=False)
     custom_file = forms.FileField(required=False)
+    version = forms.ChoiceField(required=False,
+                                choices=[(tag, tag.replace('__', '.')) for tag in get_standard_tags()],
+                                widget=forms.Select(attrs={'class': 'form-control'}))
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -39,11 +43,6 @@ class MappingSheetOptionsForm(forms.Form):
                 extension_keys = list(filter(lambda key: key.startswith('extension_url_'), self.cleaned_data.keys()))
                 if not extension_keys:
                     raise forms.ValidationError(_('Provide at least one extension URL'))
-                for key in extension_keys:
-                    if not self.cleaned_data[key]:
-                        self.add_error(key, _('Please provide an URL'))
-            else:
-                raise forms.ValidationError(_('Please select an option'))
 
             extension_urls_keys = list(filter(lambda name: name.startswith('extension_url_'), self.cleaned_data))
             self.cleaned_data['extension_urls'] = [self.cleaned_data[key] for key in extension_urls_keys]

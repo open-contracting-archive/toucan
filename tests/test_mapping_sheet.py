@@ -1,16 +1,26 @@
 from django.test import TestCase
 from tests import read
 from io import StringIO
+from unittest.mock import patch
+from default.mapping_sheet import get_standard_tags
 
 
 class MappingSheetTestCase(TestCase):
     url = '/mapping-sheet/'
 
-    def test_get(self):
+    @patch('default.mapping_sheet.requests.get')
+    def test_get(self, mock_requests_get):
+        mock_requests_get.return_value.status_code = 200
+        mock_requests_get.return_value.json.return_value = [{"name": "1__0__0"}, {"name": "1__0__1"}]
         response = self.client.get(self.url)
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response['Content-Type'], 'text/html; charset=utf-8')
+
+        content = response.content.decode('utf-8')
+
+        self.assertIn('<option value="1__0__0">1.0.0</option>', content)
+        self.assertIn('<option value="1__0__1">1.0.1</option>', content)
 
     def test_get_url(self):
         response = self.client.get(self.url, {
@@ -36,14 +46,14 @@ class MappingSheetTestCase(TestCase):
         response = self.client.post(self.url, {
             'type': 'url',
             'custom_url':
-                'https://standard.open-contracting.org/profiles/ppp/1.0/en/_static/patched/release-schema.json',
+                'https://standard.open-contracting.org/1__1__4/en/release-schema.json',
         })
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response['Content-Type'], 'text/csv')
         self.assertEqual(response['Content-Disposition'], 'attachment; filename="mapping-sheet.csv"')
         self.assertEqual(response.content.decode('utf-8').replace('\r\n', '\n'),
-                         read('results/ocds-ppp-1_0_0-mapping-sheet.csv'))
+                         read('results/mapping-sheet.csv'))
 
     def test_post_file(self):
         input_file = StringIO(read('schemas/ocds-ppp-1_0_0-release-schema.json'))
@@ -63,6 +73,7 @@ class MappingSheetTestCase(TestCase):
 
     def test_get_extension(self):
         response = self.client.get(self.url, {
+            'version': '1__1__4',
             'extension': (
                 ('https://raw.githubusercontent.com/open-contracting-extensions/ocds_bid_extension/v1.1.4/' +
                  'extension.json'),
@@ -81,6 +92,7 @@ class MappingSheetTestCase(TestCase):
     def test_post_extension(self):
         response = self.client.post(self.url, {
             'type': 'extension',
+            'version': '1__1__4',
             'extension_url_0':
                 ('https://raw.githubusercontent.com/open-contracting-extensions/ocds_bid_extension/v1.1.4/' +
                  'extension.json'),
@@ -96,14 +108,74 @@ class MappingSheetTestCase(TestCase):
         self.assertEqual(response.content.decode('utf-8').replace('\r\n', '\n'),
                          read('results/bids-location-mapping-sheet.csv'))
 
+    def test_post_empty(self):
+        response = self.client.post(self.url)
 
-def test_post_empty(self):
-    response = self.client.post(self.url)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response['Content-Type'], 'text/html; charset=utf-8')
 
-    self.assertEqual(response.status_code, 200)
-    self.assertEqual(response['Content-Type'], 'text/html; charset=utf-8')
+        content = response.content.decode('utf-8')
 
-    content = response.content.decode('utf-8')
+        self.assertIn('<ul class="errorlist"><li>', content)
+        self.assertIn('Please choose an operation type', content)
 
-    self.assertIn('<ul class="errorlist"><li>', content)
-    self.assertIn('Please choose an operation type', content)
+    def test_post_error_messages(self):
+        # "Select an URL" option, with no URL selected
+        response = self.client.post(self.url, {
+            'type': 'select'
+        })
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response['Content-Type'], 'text/html; charset=utf-8')
+
+        content = response.content.decode('utf-8')
+
+        self.assertIn('<ul class="errorlist"><li>', content)
+        self.assertIn('Please select an option', content)
+
+        # "Provide an URL" option, with an empty input URL
+        response = self.client.post(self.url, {
+            'type': 'url'
+        })
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response['Content-Type'], 'text/html; charset=utf-8')
+
+        content = response.content.decode('utf-8')
+
+        self.assertIn('<ul class="errorlist"><li>', content)
+        self.assertIn('Please provide an URL', content)
+
+        # "Upload a file" option, with no file provided
+        response = self.client.post(self.url, {
+            'type': 'file'
+        })
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response['Content-Type'], 'text/html; charset=utf-8')
+
+        content = response.content.decode('utf-8')
+
+        self.assertIn('<ul class="errorlist"><li>', content)
+        self.assertIn('Please provide a file', content)
+
+        # "Extensions of Release Schema" option, with no URL provided
+        response = self.client.post(self.url, {
+            'type': 'extension'
+        })
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response['Content-Type'], 'text/html; charset=utf-8')
+
+        content = response.content.decode('utf-8')
+
+        self.assertIn('<ul class="errorlist nonfield"><li>', content)
+        self.assertIn('Provide at least one extension URL', content)
+
+    @patch('default.mapping_sheet.requests.get')
+    @patch('default.mapping_sheet.cache.get')
+    def test_get_standard_tags_fail(self, mock_cache_get, mock_requests_get):
+        mock_cache_get.return_value = None
+        mock_requests_get.return_value.status_code = 500
+
+        self.assertRaises(ValueError, get_standard_tags)

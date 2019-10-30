@@ -6,7 +6,6 @@ import flattentool
 from django.conf import settings as django_settings
 from django.http import JsonResponse, FileResponse, Http404
 from django.shortcuts import render
-from django.utils.translation import gettext as _
 from django.views.decorators.http import require_POST
 from libcoveocds.config import LibCoveOCDSConfig
 from ocdskit.combine import package_releases as package_releases_method, compile_release_packages
@@ -15,7 +14,9 @@ from ocdskit.upgrade import upgrade_10_11
 from .decorators import clear_files, require_files, published_date
 from .forms import MappingSheetOptionsForm
 from .data_file import DataFile
-from .mapping_sheet import get_mapping_sheet_from_url, get_mapping_sheet_from_uploaded_file, get_extended_mapping_sheet
+from .mapping_sheet import get_mapping_sheet_from_url, \
+    get_mapping_sheet_from_uploaded_file, \
+    get_extended_mapping_sheet
 
 
 def retrieve_result(request, folder, id, format=None):
@@ -114,7 +115,6 @@ def perform_compile(request, published_date=''):
 def mapping_sheet(request):
     context = {
         'versionOptions': django_settings.OCDS_TOUCAN_SCHEMA_OPTIONS,
-        'form': MappingSheetOptionsForm()
     }
 
     if request.method == 'POST':
@@ -128,15 +128,18 @@ def mapping_sheet(request):
             elif form.cleaned_data['type'] == 'file':
                 return get_mapping_sheet_from_uploaded_file(request.FILES['custom_file'])
             elif form.cleaned_data['type'] == 'extension':
-                return get_extended_mapping_sheet({'extensions': form.cleaned_data['extension_urls']})
-            else:
-                context['error'] = _('Invalid option! Please verify and try again')
+                return get_extended_mapping_sheet(form.cleaned_data['extension_urls'],
+                                                  version=form.cleaned_data['version'])
     elif request.method == 'GET':
         if 'source' in request.GET:
             url = request.GET['source']
             return get_mapping_sheet_from_url(url)
         elif 'extension' in request.GET:
-            return get_extended_mapping_sheet({'extensions': request.GET.getlist('extension')})
+            if 'version' in request.GET:
+                return get_extended_mapping_sheet(request.GET.getlist('extension'), version=request.GET['version'])
+            return get_extended_mapping_sheet(request.GET.getlist('extension'))
+        else:
+            context['form'] = MappingSheetOptionsForm()
 
     return render(request, 'default/mapping_sheet.html', context)
 

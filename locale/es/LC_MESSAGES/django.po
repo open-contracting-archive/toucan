@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-10-28 16:09-0300\n"
+"POT-Creation-Date: 2019-10-30 12:07-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,19 +22,19 @@ msgstr ""
 msgid "Please choose an operation type"
 msgstr "Elija un tipo de operación"
 
-#: default/forms.py:32 default/forms.py:47
+#: default/forms.py:35
 msgid "Please select an option"
 msgstr "Seleccione una opción"
 
-#: default/forms.py:35 default/forms.py:45
+#: default/forms.py:38
 msgid "Please provide an URL"
 msgstr "Indique una URL"
 
-#: default/forms.py:38
+#: default/forms.py:41
 msgid "Please provide a file"
 msgstr "Cargue un archivo"
 
-#: default/forms.py:42
+#: default/forms.py:45
 msgid "Provide at least one extension URL"
 msgstr "Indique al menos una URL de extensión"
 
@@ -194,9 +194,10 @@ msgid ""
 "Use this feature to generate a spreadsheet version of an OCDS schema. The "
 "spreadsheet contains the names, paths and descriptions of all OCDS fields in "
 "a table format."
-msgstr "Use esta herramienta para generar una versión planilla del esquema OCDS. La "
-"planilla contiene los nombres, rutas y descripciones de todos los campos del estándar "
-"en un formato de tabla."
+msgstr ""
+"Use esta herramienta para generar una versión planilla del esquema OCDS. La "
+"planilla contiene los nombres, rutas y descripciones de todos los campos del "
+"estándar en un formato de tabla."
 
 #: default/templates/default/mapping_sheet.html:19
 msgid "The options available are"
@@ -239,7 +240,8 @@ msgstr "Extensiones del Esquema de Release"
 msgid ""
 "Generate a patched version of the Release Schema with one or more OCDS "
 "extensions"
-msgstr "Genera una versión parcheada del esquema de Release con una o más "
+msgstr ""
+"Genera una versión parcheada del esquema de Release con una o más "
 "extensiones OCDS"
 
 #: default/templates/default/mapping_sheet.html:69
@@ -250,19 +252,23 @@ msgstr "Seleccione un esquema y versión"
 msgid "Provide the URL to a custom schema below"
 msgstr "Provea una URL a un esquema personalizado"
 
-#: default/templates/default/mapping_sheet.html:103
+#: default/templates/default/mapping_sheet.html:105
+msgid "Please select an OCDS version"
+msgstr "Seleccione una versión OCDS"
+
+#: default/templates/default/mapping_sheet.html:110
 msgid ""
 "Please provide one or more URLs to the <code>extension.json</code> file for "
-"each OCDS Extension you want to use."
+"each OCDS Extension you want to use"
 msgstr ""
 "Favor indique una o más URLs del archivo <code>extension.json</code> por "
 "cada extensión OCDS que desee."
 
-#: default/templates/default/mapping_sheet.html:129
+#: default/templates/default/mapping_sheet.html:134
 msgid "Add URL"
 msgstr "Añadir URL"
 
-#: default/templates/default/mapping_sheet.html:132
+#: default/templates/default/mapping_sheet.html:137
 msgid "Generate"
 msgstr "Generar"
 
@@ -343,11 +349,6 @@ msgstr "Borrar"
 msgid "Processing..."
 msgstr "Procesando..."
 
-#: default/views.py:133
-msgid "Invalid option! Please verify and try again"
-msgstr ""
-"La opción recibida es inválida. Por favor verifique e intente de nuevo."
-
 #: ocdstoucan/settings.py:135
 msgid "English"
 msgstr "Inglés"
@@ -355,4 +356,3 @@ msgstr "Inglés"
 #: ocdstoucan/settings.py:136
 msgid "Spanish"
 msgstr "Español"
-

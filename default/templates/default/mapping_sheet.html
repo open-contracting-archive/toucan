@@ -100,13 +100,18 @@
         </div>
         <div role="tabpanel" class="panel-collapse collapse {% if form.type.value == 'extension' %}in{% endif %}"
              id="extension-urls-fields">
-            <p>{% blocktrans trimmed %}
-                Please provide one or more URLs to the <code>extension.json</code> file for each OCDS Extension you want
-                to use.
-            {% endblocktrans %}</p>
             <div class="extension-url-container">
+                <div class="form-group">
+                    <label for="version">{% trans "Please select an OCDS version" %}:</label>
+                    {{ form.version }}
+                </div>
                 {% for field in form.get_extension_fields %}
                     <div class="form-group {% if field.errors %}has-error{% endif %}">
+                        <label>{% blocktrans trimmed %}
+                            Please provide one or more URLs to the <code>extension.json</code> file for each OCDS
+                            Extension you want
+                            to use
+                        {% endblocktrans %}:</label>
                         <div class="input-group">
                             <input type="text" name="{{ field.html_name }}" id="{{ field.auto_id }}"
                                    class="form-control" value="{{ field.value }}"/>
