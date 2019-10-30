@@ -96,6 +96,12 @@ var app = {};
                     $('.response-success .file-size').html(utils.readableFileSize(data.size));
                     $('.response-success .download').attr('href', data.url);
 					$('.response-success').removeClass('hidden');
+					if (data.hasOwnProperty('warnings') && data.warnings.length > 0) {
+					    $('.response-warning').removeClass('hidden');
+					    $('.response-warning ul').html($.map(data.warnings, function(o){
+					        return '<li>' + o + '</li>'
+                        }).join('\n'))
+                    }
                     $('#processing-modal').modal('hide');
 				})
                 .fail(failFunc)

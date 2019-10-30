@@ -3,6 +3,7 @@ from dateutil import parser
 from functools import wraps
 
 from django.http import JsonResponse
+from django.utils.translation import gettext as _
 
 logger = logging.getLogger(__name__)
 
@@ -35,8 +36,9 @@ def published_date(function):
                 parser.parse(published_date)
                 kwargs['published_date'] = published_date
             except ValueError:
-                # TODO send a warning to client side
-                logger.debug('Invalid date submitted: {}, ignoring'.format(published_date))
+                msg = _('Invalid date submitted: {}, omitted from results.').format(published_date)
+                logger.debug(msg)
+                kwargs['warnings'] = (msg,)
         return function(request, *args, **kwargs)
 
     return wrap

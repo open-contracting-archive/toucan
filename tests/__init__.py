@@ -38,7 +38,7 @@ class ViewTestCase(TestCase):
     def assertResults(self, data, results):
         content = self.upload_and_go(data)
 
-        self.assertEqual(len(content), 2)
+        self.assertEqual(len(content), 3)
         self.assertIsInstance(content['size'], int)
         self.assertRegex(content['url'], r'^/result/' + '{:%Y-%m-%d}'.format(date.today()) + r'/[0-9a-f-]{36}/$')
 

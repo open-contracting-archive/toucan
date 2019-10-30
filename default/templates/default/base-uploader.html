@@ -15,6 +15,10 @@
     <b>{% trans "Success!" %}</b> result.zip(<span class="file-size"></span>)
     <a href="javascript:void(0)" class="download" target="_blank">{% trans "Download" %}</a>
 </div>
+<div class="response-warning alert alert-warning hidden">
+    <strong>{% trans "Warnings from the server" %}:</strong>
+    <ul></ul>
+</div>
 <div class="response-fail alert alert-danger hidden">
     <b>{% trans "An error has ocurred!" %}</b>
     {% trans "Please verify that all your files are valid OCDS JSON, and try again in a few minutes." %}

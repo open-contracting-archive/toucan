@@ -62,6 +62,10 @@ msgstr "Cargue un archivo"
 msgid "Provide at least one extension URL"
 msgstr "Indique al menos una URL de extensión"
 
+#: default/decorators.py:39
+msgid "Invalid date submitted: {}, omitted from results."
+msgstr "La fecha enviada es inválida: {}, por lo que se omitió en los resultados."
+
 #: default/templates/default/base-uploader.html:15
 #: default/templates/default/to-spreadsheet.html:11
 msgid "Success!"
@@ -74,11 +78,15 @@ msgid "Download"
 msgstr "Descargar"
 
 #: default/templates/default/base-uploader.html:19
+msgid "Warnings from the server"
+msgstr "Alertas del servidor"
+
+#: default/templates/default/base-uploader.html:23
 #: default/templates/default/to-spreadsheet.html:24
 msgid "An error has ocurred!"
 msgstr "¡Ha ocurrido un error!"
 
-#: default/templates/default/base-uploader.html:20
+#: default/templates/default/base-uploader.html:24
 #: default/templates/default/to-spreadsheet.html:25
 msgid ""
 "Please verify that all your files are valid OCDS JSON, and try again in a "
@@ -87,27 +95,27 @@ msgstr ""
 "Por favor verifique que todos sus archivos son válidos de acuerdo al "
 "estándar OCDS, e intente de nuevo en unos minutos."
 
-#: default/templates/default/base-uploader.html:45
-#: default/templates/default/to-spreadsheet.html:52
+#: default/templates/default/base-uploader.html:49
+#: default/templates/default/to-spreadsheet.html:47
 msgid "Add a file"
 msgstr "Agregue un archivo"
 
-#: default/templates/default/base-uploader.html:45
-#: default/templates/default/to-spreadsheet.html:53
+#: default/templates/default/base-uploader.html:49
+#: default/templates/default/to-spreadsheet.html:48
 msgid "or drag and drop here."
 msgstr "o arrastre y suelte aquí"
 
-#: default/templates/default/base-uploader.html:53
+#: default/templates/default/base-uploader.html:57
 msgid "Add more files"
 msgstr "Agregar más archivos"
 
-#: default/templates/default/base-uploader.html:57
-#: default/templates/default/to-spreadsheet.html:59
+#: default/templates/default/base-uploader.html:61
+#: default/templates/default/to-spreadsheet.html:54
 msgid "Start"
 msgstr "Procesar"
 
-#: default/templates/default/base-uploader.html:67
-#: default/templates/default/to-spreadsheet.html:67
+#: default/templates/default/base-uploader.html:71
+#: default/templates/default/to-spreadsheet.html:62
 msgid ""
 "Processing operation. Please don't refresh nor close the browser window!"
 msgstr ""
@@ -356,7 +364,12 @@ msgstr "Borrar"
 msgid "Processing..."
 msgstr "Procesando..."
 
-#: ocdstoucan/settings.py:138
+#: default/views.py:133
+msgid "Invalid option! Please verify and try again"
+msgstr ""
+"La opción recibida es inválida. Por favor verifique e intente de nuevo."
+
+#: ocdstoucan/settings.py:137
 msgid "English"
 msgstr "Inglés"
 

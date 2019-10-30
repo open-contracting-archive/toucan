@@ -75,13 +75,14 @@ def _get_files_from_session(request):
         yield DataFile(**fileinfo)
 
 
-def _json_response(files):
+def _json_response(files, warnings=()):
     file = DataFile('result', '.zip')
     file.write_json_to_zip(files)
 
     return JsonResponse({
         'url': file.url,
         'size': file.size,
+        'warnings': warnings
     })
 
 
@@ -93,24 +94,24 @@ def perform_upgrade(request):
 
 @require_files
 @published_date
-def perform_package_releases(request, published_date=''):
+def perform_package_releases(request, published_date='', warnings=()):
     releases = [file.json() for file in _get_files_from_session(request)]
 
     return _json_response({
         'result.json': package_releases_method(releases, published_date=published_date),
-    })
+    }, warnings)
 
 
 @require_files
 @published_date
-def perform_compile(request, published_date=''):
+def perform_compile(request, published_date='', warnings=()):
     packages = [file.json() for file in _get_files_from_session(request)]
     return_versioned_release = request.GET.get('includeVersioned') == 'true'
 
     return _json_response({
         'result.json': next(compile_release_packages(packages, return_package=True, published_date=published_date,
-                                                     return_versioned_release=return_versioned_release)),
-    })
+                                                     return_versioned_release=return_versioned_release),),
+    }, warnings)
 
 
 def mapping_sheet(request):
