@@ -1,11 +1,11 @@
 import jsonref
-import requests
 
 from io import StringIO
 from django.http.response import HttpResponse
 from ocdskit.mapping_sheet import mapping_sheet as mapping_sheet_method
 from django.core.cache import cache
 from ocdsextensionregistry import ProfileBuilder
+from ocdsmerge.merge import get_tags
 
 CACHE_KEY = 'git_tags'
 CACHE_TIMEOUT = 3600
@@ -41,9 +41,5 @@ def _get_mapping_sheet(data):
 
 def get_standard_tags():
     if cache.get(CACHE_KEY) is None:
-        github_res = requests.get('https://api.github.com/repos/open-contracting/standard/tags')
-        if github_res.status_code == 200:
-            cache.set(CACHE_KEY, [tag['name'] for tag in github_res.json()], timeout=CACHE_TIMEOUT)
-        else:
-            raise ValueError('Standard tags information is not available')
+        cache.set(CACHE_KEY, get_tags())
     return cache.get(CACHE_KEY)
