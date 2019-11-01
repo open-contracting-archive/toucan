@@ -15,9 +15,9 @@ from ocdskit.combine import package_releases as package_releases_method, compile
 from ocdskit.mapping_sheet import mapping_sheet as mapping_sheet_method
 from ocdskit.upgrade import upgrade_10_11
 
+from .data_file import DataFile
 from .decorators import clear_files, require_files, published_date
 from .forms import MappingSheetOptionsForm
-from .data_file import DataFile
 
 
 def retrieve_result(request, folder, id, format=None):
@@ -94,7 +94,13 @@ def perform_upgrade(request):
 @require_files
 @published_date
 def perform_package_releases(request, published_date=''):
-    releases = [file.json() for file in _get_files_from_session(request)]
+    releases = []
+    for file in _get_files_from_session(request):
+        item = file.json()
+        if isinstance(item, list):
+            releases.extend(item)
+        else:
+            releases.append(item)
 
     return _json_response({
         'result.json': package_releases_method(releases, published_date=published_date),
