@@ -11,7 +11,8 @@ from django.shortcuts import render
 from django.utils.translation import gettext as _
 from django.views.decorators.http import require_POST
 from libcoveocds.config import LibCoveOCDSConfig
-from ocdskit.combine import package_releases as package_releases_method, compile_release_packages
+from ocdskit.combine import package_releases as package_releases_method, compile_release_packages, \
+    combine_release_packages, combine_record_packages
 from ocdskit.mapping_sheet import mapping_sheet as mapping_sheet_method
 from ocdskit.upgrade import upgrade_10_11
 
@@ -66,6 +67,11 @@ def package_releases(request):
 
 
 @clear_files
+def combine_packages(request):
+    return _ocds_command(request, 'combine-packages')
+
+
+@clear_files
 def upgrade(request):
     return _ocds_command(request, 'upgrade')
 
@@ -99,6 +105,28 @@ def perform_package_releases(request, published_date=''):
     return _json_response({
         'result.json': package_releases_method(releases, published_date=published_date),
     })
+
+
+@require_files
+@published_date
+def perform_combine_packages(request, published_date=''):
+    packages = []
+    for file in _get_files_from_session(request):
+        item = file.json()
+        if isinstance(item, list):
+            packages.extend(item)
+        else:
+            packages.append(item)
+    packageType = request.GET.get('packageType')
+
+    if packageType == 'release':
+        return _json_response({
+            'result.json': combine_release_packages(packages, published_date=published_date),
+        })
+    else:
+        return _json_response({
+            'result.json': combine_record_packages(packages, published_date=published_date)
+        })
 
 
 @require_files
