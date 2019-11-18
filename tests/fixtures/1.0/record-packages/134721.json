@@ -1,0 +1,141 @@
+{
+  "publicationPolicy": "https://www.contrataciones.gov.py/datos/legal",
+  "records": [
+    {
+      "releases": [
+        {
+          "url": "https://www.contrataciones.gov.py/datos/id/planning/134721-excavacion-pozo-artesiano-colocacion-tanques-metalicos-dos-barrios-zona-ru.json",
+          "tag": [
+            "planning"
+          ],
+          "date": "2013-03-05T08:24:59-05:00"
+        },
+        {
+          "url": "https://www.contrataciones.gov.py/datos/id/tender/134721-excavacion-pozo-colocacion-tanque-metalico.json",
+          "tag": [
+            "tender"
+          ],
+          "date": "2009-12-17T00:00:00-05:00"
+        }
+      ],
+      "ocid": "ocds-03ad3f-134721",
+      "compiledRelease": {
+        "planning": {
+          "budget": {
+            "description": "EXCAVACION DE POZO ARTESIANO Y COLOCACION DE TANQUES METALICOS EN DOS BARRIOS DE LA ZONA RURAL DEL DISTRITO",
+            "amount": {
+              "amount": null,
+              "currency": "PYG"
+            }
+          },
+          "url": "https://www.contrataciones.gov.py/datos/id/planificaciones/134721-excavacion-pozo-artesiano-colocacion-tanques-metalicos-dos-barrios-zona-ru"
+        },
+        "awards": [],
+        "ocid": "ocds-03ad3f-134721",
+        "contracts": [],
+        "date": "2018-03-21T13:59:22-04:00",
+        "language": "es",
+        "initiationType": "tender",
+        "buyer": {
+          "contactPoint": {
+            "email": "uoc_natalio@hotmail.com",
+            "name": "ALBERCIO DAVID CABAÑAS MARTINEZ",
+            "telephone": "0765 206 195"
+          },
+          "name": "Municipalidad de Natalio"
+        },
+        "id": "134721-excavacion-pozo-colocacion-tanque-metalico",
+        "tag": [
+          "compiled"
+        ],
+        "tender": {
+          "procuringEntity": {
+            "contactPoint": {
+              "email": "uoc_natalio@hotmail.com",
+              "name": "ALBERCIO DAVID CABAÑAS MARTINEZ",
+              "telephone": "0765 206 195"
+            },
+            "name": "Municipalidad de Natalio"
+          },
+          "title": "Excavacion de pozo y colocacion de tanque metalico",
+          "awardPeriod": {
+            "endDate": null,
+            "startDate": "2009-12-30T00:00:00-05:00"
+          },
+          "hasEnquiries": false,
+          "submissionMethod": [
+            "written"
+          ],
+          "enquiryPeriod": {
+            "endDate": "2009-12-30T00:00:00-05:00"
+          },
+          "lots": [
+            {
+              "id": "1b8360umna0%3D",
+              "items": [],
+              "title": "Excavacion de pozo y colocacion de tanque metalico"
+            }
+          ],
+          "tenderPeriod": {
+            "endDate": "2010-01-04T00:00:00-05:00",
+            "startDate": null
+          },
+          "documents": [
+            {
+              "language": "es",
+              "format": "application/pdf",
+              "title": "Condiciones Generales del Contrato - Bienes y Servicios",
+              "id": "qwvV15zLRSw%3D",
+              "documentType": "Condiciones Generales del Contrato - Bienes y Servicios",
+              "url": "https://www.contrataciones.gov.py/documentos/download/convocatoria/qwvV15zLRSw%253D"
+            },
+            {
+              "language": "es",
+              "format": "application/pdf",
+              "title": "Instrucción a los Oferentes - Bienes y Servicios",
+              "id": "0zLQbzfsLPs%3D",
+              "documentType": "Instrucción a los Oferentes - Bienes y Servicios",
+              "url": "https://www.contrataciones.gov.py/documentos/download/convocatoria/0zLQbzfsLPs%253D"
+            },
+            {
+              "language": "es",
+              "format": "application/pdf",
+              "title": "Plano de obra o cómputos métricos",
+              "id": "E17n%2F8Civ7g%3D",
+              "documentType": "Plano de obra o cómputos métricos",
+              "url": "https://www.contrataciones.gov.py/documentos/download/convocatoria/E17n%252F8Civ7g%253D"
+            },
+            {
+              "language": "es",
+              "format": "text/plain",
+              "title": "Pliego de bases y Condiciones",
+              "id": "%2ByWmOHCZBL4%3D",
+              "documentType": "biddingDocuments",
+              "url": "https://www.contrataciones.gov.py/documentos/download/convocatoria/%252ByWmOHCZBL4%253D"
+            }
+          ],
+          "status": "unsuccessful",
+          "id": "134721-excavacion-pozo-colocacion-tanque-metalico",
+          "items": [],
+          "url": "https://www.contrataciones.gov.py/datos/id/convocatorias/134721-excavacion-pozo-colocacion-tanque-metalico",
+          "value": {
+            "amount": null,
+            "currency": "PYG"
+          }
+        }
+      }
+    }
+  ],
+  "packages": [
+    "https://www.contrataciones.gov.py/datos/id/planning/134721-excavacion-pozo-artesiano-colocacion-tanques-metalicos-dos-barrios-zona-ru.json",
+    "https://www.contrataciones.gov.py/datos/id/tender/134721-excavacion-pozo-colocacion-tanque-metalico.json"
+  ],
+  "publishedDate": "2018-03-21T13:59:22-04:00",
+  "uri": "https://www.contrataciones.gov.py/datos/record-package/134721.json",
+  "license": "https://creativecommons.org/licenses/by/4.0/",
+  "publisher": {
+    "uri": "https://contrataciones.gov.py/datos",
+    "legalName": "Dirección Nacional de Contrataciones Públicas, Paraguay",
+    "name": "DNCP - Paraguay"
+  }
+}

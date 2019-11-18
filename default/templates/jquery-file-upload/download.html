@@ -9,18 +9,33 @@
         <div class="name">
             <span>{% templatetag openblock %}=file.name{% templatetag closeblock%}</span>
             {% templatetag openblock %} if (file.error) { {% templatetag closeblock %}
-                <span class="text-danger"><b>Error</b>: {% templatetag openblock %}=file.error{% templatetag closeblock %}</span>
+                <br/><span class="text-danger">{% templatetag openblock %}=file.errorMessage{% templatetag closeblock %}</span>
             {% templatetag openblock %} } else { {% templatetag closeblock %}
                 <span class="text-success">{% trans "Upload successful" %}</span>
             {% templatetag openblock %} } {% templatetag closeblock %}
         </div>
-        <div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
-            {% templatetag openblock %} if (file.error) { {% templatetag closeblock %}
-                <div class="progress-bar" style="width:0%;"></div>
-            {% templatetag openblock %} } else { {% templatetag closeblock %}
-                <div class="progress-bar" style="width:100%;"></div>
-            {% templatetag openblock %} } {% templatetag closeblock %}
-        </div>
+        <table>
+            <tr>
+                <td>
+                    <div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+                        {% templatetag openblock %} if (file.error) { {% templatetag closeblock %}
+                            <div class="progress-bar" style="width:0%;"></div>
+                        {% templatetag openblock %} } else { {% templatetag closeblock %}
+                            <div class="progress-bar" style="width:100%;"></div>
+                        {% templatetag openblock %} } {% templatetag closeblock %}
+                    </div>
+                </td>
+                <td class="actions">
+                {% templatetag openblock %} if (!file.error) { {% templatetag closeblock %}
+                    <a href="javascript:void(0)" class="delete pull-right" title="{% trans "Delete" %}"
+                        data-url="/delete/{% templatetag openblock %}=file.id{% templatetag closeblock %}"
+                        data-type="GET">
+                        <i class="glyphicon glyphicon-trash"></i>
+                    </a>
+                {% templatetag openblock %} } {% templatetag closeblock %}
+                </td>
+            </tr>
+        </table>
         <div class="size">{% templatetag openblock %}=o.formatFileSize(file.size){% templatetag closeblock %}</div>
     </div>
 {% templatetag openblock %} } {% templatetag closeblock %}

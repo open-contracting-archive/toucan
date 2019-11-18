@@ -1,10 +1,14 @@
 import os
 import uuid
+import json
+import logging
 from datetime import date
 from zipfile import ZipFile, ZIP_DEFLATED
-
 from django.conf import settings
-from ocdskit.util import json_dumps, json_loads
+from ocdskit.util import json_dumps, json_loads, is_release_package, is_record_package
+from django.utils.translation import gettext as _
+
+logger = logging.getLogger(__name__)
 
 
 class DataFile:
@@ -17,13 +21,17 @@ class DataFile:
     """
     sep = '-'
 
-    def __init__(self, prefix, ext, id=None, folder=None):
+    def __init__(self, prefix, ext, id=None, folder=None, original_name=None, data=None, valid=True,
+                 invalid_reason=None):
         if len(prefix) > 20:
             prefix = prefix[:20 + 1]
 
         self.prefix = prefix
         self.ext = ext
         self.id = id or str(uuid.uuid4())
+        self.original_name = original_name
+        self.valid = valid
+        self.invalid_reason = invalid_reason
 
         if folder is not None:
             self.folder = folder
@@ -91,8 +99,29 @@ class DataFile:
         if isinstance(files, dict):
             files = files.items()
         for name, content in files:
-            with ZipFile(self.path, 'w', compression=ZIP_DEFLATED) as zipfile:
+            with ZipFile(self.path, 'a', compression=ZIP_DEFLATED) as zipfile:
                 zipfile.writestr(name, json_dumps(content) + '\n')
+
+    def is_valid(self, file, ocds_type=None):
+        try:
+            data = json_loads(file.read())
+            if ocds_type == 'release-package':
+                if not is_release_package(data):
+                    self.valid = False
+                    self.invalid_reason = _('Not a release package')
+                    return False
+            elif ocds_type == 'record-package':
+                if not is_record_package(data):
+                    self.valid = False
+                    self.invalid_reason = _('Not a record package')
+                    return False
+            self.valid = True
+            return True
+        except json.JSONDecodeError:
+            self.valid = False
+            self.invalid_reason = _('Error decoding json')
+            logger.debug('Error decoding file {}'.format(file.name))
+        return False
 
     @property
     def _name(self):

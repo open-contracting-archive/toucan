@@ -1,13 +1,16 @@
 import os
 import shutil
+from io import StringIO
 from zipfile import ZipFile, ZIP_DEFLATED
 
 import flattentool
 from django.http import FileResponse, JsonResponse, Http404
 from django.shortcuts import render
-from django.views.decorators.http import require_POST
+from django.utils.translation import gettext as _
+from django.views.decorators.http import require_POST, require_GET
 from libcoveocds.config import LibCoveOCDSConfig
 from ocdskit.combine import package_releases as package_releases_method, compile_release_packages
+from ocdskit.mapping_sheet import mapping_sheet as mapping_sheet_method
 from ocdskit.upgrade import upgrade_10_11
 
 from ocdstoucan.settings import OCDS_TOUCAN_MAXFILESIZE, OCDS_TOUCAN_MAXNUMFILES
@@ -207,8 +210,13 @@ def uploadfile(request):
     request_file = request.FILES['file']
     name, extension = os.path.splitext(request_file.name)
 
-    file = DataFile(name, extension)
-    file.write(request_file)
+    file = DataFile(name, extension, original_name=name)
+    ocds_type = request.POST.get('validateType', None)
+
+    if file.is_valid(request_file, ocds_type=ocds_type):
+        file.write(request_file)
+    else:
+        return HttpResponse(file.invalid_reason, status=400)
 
     if 'files' not in request.session:
         request.session['files'] = []
@@ -218,7 +226,31 @@ def uploadfile(request):
 
     return JsonResponse({
         'files': [{
+            'id': file.id,
             'name': request_file.name,
             'size': request_file.size,
         }],
     })
+
+
+@require_GET
+def deletefile(request, id):
+    if 'files' not in request.session:
+        return JsonResponse({
+            'message': _('No files to delete')
+        }, status=404)
+
+    to_delete = list(filter(lambda x: x['id'] == str(id), request.session['files']))
+
+    for item in to_delete:
+        request.session['files'].remove(item)
+    request.session.modified = True
+
+    file_found = len(to_delete) > 0
+    response = JsonResponse({
+        'message': _('File deleted') if file_found else _('File not found')
+    })
+
+    if not file_found:
+        response.status_code = 404
+    return response

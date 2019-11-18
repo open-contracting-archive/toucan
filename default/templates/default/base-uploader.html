@@ -15,9 +15,13 @@
     <b>{% trans "Success!" %}</b> result.zip(<span class="file-size"></span>)
     <a href="javascript:void(0)" class="download" target="_blank">{% trans "Download" %}</a>
 </div>
-<div class="response-warning alert alert-warning hidden">
-    <strong>{% trans "Warnings from the server" %}:</strong>
+<div class="response-warning action-failed alert alert-warning hidden">
     <ul></ul>
+</div>
+<div class="response-warning file-process-failed alert alert-warning hidden">
+    {% trans "Some of the files could not be validated" %}.
+    {% trans "You can add more files or remove them, then click on <b>Start</b> again" %}.
+    {% trans "Invalid files will be ignored by default" %}.
 </div>
 <div class="response-fail alert alert-danger hidden">
     <b>{% trans "An error has ocurred!" %}</b>
@@ -36,7 +40,7 @@
     data-accept-file-types="/(\.|\/)json$/i"
     data-files-container=".files"
     data-sequential-uploads="true"
-    data-form-data='{"csrfmiddlewaretoken": "{{csrf_token}}"}'
+    data-form-data='{"csrfmiddlewaretoken": "{{csrf_token}}"{% block form-options %}{% endblock %}}'
     data-max-number-of-files="{{maxNumOfFiles}}"
     data-max-file-size="{{maxFileSize}}"
     data-perform-action="{{performAction}}"
@@ -56,7 +60,7 @@
         <i class="glyphicon glyphicon-plus"></i>
         <label for="file" id="file-selector">{% trans "Add more files" %}</label>
       </div>
-      <button type="button" class="btn btn-primary pull-right" id="upload-button" disabled>
+      <button type="submit" class="btn btn-primary pull-right start" id="upload-button" disabled>
         <i class="glyphicon glyphicon-cloud-upload"></i>
         <span>{% trans "Start" %}</span>
     </button>
