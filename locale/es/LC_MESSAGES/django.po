@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-11-22 11:42-0300\n"
+"POT-Creation-Date: 2019-11-22 15:14-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,6 +17,23 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: default/data_file.py:111
+msgid "Not a release package"
+msgstr "No es un paquete de releases"
+
+#: default/data_file.py:116
+msgid "Not a record package"
+msgstr "No es un paquete de records"
+
+#: default/data_file.py:122
+msgid "Error decoding json"
+msgstr "Error al decodificar JSON"
+
+#: default/decorators.py:39
+msgid "Invalid date submitted: {}, omitted from results."
+msgstr ""
+"La fecha enviada es inválida: {}, por lo que se omitió en los resultados."
 
 #: default/forms.py:18 default/forms.py:24
 msgid "Select a schema and version"
@@ -62,10 +79,6 @@ msgstr "Cargue un archivo"
 msgid "Provide at least one extension URL"
 msgstr "Indique al menos una URL de extensión"
 
-#: default/decorators.py:39
-msgid "Invalid date submitted: {}, omitted from results."
-msgstr "La fecha enviada es inválida: {}, por lo que se omitió en los resultados."
-
 #: default/templates/default/base-uploader.html:15
 #: default/templates/default/to-spreadsheet.html:11
 msgid "Success!"
@@ -77,17 +90,25 @@ msgstr "Éxito!"
 msgid "Download"
 msgstr "Descargar"
 
-#: default/templates/default/base-uploader.html:19
-msgid "Warnings from the server"
-msgstr "Alertas del servidor"
+#: default/templates/default/base-uploader.html:22
+msgid "Some of the files could not be validated"
+msgstr "Algunos archivos no pudieron ser validados"
 
 #: default/templates/default/base-uploader.html:23
-#: default/templates/default/to-spreadsheet.html:24
+msgid "You can add more files or remove them, then click on <b>Start</b> again"
+msgstr ""
+"Puede agregar más archivos o eliminarlos, luego puede hacer clic en "
+"<b>Procesar</b> otra vez"
+
+#: default/templates/default/base-uploader.html:24
+msgid "Invalid files will be ignored by default"
+msgstr "Los archivos inválidos serán ignorados por defecto"
+
+#: default/templates/default/base-uploader.html:27
 msgid "An error has ocurred!"
 msgstr "¡Ha ocurrido un error!"
 
-#: default/templates/default/base-uploader.html:24
-#: default/templates/default/to-spreadsheet.html:25
+#: default/templates/default/base-uploader.html:28
 msgid ""
 "Please verify that all your files are valid OCDS JSON, and try again in a "
 "few minutes."
@@ -95,27 +116,27 @@ msgstr ""
 "Por favor verifique que todos sus archivos son válidos de acuerdo al "
 "estándar OCDS, e intente de nuevo en unos minutos."
 
-#: default/templates/default/base-uploader.html:49
-#: default/templates/default/to-spreadsheet.html:47
+#: default/templates/default/base-uploader.html:53
+#: default/templates/default/to-spreadsheet.html:50
 msgid "Add a file"
 msgstr "Agregue un archivo"
 
-#: default/templates/default/base-uploader.html:49
-#: default/templates/default/to-spreadsheet.html:48
+#: default/templates/default/base-uploader.html:53
+#: default/templates/default/to-spreadsheet.html:51
 msgid "or drag and drop here."
 msgstr "o arrastre y suelte aquí"
 
-#: default/templates/default/base-uploader.html:57
+#: default/templates/default/base-uploader.html:61
 msgid "Add more files"
 msgstr "Agregar más archivos"
 
-#: default/templates/default/base-uploader.html:61
-#: default/templates/default/to-spreadsheet.html:54
+#: default/templates/default/base-uploader.html:65
+#: default/templates/default/to-spreadsheet.html:57
 msgid "Start"
 msgstr "Procesar"
 
-#: default/templates/default/base-uploader.html:71
-#: default/templates/default/to-spreadsheet.html:62
+#: default/templates/default/base-uploader.html:75
+#: default/templates/default/to-spreadsheet.html:65
 msgid ""
 "Processing operation. Please don't refresh nor close the browser window!"
 msgstr ""
@@ -310,7 +331,7 @@ msgstr "Los archivos de entrada deben ser JSON con un solo Release cada uno."
 msgid "Published date: "
 msgstr "Fecha de Publicación: "
 
-#: default/templates/default/to-spreadsheet.html:30
+#: default/templates/default/to-spreadsheet.html:28
 msgid ""
 "Use this page to convert a <a href=\"https://standard.open-contracting.org/"
 "latest/en/schema/release_package/\" target=\"_blank\">Release Package</a> to "
@@ -323,9 +344,25 @@ msgstr ""
 "un archivo arrastrándolo y soltándolo en la caja de abajo o usando el enlace "
 "<strong>Añadir un archivo</strong>."
 
-#: default/templates/default/to-spreadsheet.html:88
+#: default/templates/default/to-spreadsheet.html:86
 msgid "Added:"
 msgstr "Añadido:"
+
+#: default/templates/default/to-spreadsheet.html:112
+msgid ""
+"An error has ocurred! Please verify that all your files are valid OCDS JSON, "
+"and try again in a few minutes."
+msgstr ""
+"Por favor verifique que todos sus archivos son válidos de acuerdo al "
+"estándar OCDS, e intente de nuevo en unos minutos."
+
+#: default/templates/default/to-spreadsheet.html:122
+msgid "<b>Error in file uploaded</b>: "
+msgstr "<b>Error en archivo subido</b>"
+
+#: default/templates/default/to-spreadsheet.html:125
+msgid "Please reload the page and try again."
+msgstr "Favor recargue la página e intente de nuevo."
 
 #: default/templates/default/upgrade.html:7
 msgid ""
@@ -356,6 +393,7 @@ msgstr ""
 msgid "Upload successful"
 msgstr "Subida exitosa"
 
+#: default/templates/jquery-file-upload/download.html:30
 #: default/templates/jquery-file-upload/upload.html:21
 msgid "Delete"
 msgstr "Borrar"
@@ -364,12 +402,19 @@ msgstr "Borrar"
 msgid "Processing..."
 msgstr "Procesando..."
 
-#: default/views.py:133
-msgid "Invalid option! Please verify and try again"
-msgstr ""
-"La opción recibida es inválida. Por favor verifique e intente de nuevo."
+#: default/views.py:240
+msgid "No files to delete"
+msgstr "No hay archivos a borrar"
 
-#: ocdstoucan/settings.py:137
+#: default/views.py:251
+msgid "File deleted"
+msgstr "Archivo eliminado"
+
+#: default/views.py:251
+msgid "File not found"
+msgstr "Archivo no encontrado"
+
+#: ocdstoucan/settings.py:138
 msgid "English"
 msgstr "Inglés"
 

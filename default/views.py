@@ -1,16 +1,14 @@
 import os
 import shutil
-from io import StringIO
 from zipfile import ZipFile, ZIP_DEFLATED
 
 import flattentool
-from django.http import FileResponse, JsonResponse, Http404
+from django.http import FileResponse, HttpResponse, JsonResponse, Http404
 from django.shortcuts import render
 from django.utils.translation import gettext as _
 from django.views.decorators.http import require_POST, require_GET
 from libcoveocds.config import LibCoveOCDSConfig
 from ocdskit.combine import package_releases as package_releases_method, compile_release_packages
-from ocdskit.mapping_sheet import mapping_sheet as mapping_sheet_method
 from ocdskit.upgrade import upgrade_10_11
 
 from ocdstoucan.settings import OCDS_TOUCAN_MAXFILESIZE, OCDS_TOUCAN_MAXNUMFILES
