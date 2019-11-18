@@ -41,5 +41,5 @@ def _get_mapping_sheet(data):
 
 def get_standard_tags():
     if cache.get(CACHE_KEY) is None:
-        cache.set(CACHE_KEY, get_tags())
+        cache.set(CACHE_KEY, sorted(set(get_tags()), reverse=True), CACHE_TIMEOUT)
     return cache.get(CACHE_KEY)
