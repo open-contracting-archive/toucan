@@ -56,6 +56,11 @@ def to_spreadsheet(request):
 
 
 @clear_files
+def to_json(request):
+    return render(request, 'default/to-json.html')
+
+
+@clear_files
 def compile(request):
     return _ocds_command(request, 'compile')
 
@@ -167,6 +172,28 @@ def perform_to_spreadsheet(request):
         'xlsx': {
             'url': input_file.url + 'xlsx/',
             'size': os.path.getsize(output_dir.path + '.xlsx'),
+        }
+    })
+
+
+@require_files
+def perform_to_json(request):
+    input_file = next(_get_files_from_session(request))
+    output_dir = DataFile('unflatten', '', input_file.id, input_file.folder)
+
+    config = LibCoveOCDSConfig().config
+    flattentool.unflatten(
+        input_file.path,
+        input_format='xlsx',
+        output_name=output_dir.path,
+        root_list_path=config['root_list_path'],
+        root_id=config['root_id']
+    )
+
+    return _json_response({
+        'json': {
+            'url': input_file.url,
+            'size': os.path.getsize(output_dir.path),
         }
     })
 
