@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-10-30 12:07-0300\n"
+"POT-Creation-Date: 2019-11-20 20:47+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,23 +18,23 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: default/forms.py:12
+#: default/forms.py:8
 msgid "Please choose an operation type"
 msgstr "Elija un tipo de operación"
 
-#: default/forms.py:35
+#: default/forms.py:31
 msgid "Please select an option"
 msgstr "Seleccione una opción"
 
-#: default/forms.py:38
-msgid "Please provide an URL"
+#: default/forms.py:34
+msgid "Please provide a URL"
 msgstr "Indique una URL"
 
-#: default/forms.py:41
+#: default/forms.py:37
 msgid "Please provide a file"
 msgstr "Cargue un archivo"
 
-#: default/forms.py:45
+#: default/forms.py:41
 msgid "Provide at least one extension URL"
 msgstr "Indique al menos una URL de extensión"
 
@@ -64,12 +64,12 @@ msgstr ""
 "estándar OCDS, e intente de nuevo en unos minutos."
 
 #: default/templates/default/base-uploader.html:45
-#: default/templates/default/to-spreadsheet.html:47
+#: default/templates/default/to-spreadsheet.html:52
 msgid "Add a file"
 msgstr "Agregue un archivo"
 
 #: default/templates/default/base-uploader.html:45
-#: default/templates/default/to-spreadsheet.html:48
+#: default/templates/default/to-spreadsheet.html:53
 msgid "or drag and drop here."
 msgstr "o arrastre y suelte aquí"
 
@@ -78,12 +78,12 @@ msgid "Add more files"
 msgstr "Agregar más archivos"
 
 #: default/templates/default/base-uploader.html:57
-#: default/templates/default/to-spreadsheet.html:54
+#: default/templates/default/to-spreadsheet.html:59
 msgid "Start"
 msgstr "Procesar"
 
 #: default/templates/default/base-uploader.html:67
-#: default/templates/default/to-spreadsheet.html:62
+#: default/templates/default/to-spreadsheet.html:67
 msgid ""
 "Processing operation. Please don't refresh nor close the browser window!"
 msgstr ""
@@ -200,75 +200,87 @@ msgstr ""
 "estándar en un formato de tabla."
 
 #: default/templates/default/mapping_sheet.html:19
-msgid "The options available are"
-msgstr "Las opciones disponibles son"
+msgid "The options available are:"
+msgstr "Las opciones disponibles son:"
 
-#: default/templates/default/mapping_sheet.html:21
-#: default/templates/default/mapping_sheet.html:47
-msgid "Select a schema"
-msgstr "Seleccione un esquema y versión"
-
-#: default/templates/default/mapping_sheet.html:21
-msgid "Use any of the official OCDS Schemas"
-msgstr "Use cualquiera de los esquemas OCDS oficiales"
+#: default/templates/default/mapping_sheet.html:22
+msgid "Select a schema and version:"
+msgstr "Seleccione un esquema y versión:"
 
 #: default/templates/default/mapping_sheet.html:23
-#: default/templates/default/mapping_sheet.html:52
-msgid "Provide an URL"
-msgstr "Indique una URL"
-
-#: default/templates/default/mapping_sheet.html:23
-msgid "Enter an URL to a custom schema"
-msgstr "Ingrese una URL a un esquema personalizado"
-
-#: default/templates/default/mapping_sheet.html:25
-#: default/templates/default/mapping_sheet.html:57
-#: default/templates/default/mapping_sheet.html:95
-msgid "Upload a file"
-msgstr "Cargue un archivo"
+msgid "Use any of the official OCDS Schemas."
+msgstr "Use cualquiera de los esquemas OCDS oficiales."
 
 #: default/templates/default/mapping_sheet.html:26
-msgid "Upload a custom schema file from your computer"
-msgstr "Cargue un esquema personalizado desde su computadora"
+msgid "Provide a URL:"
+msgstr "Indique una URL:"
 
-#: default/templates/default/mapping_sheet.html:29
-#: default/templates/default/mapping_sheet.html:62
-msgid "Extensions of Release Schema"
-msgstr "Extensiones del Esquema de Release"
+#: default/templates/default/mapping_sheet.html:27
+msgid "Enter a URL to a custom schema."
+msgstr "Ingrese una URL a un esquema personalizado."
 
 #: default/templates/default/mapping_sheet.html:30
+#: default/templates/default/mapping_sheet.html:100
+msgid "Upload a file:"
+msgstr "Cargue un archivo:"
+
+#: default/templates/default/mapping_sheet.html:31
+msgid "Upload a custom schema file from your computer."
+msgstr "Cargue un esquema personalizado desde su computadora."
+
+#: default/templates/default/mapping_sheet.html:34
+msgid "Extensions of Release Schema:"
+msgstr "Extensiones del Esquema de Release:"
+
+#: default/templates/default/mapping_sheet.html:35
 msgid ""
 "Generate a patched version of the Release Schema with one or more OCDS "
-"extensions"
+"extensions."
 msgstr ""
 "Genera una versión parcheada del esquema de Release con una o más "
-"extensiones OCDS"
+"extensiones OCDS."
 
-#: default/templates/default/mapping_sheet.html:69
+#: default/templates/default/mapping_sheet.html:52
 msgid "Select a schema and version"
 msgstr "Seleccione un esquema y versión"
 
-#: default/templates/default/mapping_sheet.html:86
-msgid "Provide the URL to a custom schema below"
-msgstr "Provea una URL a un esquema personalizado"
+#: default/templates/default/mapping_sheet.html:57
+msgid "Provide a URL"
+msgstr "Indique una URL"
 
-#: default/templates/default/mapping_sheet.html:105
-msgid "Please select an OCDS version"
-msgstr "Seleccione una versión OCDS"
+#: default/templates/default/mapping_sheet.html:62
+msgid "Upload a file"
+msgstr "Cargue un archivo"
+
+#: default/templates/default/mapping_sheet.html:67
+msgid "Extensions of Release Schema"
+msgstr "Extensiones del Esquema de Release"
+
+#: default/templates/default/mapping_sheet.html:74
+msgid "Select a schema and version:"
+msgstr "Seleccione un esquema y versión:"
+
+#: default/templates/default/mapping_sheet.html:91
+msgid "Provide the URL to a custom schema below:"
+msgstr "Provea una URL a un esquema personalizado:"
 
 #: default/templates/default/mapping_sheet.html:110
+msgid "Please select an OCDS version:"
+msgstr "Seleccione una versión OCDS:"
+
+#: default/templates/default/mapping_sheet.html:115
 msgid ""
 "Please provide one or more URLs to the <code>extension.json</code> file for "
-"each OCDS Extension you want to use"
+"each OCDS extension you want to use:"
 msgstr ""
 "Favor indique una o más URLs del archivo <code>extension.json</code> por "
-"cada extensión OCDS que desee."
+"cada extensión OCDS que desee:"
 
-#: default/templates/default/mapping_sheet.html:134
+#: default/templates/default/mapping_sheet.html:138
 msgid "Add URL"
 msgstr "Añadir URL"
 
-#: default/templates/default/mapping_sheet.html:137
+#: default/templates/default/mapping_sheet.html:141
 msgid "Generate"
 msgstr "Generar"
 
@@ -295,7 +307,7 @@ msgstr "Los archivos de entrada deben ser JSON con un solo Release cada uno."
 msgid "Published date: "
 msgstr "Fecha de Publicación: "
 
-#: default/templates/default/to-spreadsheet.html:29
+#: default/templates/default/to-spreadsheet.html:30
 msgid ""
 "Use this page to convert a <a href=\"https://standard.open-contracting.org/"
 "latest/en/schema/release_package/\" target=\"_blank\">Release Package</a> to "
@@ -308,9 +320,9 @@ msgstr ""
 "un archivo arrastrándolo y soltándolo en la caja de abajo o usando el enlace "
 "<strong>Añadir un archivo</strong>."
 
-#: default/templates/default/to-spreadsheet.html:83
-msgid "Added"
-msgstr "Añadido"
+#: default/templates/default/to-spreadsheet.html:88
+msgid "Added:"
+msgstr "Añadido:"
 
 #: default/templates/default/upgrade.html:7
 msgid ""
@@ -349,10 +361,10 @@ msgstr "Borrar"
 msgid "Processing..."
 msgstr "Procesando..."
 
-#: ocdstoucan/settings.py:135
+#: ocdstoucan/settings.py:137
 msgid "English"
 msgstr "Inglés"
 
-#: ocdstoucan/settings.py:136
+#: ocdstoucan/settings.py:138
 msgid "Spanish"
 msgstr "Español"
