@@ -1,23 +1,22 @@
 import os
 import shutil
-from io import StringIO
 from zipfile import ZipFile, ZIP_DEFLATED
 
 import flattentool
-import jsonref
 from django.conf import settings as django_settings
-from django.http import HttpResponse, JsonResponse, FileResponse, Http404
+from django.http import JsonResponse, FileResponse, Http404
 from django.shortcuts import render
-from django.utils.translation import gettext as _
 from django.views.decorators.http import require_POST
 from libcoveocds.config import LibCoveOCDSConfig
 from ocdskit.combine import package_releases as package_releases_method, compile_release_packages
-from ocdskit.mapping_sheet import mapping_sheet as mapping_sheet_method
 from ocdskit.upgrade import upgrade_10_11
 
 from .decorators import clear_files, require_files, published_date
 from .forms import MappingSheetOptionsForm
 from .data_file import DataFile
+from .mapping_sheet import get_mapping_sheet_from_url, \
+    get_mapping_sheet_from_uploaded_file, \
+    get_extended_mapping_sheet
 
 
 def retrieve_result(request, folder, id, format=None):
@@ -119,17 +118,28 @@ def mapping_sheet(request):
     }
 
     if request.method == 'POST':
-        form = MappingSheetOptionsForm(request.POST)
+        form = MappingSheetOptionsForm(request.POST, request.FILES)
+        context['form'] = form
         if form.is_valid():
-            io = StringIO()
-            schema = jsonref.load_uri(form.cleaned_data['url'])
-            mapping_sheet_method(schema, io, infer_required=True)
-
-            response = HttpResponse(io.getvalue(), content_type='text/csv')
-            response['Content-Disposition'] = 'attachment; filename="mapping-sheet.csv"'
-            return response
-
-        context['error'] = _('Invalid option! Please verify and try again')
+            if form.cleaned_data['type'] == 'select':
+                return get_mapping_sheet_from_url(form.cleaned_data['select_url'])
+            elif form.cleaned_data['type'] == 'url':
+                return get_mapping_sheet_from_url(form.cleaned_data['custom_url'])
+            elif form.cleaned_data['type'] == 'file':
+                return get_mapping_sheet_from_uploaded_file(request.FILES['custom_file'])
+            elif form.cleaned_data['type'] == 'extension':
+                return get_extended_mapping_sheet(form.cleaned_data['extension_urls'],
+                                                  version=form.cleaned_data['version'])
+    elif request.method == 'GET':
+        if 'source' in request.GET:
+            url = request.GET['source']
+            return get_mapping_sheet_from_url(url)
+        elif 'extension' in request.GET:
+            if 'version' in request.GET:
+                return get_extended_mapping_sheet(request.GET.getlist('extension'), version=request.GET['version'])
+            return get_extended_mapping_sheet(request.GET.getlist('extension'))
+        else:
+            context['form'] = MappingSheetOptionsForm()
 
     return render(request, 'default/mapping_sheet.html', context)
 

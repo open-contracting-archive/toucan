@@ -5,3 +5,4 @@ ocdskit
 python-dateutil
 requests
 sentry-sdk
+ocdsextensionregistry
