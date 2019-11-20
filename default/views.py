@@ -3,7 +3,6 @@ import shutil
 from zipfile import ZipFile, ZIP_DEFLATED
 
 import flattentool
-from django.conf import settings as django_settings
 from django.http import JsonResponse, FileResponse, Http404
 from django.shortcuts import render
 from django.views.decorators.http import require_POST
@@ -40,8 +39,11 @@ def retrieve_result(request, folder, id, format=None):
 
 
 def _ocds_command(request, command):
-    context = django_settings.OCDS_TOUCAN_UPLOAD_OPTIONS
-    context['performAction'] = '/{}/go/'.format(command)
+    context = {
+        'maxNumOfFiles': os.getenv('OCDS_TOUCAN_MAXNUMFILES', 20),
+        'maxFileSize': os.getenv('OCDS_TOUCAN_MAXFILESIZE', 10000000),  # in bytes
+        'performAction': '/{}/go/'.format(command),
+    }
     return render(request, 'default/{}.html'.format(command), context)
 
 
@@ -114,7 +116,23 @@ def perform_compile(request, published_date=''):
 
 def mapping_sheet(request):
     context = {
-        'versionOptions': django_settings.OCDS_TOUCAN_SCHEMA_OPTIONS,
+        'versionOptions': {
+            '1.1': {
+                'Release': 'https://standard.open-contracting.org/latest/en/release-schema.json',
+                'Release Package': 'https://standard.open-contracting.org/latest/en/release-package-schema.json',
+                'Record Package': 'https://standard.open-contracting.org/latest/en/record-package-schema.json',
+            },
+            '1.1 (Español)': {
+                'Release': 'http://standard.open-contracting.org/latest/es/release-schema.json',
+                'Paquete de Release': 'http://standard.open-contracting.org/latest/es/release-schema.json',
+                'Paquete de Record': 'http://standard.open-contracting.org/latest/es/record-package-schema.json',
+            },
+            '1.0': {
+                'Release': 'https://standard.open-contracting.org/schema/1__0__3/release-schema.json',
+                'Release Package': 'https://standard.open-contracting.org/schema/1__0__3/release-package-schema.json',
+                'Record Package': 'https://standard.open-contracting.org/schema/1__0__3/record-package-schema.json',
+            },
+        },
     }
 
     if request.method == 'POST':
