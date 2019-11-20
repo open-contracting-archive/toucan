@@ -1,7 +1,9 @@
-from django.test import TestCase
-from tests import read
 from io import StringIO
 from unittest.mock import patch
+
+from django.test import TestCase
+
+from tests import read
 
 
 class MappingSheetTestCase(TestCase):
@@ -124,7 +126,7 @@ class MappingSheetTestCase(TestCase):
         self.assertIn('Please choose an operation type', content)
 
     def test_post_error_messages(self):
-        # "Select an URL" option, with no URL selected
+        # "Select a URL" option, with no URL selected
         response = self.client.post(self.url, {
             'type': 'select'
         })
@@ -137,7 +139,7 @@ class MappingSheetTestCase(TestCase):
         self.assertIn('<ul class="errorlist"><li>', content)
         self.assertIn('Please select an option', content)
 
-        # "Provide an URL" option, with an empty input URL
+        # "Provide a URL" option, with an empty input URL
         response = self.client.post(self.url, {
             'type': 'url'
         })
@@ -148,7 +150,7 @@ class MappingSheetTestCase(TestCase):
         content = response.content.decode('utf-8')
 
         self.assertIn('<ul class="errorlist"><li>', content)
-        self.assertIn('Please provide an URL', content)
+        self.assertIn('Please provide a URL', content)
 
         # "Upload a file" option, with no file provided
         response = self.client.post(self.url, {
