@@ -3,7 +3,7 @@ import shutil
 from zipfile import ZipFile, ZIP_DEFLATED
 
 import flattentool
-from django.http import JsonResponse, FileResponse, Http404
+from django.http import FileResponse, JsonResponse, Http404
 from django.shortcuts import render
 from django.views.decorators.http import require_POST
 from libcoveocds.config import LibCoveOCDSConfig
@@ -13,9 +13,7 @@ from ocdskit.upgrade import upgrade_10_11
 from .decorators import clear_files, require_files, published_date
 from .forms import MappingSheetOptionsForm
 from .data_file import DataFile
-from .mapping_sheet import get_mapping_sheet_from_url, \
-    get_mapping_sheet_from_uploaded_file, \
-    get_extended_mapping_sheet
+from .mapping_sheet import get_mapping_sheet_from_url, get_mapping_sheet_from_uploaded_file, get_extended_mapping_sheet
 
 
 def retrieve_result(request, folder, id, format=None):
@@ -115,17 +113,44 @@ def perform_compile(request, published_date=''):
 
 
 def mapping_sheet(request):
+    if request.method == 'POST':
+        form = MappingSheetOptionsForm(request.POST, request.FILES)
+
+        if form.is_valid():
+            type_selected = form.cleaned_data['type']
+            if type_selected == 'select':
+                return get_mapping_sheet_from_url(form.cleaned_data['select_url'])
+            elif type_selected == 'url':
+                return get_mapping_sheet_from_url(form.cleaned_data['custom_url'])
+            elif type_selected == 'file':
+                return get_mapping_sheet_from_uploaded_file(request.FILES['custom_file'])
+            elif type_selected == 'extension':
+                return get_extended_mapping_sheet(form.cleaned_data['extension_urls'], form.cleaned_data['version'])
+
+    elif request.method == 'GET':
+        if 'source' in request.GET:
+            return get_mapping_sheet_from_url(request.GET['source'])
+        elif 'extension' in request.GET:
+            if 'version' in request.GET:
+                version = request.GET['version']
+            else:
+                version = '1__1__4'
+            return get_extended_mapping_sheet(request.GET.getlist('extension'), version)
+
+        form = MappingSheetOptionsForm()
+
     context = {
+        'form': form,
         'versionOptions': {
             '1.1': {
-                'Release': 'https://standard.open-contracting.org/latest/en/release-schema.json',
-                'Release Package': 'https://standard.open-contracting.org/latest/en/release-package-schema.json',
-                'Record Package': 'https://standard.open-contracting.org/latest/en/record-package-schema.json',
+                'Release': 'https://standard.open-contracting.org/1.1/en/release-schema.json',
+                'Release Package': 'https://standard.open-contracting.org/1.1/en/release-package-schema.json',
+                'Record Package': 'https://standard.open-contracting.org/1.1/en/record-package-schema.json',
             },
             '1.1 (Español)': {
-                'Release': 'http://standard.open-contracting.org/latest/es/release-schema.json',
-                'Paquete de Release': 'http://standard.open-contracting.org/latest/es/release-schema.json',
-                'Paquete de Record': 'http://standard.open-contracting.org/latest/es/record-package-schema.json',
+                'Release': 'http://standard.open-contracting.org/1.1/es/release-schema.json',
+                'Paquete de Release': 'http://standard.open-contracting.org/1.1/es/release-schema.json',
+                'Paquete de Record': 'http://standard.open-contracting.org/1.1/es/record-package-schema.json',
             },
             '1.0': {
                 'Release': 'https://standard.open-contracting.org/schema/1__0__3/release-schema.json',
@@ -134,30 +159,6 @@ def mapping_sheet(request):
             },
         },
     }
-
-    if request.method == 'POST':
-        form = MappingSheetOptionsForm(request.POST, request.FILES)
-        context['form'] = form
-        if form.is_valid():
-            if form.cleaned_data['type'] == 'select':
-                return get_mapping_sheet_from_url(form.cleaned_data['select_url'])
-            elif form.cleaned_data['type'] == 'url':
-                return get_mapping_sheet_from_url(form.cleaned_data['custom_url'])
-            elif form.cleaned_data['type'] == 'file':
-                return get_mapping_sheet_from_uploaded_file(request.FILES['custom_file'])
-            elif form.cleaned_data['type'] == 'extension':
-                return get_extended_mapping_sheet(form.cleaned_data['extension_urls'],
-                                                  version=form.cleaned_data['version'])
-    elif request.method == 'GET':
-        if 'source' in request.GET:
-            url = request.GET['source']
-            return get_mapping_sheet_from_url(url)
-        elif 'extension' in request.GET:
-            if 'version' in request.GET:
-                return get_extended_mapping_sheet(request.GET.getlist('extension'), version=request.GET['version'])
-            return get_extended_mapping_sheet(request.GET.getlist('extension'))
-        else:
-            context['form'] = MappingSheetOptionsForm()
 
     return render(request, 'default/mapping_sheet.html', context)
 

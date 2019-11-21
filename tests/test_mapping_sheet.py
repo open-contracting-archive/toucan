@@ -9,7 +9,7 @@ from tests import read
 class MappingSheetTestCase(TestCase):
     url = '/mapping-sheet/'
 
-    @patch('default.mapping_sheet.get_tags')
+    @patch('default.forms._get_tags')
     def test_get(self, mock_get):
         mock_get.return_value = ("1__0__0", "1__0__1")
         response = self.client.get(self.url)
@@ -71,7 +71,7 @@ class MappingSheetTestCase(TestCase):
         self.assertEqual(response.content.decode('utf-8').replace('\r\n', '\n'),
                          read('results/ocds-ppp-1_0_0-mapping-sheet.csv'))
 
-    @patch('default.mapping_sheet.get_tags')
+    @patch('default.forms._get_tags')
     def test_get_extension(self, mock_get):
         mock_get.return_value = ("1__1__3", "1__1__4")
 
@@ -92,7 +92,7 @@ class MappingSheetTestCase(TestCase):
         self.assertEqual(response.content.decode('utf-8').replace('\r\n', '\n'),
                          read('results/bids-location-mapping-sheet.csv'))
 
-    @patch('default.mapping_sheet.get_tags')
+    @patch('default.forms._get_tags')
     def test_post_extension(self, mock_get):
         mock_get.return_value = ("1__1__3", "1__1__4")
 

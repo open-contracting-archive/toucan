@@ -1,20 +1,23 @@
 from django import forms
+from django.core.cache import cache
 from django.utils.translation import gettext as _
-from .mapping_sheet import get_standard_tags
+from ocdsmerge.merge import get_tags
 
-TYPE_CHOICES = (('select', 'Select a Schema'),
-                ('url', 'Provide an URL'),
-                ('file', 'Upload a file'),
-                ('extension', 'For an OCDS Extension'))
+def _get_tags():
+    return cache.get_or_set('git_tags', sorted(get_tags(), reverse=True), 3600)
 
 
 class MappingSheetOptionsForm(forms.Form):
-    type = forms.ChoiceField(choices=TYPE_CHOICES, error_messages={'required': _('Please choose an operation type')})
+    type = forms.ChoiceField(choices=(('select', 'Select a Schema'),
+                                      ('url', 'Provide a URL'),
+                                      ('file', 'Upload a file'),
+                                      ('extension', 'For an OCDS Extension')),
+                             error_messages={'required': _('Please choose an operation type')})
     select_url = forms.URLField(required=False)
     custom_url = forms.URLField(required=False)
     custom_file = forms.FileField(required=False)
     version = forms.ChoiceField(required=False,
-                                choices=[(tag, tag.replace('__', '.')) for tag in get_standard_tags()],
+                                choices=[(tag, tag.replace('__', '.')) for tag in _get_tags()],
                                 widget=forms.Select(attrs={'class': 'form-control'}))
 
     def __init__(self, *args, **kwargs):
@@ -35,7 +38,7 @@ class MappingSheetOptionsForm(forms.Form):
                     self.add_error('select_url', forms.ValidationError(_('Please select an option')))
             elif type_selected == 'url':
                 if 'custom_url' not in self.cleaned_data or self.cleaned_data['custom_url'] == '':
-                    self.add_error('custom_url', forms.ValidationError(_('Please provide an URL')))
+                    self.add_error('custom_url', forms.ValidationError(_('Please provide a URL')))
             elif type_selected == 'file':
                 if 'custom_file' not in self.cleaned_data or not self.cleaned_data['custom_file']:
                     self.add_error('custom_file', forms.ValidationError(_('Please provide a file')))
