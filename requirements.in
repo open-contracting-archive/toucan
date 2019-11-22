@@ -1,7 +1,10 @@
 Django>=2.1.11,<2.2
 flattentool
+jsonref
 libcoveocds
 ocdskit
+ocdsmerge
+ocdsextensionregistry
 python-dateutil
 requests
 sentry-sdk
