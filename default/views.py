@@ -10,6 +10,7 @@ from libcoveocds.config import LibCoveOCDSConfig
 from ocdskit.combine import package_releases as package_releases_method, compile_release_packages
 from ocdskit.upgrade import upgrade_10_11
 
+from ocdstoucan.settings import OCDS_TOUCAN_MAXFILESIZE, OCDS_TOUCAN_MAXNUMFILES
 from .decorators import clear_files, require_files, published_date
 from .forms import MappingSheetOptionsForm
 from .data_file import DataFile
@@ -38,9 +39,9 @@ def retrieve_result(request, folder, id, format=None):
 
 def _ocds_command(request, command):
     context = {
-        'maxNumOfFiles': os.getenv('OCDS_TOUCAN_MAXNUMFILES', 20),
-        'maxFileSize': os.getenv('OCDS_TOUCAN_MAXFILESIZE', 10000000),  # in bytes
-        'performAction': '/{}/go/'.format(command),
+        'maxNumOfFiles': OCDS_TOUCAN_MAXNUMFILES,
+        'maxFileSize': OCDS_TOUCAN_MAXFILESIZE,
+        'performAction': '/{}/go/'.format(command)
     }
     return render(request, 'default/{}.html'.format(command), context)
 

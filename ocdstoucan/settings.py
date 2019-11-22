@@ -139,7 +139,8 @@ LANGUAGES = [
     ('es', _('Spanish')),
 ]
 
-LANGUAGE_CODE = 'en-us'
+OCDS_TOUCAN_MAXNUMFILES = os.getenv('OCDS_TOUCAN_MAXNUMFILES', 20)
+OCDS_TOUCAN_MAXFILESIZE = os.getenv('OCDS_TOUCAN_MAXFILESIZE', 10000000)  # in bytes
 
 if os.getenv('SENTRY_DSN') is not None:
     sentry_sdk.init(

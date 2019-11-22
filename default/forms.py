@@ -1,6 +1,6 @@
 from django import forms
 from django.core.cache import cache
-from django.utils.translation import gettext as _
+from django.utils.translation import gettext_lazy as _
 from ocdsmerge.merge import get_tags
 
 
@@ -15,15 +15,16 @@ def _get_extension_keys(data):
 
 
 class MappingSheetOptionsForm(forms.Form):
-    type = forms.ChoiceField(choices=(('select', 'Select a Schema'),
-                                      ('url', 'Provide a URL'),
-                                      ('file', 'Upload a file'),
-                                      ('extension', 'For an OCDS Extension')),
+    type = forms.ChoiceField(choices=(('select', _('Select a schema and version')),
+                                      ('url', _('Provide a URL')),
+                                      ('file', _('Upload a file')),
+                                      ('extension', _('For an OCDS Extension'))),
+                             initial='select',
                              error_messages={'required': _('Please choose an operation type')})
-    select_url = forms.URLField(required=False)
-    custom_url = forms.URLField(required=False)
-    custom_file = forms.FileField(required=False)
-    version = forms.ChoiceField(required=False,
+    select_url = forms.URLField(required=False, label=_('Select a schema and version'))
+    custom_url = forms.URLField(required=False, label=_('Provide the URL to a custom schema below'))
+    custom_file = forms.FileField(required=False, label=_('Upload a file'))
+    version = forms.ChoiceField(required=False, label=_('Please select an OCDS version'),
                                 choices=[(tag, tag.replace('__', '.')) for tag in _get_tags()],
                                 widget=forms.Select(attrs={'class': 'form-control'}))
 
@@ -56,4 +57,5 @@ class MappingSheetOptionsForm(forms.Form):
             self.cleaned_data['extension_urls'] = [self.cleaned_data[key] for key in extension_keys]
 
     def get_extension_fields(self):
-        return _get_extension_keys(field.name for field in self)
+        # this method returns a list of BoundField and it is used in the template
+        return list(filter(lambda field: field.name.startswith('extension_url_'), [field for field in self]))
