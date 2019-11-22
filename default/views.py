@@ -190,7 +190,7 @@ def perform_to_json(request):
         root_id=config['root_id']
     )
 
-    return _json_response({
+    return JsonResponse({
         'json': {
             'url': input_file.url,
             'size': os.path.getsize(output_dir.path),
