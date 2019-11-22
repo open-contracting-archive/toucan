@@ -7,24 +7,27 @@
     or <a href="https://standard.open-contracting.org/latest/en/schema/record_package/" target="_blank">Record Package</a> to combine into one Package .{% endblocktrans %}
 {% blocktrans %}You can also click the <strong>Add a file</strong> link below.{% endblocktrans %}</p>
 <p>{% blocktrans %}Use the <strong>Published Date</strong> option to set the Published Date in the output package.{% endblocktrans %}</p>
-<p>{% blocktrans %}Please verify that your files are Release or Record Packages and select the correct option before uploading. The input can be JSON Array files of Packages.{% endblocktrans %}</p>
+<p>{% blocktrans %}Please verify that your files are Release or Record Packages and select the correct option before uploading.{% endblocktrans %}</p>
+<p>{% blocktrans %}The input can be JSON Array files of Packages.{% endblocktrans%}</p>
 {% endblock %}
 {% block extraoptions %}
 {% include "default/snippets/published_date.html" %}
-<select  class="packagetype">
-    <option value="release">Release Package</option>
-    <option value="record">Record Package</option>
-</select>
+<div class="col-sm-2">
+    <select class="form-control packageType">
+        <option value="release">{% trans "Release Package" %}</option>
+        <option value="record">{% trans "Record Package" %}</option>
+    </select>
+</div>
 {% endblock %}
 {% block scripts %}
     {{ block.super }}
     <script type="text/javascript">
     (function(){
         app.setParams(function(params){
-            if ($('.packagetype').val() == 'release')
+            if ($('.packageType').val() == 'release')
                 params['packageType'] = 'release';
             else
-                if ($('.packagetype').val() == 'record')
+                if ($('.packageType').val() == 'record')
                     params['packageType'] = 'record';
             return params;
         });
