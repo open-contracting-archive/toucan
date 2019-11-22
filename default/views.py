@@ -1,24 +1,21 @@
 import os
 import shutil
-from io import StringIO
 from zipfile import ZipFile, ZIP_DEFLATED
 
 import flattentool
-import jsonref
-from django.conf import settings as django_settings
-from django.http import HttpResponse, JsonResponse, FileResponse, Http404
+from django.http import FileResponse, JsonResponse, Http404
 from django.shortcuts import render
-from django.utils.translation import gettext as _
 from django.views.decorators.http import require_POST
 from libcoveocds.config import LibCoveOCDSConfig
 from ocdskit.combine import package_releases as package_releases_method, compile_release_packages, \
     combine_release_packages, combine_record_packages
-from ocdskit.mapping_sheet import mapping_sheet as mapping_sheet_method
 from ocdskit.upgrade import upgrade_10_11
 
+from ocdstoucan.settings import OCDS_TOUCAN_MAXFILESIZE, OCDS_TOUCAN_MAXNUMFILES
 from .decorators import clear_files, require_files, published_date
 from .forms import MappingSheetOptionsForm
 from .data_file import DataFile
+from .mapping_sheet import get_mapping_sheet_from_url, get_mapping_sheet_from_uploaded_file, get_extended_mapping_sheet
 
 
 def retrieve_result(request, folder, id, format=None):
@@ -42,8 +39,11 @@ def retrieve_result(request, folder, id, format=None):
 
 
 def _ocds_command(request, command):
-    context = django_settings.OCDS_TOUCAN_UPLOAD_OPTIONS
-    context['performAction'] = '/{}/go/'.format(command)
+    context = {
+        'maxNumOfFiles': OCDS_TOUCAN_MAXNUMFILES,
+        'maxFileSize': OCDS_TOUCAN_MAXFILESIZE,
+        'performAction': '/{}/go/'.format(command)
+    }
     return render(request, 'default/{}.html'.format(command), context)
 
 
@@ -142,22 +142,52 @@ def perform_compile(request, published_date=''):
 
 
 def mapping_sheet(request):
-    context = {
-        'versionOptions': django_settings.OCDS_TOUCAN_SCHEMA_OPTIONS,
-    }
-
     if request.method == 'POST':
-        form = MappingSheetOptionsForm(request.POST)
+        form = MappingSheetOptionsForm(request.POST, request.FILES)
+
         if form.is_valid():
-            io = StringIO()
-            schema = jsonref.load_uri(form.cleaned_data['url'])
-            mapping_sheet_method(schema, io, infer_required=True)
+            type_selected = form.cleaned_data['type']
+            if type_selected == 'select':
+                return get_mapping_sheet_from_url(form.cleaned_data['select_url'])
+            elif type_selected == 'url':
+                return get_mapping_sheet_from_url(form.cleaned_data['custom_url'])
+            elif type_selected == 'file':
+                return get_mapping_sheet_from_uploaded_file(request.FILES['custom_file'])
+            elif type_selected == 'extension':
+                return get_extended_mapping_sheet(form.cleaned_data['extension_urls'], form.cleaned_data['version'])
 
-            response = HttpResponse(io.getvalue(), content_type='text/csv')
-            response['Content-Disposition'] = 'attachment; filename="mapping-sheet.csv"'
-            return response
+    elif request.method == 'GET':
+        if 'source' in request.GET:
+            return get_mapping_sheet_from_url(request.GET['source'])
+        elif 'extension' in request.GET:
+            if 'version' in request.GET:
+                version = request.GET['version']
+            else:
+                version = '1__1__4'
+            return get_extended_mapping_sheet(request.GET.getlist('extension'), version)
 
-        context['error'] = _('Invalid option! Please verify and try again')
+        form = MappingSheetOptionsForm()
+
+    context = {
+        'form': form,
+        'versionOptions': {
+            '1.1': {
+                'Release': 'https://standard.open-contracting.org/1.1/en/release-schema.json',
+                'Release Package': 'https://standard.open-contracting.org/1.1/en/release-package-schema.json',
+                'Record Package': 'https://standard.open-contracting.org/1.1/en/record-package-schema.json',
+            },
+            '1.1 (Español)': {
+                'Release': 'http://standard.open-contracting.org/1.1/es/release-schema.json',
+                'Paquete de Release': 'http://standard.open-contracting.org/1.1/es/release-schema.json',
+                'Paquete de Record': 'http://standard.open-contracting.org/1.1/es/record-package-schema.json',
+            },
+            '1.0': {
+                'Release': 'https://standard.open-contracting.org/schema/1__0__3/release-schema.json',
+                'Release Package': 'https://standard.open-contracting.org/schema/1__0__3/release-package-schema.json',
+                'Record Package': 'https://standard.open-contracting.org/schema/1__0__3/record-package-schema.json',
+            },
+        },
+    }
 
     return render(request, 'default/mapping_sheet.html', context)
 

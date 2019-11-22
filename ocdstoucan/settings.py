@@ -11,8 +11,9 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
 import os
-from django.utils.translation import gettext_lazy as _
+
 import sentry_sdk
+from django.utils.translation import gettext_lazy as _
 from sentry_sdk.integrations.django import DjangoIntegration
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -138,30 +139,8 @@ LANGUAGES = [
     ('es', _('Spanish')),
 ]
 
-LANGUAGE_CODE = 'en-us'
-
-OCDS_TOUCAN_UPLOAD_OPTIONS = {
-    'maxNumOfFiles': os.getenv('OCDS_TOUCAN_MAXNUMFILES', 20),
-    'maxFileSize': os.getenv('OCDS_TOUCAN_MAXFILESIZE', 10000000)  # in bytes
-}
-
-OCDS_TOUCAN_SCHEMA_OPTIONS = {
-    '1.1': {
-        'Release': 'https://standard.open-contracting.org/latest/en/release-schema.json',
-        'Release Package': 'https://standard.open-contracting.org/latest/en/release-package-schema.json',
-        'Record Package': 'https://standard.open-contracting.org/latest/en/record-package-schema.json'
-    },
-    '1.1 (Español)': {
-        'Release': 'http://standard.open-contracting.org/latest/es/release-schema.json',
-        'Paquete de Release': 'http://standard.open-contracting.org/latest/es/release-schema.json',
-        'Paquete de Record': 'http://standard.open-contracting.org/latest/es/record-package-schema.json'
-    },
-    '1.0': {
-        'Release': 'https://standard.open-contracting.org/schema/1__0__3/release-schema.json',
-        'Release Package': 'https://standard.open-contracting.org/schema/1__0__3/release-package-schema.json',
-        'Record Package': 'https://standard.open-contracting.org/schema/1__0__3/record-package-schema.json'
-    }
-}
+OCDS_TOUCAN_MAXNUMFILES = os.getenv('OCDS_TOUCAN_MAXNUMFILES', 20)
+OCDS_TOUCAN_MAXFILESIZE = os.getenv('OCDS_TOUCAN_MAXFILESIZE', 10000000)  # in bytes
 
 if os.getenv('SENTRY_DSN') is not None:
     sentry_sdk.init(
