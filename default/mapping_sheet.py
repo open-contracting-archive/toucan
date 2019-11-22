@@ -1,45 +1,32 @@
-import jsonref
-
 from io import StringIO
-from django.http.response import HttpResponse
-from ocdskit.mapping_sheet import mapping_sheet as mapping_sheet_method
-from django.core.cache import cache
-from ocdsextensionregistry import ProfileBuilder
-from ocdsmerge.merge import get_tags
 
-CACHE_KEY = 'git_tags'
-CACHE_TIMEOUT = 3600
+import jsonref
+from django.http.response import HttpResponse
+from ocdsextensionregistry import ProfileBuilder
+from ocdskit.mapping_sheet import mapping_sheet as mapping_sheet_method
 
 
 def get_mapping_sheet_from_url(url):
     schema = jsonref.load_uri(url)
-
     return _get_mapping_sheet(schema)
 
 
 def get_mapping_sheet_from_uploaded_file(uploaded):
-    schema = jsonref.loads(uploaded.read())
-
+    schema = jsonref.load(uploaded)
     return _get_mapping_sheet(schema)
 
 
-def get_extended_mapping_sheet(extensions, version='1__1__4'):
+def get_extended_mapping_sheet(extensions, version):
     builder = ProfileBuilder(version, extensions)
-
-    return _get_mapping_sheet(jsonref.JsonRef.replace_refs(builder.patched_release_schema()))
+    schema = jsonref.JsonRef.replace_refs(builder.patched_release_schema())
+    return _get_mapping_sheet(schema)
 
 
 def _get_mapping_sheet(data):
     io = StringIO()
-
     mapping_sheet_method(data, io, infer_required=True)
 
     response = HttpResponse(io.getvalue(), content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="mapping-sheet.csv"'
+
     return response
-
-
-def get_standard_tags():
-    if cache.get(CACHE_KEY) is None:
-        cache.set(CACHE_KEY, sorted(set(get_tags()), reverse=True), CACHE_TIMEOUT)
-    return cache.get(CACHE_KEY)

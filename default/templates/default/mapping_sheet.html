@@ -16,18 +16,23 @@
                     names, paths and descriptions of all OCDS fields in a table format.
                 {% endblocktrans %}
             </p>
-            <p>{% trans "The options available are" %}:</p>
+            <p>{% trans "The options available are:" %}</p>
             <ul class="list-unstyled">
-                <li><strong>{% trans "Select a schema" %}:</strong> {% trans "Use any of the official OCDS Schemas" %}.
-                </li>
-                <li><strong>{% trans "Provide an URL" %}:</strong> {% trans "Enter an URL to a custom schema" %}.</li>
                 <li>
-                    <strong>{% trans "Upload a file" %}:</strong>
-                    {% trans "Upload a custom schema file from your computer" %}.
+                    <strong>{% trans "Select a schema and version:" %}</strong>
+                    {% trans "Use any of the official OCDS Schemas." %}
                 </li>
                 <li>
-                    <strong>{% trans "Extensions of Release Schema" %}:</strong>
-                    {% trans "Generate a patched version of the Release Schema with one or more OCDS extensions" %}.
+                    <strong>{% trans "Provide a URL:" %}</strong>
+                    {% trans "Enter a URL to a custom schema." %}
+                </li>
+                <li>
+                    <strong>{% trans "Upload a file:" %}</strong>
+                    {% trans "Upload a custom schema file from your computer." %}
+                </li>
+                <li>
+                    <strong>{% trans "For an OCDS Extension:" %}</strong>
+                    {% trans "Generate a patched version of the Release Schema with one or more OCDS extensions." %}
                 </li>
             </ul>
         </div>
@@ -41,32 +46,18 @@
         {% if form.type.errors %}
             <div class="text-danger">{{ form.type.errors }}</div>{% endif %}
         <div class="btn-group schema-nav" data-toggle="buttons">
-            <label class="btn btn-default {% if not form.type.value or form.type.value == 'select' %}active{% endif %}">
-                <input type="radio" name="type" id="select-schema" autocomplete="off" value="select"
-                       {% if not form.type.value or form.type.value == 'select' %}checked{% endif %}/>
-                {% trans "Select a schema" %}
-            </label>
-            <label class="btn btn-default {% if form.type.value == 'url' %}active{% endif %}">
-                <input type="radio" name="type" id="schema-url" value="url" autocomplete="off"
-                       {% if form.type.value == 'url' %}checked{% endif %}>
-                {% trans "Provide an URL" %}
-            </label>
-            <label class="btn btn-default {% if form.type.value == 'file' %}active{% endif %}">
-                <input type="radio" name="type" id="schema-file" value="file" autocomplete="off"
-                       {% if form.type.value == 'file' %}checked{% endif %}>
-                {% trans "Upload a file" %}
-            </label>
-            <label class="btn btn-default {% if form.type.value == 'extension' %}active{% endif %}">
-                <input type="radio" name="type" id="extension-urls" value="extension" autocomplete="off"
-                       {% if form.type.value == 'extension' %}checked{% endif %}>
-                {% trans "Extensions of Release Schema" %}
-            </label>
+            {% for value, label in form.fields.type.choices %}
+                <label class="btn btn-default {% if form.type.value == value %}active{% endif %}">
+                <input type="radio" name="type" class="choice-header toucan-nav-{{value}}" autocomplete="off" value="{{value}}"
+                       {% if form.type.value == value %}checked{% endif %}/>
+                {{ label }}
+                </label>
+            {% endfor %}
         </div>
         <div role="tabpanel"
-             class="panel-collapse collapse {% if not form.type.value or form.type.value == 'select' %}in{% endif %}"
-             id="select-schema-fields">
+             class="panel-collapse collapse {% if form.type.value == 'select' %}in{% endif %} toucan-nav-select">
             <div class="form-group  {% if form.select_url.errors %}has-error{% endif %}">
-                <label for="url">{% trans "Select a schema and version" %}:</label>
+                <label for="url">{{ form.select_url.label }}</label>
                 <select name="select_url" class="form-control">
                     {% for version, schemas in versionOptions.items %}
                         <optgroup label="{{ version }}">
@@ -80,38 +71,34 @@
                     <div class="help-block">{{ form.select_url.errors }}</div>{% endif %}
             </div>
         </div>
-        <div role="tabpanel" class="panel-collapse collapse {% if form.type.value == 'url' %}in{% endif %}"
-             id="schema-url-fields">
+        <div role="tabpanel" class="panel-collapse collapse {% if form.type.value == 'url' %}in{% endif %} toucan-nav-url">
             <div class="form-group  {% if form.custom_url.errors %}has-error{% endif %}">
-                <label for="schema-url">{% trans "Provide the URL to a custom schema below" %}:</label>
+                <label for="schema-url">{{ form.custom_url.label }}</label>
                 <input type="text" name="custom_url" id="schema-url" class="form-control"/>
                 {% if form.custom_url.errors %}
                     <div class="help-block">{{ form.custom_url.errors }}</div>{% endif %}
             </div>
         </div>
-        <div role="tabpanel" class="panel-collapse collapse {% if form.type.value == 'file' %}in{% endif %}"
-             id="schema-file-fields">
+        <div role="tabpanel" class="panel-collapse collapse {% if form.type.value == 'file' %}in{% endif %} toucan-nav-file">
             <div class="form-group  {% if form.custom_file.errors %}has-error{% endif %}">
-                <label for="schema-file">{% trans "Upload a file" %}:</label>
+                <label for="schema-file">{{ form.custom_file.label }}</label>
                 <input type="file" name="custom_file" id="schema-file" class="form-control"/>
                 {% if form.custom_file.errors %}
                     <div class="help-block">{{ form.custom_file.errors }}</div>{% endif %}
             </div>
         </div>
-        <div role="tabpanel" class="panel-collapse collapse {% if form.type.value == 'extension' %}in{% endif %}"
-             id="extension-urls-fields">
+        <div role="tabpanel" class="panel-collapse collapse {% if form.type.value == 'extension' %}in{% endif %} toucan-nav-extension">
             <div class="extension-url-container">
                 <div class="form-group">
-                    <label for="version">{% trans "Please select an OCDS version" %}:</label>
+                    <label for="version">{{ form.version.label }}</label>
                     {{ form.version }}
                 </div>
                 {% for field in form.get_extension_fields %}
                     <div class="form-group {% if field.errors %}has-error{% endif %}">
                         <label>{% blocktrans trimmed %}
                             Please provide one or more URLs to the <code>extension.json</code> file for each OCDS
-                            Extension you want
-                            to use
-                        {% endblocktrans %}:</label>
+                            extension you want to use:
+                        {% endblocktrans %}</label>
                         <div class="input-group">
                             <input type="text" name="{{ field.html_name }}" id="{{ field.auto_id }}"
                                    class="form-control" value="{{ field.value }}"/>
@@ -139,39 +126,13 @@
 {% endblock %}
 {% block scripts %}
     <script>
-        $('#select-schema').on('change', function () {
+        $('.choice-header').on('change', function() {
             if ($(this).is(':checked')) {
-                $('#select-schema-fields').collapse('show');
-                $('#schema-url-fields').collapse('hide');
-                $('#schema-file-fields').collapse('hide');
-                $('#extension-urls-fields').collapse('hide');
-            }
-        });
-
-        $('#schema-url').on('change', function () {
-            if ($(this).is(':checked')) {
-                $('#select-schema-fields').collapse('hide');
-                $('#schema-url-fields').collapse('show');
-                $('#schema-file-fields').collapse('hide');
-                $('#extension-urls-fields').collapse('hide');
-            }
-        });
-
-        $('#schema-file').on('change', function () {
-            if ($(this).is(':checked')) {
-                $('#select-schema-fields').collapse('hide');
-                $('#schema-url-fields').collapse('hide');
-                $('#schema-file-fields').collapse('show');
-                $('#extension-urls-fields').collapse('hide');
-            }
-        });
-
-        $('#extension-urls').on('change', function () {
-            if ($(this).is(':checked')) {
-                $('#select-schema-fields').collapse('hide');
-                $('#schema-url-fields').collapse('hide');
-                $('#schema-file-fields').collapse('hide');
-                $('#extension-urls-fields').collapse('show');
+                var allClasses = $(this).attr('class');
+                var operationIndex = allClasses.search(/toucan-nav-[^\s]+/);
+                var operationClass = allClasses.substring(operationIndex);
+                $('.panel-collapse.collapse ').not(this).collapse('hide');
+                $('.panel-collapse.collapse.' + operationClass).collapse('show');
             }
         });
 

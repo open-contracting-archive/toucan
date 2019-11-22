@@ -1,13 +1,15 @@
-from django.test import TestCase
-from tests import read
 from io import StringIO
 from unittest.mock import patch
+
+from django.test import TestCase
+
+from tests import read
 
 
 class MappingSheetTestCase(TestCase):
     url = '/mapping-sheet/'
 
-    @patch('default.mapping_sheet.get_tags')
+    @patch('default.forms._get_tags')
     def test_get(self, mock_get):
         mock_get.return_value = ("1__0__0", "1__0__1")
         response = self.client.get(self.url)
@@ -69,7 +71,7 @@ class MappingSheetTestCase(TestCase):
         self.assertEqual(response.content.decode('utf-8').replace('\r\n', '\n'),
                          read('results/ocds-ppp-1_0_0-mapping-sheet.csv'))
 
-    @patch('default.mapping_sheet.get_tags')
+    @patch('default.forms._get_tags')
     def test_get_extension(self, mock_get):
         mock_get.return_value = ("1__1__3", "1__1__4")
 
@@ -90,7 +92,7 @@ class MappingSheetTestCase(TestCase):
         self.assertEqual(response.content.decode('utf-8').replace('\r\n', '\n'),
                          read('results/bids-location-mapping-sheet.csv'))
 
-    @patch('default.mapping_sheet.get_tags')
+    @patch('default.forms._get_tags')
     def test_post_extension(self, mock_get):
         mock_get.return_value = ("1__1__3", "1__1__4")
 
@@ -124,7 +126,7 @@ class MappingSheetTestCase(TestCase):
         self.assertIn('Please choose an operation type', content)
 
     def test_post_error_messages(self):
-        # "Select an URL" option, with no URL selected
+        # "Select a URL" option, with no URL selected
         response = self.client.post(self.url, {
             'type': 'select'
         })
@@ -137,7 +139,7 @@ class MappingSheetTestCase(TestCase):
         self.assertIn('<ul class="errorlist"><li>', content)
         self.assertIn('Please select an option', content)
 
-        # "Provide an URL" option, with an empty input URL
+        # "Provide a URL" option, with an empty input URL
         response = self.client.post(self.url, {
             'type': 'url'
         })
@@ -148,7 +150,7 @@ class MappingSheetTestCase(TestCase):
         content = response.content.decode('utf-8')
 
         self.assertIn('<ul class="errorlist"><li>', content)
-        self.assertIn('Please provide an URL', content)
+        self.assertIn('Please provide a URL', content)
 
         # "Upload a file" option, with no file provided
         response = self.client.post(self.url, {
