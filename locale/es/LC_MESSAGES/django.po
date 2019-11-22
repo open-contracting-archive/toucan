@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-11-19 16:25-0300\n"
+"POT-Creation-Date: 2019-11-22 16:44-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -81,20 +81,21 @@ msgstr "Combinar Paquetes"
 
 #: default/templates/default/combine-packages.html:6
 msgid ""
-"Drag and drop one or more <a href=\"https://standard.open-contracting.org/"
-"latest/en/schema/release_package/\" target=\"_blank\">Release Package</a>\n"
+"Drag and drop exclusively two or more <a href=\"https://standard.open-"
+"contracting.org/latest/en/schema/release_package/\" target=\"_blank"
+"\">Release Package</a>\n"
 "    or <a href=\"https://standard.open-contracting.org/latest/en/schema/"
-"record_package/\" target=\"_blank\">Record Package</a> to combine into one "
-"Package ."
+"record_package/\" target=\"_blank\">Record Package</a>\n"
+"    files in the box below to combine them into a single package."
 msgstr ""
-"Arrastre y suelte uno o más <a href=\"https://standard.open-contracting.org/"
-"latest/es/schema/release_package/\" target=\"_blank\">Paquetes de Release</"
-"a> o\n"
-"<a href=\"https://standard.open-contracting.org/latest/es/schema/"
-"record_package/\" target=\"_blank\">Paquetes de Record</a> para combinar en "
-"un solo Paquete."
+"Arrastra y suelta de manera exclusiva, dos o más archivos de <a href="
+"\"https://standard.open-contracting.org/latest/es/schema/release_package/\" "
+"target=\"_blank\">Paquetes de Release</a> o\n"
+" <a href=\"https://standard.open-contracting.org/latest/es/schema/"
+"record_package/\" target=\"_blank\">Paquetes de Record</a> en el cuadro de "
+"abajo para combinarlos en un solo Paquete."
 
-#: default/templates/default/combine-packages.html:8
+#: default/templates/default/combine-packages.html:9
 #: default/templates/default/compile.html:8
 #: default/templates/default/package-releases.html:8
 msgid "You can also click the <strong>Add a file</strong> link below."
@@ -102,7 +103,7 @@ msgstr ""
 "También puede hacer clic en el enlace de <strong>Agregue un archivo</strong> "
 "más abajo."
 
-#: default/templates/default/combine-packages.html:9
+#: default/templates/default/combine-packages.html:10
 #: default/templates/default/compile.html:9
 #: default/templates/default/package-releases.html:9
 msgid ""
@@ -112,23 +113,30 @@ msgstr ""
 "Use la opción <strong>Fecha de Publicación</strong> para establecer la Fecha "
 "de Publicación del paquete de salida."
 
-#: default/templates/default/combine-packages.html:10
-msgid ""
-"Please verify that your files are Release or Record Packages and select the "
-"correct option before uploading."
-msgstr ""
-"Favor verifique que sus archivos sean Paquetes de Release o de Record y "
-"seleccione la opcion correcta antes de subirlos."
-
 #: default/templates/default/combine-packages.html:11
-msgid "The input can be JSON Array files of Packages."
-msgstr "Los archivos de entrada pueden ser un array de Paquetes JSON."
+msgid ""
+"Please select the correct <strong>Package type</strong> before uploading."
+msgstr ""
+"Por favor seleccione el <strong>Tipo de Paquete</strong> correcto antes de"
+" subirlos."
+
+#: default/templates/default/combine-packages.html:12
+msgid ""
+"The input files must be JSON files with a single Package each or JSON Array "
+"of Packages."
+msgstr ""
+"Los archivos de entrada deben ser JSON con un solo Paquete cada uno o un "
+"JSON Array de Paquetes."
 
 #: default/templates/default/combine-packages.html:17
+msgid "Package type"
+msgstr "Tipo de Paquete"
+
+#: default/templates/default/combine-packages.html:19
 msgid "Release Package"
 msgstr "Paquete de Release"
 
-#: default/templates/default/combine-packages.html:18
+#: default/templates/default/combine-packages.html:20
 msgid "Record Package"
 msgstr "Paquete de Record"
 

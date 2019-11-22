@@ -1,18 +1,20 @@
 {% extends 'default/base-uploader.html' %}
-{% load i18n %}
+{% load i18n %}files in the box below to combine them into a single package
 
 {% block subtitle %} &gt;&gt; {% trans "Combine Packages" %} {% endblock %}
 {% block info %}
-<p>{% blocktrans %}Drag and drop one or more <a href="https://standard.open-contracting.org/latest/en/schema/release_package/" target="_blank">Release Package</a>
-    or <a href="https://standard.open-contracting.org/latest/en/schema/record_package/" target="_blank">Record Package</a> to combine into one Package .{% endblocktrans %}
+<p>{% blocktrans %}Drag and drop exclusively two or more <a href="https://standard.open-contracting.org/latest/en/schema/release_package/" target="_blank">Release Package</a>
+    or <a href="https://standard.open-contracting.org/latest/en/schema/record_package/" target="_blank">Record Package</a>
+    files in the box below to combine them into a single package.{% endblocktrans %}
 {% blocktrans %}You can also click the <strong>Add a file</strong> link below.{% endblocktrans %}</p>
-<p>{% blocktrans %}Use the <strong>Published Date</strong> option to set the Published Date in the output package.{% endblocktrans %}</p>
-<p>{% blocktrans %}Please verify that your files are Release or Record Packages and select the correct option before uploading.{% endblocktrans %}</p>
-<p>{% blocktrans %}The input can be JSON Array files of Packages.{% endblocktrans%}</p>
+<p>{% blocktrans %}Use the <strong>Published Date</strong> option to set the Published Date in the output package.{% endblocktrans %}
+{% blocktrans %}Please select the correct <strong>Package type</strong> before uploading.{% endblocktrans %}</p>
+<p>{% blocktrans %}The input files must be JSON files with a single Package each or JSON Array of Packages.{% endblocktrans%}</p>
 {% endblock %}
 {% block extraoptions %}
 {% include "default/snippets/published_date.html" %}
-<div class="col-sm-2">
+<div class="form-group">
+    <label>{% trans "Package type" %}:</label>
     <select class="form-control packageType">
         <option value="release">{% trans "Release Package" %}</option>
         <option value="record">{% trans "Record Package" %}</option>
