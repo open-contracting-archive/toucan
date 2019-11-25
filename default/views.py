@@ -96,7 +96,13 @@ def perform_upgrade(request):
 @require_files
 @published_date
 def perform_package_releases(request, published_date=''):
-    releases = [file.json() for file in _get_files_from_session(request)]
+    releases = []
+    for file in _get_files_from_session(request):
+        item = file.json()
+        if isinstance(item, list):
+            releases.extend(item)
+        else:
+            releases.append(item)
 
     return _json_response({
         'result.json': package_releases_method(releases, published_date=published_date),

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-11-22 11:42-0300\n"
+"POT-Creation-Date: 2019-11-22 18:40-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -295,8 +295,12 @@ msgstr ""
 "\">Paquete de Release</a> "
 
 #: default/templates/default/package-releases.html:10
-msgid "The input files must be JSON files with a single Release each."
-msgstr "Los archivos de entrada deben ser JSON con un solo Release cada uno."
+msgid ""
+"The input files must be JSON files with a single Release each or a JSON "
+"Array of Releases."
+msgstr ""
+"Los archivos de entrada deben ser JSON con un solo Release cada uno o un "
+"JSON Array de Releases."
 
 #: default/templates/default/snippets/published_date.html:3
 msgid "Published date: "
