@@ -3,7 +3,8 @@ import uuid
 import json
 import logging
 from datetime import date
-from zipfile import ZipFile, ZIP_DEFLATED
+from zipfile import ZIP_DEFLATED, ZipFile
+
 from django.conf import settings
 from ocdskit.util import json_dumps, json_loads, is_release_package, is_record_package
 from django.utils.translation import gettext as _

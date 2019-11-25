@@ -1,21 +1,23 @@
 import os
 import shutil
-from zipfile import ZipFile, ZIP_DEFLATED
+from zipfile import ZIP_DEFLATED, ZipFile
 
 import flattentool
-from django.http import FileResponse, HttpResponse, JsonResponse, Http404
+from django.http import FileResponse, Http404, HttpResponse, JsonResponse
 from django.shortcuts import render
 from django.utils.translation import gettext as _
 from django.views.decorators.http import require_POST, require_GET
 from libcoveocds.config import LibCoveOCDSConfig
-from ocdskit.combine import package_releases as package_releases_method, compile_release_packages
+from ocdskit.combine import compile_release_packages
+from ocdskit.combine import package_releases as package_releases_method
 from ocdskit.upgrade import upgrade_10_11
 
+from default.data_file import DataFile
+from default.decorators import clear_files, published_date, require_files
+from default.forms import MappingSheetOptionsForm
+from default.mapping_sheet import (get_extended_mapping_sheet, get_mapping_sheet_from_uploaded_file,
+                                   get_mapping_sheet_from_url)
 from ocdstoucan.settings import OCDS_TOUCAN_MAXFILESIZE, OCDS_TOUCAN_MAXNUMFILES
-from .decorators import clear_files, require_files, published_date
-from .forms import MappingSheetOptionsForm
-from .data_file import DataFile
-from .mapping_sheet import get_mapping_sheet_from_url, get_mapping_sheet_from_uploaded_file, get_extended_mapping_sheet
 
 
 def retrieve_result(request, folder, id, format=None):
