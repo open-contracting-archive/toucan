@@ -7,7 +7,7 @@ from django.http import FileResponse, Http404, JsonResponse
 from django.shortcuts import render
 from django.views.decorators.http import require_POST
 from libcoveocds.config import LibCoveOCDSConfig
-from ocdskit.combine import compile_release_packages, combine_release_packages, combine_record_packages
+from ocdskit.combine import combine_record_packages, combine_release_packages, compile_release_packages
 from ocdskit.combine import package_releases as package_releases_method
 from ocdskit.upgrade import upgrade_10_11
 
