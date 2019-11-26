@@ -26,8 +26,13 @@
 </div>
 <div class="info panel panel-default">
   <div class="panel-body">
-    <p>{% blocktrans trimmed %}Use this page to convert a <a href="https://standard.open-contracting.org/latest/en/schema/release_package/" target="_blank">Release Package</a> 
-    to its CSV and Excel version. Please upload no more than one file by dragging and dropping in the box below or using the <strong>Add a file</strong> link.{% endblocktrans %}</p>
+    <p>
+        {% blocktrans trimmed %}
+            Use this page to convert a <a href="https://standard.open-contracting.org/latest/en/schema/release_package/"
+            target="_blank">Release Package</a> to its CSV and Excel version. Please upload no more than one file by
+            dragging and dropping in the box below or using the <strong>Add a file</strong> link.
+        {% endblocktrans %}
+    </p>
   </div>
 </div>
 <form 
@@ -80,7 +85,7 @@
 
     $('#fileupload').bind('fileuploadadd', function(e, data){
         $('.drop-area').removeClass('empty');
-        $('.drop-area-msg').html('<strong>{% trans "Added" %}:</strong> ' {# not very nice to do this here #}
+        $('.drop-area-msg').html('<strong>{% trans "Added:" %}</strong> ' {# not very nice to do this here #}
             + data.files[0].name 
             + ' <small>(' 
             + utils.readableFileSize(data.files[0].size) 

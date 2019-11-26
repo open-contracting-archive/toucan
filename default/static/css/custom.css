@@ -56,3 +56,13 @@
     margin-right: 10px;
     color: #9BAF00; 
 }
+.schema-nav {
+    margin-bottom: 10px;
+}
+.mapping-sheet-form .errorlist {
+    list-style-type: none;
+    padding: 0;
+}
+.extension-url-container .input-group {
+    padding-top: 3px;
+}
