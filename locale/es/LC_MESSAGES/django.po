@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-11-25 20:54+0000\n"
+"POT-Creation-Date: 2019-11-26 17:26-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -123,64 +123,64 @@ msgstr "OCDS Toucan"
 msgid "Combine Packages"
 msgstr "Combinar Paquetes"
 
-#: default/templates/default/combine-packages.html:6
+#: default/templates/default/combine-packages.html:8
 msgid ""
 "Drag and drop exclusively two or more <a href=\"https://standard.open-"
-"contracting.org/latest/en/schema/release_package/\" target=\"_blank"
-"\">Release Package</a>\n"
-"    or <a href=\"https://standard.open-contracting.org/latest/en/schema/"
-"record_package/\" target=\"_blank\">Record Package</a>\n"
-"    files in the box below to combine them into a single package."
+"contracting.org/latest/en/schema/release_package/\" target=\"_blank\"> "
+"release package</a> or <a href=\"https://standard.open-contracting.org/"
+"latest/en/schema/record_package/\" target=\"_blank\">record package</a> to "
+"combine them into a single package."
 msgstr ""
-"Arrastra y suelta de manera exclusiva, dos o más archivos de <a href="
-"\"https://standard.open-contracting.org/latest/es/schema/release_package/\" "
-"target=\"_blank\">Paquetes de Release</a> o\n"
+"Arrastra y suelta de manera exclusiva, dos o más <a href=\"https://standard."
+"open-contracting.org/latest/es/schema/release_package/\" target=\"_blank"
+"\">paquetes de release</a> o\n"
 " <a href=\"https://standard.open-contracting.org/latest/es/schema/"
-"record_package/\" target=\"_blank\">Paquetes de Record</a> en el cuadro de "
-"abajo para combinarlos en un solo Paquete."
+"record_package/\" target=\"_blank\">paquetes de record</a> para combinarlos "
+"en un solo paquete."
 
-#: default/templates/default/combine-packages.html:9
-#: default/templates/default/compile.html:8
-#: default/templates/default/package-releases.html:8
+#: default/templates/default/combine-packages.html:14
+#: default/templates/default/compile.html:15
+#: default/templates/default/package-releases.html:14
+#: default/templates/default/upgrade.html:15
 msgid "You can also click the <strong>Add a file</strong> link below."
 msgstr ""
 "También puede hacer clic en el enlace de <strong>Agregue un archivo</strong> "
 "más abajo."
 
-#: default/templates/default/combine-packages.html:10
-#: default/templates/default/compile.html:9
-#: default/templates/default/package-releases.html:9
-msgid ""
-"Use the <strong>Published Date</strong> option to set the Published Date in "
-"the output package."
-msgstr ""
-"Use la opción <strong>Fecha de Publicación</strong> para establecer la Fecha "
-"de Publicación del paquete de salida."
-
-#: default/templates/default/combine-packages.html:11
-msgid ""
-"Please select the correct <strong>Package type</strong> before uploading."
-msgstr ""
-"Por favor seleccione el <strong>Tipo de Paquete</strong> correcto antes de "
-"subirlos."
-
-#: default/templates/default/combine-packages.html:12
-msgid ""
-"The input files must be JSON files with a single Package each or JSON Array "
-"of Packages."
-msgstr ""
-"Los archivos de entrada deben ser JSON con un solo Paquete cada uno o un "
-"JSON Array de Paquetes."
-
 #: default/templates/default/combine-packages.html:17
+#: default/templates/default/compile.html:19
+#: default/templates/default/package-releases.html:17
+msgid ""
+"Fill in the <strong>Published date</strong> textbox to set "
+"<code>publishedDate</code> in the output package."
+msgstr ""
+"Use la opción <strong>Fecha de Publicación</strong> para establecer "
+"<code>publishedDate</code> del paquete de salida."
+
+#: default/templates/default/combine-packages.html:18
+msgid ""
+"Select the correct <strong>Package type</strong> option before uploading."
+msgstr ""
+"Seleccione la opción correcta de <strong>Tipo de Paquete</strong> antes de "
+"cargar."
+
+#: default/templates/default/combine-packages.html:21
+msgid ""
+"Each input file must be a JSON file containing either a single package or an "
+"array of packages."
+msgstr ""
+"Los archivos de entrada deben ser JSON con un solo paquete cada uno o un "
+"array de paquetes"
+
+#: default/templates/default/combine-packages.html:28
 msgid "Package type"
 msgstr "Tipo de Paquete"
 
-#: default/templates/default/combine-packages.html:19
+#: default/templates/default/combine-packages.html:30
 msgid "Release Package"
 msgstr "Paquete de Release"
 
-#: default/templates/default/combine-packages.html:20
+#: default/templates/default/combine-packages.html:31
 msgid "Record Package"
 msgstr "Paquete de Record"
 
@@ -202,23 +202,6 @@ msgstr ""
 "a> para generar un <a href=\"https://standard.open-contracting.org/latest/es/"
 "schema/record_package/\" target=\"_blank\">paquete de record</a> con "
 "compiled releases incluidos."
-
-#: default/templates/default/compile.html:15
-#: default/templates/default/package-releases.html:14
-#: default/templates/default/upgrade.html:15
-msgid "You can also click the <strong>Add a file</strong> link below."
-msgstr ""
-"También puede hacer clic en el enlace de <strong>Agregue un archivo</strong> "
-"más abajo."
-
-#: default/templates/default/compile.html:19
-#: default/templates/default/package-releases.html:17
-msgid ""
-"Fill in the <strong>Published date</strong> textbox to set "
-"<code>publishedDate</code> in the output package."
-msgstr ""
-"Use la opción <strong>Fecha de Publicación</strong> para establecer "
-"<code>publishedDate</code> del paquete de salida."
 
 #: default/templates/default/compile.html:20
 msgid ""
@@ -247,12 +230,12 @@ msgstr "Incluir el bloque versionedRelease"
 msgid "Create Release Packages"
 msgstr "Crear Paquetes de Entregas"
 
-#: default/templates/default/index.html:37
+#: default/templates/default/index.html:47
 #: default/templates/default/upgrade.html:4
 msgid "Upgrade from 1.0 to 1.1"
 msgstr "Actualizar de 1.0 a 1.1"
 
-#: default/templates/default/index.html:47
+#: default/templates/default/index.html:57
 msgid "Generate a spreadsheet version of schema"
 msgstr "Generar una planilla del esquema"
 
@@ -409,3 +392,17 @@ msgstr "Inglés"
 #: ocdstoucan/settings.py:139
 msgid "Spanish"
 msgstr "Español"
+
+#~ msgid ""
+#~ "The input files must be JSON files with a single Package each or JSON "
+#~ "Array of Packages."
+#~ msgstr ""
+#~ "Los archivos de entrada deben ser JSON con un solo Paquete cada uno o un "
+#~ "JSON Array de Paquetes."
+
+#~ msgid ""
+#~ "Use the <strong>Published Date</strong> option to set the Published Date "
+#~ "in the output package."
+#~ msgstr ""
+#~ "Use la opción <strong>Fecha de Publicación</strong> para establecer la "
+#~ "Fecha de Publicación del paquete de salida."

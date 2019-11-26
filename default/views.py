@@ -7,8 +7,8 @@ from django.http import FileResponse, Http404, JsonResponse
 from django.shortcuts import render
 from django.views.decorators.http import require_POST
 from libcoveocds.config import LibCoveOCDSConfig
-from ocdskit.combine import package_releases as package_releases_method, compile_release_packages, \
-    combine_release_packages, combine_record_packages
+from ocdskit.combine import compile_release_packages, combine_release_packages, combine_record_packages
+from ocdskit.combine import package_releases as package_releases_method
 from ocdskit.upgrade import upgrade_10_11
 
 from default.data_file import DataFile
@@ -17,10 +17,6 @@ from default.forms import MappingSheetOptionsForm
 from default.mapping_sheet import (get_extended_mapping_sheet, get_mapping_sheet_from_uploaded_file,
                                    get_mapping_sheet_from_url)
 from ocdstoucan.settings import OCDS_TOUCAN_MAXFILESIZE, OCDS_TOUCAN_MAXNUMFILES
-from .decorators import clear_files, require_files, published_date
-from .forms import MappingSheetOptionsForm
-from .data_file import DataFile
-from .mapping_sheet import get_mapping_sheet_from_url, get_mapping_sheet_from_uploaded_file, get_extended_mapping_sheet
 
 
 def retrieve_result(request, folder, id, format=None):

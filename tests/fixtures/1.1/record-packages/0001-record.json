@@ -1,1 +1,133 @@
-{"uri":"https://www.contrataciones.gov.py/datos/record-package/134721.json","version":"1.1","publicationPolicy":"https://www.contrataciones.gov.py/datos/legal","records":[{"releases":[{"url":"https://www.contrataciones.gov.py/datos/id/planning/134721-excavacion-pozo-artesiano-colocacion-tanques-metalicos-dos-barrios-zona-ru.json","tag":["planning"],"date":"2013-03-05T08:24:59-05:00"},{"url":"https://www.contrataciones.gov.py/datos/id/tender/134721-excavacion-pozo-colocacion-tanque-metalico.json","tag":["tender"],"date":"2009-12-17T00:00:00-05:00"}],"ocid":"ocds-03ad3f-134721","compiledRelease":{"ocid":"ocds-03ad3f-134721","id":"134721-excavacion-pozo-colocacion-tanque-metalico","date":"2018-03-21T13:59:22-04:00","tag":["compiled"],"initiationType":"tender","parties":[{"id":"ea380f38784822b903e2d8d2bbcd3fc8","roles":["buyer","procuringEntity"],"contactPoint":{"email":"uoc_natalio@hotmail.com","name":"ALBERCIO DAVID CABAÑAS MARTINEZ","telephone":"0765 206 195"},"name":"Municipalidad de Natalio"}],"planning":{"budget":{"description":"EXCAVACION DE POZO ARTESIANO Y COLOCACION DE TANQUES METALICOS EN DOS BARRIOS DE LA ZONA RURAL DEL DISTRITO","amount":{"amount":null,"currency":"PYG"}},"url":"https://www.contrataciones.gov.py/datos/id/planificaciones/134721-excavacion-pozo-artesiano-colocacion-tanques-metalicos-dos-barrios-zona-ru"},"awards":[],"contracts":[],"language":"es","buyer":{"id":"ea380f38784822b903e2d8d2bbcd3fc8","name":"Municipalidad de Natalio"},"tender":{"procuringEntity":{"id":"ea380f38784822b903e2d8d2bbcd3fc8","name":"Municipalidad de Natalio"},"title":"Excavacion de pozo y colocacion de tanque metalico","awardPeriod":{"endDate":null,"startDate":"2009-12-30T00:00:00-05:00"},"hasEnquiries":false,"submissionMethod":["written"],"enquiryPeriod":{"endDate":"2009-12-30T00:00:00-05:00"},"lots":[{"id":"1b8360umna0%3D","items":[],"title":"Excavacion de pozo y colocacion de tanque metalico"}],"tenderPeriod":{"endDate":"2010-01-04T00:00:00-05:00","startDate":null},"documents":[{"language":"es","format":"application/pdf","title":"Condiciones Generales del Contrato - Bienes y Servicios","id":"qwvV15zLRSw%3D","documentType":"Condiciones Generales del Contrato - Bienes y Servicios","url":"https://www.contrataciones.gov.py/documentos/download/convocatoria/qwvV15zLRSw%253D"},{"language":"es","format":"application/pdf","title":"Instrucción a los Oferentes - Bienes y Servicios","id":"0zLQbzfsLPs%3D","documentType":"Instrucción a los Oferentes - Bienes y Servicios","url":"https://www.contrataciones.gov.py/documentos/download/convocatoria/0zLQbzfsLPs%253D"},{"language":"es","format":"application/pdf","title":"Plano de obra o cómputos métricos","id":"E17n%2F8Civ7g%3D","documentType":"Plano de obra o cómputos métricos","url":"https://www.contrataciones.gov.py/documentos/download/convocatoria/E17n%252F8Civ7g%253D"},{"language":"es","format":"text/plain","title":"Pliego de bases y Condiciones","id":"%2ByWmOHCZBL4%3D","documentType":"biddingDocuments","url":"https://www.contrataciones.gov.py/documentos/download/convocatoria/%252ByWmOHCZBL4%253D"}],"status":"unsuccessful","id":"134721-excavacion-pozo-colocacion-tanque-metalico","items":[],"url":"https://www.contrataciones.gov.py/datos/id/convocatorias/134721-excavacion-pozo-colocacion-tanque-metalico","value":{"amount":null,"currency":"PYG"}}}}],"packages":["https://www.contrataciones.gov.py/datos/id/planning/134721-excavacion-pozo-artesiano-colocacion-tanques-metalicos-dos-barrios-zona-ru.json","https://www.contrataciones.gov.py/datos/id/tender/134721-excavacion-pozo-colocacion-tanque-metalico.json"],"publishedDate":"2018-03-21T13:59:22-04:00","license":"https://creativecommons.org/licenses/by/4.0/","publisher":{"uri":"https://contrataciones.gov.py/datos","legalName":"Dirección Nacional de Contrataciones Públicas, Paraguay","name":"DNCP - Paraguay"}}
+{
+  "uri": "http://example.com",
+  "version": "1.1",
+  "publicationPolicy": "http://example.com",
+  "records": [
+    {
+      "releases": [
+        {
+          "url": "http://example.com",
+          "tag": [
+            "planning"
+          ],
+          "date": "2019-04-01T00:00:00Z"
+        },
+        {
+          "url": "http://example.com",
+          "tag": [
+            "tender"
+          ],
+          "date": "2019-08-01T00:00:00Z"
+        }
+      ],
+      "ocid": "ocds-03ad3f-1",
+      "compiledRelease": {
+        "ocid": "ocds-03ad3f-1",
+        "id": "134721-test-data-publisher",
+        "date": "2019-10-01T00:00:00Z",
+        "tag": [
+          "compiled"
+        ],
+        "initiationType": "tender",
+        "parties": [
+          {
+            "id": "0001",
+            "roles": [
+              "buyer",
+              "procuringEntity"
+            ],
+            "contactPoint": {
+              "email": "juan.lopez@fictionalagency.gov.py",
+              "name": "Juan Lopez",
+              "telephone": "021111222"
+            },
+            "name": "Fictional Government Agency"
+          }
+        ],
+        "planning": {
+          "budget": {
+            "description": "Action for example",
+            "amount": {
+              "amount": null,
+              "currency": "PYG"
+            }
+          },
+          "url": "http://example.com"
+        },
+        "awards": [],
+        "contracts": [],
+        "language": "es",
+        "buyer": {
+          "id": "0001",
+          "name": "Fictional Government Agency"
+        },
+        "tender": {
+          "procuringEntity": {
+            "id": "0001",
+            "name": "Fictional Government Agencyo"
+          },
+          "title": "Test data publisher",
+          "awardPeriod": {
+            "endDate": null,
+            "startDate": "2009-12-30T00:00:00-05:00"
+          },
+          "hasEnquiries": false,
+          "submissionMethod": [
+            "written"
+          ],
+          "enquiryPeriod": {
+            "endDate": "2009-12-30T00:00:00-05:00"
+          },
+          "lots": [
+            {
+              "id": "000123",
+              "items": [],
+              "title": "Action for example"
+            }
+          ],
+          "tenderPeriod": {
+            "endDate": "2010-01-04T00:00:00-05:00",
+            "startDate": null
+          },
+          "documents": [
+            {
+              "language": "es",
+              "format": "application/pdf",
+              "title": "Test data publisher",
+              "id": "00012345",
+              "documentType": "Test data publisher",
+              "url": "http://example.com"
+            },
+            {
+              "language": "es",
+              "format": "application/pdf",
+              "title": "Test data publisher 2",
+              "id": "00012345",
+              "documentType": "Test data publisher",
+              "url": "http://example.com"
+            }
+          ],
+          "status": "unsuccessful",
+          "id": "134721-test-data-publisher",
+          "items": [],
+          "url": "http://example.com",
+          "value": {
+            "amount": null,
+            "currency": "PYG"
+          }
+        }
+      }
+    }
+  ],
+  "packages": [
+    "http://example1.com",
+    "http://example2.com"
+  ],
+  "publishedDate": "2018-03-21T13:59:22-04:00",
+  "license": "http://example.license.com",
+  "publisher": {
+    "uri": "http://example.com",
+    "legalName": "Test data publisher",
+    "name": "Test data publisher"
+  }
+}
