@@ -66,3 +66,25 @@
 .extension-url-container .input-group {
     padding-top: 3px;
 }
+.footer.logo {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 100px;
+    background-color: #222;
+}
+.footer-brand.ocp-logo{
+    max-width: 100px;
+}
+.footer-brand.ocp-logo svg
+{
+    height: 80px;
+    margin-top: 10px;
+}
+.page-container.ocp-page {
+    position: relative;
+    min-height: 100vh;
+}
+.content-wrap.ocp.content {
+    padding-bottom: 2.5rem;    /* Footer height */
+}
