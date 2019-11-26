@@ -29,7 +29,7 @@
                   {% get_available_languages as LANGUAGES %}
                   {% get_language_info_list for LANGUAGES as languages %}
                   {% get_language_info for LANGUAGE_CODE as current_lang %}
-                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" style="margin-top:30px;">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" style="margin-top:15px;">
                       <i class="glyphicon glyphicon-globe"></i> {{ current_lang.name_local|title }}
                   </a>
                   <ul class="dropdown-menu">
@@ -46,9 +46,6 @@
         </div>
       </nav>
     <div class="container">
-      <div class="page-header">
-
-      </div>
       {# page content here #}
       {% block body %}{% endblock %}
     </div>
