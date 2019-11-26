@@ -1,9 +1,9 @@
 import os
 import shutil
-from zipfile import ZipFile, ZIP_DEFLATED
+from zipfile import ZIP_DEFLATED, ZipFile
 
 import flattentool
-from django.http import FileResponse, JsonResponse, Http404
+from django.http import FileResponse, Http404, JsonResponse
 from django.shortcuts import render
 from django.views.decorators.http import require_POST
 from libcoveocds.config import LibCoveOCDSConfig
@@ -11,6 +11,11 @@ from ocdskit.combine import package_releases as package_releases_method, compile
     combine_release_packages, combine_record_packages
 from ocdskit.upgrade import upgrade_10_11
 
+from default.data_file import DataFile
+from default.decorators import clear_files, published_date, require_files
+from default.forms import MappingSheetOptionsForm
+from default.mapping_sheet import (get_extended_mapping_sheet, get_mapping_sheet_from_uploaded_file,
+                                   get_mapping_sheet_from_url)
 from ocdstoucan.settings import OCDS_TOUCAN_MAXFILESIZE, OCDS_TOUCAN_MAXNUMFILES
 from .decorators import clear_files, require_files, published_date
 from .forms import MappingSheetOptionsForm
@@ -100,7 +105,13 @@ def perform_upgrade(request):
 @require_files
 @published_date
 def perform_package_releases(request, published_date=''):
-    releases = [file.json() for file in _get_files_from_session(request)]
+    releases = []
+    for file in _get_files_from_session(request):
+        item = file.json()
+        if isinstance(item, list):
+            releases.extend(item)
+        else:
+            releases.append(item)
 
     return _json_response({
         'result.json': package_releases_method(releases, published_date=published_date),

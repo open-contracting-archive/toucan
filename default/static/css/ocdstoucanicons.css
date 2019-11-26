@@ -31,14 +31,8 @@
 .ok-convert-to-spreadsheet:before {
   content: "\e901";
 }
-.ok-data-review:before {
-  content: "\e902";
-}
 .ok-schema-spreadsheet:before {
   content: "\e903";
-}
-.ok-extension-creator:before {
-  content: "\e904";
 }
 .ok-package-records:before {
   content: "\e905";

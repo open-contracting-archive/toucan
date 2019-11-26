@@ -2,15 +2,31 @@
 {% load i18n %}
 
 {% block subtitle %} &gt;&gt; {% trans "Compile Releases" %} {% endblock %}
+
 {% block info %}
-<p>{% blocktrans %}Drag and drop one or more <a href="https://standard.open-contracting.org/latest/en/schema/release_package/" target="_blank">Release Packages</a> to generate a
-<a href="https://standard.open-contracting.org/latest/en/schema/record_package/" target="_blank">Record Package</a> with Compiled Releases included.{% endblocktrans %}
-{% blocktrans %}You can also click the <strong>Add a file</strong> link below.{% endblocktrans %}</p>
-<p>{% blocktrans %}Use the <strong>Published Date</strong> option to set the Published Date in the output package.{% endblocktrans %}
-{% blocktrans %}Check the <strong>Include Versioned Releases</strong> option if you want to add a Versioned Release to each Record. Read more about Compiled and Versioned releases in the
-<a href="https://standard.open-contracting.org/latest/en/schema/merging/" target="_blank">OCDS documentation</a>.{% endblocktrans %}</p>
-<p>{% blocktrans %}Please verify that your files are Release Packages before uploading.{% endblocktrans %}</p>
+<p>
+    {% blocktrans trimmed %}
+        Drag and drop one or more
+        <a href="https://standard.open-contracting.org/latest/en/schema/release_package/" target="_blank">release packages</a>
+        to create a
+        <a href="https://standard.open-contracting.org/latest/en/schema/record_package/" target="_blank">record package</a>
+        with compiled releases included.
+    {% endblocktrans %}
+    {% trans "You can also click the <strong>Add a file</strong> link below." %}
+</p>
+
+<p>
+    {% trans "Fill in the <strong>Published date</strong> textbox to set <code>publishedDate</code> in the output package." %}
+    {% blocktrans trimmed %}
+        Check the <strong>Include Versioned Releases</strong> checkbox if you want to add a versioned release to each record.
+        Read more about compiled releases and versioned releases in the
+        <a href="https://standard.open-contracting.org/latest/en/schema/merging/" target="_blank">OCDS documentation</a>.
+    {% endblocktrans %}
+</p>
+
+<p>{% trans "Please verify that your files are release packages before uploading." %}</p>
 {% endblock %}
+
 {% block extraoptions %}
 {% include "default/snippets/published_date.html" %}
 <div class="checkbox">
@@ -19,6 +35,7 @@
     </label>
 </div>
 {% endblock %}
+
 {% block scripts %}
     {{ block.super }}
     <script type="text/javascript">
