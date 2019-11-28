@@ -1,7 +1,7 @@
 import logging
-from dateutil import parser
 from functools import wraps
 
+from dateutil import parser
 from django.http import JsonResponse
 
 logger = logging.getLogger(__name__)
