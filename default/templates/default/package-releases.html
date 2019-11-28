@@ -2,16 +2,29 @@
 {% load i18n %}
 
 {% block subtitle %} &gt;&gt; {% trans "Create Release Packages" %}{% endblock %}
+
 {% block info %}
-<p> {% blocktrans %}Drag and drop one or more <a href="https://standard.open-contracting.org/latest/en/getting_started/releases_and_records/#releases" target="_blank">Release</a> files
-in the box below to create a <a href="https://standard.open-contracting.org/latest/en/schema/release_package/" target="_blank">Release Package</a> {% endblocktrans %}.
-{% blocktrans %}You can also click the <strong>Add a file</strong> link below.{% endblocktrans %}
-{% blocktrans %}Use the <strong>Published Date</strong> option to set the Published Date in the output package.{% endblocktrans %}</p>
-<p>{% blocktrans %}The input files must be JSON files with a single Release each.{% endblocktrans%}</p>
+<p>
+    {% blocktrans trimmed %}
+        Drag and drop one or more
+        <a href="https://standard.open-contracting.org/latest/en/getting_started/releases_and_records/#releases" target="_blank">releases</a>
+        to create a
+        <a href="https://standard.open-contracting.org/latest/en/schema/release_package/" target="_blank">release package</a>.
+    {% endblocktrans %}
+    {% trans "You can also click the <strong>Add a file</strong> link below." %}
+</p>
+<p>
+    {% trans "Fill in the <strong>Published date</strong> textbox to set <code>publishedDate</code> in the output package." %}
+</p>
+<p>
+    {% trans "Each input file must be a JSON file containing either one release or an array of releases." %}
+</p>
 {% endblock %}
+
 {% block extraoptions %}
 {% include "default/snippets/published_date.html" %}
 {% endblock %}
+
 {% block scripts %}
     {{ block.super }}
     {% include "default/snippets/published_date_scripts.html" %}
