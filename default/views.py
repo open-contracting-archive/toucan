@@ -32,6 +32,10 @@ def retrieve_result(request, folder, id, format=None):
         prefix = 'flatten'
         ext = '.xlsx'
         filename = 'result.xlsx'
+    elif format == 'json':
+        prefix = 'unflatten'
+        ext = '.json'
+        filename = 'result.json'
     else:
         raise Http404('Invalid option')
 
@@ -219,19 +223,29 @@ def perform_to_json(request):
     input_file = next(_get_files_from_session(request))
     output_dir = DataFile('unflatten', '', input_file.id, input_file.folder)
 
+    path_file, format_file = os.path.splitext(input_file.path)
+    if format_file == '.zip':
+        format_file = "csv"
+        path_file = 'temp'
+        with ZipFile(input_file.path, 'r') as zipfile:
+            zipfile.extractall('temp')
+    else:
+        format_file = "xlsx"
+        path_file = input_file.path
+
     config = LibCoveOCDSConfig().config
     flattentool.unflatten(
-        input_file.path,
-        input_format='xlsx',
-        output_name=output_dir.path,
+        path_file,
+        input_format=format_file,
+        output_name=output_dir.path + '.json',
         root_list_path=config['root_list_path'],
         root_id=config['root_id']
     )
 
     return JsonResponse({
         'json': {
-            'url': input_file.url,
-            'size': os.path.getsize(output_dir.path),
+            'url': input_file.url + 'json/',
+            'size': os.path.getsize(output_dir.path + '.json'),
         }
     })
 
