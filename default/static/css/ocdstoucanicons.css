@@ -7,6 +7,7 @@
     url('../fonts/ocdstoucan.svg?b5hkoq#ocdstoucan') format('svg');
   font-weight: normal;
   font-style: normal;
+  font-display: block;
 }
 
 [class^="ok-"], [class*=" ok-"] {
@@ -41,4 +42,7 @@
 }
 .ok-upgrade:before {
   content: "\e907";
+}
+.ok-convert-to-json:before {
+  content: "\e909";
 }
