@@ -1,11 +1,3 @@
-.navbar-brand.ocp-logo{
-    max-width: 330px;
-}
-.navbar-brand.ocp-logo svg
-{
-  height: 40px; 
-  margin-top: -7px;
-}
 .home .panel
 {
     -webkit-box-shadow: 0 2px 20px 0 rgba(0,0,0,0.2);
@@ -65,4 +57,27 @@
 }
 .extension-url-container .input-group {
     padding-top: 3px;
+}
+.footer.logo {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 100px;
+    background-color: #222;
+}
+.footer-brand.ocp-logo{
+    max-width: 100px;
+}
+.footer-brand.ocp-logo svg
+{
+    height: 80px;
+    margin-top: 10px;
+}
+.page-container.ocp-page {
+    position: relative;
+    min-height: 100vh;
+}
+}
+.content-wrap.ocp-content {
+    padding-bottom: 2.5rem;
 }
