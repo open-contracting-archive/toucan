@@ -22,11 +22,18 @@
 </div>
 <div class="info panel panel-default">
   <div class="panel-body">
-    <p>
+     <p>
         {% blocktrans trimmed %}
             Use this page to convert a CSV or Excel version into a <a href="https://standard.open-contracting.org/latest/en/schema/release_package/"
-            target="_blank">Release Package</a>. CSV files must be compressed in a ZIP file. Please upload no more than one file by
+            target="_blank">release package</a>. Please upload no more than one file by
             dragging and dropping in the box below or using the <strong>Add a file</strong> link.
+        {% endblocktrans %}
+    </p>
+    <p>
+        {% blocktrans trimmed %}
+            The input CSV files must be compressed in a ZIP file and the Excel file must be an XLSX file.
+            Please verify that your files are in a format accepted by <a href="https://flatten-tool.readthedocs.io/en/latest/usage-ocds/"
+            target="_blank">flatten tool</a> for OCDS.
         {% endblocktrans %}
     </p>
   </div>
