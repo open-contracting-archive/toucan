@@ -138,17 +138,17 @@ def mapping_sheet(request):
             type_selected = form.cleaned_data['type']
             if type_selected == 'select':
                 return get_mapping_sheet_from_url(form.cleaned_data['select_url'])
-            elif type_selected == 'url':
+            if type_selected == 'url':
                 return get_mapping_sheet_from_url(form.cleaned_data['custom_url'])
-            elif type_selected == 'file':
+            if type_selected == 'file':
                 return get_mapping_sheet_from_uploaded_file(request.FILES['custom_file'])
-            elif type_selected == 'extension':
+            if type_selected == 'extension':
                 return get_extended_mapping_sheet(form.cleaned_data['extension_urls'], form.cleaned_data['version'])
 
     elif request.method == 'GET':
         if 'source' in request.GET:
             return get_mapping_sheet_from_url(request.GET['source'])
-        elif 'extension' in request.GET:
+        if 'extension' in request.GET:
             if 'version' in request.GET:
                 version = request.GET['version']
             else:
