@@ -243,10 +243,8 @@ def perform_to_json(request):
     )
 
     return JsonResponse({
-        'json': {
-            'url': input_file.url + 'json/',
-            'size': os.path.getsize(output_dir.path + '.json'),
-        }
+        'url': input_file.url + 'json/',
+        'size': os.path.getsize(output_dir.path + '.json'),
     })
 
 

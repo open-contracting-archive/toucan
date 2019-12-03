@@ -99,8 +99,8 @@
                     $('#processing-modal').modal('show');
                     $.ajax('/to-json/go/', { 'dataType': 'json' })
                         .done(function(data){
-                            $('.response-success .download-json').attr('href', data.json.url);
-                            $('.response-success .file-size-json').html(utils.readableFileSize(data.json.size));
+                            $('.response-success .download-json').attr('href', data.url);
+                            $('.response-success .file-size-json').html(utils.readableFileSize(data.size));
                             $('.response-success').removeClass('hidden');
                             })
                         .fail(function(){
