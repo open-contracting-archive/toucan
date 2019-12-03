@@ -226,9 +226,10 @@ def perform_to_json(request):
     path_file, format_file = os.path.splitext(input_file.path)
     if format_file == '.zip':
         format_file = "csv"
-        path_file = 'temp'
+        path_file = output_dir.path + '/temp'
         with ZipFile(input_file.path, 'r') as zipfile:
-            zipfile.extractall('temp')
+            for name in zipfile.namelist():
+                zipfile.extract(name, path=path_file)
     else:
         format_file = "xlsx"
         path_file = input_file.path
@@ -241,6 +242,9 @@ def perform_to_json(request):
         root_list_path=config['root_list_path'],
         root_id=config['root_id']
     )
+
+    if path_file == output_dir.path + '/temp':
+        shutil.rmtree(path_file)
 
     return JsonResponse({
         'url': input_file.url + 'json/',
