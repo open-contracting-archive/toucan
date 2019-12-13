@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-12-04 13:35-0300\n"
+"POT-Creation-Date: 2019-12-13 13:58-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -91,13 +91,13 @@ msgstr ""
 "estándar OCDS, e intente de nuevo en unos minutos."
 
 #: default/templates/default/base-uploader.html:45
-#: default/templates/default/to-json.html:55
+#: default/templates/default/to-json.html:54
 #: default/templates/default/to-spreadsheet.html:52
 msgid "Add a file"
 msgstr "Agregue un archivo"
 
 #: default/templates/default/base-uploader.html:45
-#: default/templates/default/to-json.html:56
+#: default/templates/default/to-json.html:55
 #: default/templates/default/to-spreadsheet.html:53
 msgid "or drag and drop here."
 msgstr "o arrastre y suelte aquí"
@@ -107,13 +107,13 @@ msgid "Add more files"
 msgstr "Agregar más archivos"
 
 #: default/templates/default/base-uploader.html:57
-#: default/templates/default/to-json.html:62
+#: default/templates/default/to-json.html:61
 #: default/templates/default/to-spreadsheet.html:59
 msgid "Start"
 msgstr "Procesar"
 
 #: default/templates/default/base-uploader.html:67
-#: default/templates/default/to-json.html:70
+#: default/templates/default/to-json.html:69
 #: default/templates/default/to-spreadsheet.html:67
 msgid ""
 "Processing operation. Please don't refresh nor close the browser window!"
@@ -304,8 +304,8 @@ msgstr "Fecha de Publicación:"
 
 #: default/templates/default/to-json.html:21
 msgid ""
-"Please verify that all your files are valid JSON version, and try again in a "
-"few minutes."
+"Please verify that all your files are valid according to OCDS standard, and "
+"try again in a few minutes."
 msgstr ""
 "Por favor verifique que todos sus archivos son válidos de acuerdo al "
 "estándar OCDS, e intente de nuevo en unos minutos."
@@ -314,31 +314,31 @@ msgstr ""
 msgid ""
 "Use this page to convert a CSV or Excel version into a <a href=\"https://"
 "standard.open-contracting.org/latest/en/schema/release_package/\" target="
-"\"_blank\">release package</a>. Please upload no more than one file by "
-"dragging and dropping in the box below or using the <strong>Add a file</"
-"strong> link."
+"\"_blank\">release package</a>. Please upload one file dragging and dropping "
+"in the box below or using the <strong>Add a file</strong> link."
 msgstr ""
 "Use esta página para convertir una versión CSV o Excel en un <a href="
 "\"https://standard.open-contracting.org/latest/es/schema/release_package/\" "
-"target=\"_blank\">paquete de release</a>. Por favor no suba más de un "
-"archivo arrastrándolo y soltándolo en la caja de abajo o usando el enlace "
-"<strong>Añadir un archivo</strong>."
+"target=\"_blank\">paquete de release</a>. Por favor suba un solo archivo "
+"arrastrándolo y soltándolo en la caja de abajo o usando el enlace "
+"<strong>Agregue un archivo</strong>."
 
-#: default/templates/default/to-json.html:33
+#: default/templates/default/to-json.html:32
 msgid ""
 "The input CSV files must be compressed at the root of a ZIP file and the "
 "Excel file must be an XLSX file. Please verify that your files are in a "
 "format accepted by <a href=\"https://flatten-tool.readthedocs.io/en/latest/"
-"usage-ocds/\" target=\"_blank\">flatten tool</a> for OCDS."
+"usage-ocds/\" target=\"_blank\">Flatten Tool</a> for OCDS."
 msgstr ""
 "Los archivos CSV de entrada deben estar comprimidos en la raiz de un archivo "
 "ZIP y el archivo Excel debe ser un archivo XLSX. Favor verifique que sus "
 "archivos estén en un formato aceptado por la herramienta <a href=\"https://"
 "flatten-tool.readthedocs.io/en/latest/usage-ocds/\" target=\"_blank"
-"\">flatten tool</a> para OCDS."
+"\">Flatten Tool</a> para OCDS."
 
-#: default/templates/default/to-json.html:91
-msgid "Added"
+#: default/templates/default/to-json.html:90
+#: default/templates/default/to-spreadsheet.html:88
+msgid "Added:"
 msgstr "Añadido:"
 
 #: default/templates/default/to-spreadsheet.html:30
@@ -352,11 +352,7 @@ msgstr ""
 "contracting.org/latest/es/schema/release_package/\" target=\"_blank"
 "\">Paquete de Release</a> a su versión CSV y Excel. Por favor no suba más de "
 "un archivo arrastrándolo y soltándolo en la caja de abajo o usando el enlace "
-"<strong>Añadir un archivo</strong>."
-
-#: default/templates/default/to-spreadsheet.html:88
-msgid "Added:"
-msgstr "Añadido:"
+"<strong>Agregue un archivo</strong>."
 
 #: default/templates/default/upgrade.html:8
 msgid ""
@@ -394,19 +390,3 @@ msgstr "Inglés"
 #: ocdstoucan/settings.py:139
 msgid "Spanish"
 msgstr "Español"
-
-#~ msgid "More Tools"
-#~ msgstr "Más Herramientas"
-
-#~ msgid "Data Review Tool"
-#~ msgstr "Herramienta de Revisión de Datos"
-
-#~ msgid "OCDS Extension Creator"
-#~ msgstr "Creador de Extensiones OCDS"
-
-#~ msgid ""
-#~ "You can also click the <strong>Add a file</strong> link below to add "
-#~ "files."
-#~ msgstr ""
-#~ "También puede hacer click en el enlace <strong>Añadir un archivo</strong> "
-#~ "más abajo para agregar archivos."
