@@ -11,7 +11,7 @@
     <b>{% trans "Success!" %}</b>
     <ul>
         <li>
-            result.json (<span class="file-size-json"></span>)
+            result.zip (<span class="file-size-json"></span>)
             <a href="javascript:void(0)" class="download-json">{% trans "Download" %}</a>
         </li>
     </ul>
@@ -87,7 +87,7 @@
 
     $('#fileupload').bind('fileuploadadd', function(e, data){
         $('.drop-area').removeClass('empty');
-        $('.drop-area-msg').html('<strong>{% trans "Added:" %}:</strong> ' {# not very nice to do this here #}
+        $('.drop-area-msg').html('<strong>{% trans "Added:" %}</strong> '
             + data.files[0].name
             + ' <small>('
             + utils.readableFileSize(data.files[0].size)

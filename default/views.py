@@ -32,10 +32,6 @@ def retrieve_result(request, folder, id, format=None):
         prefix = 'flatten'
         ext = '.xlsx'
         filename = 'result.xlsx'
-    elif format == 'json':
-        prefix = 'unflatten'
-        ext = '.json'
-        filename = 'result.json'
     else:
         raise Http404('Invalid option')
 
@@ -243,12 +239,16 @@ def perform_to_json(request):
         root_id=config['root_id']
     )
 
+    json_zip = DataFile('result', '.zip', id=input_file.id, folder=input_file.folder)
+    with ZipFile(json_zip.path, 'w', compression=ZIP_DEFLATED) as zipfile:
+        zipfile.write(output_dir.path + '.json', 'result.json')
+
     if path_file == output_dir.path + '/temp':
         shutil.rmtree(path_file)
 
     return JsonResponse({
-        'url': input_file.url + 'json/',
-        'size': os.path.getsize(output_dir.path + '.json'),
+        'url': input_file.url,
+        'size': json_zip.size,
     })
 
 
