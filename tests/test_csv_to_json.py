@@ -1,5 +1,7 @@
 import json
 import os.path
+from io import BytesIO
+from zipfile import ZipFile
 
 from tests import ViewTestCase, ViewTests
 
@@ -30,7 +32,8 @@ class CsvToJsonTestCase(ViewTestCase, ViewTests):
         self.assertIsInstance(content['size'], int)
 
         response = self.client.get(content['url'])
-        result = response.getvalue()
+        zipfile = ZipFile(BytesIO(response.getvalue()))
+        name = zipfile.namelist()
 
         with open(path('results/unflattened_csv.json'), 'rb') as f:
-            self.assertEqual(result, f.read())
+            self.assertEqual(zipfile.read(name[0]).decode('utf-8'), f.read().decode('utf-8'))
