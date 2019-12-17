@@ -1,9 +1,8 @@
-
 import json
 import logging
 
 from django.utils.translation import gettext_lazy as _
-from ocdskit.util import json_loads, is_release_package, is_record_package
+from ocdskit.util import is_record_package, is_release_package, json_loads
 
 logger = logging.getLogger(__name__)
 

@@ -11,13 +11,13 @@ from libcoveocds.config import LibCoveOCDSConfig
 from ocdskit.combine import compile_release_packages, package_releases as package_releases_method
 from ocdskit.upgrade import upgrade_10_11
 
-from ocdstoucan.settings import OCDS_TOUCAN_MAXFILESIZE, OCDS_TOUCAN_MAXNUMFILES
 from default.data_file import DataFile
 from default.decorators import clear_files, published_date, require_files
 from default.forms import MappingSheetOptionsForm
 from default.mapping_sheet import (get_extended_mapping_sheet, get_mapping_sheet_from_uploaded_file,
                                    get_mapping_sheet_from_url)
 from default.util import file_is_valid
+from ocdstoucan.settings import OCDS_TOUCAN_MAXFILESIZE, OCDS_TOUCAN_MAXNUMFILES
 
 
 def retrieve_result(request, folder, id, format=None):
