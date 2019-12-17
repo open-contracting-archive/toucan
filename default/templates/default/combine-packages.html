@@ -1,0 +1,50 @@
+{% extends 'default/base-uploader.html' %}
+{% load i18n %}
+
+{% block subtitle %} &gt;&gt; {% trans "Combine Packages" %} {% endblock %}
+
+{% block info %}
+<p>
+    {% blocktrans trimmed %}
+        Drag and drop two or more
+        <a href="https://standard.open-contracting.org/latest/en/schema/release_package/" target="_blank"> release package</a>
+        or <a href="https://standard.open-contracting.org/latest/en/schema/record_package/" target="_blank">record package</a>
+        to combine them into a single package.
+    {% endblocktrans %}
+    {% trans "You can also click the <strong>Add a file</strong> link below." %}
+</p>
+<p>
+    {% trans "Fill in the <strong>Published date</strong> textbox to set <code>publishedDate</code> in the output package." %}
+    {% trans "Select the correct <strong>Package type</strong> option before uploading." %}
+</p>
+<p>
+    {% trans "Each input file must be a JSON file containing either a single package or an array of packages." %}
+</p>
+{% endblock %}
+
+{% block extraoptions %}
+{% include "default/snippets/published_date.html" %}
+<div class="form-group">
+    <label>{% trans "Package type" %}:</label>
+    <select class="form-control packageType">
+        <option value="release">{% trans "Release Package" %}</option>
+        <option value="record">{% trans "Record Package" %}</option>
+    </select>
+</div>
+{% endblock %}
+{% block scripts %}
+    {{ block.super }}
+    <script type="text/javascript">
+    (function(){
+        app.setParams(function(params){
+            if ($('.packageType').val() == 'release')
+                params['packageType'] = 'release';
+            else
+                if ($('.packageType').val() == 'record')
+                    params['packageType'] = 'record';
+            return params;
+        });
+    })();
+    </script>
+    {% include "default/snippets/published_date_scripts.html" %}
+{% endblock %}
