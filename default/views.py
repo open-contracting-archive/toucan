@@ -1,21 +1,22 @@
 import os
 import shutil
-from zipfile import ZipFile, ZIP_DEFLATED
+from zipfile import ZIP_DEFLATED, ZipFile
 
 import flattentool
-from django.http import FileResponse, HttpResponse, JsonResponse, Http404
+from django.http import FileResponse, Http404, HttpResponse, JsonResponse
 from django.shortcuts import render
 from django.utils.translation import gettext as _
-from django.views.decorators.http import require_POST, require_GET
+from django.views.decorators.http import require_GET, require_POST
 from libcoveocds.config import LibCoveOCDSConfig
-from ocdskit.combine import package_releases as package_releases_method, compile_release_packages
+from ocdskit.combine import compile_release_packages, package_releases as package_releases_method
 from ocdskit.upgrade import upgrade_10_11
 
 from ocdstoucan.settings import OCDS_TOUCAN_MAXFILESIZE, OCDS_TOUCAN_MAXNUMFILES
-from .decorators import clear_files, require_files, published_date
-from .forms import MappingSheetOptionsForm
 from .data_file import DataFile
-from .mapping_sheet import get_mapping_sheet_from_url, get_mapping_sheet_from_uploaded_file, get_extended_mapping_sheet
+from .decorators import clear_files, published_date, require_files
+from .forms import MappingSheetOptionsForm
+from .mapping_sheet import get_extended_mapping_sheet, get_mapping_sheet_from_uploaded_file, get_mapping_sheet_from_url
+from .util import file_is_valid
 
 
 def retrieve_result(request, folder, id, format=None):
@@ -76,15 +77,19 @@ def _get_files_from_session(request):
         yield DataFile(**fileinfo)
 
 
-def _json_response(files, warnings=()):
+def _json_response(files, warnings=None):
     file = DataFile('result', '.zip')
     file.write_json_to_zip(files)
 
-    return JsonResponse({
+    response = {
         'url': file.url,
         'size': file.size,
-        'warnings': warnings
-    })
+    }
+
+    if warnings:
+        response['warnings'] = warnings
+
+    return JsonResponse(response)
 
 
 @require_files
@@ -95,7 +100,7 @@ def perform_upgrade(request):
 
 @require_files
 @published_date
-def perform_package_releases(request, published_date='', warnings=()):
+def perform_package_releases(request, published_date='', warnings=None):
     releases = [file.json() for file in _get_files_from_session(request)]
 
     return _json_response({
@@ -105,7 +110,7 @@ def perform_package_releases(request, published_date='', warnings=()):
 
 @require_files
 @published_date
-def perform_compile(request, published_date='', warnings=()):
+def perform_compile(request, published_date='', warnings=None):
     packages = [file.json() for file in _get_files_from_session(request)]
     return_versioned_release = request.GET.get('includeVersioned') == 'true'
 
@@ -208,13 +213,14 @@ def uploadfile(request):
     request_file = request.FILES['file']
     name, extension = os.path.splitext(request_file.name)
 
-    file = DataFile(name, extension, original_name=name)
+    file = DataFile(name, extension)
     ocds_type = request.POST.get('validateType', None)
 
-    if file.is_valid(request_file, ocds_type=ocds_type):
+    valid, invalid_reason = file_is_valid(request_file, ocds_type=ocds_type)
+    if valid:
         file.write(request_file)
     else:
-        return HttpResponse(file.invalid_reason, status=400)
+        return HttpResponse(invalid_reason, status=400)
 
     if 'files' not in request.session:
         request.session['files'] = []
@@ -236,19 +242,14 @@ def deletefile(request, id):
     if 'files' not in request.session:
         return JsonResponse({
             'message': _('No files to delete')
-        }, status=404)
+        }, status=400)
 
-    to_delete = list(filter(lambda x: x['id'] == str(id), request.session['files']))
+    for fileinfo in request.session['files']:
+        if fileinfo['id'] == str(id):
+            request.session['files'].remove(fileinfo)
+            request.session.modified = True
+            return JsonResponse({'message': _('File deleted')})
 
-    for item in to_delete:
-        request.session['files'].remove(item)
-    request.session.modified = True
-
-    file_found = len(to_delete) > 0
-    response = JsonResponse({
-        'message': _('File deleted') if file_found else _('File not found')
-    })
-
-    if not file_found:
-        response.status_code = 404
-    return response
+    return JsonResponse({
+        'message': _('File not found')
+    }, status=400)

@@ -22,7 +22,7 @@ class CompileTestCase(ViewTestCase, ViewTests):
     def test_go_with_invalid_published_date(self):
         self.assertResults({'publishedDate': '2000-00-00T00:00:00Z'}, {
             'result.json': 'results/compile.json',
-        })
+        }, has_warnings=True)
 
     def test_go_with_include_versioned(self):
         self.assertResults({'includeVersioned': 'true'}, {

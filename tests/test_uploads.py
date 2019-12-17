@@ -32,7 +32,7 @@ class FileUploadTestCase(TestCase):
             self.assertEqual(content['message'], 'File deleted')
 
             response = self.client.get('/delete/' + file_id)
-            self.assertEqual(response.status_code, 404)
+            self.assertEqual(response.status_code, 400)
             content = json.loads(response.content.decode('utf-8'))
 
             self.assertEqual(content['message'], 'File not found')
@@ -42,7 +42,7 @@ class FileUploadTestCase(TestCase):
             session.save()
 
             response = self.client.get('/delete/' + file_id)
-            self.assertEqual(response.status_code, 404)
+            self.assertEqual(response.status_code, 400)
             content = json.loads(response.content.decode('utf-8'))
 
             self.assertEqual(content['message'], 'No files to delete')

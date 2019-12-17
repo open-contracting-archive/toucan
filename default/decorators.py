@@ -36,9 +36,8 @@ def published_date(function):
                 parser.parse(published_date)
                 kwargs['published_date'] = published_date
             except ValueError:
-                msg = _('Invalid date submitted: {}, omitted from results.').format(published_date)
-                logger.debug(msg)
-                kwargs['warnings'] = (msg,)
+                kwargs['warnings'] = \
+                    (_('Invalid date submitted: {date}, omitted from results.').format(date=published_date),)
         return function(request, *args, **kwargs)
 
     return wrap

@@ -35,10 +35,18 @@ class ViewTestCase(TestCase):
         content = json.loads(response.content.decode('utf-8'))
         return content
 
-    def assertResults(self, data, results):
+    def assertResults(self, data, results, has_warnings=False):
         content = self.upload_and_go(data)
 
-        self.assertEqual(len(content), 3)
+        self.assertIn('url', content.keys())
+        self.assertIn('size', content.keys())
+
+        if has_warnings:
+            self.assertIn('warnings', content.keys())
+            self.assertEqual(len(content), 3)
+        else:
+            self.assertEqual(len(content), 2)
+
         self.assertIsInstance(content['size'], int)
         self.assertRegex(content['url'], r'^/result/' + '{:%Y-%m-%d}'.format(date.today()) + r'/[0-9a-f-]{36}/$')
 

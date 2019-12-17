@@ -105,7 +105,7 @@ msgid "Invalid files will be ignored by default"
 msgstr "Los archivos inválidos serán ignorados por defecto"
 
 #: default/templates/default/base-uploader.html:27
-msgid "An error has ocurred!"
+msgid "An error has occurred!"
 msgstr "¡Ha ocurrido un error!"
 
 #: default/templates/default/base-uploader.html:28
@@ -350,7 +350,7 @@ msgstr "Añadido:"
 
 #: default/templates/default/to-spreadsheet.html:112
 msgid ""
-"An error has ocurred! Please verify that all your files are valid OCDS JSON, "
+"An error has occurred! Please verify that all your files are valid OCDS JSON, "
 "and try again in a few minutes."
 msgstr ""
 "Por favor verifique que todos sus archivos son válidos de acuerdo al "
