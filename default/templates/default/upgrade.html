@@ -2,10 +2,16 @@
 {% load i18n %}
 
 {% block subtitle %} &gt;&gt; {% trans "Upgrade from 1.0 to 1.1" %} {% endblock %}
+
 {% block info %}
 <p>
-{% blocktrans%}Drag and drop one of more OCDS <a href="https://standard.open-contracting.org/latest/en/getting_started/releases_and_records/#releases" target="_blank">Release</a> files or 
-<a href="https://standard.open-contracting.org/latest/en/schema/release_package/" target="_blank">Release</a>/<a href="https://standard.open-contracting.org/latest/en/schema/record_package/" target="_blank">Record</a> Package files to update them to OCDS 1.1.{% endblocktrans %}
-{% blocktrans %}You can also click the <strong>Add a file</strong> link below to add files.{% endblocktrans %}
+    {% blocktrans trimmed %}
+        Drag and drop one or more
+        <a href="https://standard.open-contracting.org/latest/en/getting_started/releases_and_records/#releases" target="_blank">releases</a>,
+        <a href="https://standard.open-contracting.org/latest/en/schema/release_package/" target="_blank">release packages</a>, or
+        <a href="https://standard.open-contracting.org/latest/en/schema/record_package/" target="_blank">record packages</a>
+        to update them to OCDS 1.1.
+    {% endblocktrans %}
+    {% trans "You can also click the <strong>Add a file</strong> link below." %}
 </p>
 {% endblock %}

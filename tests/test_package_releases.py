@@ -7,6 +7,7 @@ class PackageReleasesTestCase(ViewTestCase, ViewTests):
         '1.1/releases/0001-tender.json',
         '1.1/releases/0001-award.json',
         '1.1/releases/0002-tender.json',
+        '1.1/releases/0003-array-tender.json',
     ]
 
     def test_go_with_files(self):
