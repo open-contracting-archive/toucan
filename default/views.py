@@ -1,5 +1,6 @@
 import os
 import shutil
+import warnings
 from zipfile import ZIP_DEFLATED, ZipFile
 
 import flattentool
@@ -198,17 +199,20 @@ def perform_to_spreadsheet(request):
     output_dir = DataFile('flatten', '', input_file.id, input_file.folder)
 
     config = LibCoveOCDSConfig().config
-    flattentool.flatten(
-        input_file.path,
-        output_name=output_dir.path,
-        main_sheet_name=config['root_list_path'],
-        root_list_path=config['root_list_path'],
-        root_id=config['root_id'],
-        schema=config['schema_version_choices']['1.1'][1] + 'release-schema.json',
-        disable_local_refs=config['flatten_tool']['disable_local_refs'],
-        remove_empty_schema_columns=config['flatten_tool']['remove_empty_schema_columns'],
-        root_is_list=False,
-    )
+    with warnings.catch_warnings():
+        warnings.filterwarnings('ignore')  # flattentool uses UserWarning, so we can't set a specific category
+
+        flattentool.flatten(
+            input_file.path,
+            output_name=output_dir.path,
+            main_sheet_name=config['root_list_path'],
+            root_list_path=config['root_list_path'],
+            root_id=config['root_id'],
+            schema=config['schema_version_choices']['1.1'][1] + 'release-schema.json',
+            disable_local_refs=config['flatten_tool']['disable_local_refs'],
+            remove_empty_schema_columns=config['flatten_tool']['remove_empty_schema_columns'],
+            root_is_list=False,
+        )
 
     # Create a ZIP file of the CSV files, and delete the CSV files.
     csv_zip = DataFile('flatten-csv', '.zip', id=input_file.id, folder=input_file.folder)
