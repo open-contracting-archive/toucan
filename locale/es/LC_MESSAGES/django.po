@@ -126,9 +126,9 @@ msgstr "Combinar Paquetes"
 #: default/templates/default/combine-packages.html:8
 msgid ""
 "Drag and drop two or more <a href=\"https://standard.open-contracting.org/"
-"latest/en/schema/release_package/\" target=\"_blank\"> release package</a> "
+"latest/en/schema/release_package/\" target=\"_blank\">release packages</a> "
 "or <a href=\"https://standard.open-contracting.org/latest/en/schema/"
-"record_package/\" target=\"_blank\">record package</a> to combine them into "
+"record_package/\" target=\"_blank\">record packages</a> to combine them into "
 "a single package."
 msgstr ""
 "Arrastra y suelta dos o más <a href=\"https://standard."
@@ -173,8 +173,8 @@ msgstr ""
 "array de paquetes"
 
 #: default/templates/default/combine-packages.html:28
-msgid "Package type"
-msgstr "Tipo de Paquete"
+msgid "Package type:"
+msgstr "Tipo de Paquete:"
 
 #: default/templates/default/combine-packages.html:30
 msgid "Release Package"

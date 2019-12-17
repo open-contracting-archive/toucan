@@ -7,8 +7,8 @@
 <p>
     {% blocktrans trimmed %}
         Drag and drop two or more
-        <a href="https://standard.open-contracting.org/latest/en/schema/release_package/" target="_blank"> release package</a>
-        or <a href="https://standard.open-contracting.org/latest/en/schema/record_package/" target="_blank">record package</a>
+        <a href="https://standard.open-contracting.org/latest/en/schema/release_package/" target="_blank">release packages</a>
+        or <a href="https://standard.open-contracting.org/latest/en/schema/record_package/" target="_blank">record packages</a>
         to combine them into a single package.
     {% endblocktrans %}
     {% trans "You can also click the <strong>Add a file</strong> link below." %}
@@ -25,7 +25,7 @@
 {% block extraoptions %}
 {% include "default/snippets/published_date.html" %}
 <div class="form-group">
-    <label>{% trans "Package type" %}:</label>
+    <label>{% trans "Package type:" %}</label>
     <select class="form-control packageType">
         <option value="release">{% trans "Release Package" %}</option>
         <option value="record">{% trans "Record Package" %}</option>
@@ -39,9 +39,8 @@
         app.setParams(function(params){
             if ($('.packageType').val() == 'release')
                 params['packageType'] = 'release';
-            else
-                if ($('.packageType').val() == 'record')
-                    params['packageType'] = 'record';
+            else if ($('.packageType').val() == 'record')
+                params['packageType'] = 'record';
             return params;
         });
     })();
