@@ -48,6 +48,20 @@ def _ocds_command(request, command):
     return render(request, 'default/{}.html'.format(command), context)
 
 
+def _make_package(request, published_date, method):
+    items = []
+    for file in _get_files_from_session(request):
+        item = file.json()
+        if isinstance(item, list):
+            items.extend(item)
+        else:
+            items.append(item)
+
+    return _json_response({
+        'result.json': method(items, published_date=published_date),
+    })
+
+
 def index(request):
     return render(request, 'default/index.html')
 
@@ -101,39 +115,18 @@ def perform_upgrade(request):
 @require_files
 @published_date
 def perform_package_releases(request, published_date=''):
-    releases = []
-    for file in _get_files_from_session(request):
-        item = file.json()
-        if isinstance(item, list):
-            releases.extend(item)
-        else:
-            releases.append(item)
-
-    return _json_response({
-        'result.json': package_releases_method(releases, published_date=published_date),
-    })
+    method = package_releases_method
+    return _make_package(request, published_date, method)
 
 
 @require_files
 @published_date
 def perform_combine_packages(request, published_date=''):
-    packages = []
-    for file in _get_files_from_session(request):
-        item = file.json()
-        if isinstance(item, list):
-            packages.extend(item)
-        else:
-            packages.append(item)
-    packageType = request.GET.get('packageType')
-
-    if packageType == 'release':
-        return _json_response({
-            'result.json': combine_release_packages(packages, published_date=published_date),
-        })
+    if request.GET.get('packageType') == 'release':
+        method = combine_release_packages
     else:
-        return _json_response({
-            'result.json': combine_record_packages(packages, published_date=published_date)
-        })
+        method = combine_record_packages
+    return _make_package(request, published_date, method)
 
 
 @require_files
