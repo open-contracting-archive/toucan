@@ -36,23 +36,20 @@ class ToSpreadsheetTestCase(ViewTestCase, ViewTests):
             self.assertIsInstance(content['size'], int)
             self.assertRegex(content['url'], prefix + extension + r'/$')
 
-        zipfile = self._response_zipfile(contents['csv'])
+        zipfile = self.get_zipfile(contents['csv'])
 
         self.assertEqual(len(zipfile.namelist()), len(results['csv']))
         for name in results['csv']:
-            self.assertEqual(zipfile.read(name).decode('utf-8').replace('\r\n', '\n'), read('results/flattened/' + name))  # noqa
+            self.assertEqual(zipfile.read(name).decode('utf-8').replace('\r\n', '\n'),
+                             read('results/flattened/' + name))
 
-        actual = self._response_zipfile(contents['xlsx'])
+        actual = self.get_zipfile(contents['xlsx'])
         with open(path('results/flattened.xlsx'), 'rb') as f:
             expected = ZipFile(f)
 
             self.assertEqual(_worksheets_length(actual), _worksheets_length(expected))
             for name in results['xlsx']:
                 self.assertEqual(actual.read(name), expected.read(name))
-
-    def _response_zipfile(self, content):
-        response = self.client.get(content['url'])
-        return ZipFile(BytesIO(response.getvalue()))
 
 
 def _worksheets_length(zipfile):
