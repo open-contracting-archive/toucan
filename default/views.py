@@ -18,8 +18,7 @@ from default.decorators import clear_files, published_date, require_files
 from default.forms import MappingSheetOptionsForm
 from default.mapping_sheet import (get_extended_mapping_sheet, get_mapping_sheet_from_uploaded_file,
                                    get_mapping_sheet_from_url)
-from default.util import file_is_valid
-from ocdstoucan.settings import OCDS_TOUCAN_MAXFILESIZE, OCDS_TOUCAN_MAXNUMFILES
+from default.util import file_is_valid, get_files_from_session, json_response, make_package, ocds_command
 
 
 def retrieve_result(request, folder, id, format=None):
@@ -42,29 +41,6 @@ def retrieve_result(request, folder, id, format=None):
     return FileResponse(open(file.path, 'rb'), filename=filename, as_attachment=True)
 
 
-def _ocds_command(request, command):
-    context = {
-        'maxNumOfFiles': OCDS_TOUCAN_MAXNUMFILES,
-        'maxFileSize': OCDS_TOUCAN_MAXFILESIZE,
-        'performAction': '/{}/go/'.format(command)
-    }
-    return render(request, 'default/{}.html'.format(command), context)
-
-
-def _make_package(request, published_date, method, warnings):
-    items = []
-    for file in _get_files_from_session(request):
-        item = file.json()
-        if isinstance(item, list):
-            items.extend(item)
-        else:
-            items.append(item)
-
-    return _json_response({
-        'result.json': method(items, published_date=published_date),
-    }, warnings=warnings)
-
-
 def index(request):
     return render(request, 'default/index.html')
 
@@ -76,55 +52,35 @@ def to_spreadsheet(request):
 
 @clear_files
 def compile(request):
-    return _ocds_command(request, 'compile')
+    return ocds_command(request, 'compile')
 
 
 @clear_files
 def package_releases(request):
-    return _ocds_command(request, 'package-releases')
+    return ocds_command(request, 'package-releases')
 
 
 @clear_files
 def combine_packages(request):
-    return _ocds_command(request, 'combine-packages')
+    return ocds_command(request, 'combine-packages')
 
 
 @clear_files
 def upgrade(request):
-    return _ocds_command(request, 'upgrade')
-
-
-def _get_files_from_session(request):
-    for fileinfo in request.session['files']:
-        yield DataFile(**fileinfo)
-
-
-def _json_response(files, warnings=None):
-    file = DataFile('result', '.zip')
-    file.write_json_to_zip(files)
-
-    response = {
-        'url': file.url,
-        'size': file.size,
-    }
-
-    if warnings:
-        response['warnings'] = warnings
-
-    return JsonResponse(response)
+    return ocds_command(request, 'upgrade')
 
 
 @require_files
 def perform_upgrade(request):
-    return _json_response((file.name_with_suffix('upgraded'), upgrade_10_11(file.json()))
-                          for file in _get_files_from_session(request))
+    return json_response((file.name_with_suffix('upgraded'), upgrade_10_11(file.json()))
+                         for file in get_files_from_session(request))
 
 
 @require_files
 @published_date
 def perform_package_releases(request, published_date='', warnings=None):
     method = package_releases_method
-    return _make_package(request, published_date, method, warnings)
+    return make_package(request, published_date, method, warnings)
 
 
 @require_files
@@ -134,16 +90,16 @@ def perform_combine_packages(request, published_date='', warnings=None):
         method = combine_release_packages
     else:
         method = combine_record_packages
-    return _make_package(request, published_date, method, warnings)
+    return make_package(request, published_date, method, warnings)
 
 
 @require_files
 @published_date
 def perform_compile(request, published_date='', warnings=None):
-    packages = [file.json() for file in _get_files_from_session(request)]
+    packages = [file.json() for file in get_files_from_session(request)]
     return_versioned_release = request.GET.get('includeVersioned') == 'true'
 
-    return _json_response({
+    return json_response({
         'result.json': next(compile_release_packages(packages, return_package=True, published_date=published_date,
                                                      return_versioned_release=return_versioned_release),),
     }, warnings)
@@ -202,7 +158,7 @@ def mapping_sheet(request):
 
 @require_files
 def perform_to_spreadsheet(request):
-    input_file = next(_get_files_from_session(request))
+    input_file = next(get_files_from_session(request))
     output_dir = DataFile('flatten', '', input_file.id, input_file.folder)
 
     config = LibCoveOCDSConfig().config
@@ -272,9 +228,7 @@ def uploadfile(request):
 @require_GET
 def deletefile(request, id):
     if 'files' not in request.session:
-        return JsonResponse({
-            'message': _('No files to delete')
-        }, status=400)
+        return JsonResponse({'message': _('File not found')}, status=404)
 
     for fileinfo in request.session['files']:
         if fileinfo['id'] == str(id):
@@ -282,6 +236,4 @@ def deletefile(request, id):
             request.session.modified = True
             return JsonResponse({'message': _('File deleted')})
 
-    return JsonResponse({
-        'message': _('File not found')
-    }, status=400)
+    return JsonResponse({'message': _('File not found')}, status=404)
