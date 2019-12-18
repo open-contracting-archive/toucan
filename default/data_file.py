@@ -20,16 +20,13 @@ class DataFile:
     """
     sep = '-'
 
-    def __init__(self, prefix, ext, id=None, folder=None, valid=True,
-                 invalid_reason=None):
+    def __init__(self, prefix, ext, id=None, folder=None):
         if len(prefix) > 20:
             prefix = prefix[:20 + 1]
 
         self.prefix = prefix
         self.ext = ext
         self.id = id or str(uuid.uuid4())
-        self.valid = valid
-        self.invalid_reason = invalid_reason
 
         if folder is not None:
             self.folder = folder
