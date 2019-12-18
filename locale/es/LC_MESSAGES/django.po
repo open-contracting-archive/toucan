@@ -31,9 +31,9 @@ msgid "Error decoding json"
 msgstr "Error al decodificar JSON"
 
 #: default/decorators.py:39
-msgid "Invalid date submitted: {}, omitted from results."
+msgid "Invalid date submitted: %(date)s, omitted from results."
 msgstr ""
-"La fecha enviada es inválida: {}, por lo que se omitió en los resultados."
+"La fecha enviada es inválida: %(date)s, por lo que se omitió en los resultados."
 
 #: default/forms.py:18 default/forms.py:24
 msgid "Select a schema and version"

@@ -1,11 +1,8 @@
-import logging
 from functools import wraps
 
 from dateutil import parser
 from django.http import JsonResponse
 from django.utils.translation import gettext as _
-
-logger = logging.getLogger(__name__)
 
 
 def clear_files(function):
@@ -36,8 +33,9 @@ def published_date(function):
                 parser.parse(published_date)
                 kwargs['published_date'] = published_date
             except ValueError:
-                kwargs['warnings'] = \
-                    (_('Invalid date submitted: {date}, omitted from results.').format(date=published_date),)
+                kwargs['warnings'] = [
+                    _('Invalid date submitted: %(date)s, omitted from results.') % {'date': published_date},
+                ]
         return function(request, *args, **kwargs)
 
     return wrap
