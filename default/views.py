@@ -219,7 +219,7 @@ def perform_to_spreadsheet(request):
             root_is_list=False,
         )
 
-    # Create a ZIP file of the CSV files, and delete the CSV files.
+    # Create a ZIP file of the CSV files, and delete the output CSV files.
     csv_zip = DataFile('flatten-csv', '.zip', id=input_file.id, folder=input_file.folder)
     with ZipFile(csv_zip.path, 'w', compression=ZIP_DEFLATED) as zipfile:
         for filename in os.listdir(output_dir.path):
@@ -243,32 +243,35 @@ def perform_to_json(request):
     input_file = next(_get_files_from_session(request))
     output_dir = DataFile('unflatten', '', input_file.id, input_file.folder)
 
-    path_file, format_file = os.path.splitext(input_file.path)
-    if format_file == '.zip':
-        format_file = "csv"
-        path_file = output_dir.path + '/temp'
-        with ZipFile(input_file.path, 'r') as zipfile:
+    output_name = output_dir.path + '.json'
+    extension = os.path.splitext(input_file.path)[1]
+    if extension == '.zip':
+        input_file_path = output_dir.path + '/tmp'
+        input_format = 'csv'
+        with ZipFile(input_file.path) as zipfile:
             for name in zipfile.namelist():
-                zipfile.extract(name, path=path_file)
+                zipfile.extract(name, input_file_path)
     else:
-        format_file = "xlsx"
-        path_file = input_file.path
+        input_file_path = input_file.path
+        input_format = 'xlsx'
 
     config = LibCoveOCDSConfig().config
     flattentool.unflatten(
-        path_file,
-        input_format=format_file,
-        output_name=output_dir.path + '.json',
+        input_file_path,
+        input_format=input_format,
+        output_name=output_name,
         root_list_path=config['root_list_path'],
         root_id=config['root_id']
     )
 
+    # Delete the input CSV files, if any.
+    if extension == '.zip':
+        shutil.rmtree(input_file_path)
+
+    # Create a ZIP file of the JSON file.
     json_zip = DataFile('result', '.zip', id=input_file.id, folder=input_file.folder)
     with ZipFile(json_zip.path, 'w', compression=ZIP_DEFLATED) as zipfile:
-        zipfile.write(output_dir.path + '.json', 'result.json')
-
-    if path_file == output_dir.path + '/temp':
-        shutil.rmtree(path_file)
+        zipfile.write(output_name, 'result.json')
 
     return JsonResponse({
         'url': input_file.url,
