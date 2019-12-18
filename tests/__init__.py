@@ -20,12 +20,12 @@ def read(filename, mode='rt', encoding=None, **kwargs):
 class ViewTestCase(TestCase):
     maxDiff = None
 
-    def upload_and_go(self, data=None):
+    def upload_and_go(self, data=None, mode='r'):
         if data is None:
             data = {}
 
         for file in self.files:
-            with open(path(file)) as f:
+            with open(path(file), mode=mode) as f:
                 response = self.client.post('/upload/', {'file': f})
 
         response = self.client.get(self.url + 'go/', data)
@@ -35,15 +35,18 @@ class ViewTestCase(TestCase):
         content = json.loads(response.content.decode('utf-8'))
         return content
 
-    def assertResults(self, data, results):
-        content = self.upload_and_go(data)
+    def get_zipfile(self, content):
+        response = self.client.get(content['url'])
+        return ZipFile(BytesIO(response.getvalue()))
+
+    def assertResults(self, data, results, mode='r'):
+        content = self.upload_and_go(data, mode=mode)
 
         self.assertEqual(len(content), 2)
         self.assertIsInstance(content['size'], int)
         self.assertRegex(content['url'], r'^/result/' + '{:%Y-%m-%d}'.format(date.today()) + r'/[0-9a-f-]{36}/$')
 
-        response = self.client.get(content['url'])
-        zipfile = ZipFile(BytesIO(response.getvalue()))
+        zipfile = self.get_zipfile(content)
         names = zipfile.namelist()
 
         self.assertEqual(len(names), len(results))

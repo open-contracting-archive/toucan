@@ -73,6 +73,11 @@ def to_spreadsheet(request):
 
 
 @clear_files
+def to_json(request):
+    return render(request, 'default/to-json.html')
+
+
+@clear_files
 def compile(request):
     return _ocds_command(request, 'compile')
 
@@ -214,7 +219,7 @@ def perform_to_spreadsheet(request):
             root_is_list=False,
         )
 
-    # Create a ZIP file of the CSV files, and delete the CSV files.
+    # Create a ZIP file of the CSV files, and delete the output CSV files.
     csv_zip = DataFile('flatten-csv', '.zip', id=input_file.id, folder=input_file.folder)
     with ZipFile(csv_zip.path, 'w', compression=ZIP_DEFLATED) as zipfile:
         for filename in os.listdir(output_dir.path):
@@ -230,6 +235,47 @@ def perform_to_spreadsheet(request):
             'url': input_file.url + 'xlsx/',
             'size': os.path.getsize(output_dir.path + '.xlsx'),
         }
+    })
+
+
+@require_files
+def perform_to_json(request):
+    input_file = next(_get_files_from_session(request))
+    output_dir = DataFile('unflatten', '', input_file.id, input_file.folder)
+
+    output_name = output_dir.path + '.json'
+    extension = os.path.splitext(input_file.path)[1]
+    if extension == '.zip':
+        input_file_path = output_dir.path + '/tmp'
+        input_format = 'csv'
+        with ZipFile(input_file.path) as zipfile:
+            for name in zipfile.namelist():
+                zipfile.extract(name, input_file_path)
+    else:
+        input_file_path = input_file.path
+        input_format = 'xlsx'
+
+    config = LibCoveOCDSConfig().config
+    flattentool.unflatten(
+        input_file_path,
+        input_format=input_format,
+        output_name=output_name,
+        root_list_path=config['root_list_path'],
+        root_id=config['root_id']
+    )
+
+    # Delete the input CSV files, if any.
+    if extension == '.zip':
+        shutil.rmtree(input_file_path)
+
+    # Create a ZIP file of the JSON file.
+    json_zip = DataFile('result', '.zip', id=input_file.id, folder=input_file.folder)
+    with ZipFile(json_zip.path, 'w', compression=ZIP_DEFLATED) as zipfile:
+        zipfile.write(output_name, 'result.json')
+
+    return JsonResponse({
+        'url': input_file.url,
+        'size': json_zip.size,
     })
 
 
