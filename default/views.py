@@ -1,5 +1,6 @@
 import os
 import shutil
+import warnings
 from zipfile import ZIP_DEFLATED, ZipFile
 
 import flattentool
@@ -48,6 +49,20 @@ def _ocds_command(request, command):
         'performAction': '/{}/go/'.format(command)
     }
     return render(request, 'default/{}.html'.format(command), context)
+
+
+def _make_package(request, published_date, method, warnings):
+    items = []
+    for file in _get_files_from_session(request):
+        item = file.json()
+        if isinstance(item, list):
+            items.extend(item)
+        else:
+            items.append(item)
+
+    return _json_response({
+        'result.json': method(items, published_date=published_date),
+    }, warnings=warnings)
 
 
 def index(request):
@@ -108,39 +123,18 @@ def perform_upgrade(request):
 @require_files
 @published_date
 def perform_package_releases(request, published_date='', warnings=None):
-    releases = []
-    for file in _get_files_from_session(request):
-        item = file.json()
-        if isinstance(item, list):
-            releases.extend(item)
-        else:
-            releases.append(item)
-
-    return _json_response({
-        'result.json': package_releases_method(releases, published_date=published_date),
-    }, warnings)
+    method = package_releases_method
+    return _make_package(request, published_date, method, warnings)
 
 
 @require_files
 @published_date
 def perform_combine_packages(request, published_date='', warnings=None):
-    packages = []
-    for file in _get_files_from_session(request):
-        item = file.json()
-        if isinstance(item, list):
-            packages.extend(item)
-        else:
-            packages.append(item)
-    packageType = request.GET.get('packageType')
-
-    if packageType == 'release':
-        return _json_response({
-            'result.json': combine_release_packages(packages, published_date=published_date),
-        }, warnings)
+    if request.GET.get('packageType') == 'release':
+        method = combine_release_packages
     else:
-        return _json_response({
-            'result.json': combine_record_packages(packages, published_date=published_date)
-        }, warnings)
+        method = combine_record_packages
+    return _make_package(request, published_date, method, warnings)
 
 
 @require_files
@@ -212,17 +206,20 @@ def perform_to_spreadsheet(request):
     output_dir = DataFile('flatten', '', input_file.id, input_file.folder)
 
     config = LibCoveOCDSConfig().config
-    flattentool.flatten(
-        input_file.path,
-        output_name=output_dir.path,
-        main_sheet_name=config['root_list_path'],
-        root_list_path=config['root_list_path'],
-        root_id=config['root_id'],
-        schema=config['schema_version_choices']['1.1'][1] + 'release-schema.json',
-        disable_local_refs=config['flatten_tool']['disable_local_refs'],
-        remove_empty_schema_columns=config['flatten_tool']['remove_empty_schema_columns'],
-        root_is_list=False,
-    )
+    with warnings.catch_warnings():
+        warnings.filterwarnings('ignore')  # flattentool uses UserWarning, so we can't set a specific category
+
+        flattentool.flatten(
+            input_file.path,
+            output_name=output_dir.path,
+            main_sheet_name=config['root_list_path'],
+            root_list_path=config['root_list_path'],
+            root_id=config['root_id'],
+            schema=config['schema_version_choices']['1.1'][1] + 'release-schema.json',
+            disable_local_refs=config['flatten_tool']['disable_local_refs'],
+            remove_empty_schema_columns=config['flatten_tool']['remove_empty_schema_columns'],
+            root_is_list=False,
+        )
 
     # Create a ZIP file of the CSV files, and delete the CSV files.
     csv_zip = DataFile('flatten-csv', '.zip', id=input_file.id, folder=input_file.folder)
