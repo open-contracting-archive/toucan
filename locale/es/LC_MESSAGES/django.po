@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-12-16 14:45-0300\n"
+"POT-Creation-Date: 2019-12-16 16:50-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -80,11 +80,13 @@ msgid "Provide at least one extension URL"
 msgstr "Indique al menos una URL de extensión"
 
 #: default/templates/default/base-uploader.html:15
+#: default/templates/default/to-json.html:11
 #: default/templates/default/to-spreadsheet.html:11
 msgid "Success!"
 msgstr "Éxito!"
 
 #: default/templates/default/base-uploader.html:16
+#: default/templates/default/to-json.html:15
 #: default/templates/default/to-spreadsheet.html:15
 #: default/templates/default/to-spreadsheet.html:19
 msgid "Download"
@@ -121,8 +123,9 @@ msgstr ""
 msgid "Add a file"
 msgstr "Agregue un archivo"
 
-#: default/templates/default/base-uploader.html:53
-#: default/templates/default/to-spreadsheet.html:51
+#: default/templates/default/base-uploader.html:45
+#: default/templates/default/to-json.html:55
+#: default/templates/default/to-spreadsheet.html:53
 msgid "or drag and drop here."
 msgstr "o arrastre y suelte aquí"
 
@@ -273,6 +276,11 @@ msgstr "Generar una planilla del esquema"
 msgid "Convert to CSV/Excel"
 msgstr "Convertir a CSV/Excel"
 
+#: default/templates/default/index.html:67
+#: default/templates/default/to-json.html:8
+msgid "Convert to JSON"
+msgstr "Convertir a JSON"
+
 #: default/templates/default/mapping_sheet.html:4
 msgid "Generate a spreadsheet version of the schema"
 msgstr "Generar una planilla del esquema"
@@ -369,6 +377,46 @@ msgid "Published date:"
 msgstr "Fecha de Publicación:"
 
 #: default/templates/default/to-spreadsheet.html:28
+#: default/templates/default/to-json.html:21
+msgid ""
+"Please verify that all your files are valid according to the OCDS standard, "
+"and try again in a few minutes."
+msgstr ""
+"Por favor verifique que todos sus archivos son válidos de acuerdo al "
+"estándar OCDS, e intente de nuevo en unos minutos."
+
+#: default/templates/default/to-json.html:26
+msgid ""
+"Use this page to convert a CSV or Excel version into a <a href=\"https://"
+"standard.open-contracting.org/latest/en/schema/release_package/\" target="
+"\"_blank\">release package</a>. Please upload one file dragging and dropping "
+"in the box below or using the <strong>Add a file</strong> link."
+msgstr ""
+"Use esta página para convertir una versión CSV o Excel en un <a href="
+"\"https://standard.open-contracting.org/latest/es/schema/release_package/\" "
+"target=\"_blank\">paquete de release</a>. Por favor suba un solo archivo "
+"arrastrándolo y soltándolo en la caja de abajo o usando el enlace "
+"<strong>Agregue un archivo</strong>."
+
+#: default/templates/default/to-json.html:32
+msgid ""
+"The input CSV files must be compressed at the root of a ZIP file and the "
+"Excel file must be an XLSX file. Please verify that your files are in a "
+"format accepted by <a href=\"https://flatten-tool.readthedocs.io/en/latest/"
+"usage-ocds/\" target=\"_blank\">Flatten Tool</a> for OCDS."
+msgstr ""
+"Los archivos CSV de entrada deben estar comprimidos en la raiz de un archivo "
+"ZIP y el archivo Excel debe ser un archivo XLSX. Favor verifique que sus "
+"archivos estén en un formato aceptado por la herramienta <a href=\"https://"
+"flatten-tool.readthedocs.io/en/latest/usage-ocds/\" target=\"_blank"
+"\">Flatten Tool</a> para OCDS."
+
+#: default/templates/default/to-json.html:90
+#: default/templates/default/to-spreadsheet.html:88
+msgid "Added:"
+msgstr "Añadido:"
+
+#: default/templates/default/to-spreadsheet.html:30
 msgid ""
 "Use this page to convert a <a href=\"https://standard.open-contracting.org/"
 "latest/en/schema/release_package/\" target=\"_blank\">Release Package</a> to "

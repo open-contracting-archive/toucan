@@ -1,0 +1,129 @@
+{% extends 'default/base.html' %}
+{% load i18n %}
+{% load static %}
+
+{% block css %}
+    <link href="{% static "css/uploader.css"%}" rel="stylesheet"/>
+{% endblock %}
+{% block subtitle %} &gt;&gt; {% trans "Convert to JSON" %} {% endblock %}
+{% block body %}
+<div class="response-success alert alert-info hidden">
+    <b>{% trans "Success!" %}</b>
+    <ul>
+        <li>
+            result.zip (<span class="file-size-json"></span>)
+            <a href="javascript:void(0)" class="download-json">{% trans "Download" %}</a>
+        </li>
+    </ul>
+</div>
+<div class="response-fail alert alert-danger hidden">
+    <b>{% trans "An error has ocurred!" %}</b>
+    {% trans "Please verify that all your files are valid according to the OCDS standard, and try again in a few minutes." %}
+</div>
+<div class="info panel panel-default">
+  <div class="panel-body">
+     <p>
+        {% blocktrans trimmed %}
+            Use this page to convert a CSV or Excel version into a <a href="https://standard.open-contracting.org/latest/en/schema/release_package/"
+            target="_blank">release package</a>. Please upload one file dragging and dropping in the box below or using the <strong>Add a file</strong> link.
+        {% endblocktrans %}
+    </p>
+    <p>
+        {% blocktrans trimmed %}
+            The input CSV files must be compressed at the root of a ZIP file and the Excel file must be an XLSX file.
+            Please verify that your files are in a format accepted by <a href="https://flatten-tool.readthedocs.io/en/latest/usage-ocds/"
+            target="_blank">Flatten Tool</a> for OCDS.
+        {% endblocktrans %}
+    </p>
+  </div>
+</div>
+<form
+    id="fileupload"
+    method="POST"
+    action="/upload/"
+    data-form-data='{"csrfmiddlewaretoken": "{{csrf_token}}"}'
+    data-auto-upload="false"
+    data-replace-file-input="false"
+    accept="text/json"
+    data-accept-file-types="/\.json$/i"
+    >
+    <div class="drop-area empty single">
+        <span class="file-selector-empty">
+            <input type="file" name="file" id="file" accept=".csv, .zip, .xlsx, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" multiple/>
+            <span class="drop-area-msg">
+                <label for="file">{% trans "Add a file" %}</label>
+                {% trans "or drag and drop here." %}
+            </span>
+        </span>
+    </div>
+    <button type="button" class="btn btn-primary pull-right hidden" id="upload-button">
+      <i class="glyphicon glyphicon-cloud-upload"></i>
+      <span>{% trans "Start" %}</span>
+    </button>
+</form>
+<!-- Processing modal -->
+<div id="processing-modal" class="modal fade" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <p>{% trans "Processing operation. Please don't refresh nor close the browser window!" %}</p>
+                <div class="progress">
+                  <div class="progress-bar progress-bar-striped active" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+                  </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script src="{% static "js/vendor/jquery.ui.widget.js" %}"></script>
+<script src="{% static "js/jquery.iframe-transport.js" %}"></script>
+<script src="{% static "js/jquery.fileupload.js" %}"></script>
+<script src="{% static "js/utils.js" %}"></script>
+<script type="text/javascript">
+    /* fileupload widget, config options are attached to form */
+    $('#fileupload').fileupload();
+
+    $('#fileupload').bind('fileuploadadd', function(e, data){
+        $('.drop-area').removeClass('empty');
+        $('.drop-area-msg').html('<strong>{% trans "Added:" %}</strong> '
+            + data.files[0].name
+            + ' <small>('
+            + utils.readableFileSize(data.files[0].size)
+            + ')<small>');
+        $('#upload-button').removeClass('hidden');
+
+        $('#fileupload').fileupload('disable');
+
+        /* Click button behaviour */
+        $('#upload-button').click(function(){
+            $('#fileupload').fileupload('option', 'dropZone', undefined)
+            data
+                .submit()
+                .done(function(){
+                    $('#processing-modal').modal('show');
+                    $.ajax('/to-json/go/', { 'dataType': 'json' })
+                        .done(function(data){
+                            $('.response-success .download-json').attr('href', data.url);
+                            $('.response-success .file-size-json').html(utils.readableFileSize(data.size));
+                            $('.response-success').removeClass('hidden');
+                            })
+                        .fail(function(){
+                            $('.response-fail').removeClass('hidden');
+                            })
+                        .always(function(){
+                            $('#processing-modal').modal('hide');
+                            });
+                })
+                .always(function(){
+                });
+        });
+    });
+
+    /* prevent browser's default action when dragging and dropping files */
+    $(document).bind('drop dragover', function (e) {
+        e.preventDefault();
+    });
+</script>
+{% endblock %}
