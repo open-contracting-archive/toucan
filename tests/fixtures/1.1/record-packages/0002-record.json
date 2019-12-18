@@ -1,0 +1,133 @@
+{
+  "uri": "http://example.com",
+  "version": "1.1",
+  "publicationPolicy": "http://example.com",
+  "records": [
+    {
+      "releases": [
+        {
+          "url": "http://example.com",
+          "tag": [
+            "planning"
+          ],
+          "date": "2019-04-01T00:00:00"
+        },
+        {
+          "url": "http://example.com",
+          "tag": [
+            "tender"
+          ],
+          "date": "2019-06-01T00:00:00"
+        }
+      ],
+      "ocid": "ocds-03ad3f-123456",
+      "compiledRelease": {
+        "ocid": "ocds-03ad3f-123456",
+        "id": "134733-test-data-publisher",
+        "date": "2019-06-01T00:00:00",
+        "tag": [
+          "compiled"
+        ],
+        "initiationType": "tender",
+        "parties": [
+          {
+            "id": "0001",
+            "roles": [
+              "buyer",
+              "procuringEntity"
+            ],
+            "contactPoint": {
+              "name": "Juan Lopez",
+              "email": "juan.lopez@fictionalagency.gov.py",
+              "telephone": "021111222"
+            },
+            "name": "Fictional Government Agency"
+          }
+        ],
+        "planning": {
+          "budget": {
+            "description": "Action for example",
+            "amount": {
+              "amount": null,
+              "currency": "PYG"
+            }
+          },
+          "url": "http://example.com"
+        },
+        "awards": [],
+        "contracts": [],
+        "language": "es",
+        "buyer": {
+          "id": "012345",
+          "name": "Fictional Government Agency"
+        },
+        "tender": {
+          "procuringEntity": {
+            "id": "012345",
+            "name": "Fictional Government Agency"
+          },
+          "title": "Action for example",
+          "awardPeriod": {
+            "endDate": null,
+            "startDate": "2019-08-01T00:00:00"
+          },
+          "hasEnquiries": false,
+          "submissionMethod": [
+            "written"
+          ],
+          "enquiryPeriod": {
+            "endDate": "2019-09-01T00:00:00"
+          },
+          "lots": [
+            {
+              "id": "01234",
+              "items": [],
+              "title": "Action for example"
+            }
+          ],
+          "tenderPeriod": {
+            "endDate": "2019-08-01T00:00:00",
+            "startDate": null
+          },
+          "documents": [
+            {
+              "language": "es",
+              "format": "application/pdf",
+              "title": "Test data publisher",
+              "id": "01234",
+              "documentType": "Test data publisher",
+              "url": "http://example.com"
+            },
+            {
+              "language": "es",
+              "format": "application/pdf",
+              "title": "Test data publisher",
+              "id": "01234",
+              "documentType": "Test data publisher",
+              "url": "http://example.com"
+            }
+          ],
+          "status": "unsuccessful",
+          "id": "134733-test-data-publisher",
+          "items": [],
+          "url": "http://example.com",
+          "value": {
+            "amount": null,
+            "currency": "PYG"
+          }
+        }
+      }
+    }
+  ],
+  "packages": [
+    "http://example.com",
+    "http://example.com"
+  ],
+  "publishedDate": "2019-04-01T00:00:00",
+  "license": "http://example.license.com",
+  "publisher": {
+    "uri": "http://example.com",
+    "legalName": "Fictional Government Agency",
+    "name": "Fictional Government Agency"
+  }
+}
