@@ -1,5 +1,4 @@
 from datetime import date
-from io import BytesIO
 from zipfile import ZipFile
 
 from tests import ViewTestCase, ViewTests, path, read

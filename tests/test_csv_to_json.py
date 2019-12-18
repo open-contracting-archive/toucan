@@ -1,9 +1,4 @@
-import json
-import os.path
-from io import BytesIO
-from zipfile import ZipFile
-
-from tests import ViewTestCase, ViewTests, path
+from tests import ViewTestCase, ViewTests
 
 
 class CsvToJsonTestCase(ViewTestCase, ViewTests):
