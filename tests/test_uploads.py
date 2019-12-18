@@ -1,6 +1,7 @@
 import json
 
 from django.test import TestCase
+
 from tests import path
 
 
@@ -16,36 +17,34 @@ class FileUploadTestCase(TestCase):
         with open(path(self.empty_file)) as f:
             response = self.client.post('/upload/', {'file': f})
 
-            self.assertEqual(response.status_code, 400)
-            self.assertEqual(response.content.decode('utf-8'), "Error decoding json")
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.content.decode('utf-8'), "Error decoding json")
 
     def test_delete_file(self):
         with open(path(self.file_to_delete)) as f:
             response = self.client.post('/upload/', {'file': f})
-            content = json.loads(response.content.decode('utf-8'))
-            file_id = content['files'][0]['id']
 
-            response = self.client.get('/delete/' + file_id)
-            content = json.loads(response.content.decode('utf-8'))
+        content = json.loads(response.content.decode('utf-8'))
+        file_id = content['files'][0]['id']
 
-            self.assertEqual(response.status_code, 200)
-            self.assertEqual(content['message'], 'File deleted')
+        response = self.client.get('/delete/' + file_id)
+        content = json.loads(response.content.decode('utf-8'))
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(content['message'], 'File deleted')
 
-            response = self.client.get('/delete/' + file_id)
-            self.assertEqual(response.status_code, 400)
-            content = json.loads(response.content.decode('utf-8'))
+        response = self.client.get('/delete/' + file_id)
+        content = json.loads(response.content.decode('utf-8'))
+        self.assertEqual(response.status_code, 404)
+        self.assertEqual(content['message'], 'File not found')
 
-            self.assertEqual(content['message'], 'File not found')
+        session = self.client.session
+        del session['files']
+        session.save()
 
-            session = self.client.session
-            del session['files']
-            session.save()
-
-            response = self.client.get('/delete/' + file_id)
-            self.assertEqual(response.status_code, 400)
-            content = json.loads(response.content.decode('utf-8'))
-
-            self.assertEqual(content['message'], 'No files to delete')
+        response = self.client.get('/delete/' + file_id)
+        content = json.loads(response.content.decode('utf-8'))
+        self.assertEqual(response.status_code, 404)
+        self.assertEqual(content['message'], 'File not found')
 
     def test_file_validations(self):
         with open(path(self.release_package_file)) as f:

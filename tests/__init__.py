@@ -38,14 +38,13 @@ class ViewTestCase(TestCase):
     def assertResults(self, data, results, has_warnings=False):
         content = self.upload_and_go(data)
 
-        self.assertIn('url', content.keys())
-        self.assertIn('size', content.keys())
-
+        keys = ['url', 'size']
         if has_warnings:
-            self.assertIn('warnings', content.keys())
-            self.assertEqual(len(content), 3)
-        else:
-            self.assertEqual(len(content), 2)
+            keys.append('warnings')
+
+        for key in keys:
+            self.assertIn(key, content.keys())
+        self.assertEqual(len(content), len(keys))
 
         self.assertIsInstance(content['size'], int)
         self.assertRegex(content['url'], r'^/result/' + '{:%Y-%m-%d}'.format(date.today()) + r'/[0-9a-f-]{36}/$')
