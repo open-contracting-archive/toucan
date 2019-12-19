@@ -9,7 +9,9 @@ To regenerate the result fixtures:
     cat tests/fixtures/1.1/releases/0001-tender.json tests/fixtures/1.1/releases/0001-award.json tests/fixtures/1.1/releases/0002-tender.json | ocdskit package-releases > tests/fixtures/results/package-releases.json
     cat tests/fixtures/1.1/releases/0001-tender.json tests/fixtures/1.1/releases/0001-award.json tests/fixtures/1.1/releases/0002-tender.json | ocdskit package-releases --published-date 2001-02-03T00:00:00Z > tests/fixtures/results/package-releases_published-date.json
 
-    cat tests/fixtures/1.0/release-packages/0001-tender.json | ocdskit upgrade 1.0:1.1 > tests/fixtures/results/upgrade.json
+    cat tests/fixtures/1.0/record-packages/ocds-213czf-000-00001.json | ocdskit upgrade 1.0:1.1 > tests/fixtures/results/upgrade_record-package.json
+    cat tests/fixtures/1.0/release-packages/0001-tender.json | ocdskit upgrade 1.0:1.1 > tests/fixtures/results/upgrade_release-package.json
+    cat tests/fixtures/1.0/releases/0001-planning.json | ocdskit upgrade 1.0:1.1 > tests/fixtures/results/upgrade_release.json
 
     curl -O https://standard.open-contracting.org/latest/en/release-schema.json
     ocdskit mapping-sheet --infer-required release-schema.json > tests/fixtures/results/mapping-sheet.csv
