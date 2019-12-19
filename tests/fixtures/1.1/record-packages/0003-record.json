@@ -118,7 +118,7 @@
   "publishedDate": "2019-07-01T00:00:00Z",
   "license": "http://example.licenses.com",
   "publisher": {
-    "uri": "http://example.coms",
+    "uri": "http://example.com",
     "legalName": "Fictional Government Agency",
     "name": "Fictional Government Agency"
   }
