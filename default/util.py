@@ -1,5 +1,4 @@
 import json
-import logging
 
 from django.http import JsonResponse
 from django.shortcuts import render
@@ -8,8 +7,6 @@ from ocdskit.util import is_package, is_record_package, is_release, is_release_p
 
 from default.data_file import DataFile
 from ocdstoucan.settings import OCDS_TOUCAN_MAXFILESIZE, OCDS_TOUCAN_MAXNUMFILES
-
-logger = logging.getLogger(__name__)
 
 
 def ocds_command(request, command):
@@ -83,5 +80,4 @@ def invalid_request_file_message(f, file_type):
         else:
             return _('"%(type)s" not recognized') % {'type': file_type}
     except json.JSONDecodeError:
-        logger.debug('Error decoding file {}'.format(f.name))
         return _('Error decoding JSON')

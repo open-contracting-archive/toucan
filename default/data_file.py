@@ -91,8 +91,8 @@ class DataFile:
         self._makedirs()
         if isinstance(files, dict):
             files = files.items()
-        for name, content in files:
-            with ZipFile(self.path, 'a', compression=ZIP_DEFLATED) as zipfile:
+        with ZipFile(self.path, 'w', compression=ZIP_DEFLATED) as zipfile:
+            for name, content in files:
                 zipfile.writestr(name, json_dumps(content) + '\n')
 
     @property
