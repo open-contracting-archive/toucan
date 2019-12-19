@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-12-18 23:59+0000\n"
+"POT-Creation-Date: 2019-12-19 00:03+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,7 +20,8 @@ msgstr ""
 
 #: default/decorators.py:37
 #, python-format
-msgid "Invalid date submitted: %(date)s, omitted from results."
+msgid ""
+"An invalid published date was submitted, and therefore ignored: %(date)s"
 msgstr ""
 "La fecha enviada es inválida: %(date)s, por lo que se omitió en los "
 "resultados."

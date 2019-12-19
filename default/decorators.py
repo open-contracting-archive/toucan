@@ -34,7 +34,9 @@ def published_date(function):
                 kwargs['published_date'] = published_date
             except ValueError:
                 kwargs['warnings'] = [
-                    _('Invalid date submitted: %(date)s, omitted from results.') % {'date': published_date},
+                    _('An invalid published date was submitted, and therefore ignored: %(date)s') % {
+                        'date': published_date,
+                    },
                 ]
         return function(request, *args, **kwargs)
 
