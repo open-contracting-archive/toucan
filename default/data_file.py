@@ -1,4 +1,3 @@
-import logging
 import os
 import uuid
 from datetime import date
@@ -6,8 +5,6 @@ from zipfile import ZIP_DEFLATED, ZipFile
 
 from django.conf import settings
 from ocdskit.util import json_dumps, json_loads
-
-logger = logging.getLogger(__name__)
 
 
 class DataFile:
