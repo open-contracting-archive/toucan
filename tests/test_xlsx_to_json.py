@@ -8,6 +8,6 @@ class XlsxToJsonTestCase(ViewTestCase, ViewTests):
     ]
 
     def test_go_with_files(self):
-        self.assertResults({}, {
+        self.assertResults({'type': 'xlsx zip'}, {}, {
             'result.json': 'results/unflattened_xlsx.json',
         }, mode='rb')

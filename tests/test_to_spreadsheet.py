@@ -24,7 +24,7 @@ class ToSpreadsheetTestCase(ViewTestCase, ViewTests):
             ]
         }
 
-        contents = self.upload_and_go()
+        contents = self.upload_and_go({'type': 'release-package'})
 
         self.assertEqual(len(contents), len(results))
 
