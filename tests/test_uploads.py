@@ -18,7 +18,7 @@ class FileUploadTestCase(TestCase):
             response = self.client.post('/upload/', {'file': f})
 
         self.assertEqual(response.status_code, 400)
-        self.assertEqual(response.content.decode('utf-8'), "Error decoding json")
+        self.assertEqual(response.content.decode('utf-8'), "Error decoding JSON")
 
     def test_delete_file(self):
         with open(path(self.file_to_delete)) as f:

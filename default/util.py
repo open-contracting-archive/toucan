@@ -67,4 +67,4 @@ def file_is_valid(file, ocds_type=None):
         return True, ''
     except json.JSONDecodeError:
         logger.debug('Error decoding file {}'.format(file.name))
-        return False, _('Error decoding json')
+        return False, _('Error decoding JSON')
