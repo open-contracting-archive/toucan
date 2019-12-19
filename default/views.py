@@ -1,6 +1,7 @@
 import os
 import shutil
 import warnings
+from collections import OrderedDict
 from zipfile import ZIP_DEFLATED, ZipFile
 
 import flattentool
@@ -18,7 +19,8 @@ from default.decorators import clear_files, published_date, require_files
 from default.forms import MappingSheetOptionsForm
 from default.mapping_sheet import (get_extended_mapping_sheet, get_mapping_sheet_from_uploaded_file,
                                    get_mapping_sheet_from_url)
-from default.util import file_is_valid, get_files_from_session, json_response, make_package, ocds_command
+from default.util import (get_files_from_session, invalid_request_file_message, json_response, make_package,
+                          ocds_command)
 
 
 def retrieve_result(request, folder, id, format=None):
@@ -77,7 +79,7 @@ def upgrade(request):
 
 @require_files
 def perform_upgrade(request):
-    return json_response((file.name_with_suffix('upgraded'), upgrade_10_11(file.json()))
+    return json_response((file.name_with_suffix('upgraded'), upgrade_10_11(file.json(object_pairs_hook=OrderedDict)))
                          for file in get_files_from_session(request))
 
 
@@ -203,7 +205,7 @@ def perform_to_spreadsheet(request):
 
 @require_files
 def perform_to_json(request):
-    input_file = next(_get_files_from_session(request))
+    input_file = next(get_files_from_session(request))
     output_dir = DataFile('unflatten', '', input_file.id, input_file.folder)
 
     output_name = output_dir.path + '.json'
@@ -245,26 +247,26 @@ def perform_to_json(request):
 @require_POST
 def uploadfile(request):
     request_file = request.FILES['file']
-    name, extension = os.path.splitext(request_file.name)
+    basename, extension = os.path.splitext(request_file.name)
 
-    file = DataFile(name, extension)
-    ocds_type = request.POST.get('validateType', None)
+    data_file = DataFile(basename, extension)
+    file_type = request.POST.get('type', None)
 
-    valid, invalid_reason = file_is_valid(request_file, ocds_type=ocds_type)
-    if valid:
-        file.write(request_file)
+    message = invalid_request_file_message(request_file, file_type)
+    if message:
+        return HttpResponse(message, status=400)
     else:
-        return HttpResponse(invalid_reason, status=400)
+        data_file.write(request_file)
 
     if 'files' not in request.session:
         request.session['files'] = []
-    request.session['files'].append(file.as_dict())
+    request.session['files'].append(data_file.as_dict())
     # https://docs.djangoproject.com/en/2.2/topics/http/sessions/#when-sessions-are-saved
     request.session.modified = True
 
     return JsonResponse({
         'files': [{
-            'id': file.id,
+            'id': data_file.id,
             'name': request_file.name,
             'size': request_file.size,
         }],

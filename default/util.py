@@ -4,7 +4,7 @@ import logging
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.utils.translation import gettext_lazy as _
-from ocdskit.util import is_record_package, is_release_package, json_loads
+from ocdskit.util import is_package, is_record_package, is_release, is_release_package
 
 from default.data_file import DataFile
 from ocdstoucan.settings import OCDS_TOUCAN_MAXFILESIZE, OCDS_TOUCAN_MAXNUMFILES
@@ -55,16 +55,33 @@ def make_package(request, published_date, method, warnings):
     }, warnings=warnings)
 
 
-def file_is_valid(file, ocds_type=None):
+def invalid_request_file_message(f, file_type):
     try:
-        data = json_loads(file.read())
-        if ocds_type == 'release-package':
-            if not is_release_package(data):
-                return False, _('Not a release package')
-        elif ocds_type == 'record-package':
+        # Don't validate XLSX or ZIP files.
+        if file_type == 'xlsx zip':
+            return
+
+        data = json.load(f)
+
+        if file_type == 'record-package':
             if not is_record_package(data):
-                return False, _('Not a record package')
-        return True, ''
+                return _('Not a record package')
+        elif file_type == 'release-package':
+            if not is_release_package(data):
+                return _('Not a release package')
+        elif file_type == 'package release':
+            if not is_release(data) and not is_package(data):
+                return _('Not a release or package')
+        elif file_type == 'package package-array':
+            if (isinstance(data, list) and any(not is_package(item) for item in data) or
+                    not isinstance(data, list) and not is_package(data)):
+                return _('Not a package or list of packages')
+        elif file_type == 'release release-array':
+            if (isinstance(data, list) and any(not is_release(item) for item in data) or
+                    not isinstance(data, list) and not is_release(data)):
+                return _('Not a release or list of releases')
+        else:
+            return _('"%(type)s" not recognized') % {'type': file_type}
     except json.JSONDecodeError:
-        logger.debug('Error decoding file {}'.format(file.name))
-        return False, _('Error decoding JSON')
+        logger.debug('Error decoding file {}'.format(f.name))
+        return _('Error decoding JSON')
