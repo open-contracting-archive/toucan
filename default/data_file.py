@@ -1,10 +1,11 @@
+import json
 import os
 import uuid
 from datetime import date
 from zipfile import ZIP_DEFLATED, ZipFile
 
 from django.conf import settings
-from ocdskit.util import json_dumps, json_loads
+from ocdskit.util import json_dumps
 
 
 class DataFile:
@@ -62,12 +63,12 @@ class DataFile:
         """
         return os.path.getsize(self.path)
 
-    def json(self):
+    def json(self, **kwargs):
         """
         Returns the file's parsed JSON contents.
         """
         with open(self.path, encoding='utf-8') as f:
-            return json_loads(f.read())
+            return json.load(f, **kwargs)
 
     def write(self, file):
         """
