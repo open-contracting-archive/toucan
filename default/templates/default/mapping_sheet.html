@@ -2,6 +2,7 @@
 {% load i18n %}
 
 {% block subtitle %} &gt;&gt; {% trans "Generate a spreadsheet version of the schema" %} {% endblock %}
+
 {% block body %}
     {% if error %}
         <div class="alert alert-warning">
@@ -124,6 +125,7 @@
         <button type="submit" class="btn btn-primary">{% trans "Generate" %}</button>
     </form>
 {% endblock %}
+
 {% block scripts %}
     <script>
         $('.choice-header').on('change', function() {

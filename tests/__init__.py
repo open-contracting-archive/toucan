@@ -20,13 +20,16 @@ def read(filename, mode='rt', encoding=None, **kwargs):
 class ViewTestCase(TestCase):
     maxDiff = None
 
-    def upload_and_go(self, data=None, mode='r'):
+    def upload_and_go(self, upload_data=None, data=None, mode='r'):
+        if upload_data is None:
+            upload_data = {}
         if data is None:
             data = {}
 
         for file in self.files:
             with open(path(file), mode=mode) as f:
-                response = self.client.post('/upload/', {'file': f})
+                upload_data['file'] = f
+                self.client.post('/upload/', upload_data)
 
         response = self.client.get(self.url + 'go/', data)
         self.assertEqual(response.status_code, 200)
@@ -39,10 +42,17 @@ class ViewTestCase(TestCase):
         response = self.client.get(content['url'])
         return ZipFile(BytesIO(response.getvalue()))
 
-    def assertResults(self, data, results, mode='r'):
-        content = self.upload_and_go(data, mode=mode)
+    def assertResults(self, upload_data, data, results, mode='r', has_warnings=False):
+        content = self.upload_and_go(upload_data=upload_data, data=data, mode=mode)
 
-        self.assertEqual(len(content), 2)
+        keys = ['url', 'size']
+        if has_warnings:
+            keys.append('warnings')
+
+        for key in keys:
+            self.assertIn(key, content.keys())
+        self.assertEqual(len(content), len(keys))
+
         self.assertIsInstance(content['size'], int)
         self.assertRegex(content['url'], r'^/result/' + '{:%Y-%m-%d}'.format(date.today()) + r'/[0-9a-f-]{36}/$')
 

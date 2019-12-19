@@ -3,6 +3,8 @@
 
 {% block subtitle %} &gt;&gt; {% trans "Combine Packages" %} {% endblock %}
 
+{% block form-options %}, "type": "package package-array"{% endblock %}
+
 {% block info %}
 <p>
     {% blocktrans trimmed %}
@@ -32,6 +34,7 @@
     </select>
 </div>
 {% endblock %}
+
 {% block scripts %}
     {{ block.super }}
     <script type="text/javascript">

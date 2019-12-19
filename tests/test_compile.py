@@ -10,21 +10,21 @@ class CompileTestCase(ViewTestCase, ViewTests):
     ]
 
     def test_go_with_files(self):
-        self.assertResults({}, {
+        self.assertResults({'type': 'release-package'}, {}, {
             'result.json': 'results/compile.json',
         })
 
     def test_go_with_valid_published_date(self):
-        self.assertResults({'publishedDate': '2001-02-03T00:00:00Z'}, {
+        self.assertResults({'type': 'release-package'}, {'publishedDate': '2001-02-03T00:00:00Z'}, {
             'result.json': 'results/compile_published-date.json',
         })
 
     def test_go_with_invalid_published_date(self):
-        self.assertResults({'publishedDate': '2000-00-00T00:00:00Z'}, {
+        self.assertResults({'type': 'release-package'}, {'publishedDate': '2000-00-00T00:00:00Z'}, {
             'result.json': 'results/compile.json',
-        })
+        }, has_warnings=True)
 
     def test_go_with_include_versioned(self):
-        self.assertResults({'includeVersioned': 'true'}, {
+        self.assertResults({'type': 'release-package'}, {'includeVersioned': 'true'}, {
             'result.json': 'results/compile_versioned.json',
         })

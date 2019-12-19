@@ -1,10 +1,8 @@
-import logging
 from functools import wraps
 
 from dateutil import parser
 from django.http import JsonResponse
-
-logger = logging.getLogger(__name__)
+from django.utils.translation import gettext as _
 
 
 def clear_files(function):
@@ -35,8 +33,11 @@ def published_date(function):
                 parser.parse(published_date)
                 kwargs['published_date'] = published_date
             except ValueError:
-                # TODO send a warning to client side
-                logger.debug('Invalid date submitted: {}, ignoring'.format(published_date))
+                kwargs['warnings'] = [
+                    _('An invalid published date was submitted, and therefore ignored: %(date)s') % {
+                        'date': published_date,
+                    },
+                ]
         return function(request, *args, **kwargs)
 
     return wrap
