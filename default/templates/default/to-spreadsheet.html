@@ -5,7 +5,11 @@
 {% block css %}
     <link href="{% static "css/uploader.css"%}" rel="stylesheet"/>
 {% endblock %}
+
 {% block subtitle %} &gt;&gt; {% trans "Convert to CSV/Excel" %} {% endblock %}
+
+{% block form-options %}, "type": "release-package"{% endblock %}
+
 {% block body %}
 <div class="response-success alert alert-info hidden">
     <b>{% trans "Success!" %}</b> 
@@ -27,7 +31,7 @@
     <p>
         {% blocktrans trimmed %}
             Use this page to convert a <a href="https://standard.open-contracting.org/latest/en/schema/release_package/"
-            target="_blank">Release Package</a> to its CSV and Excel version. Please upload no more than one file by
+            target="_blank">release package</a> to its CSV and Excel version. Please upload no more than one file by
             dragging and dropping in the box below or using the <strong>Add a file</strong> link.
         {% endblocktrans %}
     </p>
@@ -37,7 +41,7 @@
     id="fileupload" 
     method="POST" 
     action="/upload/"
-    data-form-data='{"csrfmiddlewaretoken": "{{csrf_token}}", "validateType": "release-package"}'
+    data-form-data='{"csrfmiddlewaretoken": "{{csrf_token}}", "type": "release-package"}'
     data-auto-upload="false"
     data-replace-file-input="false"
     accept="text/json"
@@ -72,6 +76,7 @@
     </div>
 </div>
 {% endblock %}
+
 {% block scripts %}
 <script src="{% static "js/vendor/jquery.ui.widget.js" %}"></script>
 <script src="{% static "js/jquery.iframe-transport.js" %}"></script>

@@ -3,6 +3,8 @@
 
 {% block subtitle %} &gt;&gt; {% trans "Compile Releases" %} {% endblock %}
 
+{% block form-options %}, "type": "release-package"{% endblock %}
+
 {% block info %}
 <p>
     {% blocktrans trimmed %}
@@ -35,8 +37,6 @@
     </label>
 </div>
 {% endblock %}
-
-{% block form-options %}, "validateType": "release-package"{% endblock %}
 
 {% block scripts %}
     {{ block.super }}
