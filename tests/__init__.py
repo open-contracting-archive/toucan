@@ -42,7 +42,7 @@ class ViewTestCase(TestCase):
         response = self.client.get(content['url'])
         return ZipFile(BytesIO(response.getvalue()))
 
-    def assertResults(self, upload_data, data, results, mode='r', has_warnings=False):
+    def assertResults(self, upload_data, data, results, mode='r', has_warnings=False, load_json=False):
         content = self.upload_and_go(upload_data=upload_data, data=data, mode=mode)
 
         keys = ['url', 'size']
@@ -62,7 +62,10 @@ class ViewTestCase(TestCase):
         self.assertEqual(len(names), len(results))
         for name in names:
             part = next(part for pattern, part in results.items() if pattern == name or re.search(pattern, name))
-            self.assertEqual(zipfile.read(name).decode('utf-8'), read(part))
+            if load_json:
+                self.assertEqual(json.loads(zipfile.read(name)), json.loads(read(part)))
+            else:
+                self.assertEqual(zipfile.read(name).decode('utf-8'), read(part))
 
 
 class ViewTests:
