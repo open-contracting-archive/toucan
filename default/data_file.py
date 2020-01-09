@@ -32,7 +32,7 @@ class DataFile:
             self.folder = '{:%Y-%m-%d}'.format(date.today())
 
     def __repr__(self):
-        return '{.folder}/{.prefix}{.sep}{.id}{.ext}'.format(self)
+        return '{0.folder}/{0.prefix}{0.sep}{0.id}{0.ext}'.format(self)
 
     def as_dict(self):
         return self.__dict__
