@@ -1,7 +1,7 @@
 from django import forms
 from django.core.cache import cache
 from django.utils.translation import gettext_lazy as _
-from ocdsmerge.merge import get_tags
+from ocdsmerge.util import get_tags
 
 
 def _get_tags():

@@ -10,7 +10,7 @@ from django.shortcuts import render
 from django.utils.translation import gettext as _
 from django.views.decorators.http import require_GET, require_POST
 from libcoveocds.config import LibCoveOCDSConfig
-from ocdskit.combine import combine_record_packages, combine_release_packages, compile_release_packages
+from ocdskit.combine import combine_record_packages, combine_release_packages, merge
 from ocdskit.combine import package_releases as package_releases_method
 from ocdskit.upgrade import upgrade_10_11
 
@@ -108,8 +108,8 @@ def perform_compile(request, published_date='', warnings=None):
     return_versioned_release = request.GET.get('includeVersioned') == 'true'
 
     return json_response({
-        'result.json': next(compile_release_packages(packages, return_package=True, published_date=published_date,
-                                                     return_versioned_release=return_versioned_release),),
+        'result.json': next(merge(packages, return_package=True, published_date=published_date,
+                                  return_versioned_release=return_versioned_release)),
     }, warnings)
 
 
