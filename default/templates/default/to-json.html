@@ -45,7 +45,7 @@
     id="fileupload"
     method="POST"
     action="/upload/"
-    data-form-data='{"csrfmiddlewaretoken": "{{csrf_token}}"}'
+    data-form-data='{"csrfmiddlewaretoken": "{{csrf_token}}", "type": "xlsx zip"}'
     data-auto-upload="false"
     data-replace-file-input="false"
     accept="text/json"
