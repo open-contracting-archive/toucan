@@ -10,7 +10,6 @@ class DataFileTestCase(unittest.TestCase):
 
         assert repr(data_file) == 'directory/result-identifier.zip'
 
-
     def test_repr_without_folder(self):
         data_file = DataFile('result', '.zip', id='identifier')
 
