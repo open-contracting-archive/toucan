@@ -31,6 +31,9 @@ class DataFile:
         else:
             self.folder = '{:%Y-%m-%d}'.format(date.today())
 
+    def __repr__(self):
+        return '{.folder}/{.prefix}{.sep}{.id}{.ext}'.format(self)
+
     def as_dict(self):
         return self.__dict__
 
