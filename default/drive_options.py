@@ -1,10 +1,10 @@
 from __future__ import print_function
 from django.http import HttpResponse
+from google.auth.transport.requests import Request
 from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 from googleapiclient.errors import UnknownFileType
 from googleapiclient.http import MediaFileUpload
-from google.auth.transport.requests import Request
 from oauthlib.oauth2 import AccessDeniedError
 from ocdstoucan.settings import OCDS_TOUCAN_CREDENTIALS_DRIVE
 
