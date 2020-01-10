@@ -147,3 +147,5 @@ if os.getenv('SENTRY_DSN') is not None:
         dsn=os.getenv('SENTRY_DSN'),
         integrations=[DjangoIntegration()]
     )
+
+OCDS_TOUCAN_CREDENTIALS_DRIVE = os.getenv('OCDS_TOUCAN_CREDENTIALS_DRIVE', 'credentials.json')

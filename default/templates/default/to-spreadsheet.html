@@ -16,11 +16,15 @@
     <ul>
         <li>
             result.xlsx (<span class="file-size-xlsx"></span>)
-            <a href="javascript:void(0)" class="download-xlsx">{% trans "Download" %}</a>
+            <a href="javascript:void(0)" class="download-xlsx">{% trans "Local download" %}</a>
+            <span>  /  </span>
+            <a href="javascript:void(0)" class="download-drive-xlsx">{% trans "Upload to Google Drive" %}</a>
         </li>
         <li>
             result-csv.zip (<span class="file-size-csv"></span>)
-            <a href="javascript:void(0)" class="download-csv">{% trans "Download" %}</a>
+            <a href="javascript:void(0)" class="download-csv">{% trans "Local download" %}</a>
+            <span>  /  </span>
+            <a href="javascript:void(0)" class="download-drive-csv">{% trans "Upload to Google Drive" %}</a>
         </li>
     </ul>
 </div>
@@ -110,6 +114,8 @@
                             $('.response-success .download-csv').attr('href', data.csv.url);
                             $('.response-success .file-size-xlsx').html(utils.readableFileSize(data.xlsx.size));
                             $('.response-success .file-size-csv').html(utils.readableFileSize(data.csv.size));
+                            $('.response-success .download-drive-xlsx').attr('href', data.xlsx.url + 'drive/');
+                            $('.response-success .download-drive-csv').attr('href', data.csv.url + 'drive/');
                             $('.response-success').removeClass('hidden');
                             })
                         .fail(function(){

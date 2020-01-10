@@ -16,7 +16,9 @@
     <ul>
         <li>
             result.zip (<span class="file-size-json"></span>)
-            <a href="javascript:void(0)" class="download-json">{% trans "Download" %}</a>
+            <a href="javascript:void(0)" class="download-json">{% trans "Local download" %}</a>
+            <span>  /  </span>
+            <a href="javascript:void(0)" class="download-drive-json">{% trans "Upload to Google Drive" %}</a>
         </li>
     </ul>
 </div>
@@ -112,6 +114,7 @@
                         .done(function(data){
                             $('.response-success .download-json').attr('href', data.url);
                             $('.response-success .file-size-json').html(utils.readableFileSize(data.size));
+                            $('.response-success .download-drive-json').attr('href', data.url + 'drive/');
                             $('.response-success').removeClass('hidden');
                             })
                         .fail(function(){

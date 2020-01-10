@@ -12,8 +12,11 @@
 
 {% block body %}
 <div class="response-success alert alert-info hidden">
-    <b>{% trans "Success!" %}</b> result.zip(<span class="file-size"></span>)
-    <a href="javascript:void(0)" class="download" target="_blank">{% trans "Download" %}</a>
+    <b>{% trans "Success!" %}</b>
+    result.zip(<span class="file-size"></span>)
+    <a href="javascript:void(0)" class="download" target="_blank">{% trans "Local download" %}</a>
+    <span>  /  </span>
+    <a href="javascript:void(0)" class="download-drive">{% trans "Upload to Google Drive" %}</a>
 </div>
 <div class="response-warning action-failed alert alert-warning hidden">
     <ul></ul>

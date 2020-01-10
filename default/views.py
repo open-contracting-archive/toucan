@@ -17,14 +17,14 @@ from ocdskit.upgrade import upgrade_10_11
 from default.data_file import DataFile
 from default.decorators import clear_files, published_date, require_files
 from default.forms import MappingSheetOptionsForm
-from default.google_options import upload_option
+from default.drive_options import upload_to_drive
 from default.mapping_sheet import (get_extended_mapping_sheet, get_mapping_sheet_from_uploaded_file,
                                    get_mapping_sheet_from_url)
 from default.util import (get_files_from_session, invalid_request_file_message, json_response, make_package,
                           ocds_command)
 
 
-def retrieve_result(request, folder, id, format=None):
+def retrieve_result(request, folder, id, format=None, output=None):
     if format is None:
         prefix = 'result'
         ext = '.zip'
@@ -41,7 +41,17 @@ def retrieve_result(request, folder, id, format=None):
         raise Http404('Invalid option')
 
     file = DataFile(prefix, ext, id=str(id), folder=folder)
-    return FileResponse(open(file.path, 'rb'), filename=filename, as_attachment=True)
+
+    if output is None:
+        return FileResponse(open(file.path, 'rb'), filename=filename, as_attachment=True)
+    elif output == 'drive':
+        return upload_to_drive(filename, file.path, format)
+    else:
+        raise Http404('Invalid output')
+
+
+def retrieve_result_drive(request, folder, id, format=None):
+    return retrieve_result(request, folder, id, format, output='drive')
 
 
 def index(request):
