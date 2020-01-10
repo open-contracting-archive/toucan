@@ -432,7 +432,7 @@ msgstr ""
 "contracting.org/latest/es/schema/release_package/\" target=\"_blank"
 "\">Paquete de Release</a> a su versión CSV y Excel. Por favor no suba más de "
 "un archivo arrastrándolo y soltándolo en la caja de abajo o usando el enlace "
-"<strong>Añadir un archivo</strong>."
+"<strong>Agregue un archivo</strong>."
 
 #: default/templates/default/to-spreadsheet.html:123
 msgid ""

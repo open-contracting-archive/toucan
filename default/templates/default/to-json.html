@@ -8,8 +8,6 @@
 
 {% block subtitle %} &gt;&gt; {% trans "Convert to JSON" %} {% endblock %}
 
-{% block form-options %}, "type": "xlsx zip"{% endblock %}
-
 {% block body %}
 <div class="response-success alert alert-info hidden">
     <b>{% trans "Success!" %}</b>
@@ -47,7 +45,7 @@
     id="fileupload"
     method="POST"
     action="/upload/"
-    data-form-data='{"csrfmiddlewaretoken": "{{csrf_token}}"}'
+    data-form-data='{"csrfmiddlewaretoken": "{{csrf_token}}", "type": "xlsx zip"}'
     data-auto-upload="false"
     data-replace-file-input="false"
     accept="text/json"
