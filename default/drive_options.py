@@ -23,7 +23,7 @@ def upload_to_drive(filename, filepath, format=None):
         service = build('drive', 'v3', credentials=credentials)
 
     except AccessDeniedError:
-        return HttpResponse('Access Denied to Google Drive', status=400)
+        return HttpResponse('Access Denied<br>Acceso Denegado', status=400)
 
     try:
         if format == 'xlsx':
@@ -40,7 +40,7 @@ def upload_to_drive(filename, filepath, format=None):
                                 resumable=True)
         service.files().create(body=file_metadata, media_body=media, fields='id').execute()
 
-        return HttpResponse('Uploaded to Google Drive: Check your account', status=200)
+        return HttpResponse('Uploaded to Google Drive: Check your account<br>Subido a Google Drive: Verifica tu cuenta', status=200)
 
     except (TypeError, Exception, IOError, UnknownFileType):
-        return HttpResponse('Fail uploading to Google Drive', status=400)
+        return HttpResponse('Fail uploading to Google Drive<br>Fallo al subir a Google Drive', status=400)
