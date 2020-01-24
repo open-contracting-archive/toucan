@@ -40,7 +40,10 @@ def upload_to_drive(filename, filepath, format=None):
                                 resumable=True)
         service.files().create(body=file_metadata, media_body=media, fields='id').execute()
 
-        return HttpResponse('Uploaded to Google Drive: Check your account<br>Subido a Google Drive: Verifica tu cuenta', status=200)
+        return HttpResponse(
+            'Uploaded to Google Drive: Check your account<br>Subido a Google Drive: Verifica tu cuenta',
+            status=200
+        )
 
     except (TypeError, Exception, IOError, UnknownFileType):
         return HttpResponse('Fail uploading to Google Drive<br>Fallo al subir a Google Drive', status=400)
