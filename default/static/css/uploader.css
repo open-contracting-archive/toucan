@@ -113,3 +113,9 @@
 #publishedDate {
     width: 220px;
 }
+.options-link {
+    padding: 0 5px;
+}
+.options-link:hover, .options-link:active {
+    text-decoration: None;
+}

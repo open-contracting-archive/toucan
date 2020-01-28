@@ -14,6 +14,11 @@ def _get_extension_keys(data):
             yield key
 
 
+class OptionClassCheckboxSelectMultiple(forms.CheckboxSelectMultiple):
+    template_name = 'default/widget/checkbox-multiple.html'
+    option_template_name = 'default/widget/checkbox.html'
+
+
 class MappingSheetOptionsForm(forms.Form):
     type = forms.ChoiceField(choices=(('select', _('Select a schema and version')),
                                       ('url', _('Provide a URL')),
@@ -21,10 +26,45 @@ class MappingSheetOptionsForm(forms.Form):
                                       ('extension', _('For an OCDS Extension'))),
                              initial='select',
                              error_messages={'required': _('Please choose an operation type')})
-    select_url = forms.URLField(required=False, label=_('Select a schema and version'))
-    custom_url = forms.URLField(required=False, label=_('Provide the URL to a custom schema below'))
-    custom_file = forms.FileField(required=False, label=_('Upload a file'))
-    version = forms.ChoiceField(required=False, label=_('Please select an OCDS version'),
+    select_url = forms.ChoiceField(required=False,
+                                   label=_('Select a schema and version'),
+                                   choices=(
+                                       ('1.1', (
+                                           ('https://standard.open-contracting.org/1.1/en/release-schema.json',
+                                            '(1.1) Release'),
+                                           ('https://standard.open-contracting.org/1.1/en/release-package-schema.json',
+                                            '(1.1) Release Package'),
+                                           ('https://standard.open-contracting.org/1.1/en/record-package-schema.json',
+                                            '(1.1) Record Package'),
+                                       )),
+                                       ('1.1 (Español)', (
+                                           ('http://standard.open-contracting.org/1.1/es/release-schema.json',
+                                            '(1.1) (Español) Release'),
+                                           ('http://standard.open-contracting.org/1.1/es/release-schema.json',
+                                            '(1.1) (Español) Paquete de Release'),
+                                           ('http://standard.open-contracting.org/1.1/es/record-package-schema.json',
+                                            '(1.1) (Español) Paquete de Record'),
+                                       )),
+                                       ('1.0', (
+                                           ('https://standard.open-contracting.org/schema/1__0__3/release-schema.json',
+                                            '(1.0) Release'),
+                                           (
+                                               'https://standard.open-contracting.org/schema/1__0__3/'
+                                               + 'release-package-schema.json',
+                                               '(1.0) Release Package'),
+                                           (
+                                               'https://standard.open-contracting.org/schema/1__0__3/'
+                                               + 'record-package-schema.json',
+                                               '(1.0) Record Package'),
+                                       )),
+                                   ),
+                                   widget=forms.Select(attrs={'class': 'form-control'}))
+    custom_url = forms.URLField(required=False,
+                                label=_('Provide the URL to a custom schema below'))
+    custom_file = forms.FileField(required=False,
+                                  label=_('Upload a file'))
+    version = forms.ChoiceField(required=False,
+                                label=_('Please select an OCDS version'),
                                 choices=[(tag, tag.replace('__', '.')) for tag in _get_tags()],
                                 widget=forms.Select(attrs={'class': 'form-control'}))
 
@@ -59,3 +99,48 @@ class MappingSheetOptionsForm(forms.Form):
     def get_extension_fields(self):
         # this method returns a list of BoundField and it is used in the template
         return list(filter(lambda field: field.name.startswith('extension_url_'), [field for field in self]))
+
+
+class UnflattenOptionsForm(forms.Form):
+    schema = forms.ChoiceField(required=False,
+                               label=_('Schema version'),
+                               initial='1.1',
+                               choices=(
+                                   ('https://standard.open-contracting.org/1.1/en/release-schema.json',
+                                    '1.1'),
+                                   ('http://standard.open-contracting.org/1.1/es/release-schema.json',
+                                    '1.1 (Español)'),
+                                   ('https://standard.open-contracting.org/schema/1__0__3/release-schema.json',
+                                    '1.0')),
+                               widget=forms.Select(attrs={'class': 'form-control'}))
+    output_format = forms.MultipleChoiceField(required=True,
+                                              label=_('Output formats'),
+                                              initial=('csv', 'xlsx'),
+                                              choices=(('csv', 'CSV'),
+                                                       ('xlsx', 'Excel')),
+                                              widget=OptionClassCheckboxSelectMultiple(
+                                                  attrs={'option_class': 'checkbox-inline'})
+                                              )
+    use_titles = forms.ChoiceField(required=True,
+                                   label=_('Use titles instead of field names'),
+                                   choices=(('yes', _('Yes')), ('no', _('No'))),
+                                   widget=forms.Select(attrs={'class': 'form-control'}),
+                                   initial='no')
+    filter_field = forms.CharField(required=False,
+                                   help_text=_('Choose a field'),
+                                   widget=forms.TextInput(attrs={'class': 'form-control'}))
+    filter_value = forms.CharField(required=False,
+                                   help_text=_('Input a value'),
+                                   widget=forms.TextInput(attrs={'class': 'form-control'}))
+    preserve_fields = forms.CharField(required=False,
+                                      label=_('Include the following fields only'),
+                                      widget=forms.Textarea(attrs={'class': 'form-control'}),
+                                      help_text=_('Specify each path and field separated by a newline'))
+    remove_empty_schema_columns = forms.ChoiceField(required=True,
+                                                    label=_('Remove empty schema columns'),
+                                                    choices=(('yes', _('Yes')), ('no', _('No'))),
+                                                    initial='no',
+                                                    widget=forms.Select(attrs={'class': 'form-control'}))
+
+    def clean_output_format(self):
+        return 'all' if len(self.cleaned_data['output_format']) > 1 else self.cleaned_data['output_format'][0]
