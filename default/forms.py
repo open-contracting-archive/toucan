@@ -127,15 +127,15 @@ class UnflattenOptionsForm(forms.Form):
                                    widget=forms.Select(attrs={'class': 'form-control'}),
                                    initial='no')
     filter_field = forms.CharField(required=False,
-                                   help_text=_('Choose a field'),
+                                   help_text=_('Enter the full path to the field'),
                                    widget=forms.TextInput(attrs={'class': 'form-control'}))
     filter_value = forms.CharField(required=False,
-                                   help_text=_('Input a value'),
+                                   help_text=_('Enter a value'),
                                    widget=forms.TextInput(attrs={'class': 'form-control'}))
     preserve_fields = forms.CharField(required=False,
                                       label=_('Include the following fields only'),
                                       widget=forms.Textarea(attrs={'class': 'form-control'}),
-                                      help_text=_('Specify each path and field separated by a newline'))
+                                      help_text=_('Enter the full path to each field, separated by a newline'))
     remove_empty_schema_columns = forms.ChoiceField(required=True,
                                                     label=_('Remove empty schema columns'),
                                                     choices=(('yes', _('Yes')), ('no', _('No'))),
@@ -144,3 +144,6 @@ class UnflattenOptionsForm(forms.Form):
 
     def clean_output_format(self):
         return 'all' if len(self.cleaned_data['output_format']) > 1 else self.cleaned_data['output_format'][0]
+
+    def non_empty_values(self):
+        return {key: value for key, value in self.cleaned_data.items() if value}

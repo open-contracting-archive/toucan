@@ -12,11 +12,11 @@
                 <form id="unflatten-options">
                     <input type="hidden" name="csrfmiddlewaretoken" value="{{csrf_token}}">
                     <div class="form-group">
-                        <label for="{{ form.schema_version.id_for_label }}" class="col-sm-4">
-                            {{ form.schema_version.label }}
+                        <label for="{{ form.schema.id_for_label }}" class="col-sm-4">
+                            {{ form.schema.label }}
                         </label>
                         <div class="col-sm-8">
-                            {{ form.schema_version }}
+                            {{ form.schema }}
                         </div>
                     </div>
                     <div class="form-group">
@@ -25,6 +25,9 @@
                         </label>
                         <div class="col-sm-8">
                             {{ form.output_format }}
+                            <span class="help-block hidden">
+                                {% trans "Please choose at least one output format." %}
+                            </span>
                         </div>
                     </div>
                     <div class="form-group">
