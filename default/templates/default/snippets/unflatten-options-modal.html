@@ -1,0 +1,72 @@
+{% load i18n %}
+
+<div class="modal fade" tabindex="-1" role="dialog" id="unflatten-options-modal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">{% trans "Options" %}</h4>
+            </div>
+            <div class="modal-body form-horizontal">
+                <div class="alert alert-danger alert-dismissable hidden"></div>
+                <form id="unflatten-options">
+                    <input type="hidden" name="csrfmiddlewaretoken" value="{{csrf_token}}">
+                    <div class="form-group">
+                        <label for="{{ form.schema.id_for_label }}" class="col-sm-4">
+                            {{ form.schema.label }}
+                        </label>
+                        <div class="col-sm-8">
+                            {{ form.schema }}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ form.output_format.id_for_label }}" class="col-sm-4">
+                            {{ form.output_format.label }}
+                        </label>
+                        <div class="col-sm-8">
+                            {{ form.output_format }}
+                            <span class="help-block hidden">
+                                {% trans "Please choose at least one output format." %}
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ form.use_titles.id_for_label }}"
+                               class="col-sm-4">{{ form.use_titles.label }}</label>
+                        <div class="col-sm-8">
+                            {{ form.use_titles }}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-4">{% trans "Filter data by field" %}</label>
+                        <div class="col-sm-8">
+                            {{ form.filter_field }}
+                            <span class="help-block">{{ form.filter_field.help_text }}</span>
+                            {{ form.filter_value }}
+                            <span class="help-block"> {{ form.filter_value.help_text }}</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ form.preserve_fields.id_for_label }}" class="col-sm-4">
+                            {{ form.preserve_fields.label }}
+                        </label>
+                        <div class="col-sm-8">
+                            {{ form.preserve_fields }}
+                            <span class="help-block"> {{ form.preserve_fields.help_text }}</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ form.remove_empty_schema_columns.id_for_label }}" class="col-sm-4">
+                            {{ form.remove_empty_schema_columns.label }}
+                        </label>
+                        <div class="col-sm-8">
+                            {{ form.remove_empty_schema_columns }}
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">{% trans "Close" %}</button>
+            </div>
+        </div>
+    </div>
+</div>

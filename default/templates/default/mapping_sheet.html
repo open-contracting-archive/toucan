@@ -59,15 +59,7 @@
              class="panel-collapse collapse {% if form.type.value == 'select' %}in{% endif %} toucan-nav-select">
             <div class="form-group  {% if form.select_url.errors %}has-error{% endif %}">
                 <label for="url">{{ form.select_url.label }}</label>
-                <select name="select_url" class="form-control">
-                    {% for version, schemas in versionOptions.items %}
-                        <optgroup label="{{ version }}">
-                            {% for label, url in schemas.items %}
-                                <option value="{{ url }}">{{ version }}-{{ label }}</option>
-                            {% endfor %}
-                        </optgroup>
-                    {% endfor %}
-                </select>
+                {{ form.select_url }}
                 {% if form.select_url.errors %}
                     <div class="help-block">{{ form.select_url.errors }}</div>{% endif %}
             </div>

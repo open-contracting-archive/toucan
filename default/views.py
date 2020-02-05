@@ -1,6 +1,5 @@
 import os
 import shutil
-import warnings
 from collections import OrderedDict
 from zipfile import ZIP_DEFLATED, ZipFile
 
@@ -16,11 +15,11 @@ from ocdskit.upgrade import upgrade_10_11
 
 from default.data_file import DataFile
 from default.decorators import clear_files, published_date, require_files
-from default.forms import MappingSheetOptionsForm
+from default.forms import MappingSheetOptionsForm, UnflattenOptionsForm
 from default.mapping_sheet import (get_extended_mapping_sheet, get_mapping_sheet_from_uploaded_file,
                                    get_mapping_sheet_from_url)
 from default.util import (get_files_from_session, invalid_request_file_message, json_response, make_package,
-                          ocds_command)
+                          ocds_command, flatten)
 
 
 def retrieve_result(request, folder, id, format=None):
@@ -49,7 +48,7 @@ def index(request):
 
 @clear_files
 def to_spreadsheet(request):
-    return render(request, 'default/to-spreadsheet.html')
+    return render(request, 'default/to-spreadsheet.html', {'form': UnflattenOptionsForm()})
 
 
 @clear_files
@@ -140,67 +139,46 @@ def mapping_sheet(request):
         form = MappingSheetOptionsForm()
 
     context = {
-        'form': form,
-        'versionOptions': {
-            '1.1': {
-                'Release': 'https://standard.open-contracting.org/1.1/en/release-schema.json',
-                'Release Package': 'https://standard.open-contracting.org/1.1/en/release-package-schema.json',
-                'Record Package': 'https://standard.open-contracting.org/1.1/en/record-package-schema.json',
-            },
-            '1.1 (Español)': {
-                'Release': 'http://standard.open-contracting.org/1.1/es/release-schema.json',
-                'Paquete de Release': 'http://standard.open-contracting.org/1.1/es/release-schema.json',
-                'Paquete de Record': 'http://standard.open-contracting.org/1.1/es/record-package-schema.json',
-            },
-            '1.0': {
-                'Release': 'https://standard.open-contracting.org/schema/1__0__3/release-schema.json',
-                'Release Package': 'https://standard.open-contracting.org/schema/1__0__3/release-package-schema.json',
-                'Record Package': 'https://standard.open-contracting.org/schema/1__0__3/record-package-schema.json',
-            },
-        },
+        'form': form
     }
 
     return render(request, 'default/mapping_sheet.html', context)
 
 
 @require_files
+@require_POST
 def perform_to_spreadsheet(request):
     input_file = next(get_files_from_session(request))
     output_dir = DataFile('flatten', '', input_file.id, input_file.folder)
 
-    config = LibCoveOCDSConfig().config
-    with warnings.catch_warnings():
-        warnings.filterwarnings('ignore')  # flattentool uses UserWarning, so we can't set a specific category
+    form = UnflattenOptionsForm(request.POST)
 
-        flattentool.flatten(
-            input_file.path,
-            output_name=output_dir.path,
-            main_sheet_name=config['root_list_path'],
-            root_list_path=config['root_list_path'],
-            root_id=config['root_id'],
-            schema=config['schema_version_choices']['1.1'][1] + 'release-schema.json',
-            disable_local_refs=config['flatten_tool']['disable_local_refs'],
-            remove_empty_schema_columns=config['flatten_tool']['remove_empty_schema_columns'],
-            root_is_list=False,
-        )
+    if not form.is_valid():
+        return JsonResponse({'form_errors': dict(form.errors)}, status=400)
 
-    # Create a ZIP file of the CSV files, and delete the output CSV files.
-    csv_zip = DataFile('flatten-csv', '.zip', id=input_file.id, folder=input_file.folder)
-    with ZipFile(csv_zip.path, 'w', compression=ZIP_DEFLATED) as zipfile:
-        for filename in os.listdir(output_dir.path):
-            zipfile.write(os.path.join(output_dir.path, filename), filename)
-    shutil.rmtree(output_dir.path)
+    flatten(input_file, output_dir, form.non_empty_values())
 
-    return JsonResponse({
-        'csv': {
+    response = {}
+    if form.cleaned_data['output_format'] == 'all' or form.cleaned_data['output_format'] == 'csv':
+        # Create a ZIP file of the CSV files, and delete the output CSV files.
+        csv_zip = DataFile('flatten-csv', '.zip', id=input_file.id, folder=input_file.folder)
+        with ZipFile(csv_zip.path, 'w', compression=ZIP_DEFLATED) as zipfile:
+            for filename in os.listdir(output_dir.path):
+                zipfile.write(os.path.join(output_dir.path, filename), filename)
+        shutil.rmtree(output_dir.path)
+
+        response['csv'] = {
             'url': input_file.url + 'csv/',
             'size': csv_zip.size,
-        },
-        'xlsx': {
+        }
+
+    if form.cleaned_data['output_format'] == 'all' or form.cleaned_data['output_format'] == 'xlsx':
+        response['xlsx'] = {
             'url': input_file.url + 'xlsx/',
             'size': os.path.getsize(output_dir.path + '.xlsx'),
         }
-    })
+
+    return JsonResponse(response)
 
 
 @require_files

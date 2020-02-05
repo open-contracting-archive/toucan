@@ -1,8 +1,13 @@
 import json
+import os
+import warnings
+import tempfile
 
+import flattentool
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.utils.translation import gettext_lazy as _
+from libcoveocds.config import LibCoveOCDSConfig
 from ocdskit.util import is_package, is_record_package, is_release, is_release_package
 
 from default.data_file import DataFile
@@ -81,3 +86,38 @@ def invalid_request_file_message(f, file_type):
             return _('"%(type)s" not recognized') % {'type': file_type}
     except json.JSONDecodeError:
         return _('Error decoding JSON')
+
+
+def flatten(input_file, output_dir, options):
+
+    _options = dict(options)
+    preserve_fields_tmp_file = None
+
+    if 'preserve_fields' in options:
+        preserve_fields_tmp_file = tempfile.NamedTemporaryFile(delete=False)
+        _options['preserve_fields'] = preserve_fields_tmp_file.name
+        preserve_fields_tmp_file.write(str.encode(options['preserve_fields']))
+        # it is not strictly necessary to close the file here, but doing so should make the code compatible with
+        # non-Unix systems
+        preserve_fields_tmp_file.close()
+
+    config = LibCoveOCDSConfig().config
+
+    output_name = output_dir.path + '.xlsx' if options['output_format'] == 'xlsx' else output_dir.path
+
+    with warnings.catch_warnings():
+        warnings.filterwarnings('ignore')  # flattentool uses UserWarning, so we can't set a specific category
+
+        flattentool.flatten(
+            input_file.path,
+            output_name=output_name,
+            main_sheet_name=config['root_list_path'],
+            root_list_path=config['root_list_path'],
+            root_id=config['root_id'],
+            disable_local_refs=config['flatten_tool']['disable_local_refs'],
+            root_is_list=False,
+            **_options
+        )
+    if 'preserve_fields' in options:
+        preserve_fields_tmp_file.close()
+        os.remove(preserve_fields_tmp_file.name)
