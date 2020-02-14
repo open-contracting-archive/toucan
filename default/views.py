@@ -24,7 +24,8 @@ from default.util import (get_files_from_session, invalid_request_file_message, 
                           ocds_command)
 
 
-def retrieve_result(request, folder, id, format=None, output=None):
+def retrieve_result(request, folder, id, format=None):
+    output = request.GET.get('out')
     if format is None:
         prefix = 'result'
         ext = '.zip'
@@ -48,10 +49,6 @@ def retrieve_result(request, folder, id, format=None, output=None):
         return upload_to_drive(filename, file.path, format)
     else:
         raise Http404('Invalid output')
-
-
-def retrieve_result_drive(request, folder, id, format=None):
-    return retrieve_result(request, folder, id, format, output='drive')
 
 
 def index(request):
