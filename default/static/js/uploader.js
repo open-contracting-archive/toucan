@@ -184,9 +184,9 @@ var app = {};
             })
             .fail(function(jqXHR, textStatus, errorThrown){
                 if (jqXHR.responseText == 'Access Denied'){
-                    $('.response-fail-drive').removeClass('hidden');
+                    $('.response-access-drive').removeClass('hidden');
                 } else {
-                     $('.response-access-drive').removeClass('hidden');
+                    $('.response-fail-drive').removeClass('hidden');
                 }
             })
             .always(function() {
