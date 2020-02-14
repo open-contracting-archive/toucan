@@ -127,7 +127,7 @@ var app = {};
             .done(function (data) {
                 $('.response-success .file-size').html(utils.readableFileSize(data.size));
                 $('.response-success .download').attr('href', data.url);
-                $('.response-success .download-drive').attr('href', data.url + 'drive/');
+                $('.response-success .download-drive').attr('href', data.url + '?out=drive');
                 $('.response-success').removeClass('hidden');
                 if (data.hasOwnProperty('warnings') && data.warnings.length > 0) {
                     $('.response-warning.action-failed').removeClass('hidden');
@@ -172,6 +172,28 @@ var app = {};
         ;
     }
 
+    function saveDrive() {
+        showProcessingModal();
+        $.ajax($('.response-success .download-drive').attr('href'), { 'dataType': 'json' })
+            .done(function(data) {
+                $('.google-drive-success .file-google-name').html(data.name);
+                $('.google-drive-success .file-google-id').html(data.id);
+                $('.google-drive-success').removeClass('hidden');
+                $('.response-access-drive').addClass('hidden');
+                $('.response-fail-drive').addClass('hidden');
+            })
+            .fail(function(jqXHR, textStatus, errorThrown){
+                if (jqXHR.responseText == 'Access Denied'){
+                    $('.response-fail-drive').removeClass('hidden');
+                } else {
+                     $('.response-access-drive').removeClass('hidden');
+                }
+            })
+            .always(function() {
+                hideProcessingModal()
+            });
+    }
+
     /** plugin initialization & listeners**/
 
     var fileupload = $('#fileupload')
@@ -183,6 +205,9 @@ var app = {};
 
     /** upload call binding **/
     $("#upload-button").click(upload);
+
+    /* click save to Drive button behaviour */
+    $('#d-drive').click(saveDrive);
 
     /* add warning before closing/navigating away from page */
     window.onload = function () {

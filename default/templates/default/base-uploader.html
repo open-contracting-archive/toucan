@@ -16,7 +16,17 @@
     result.zip(<span class="file-size"></span>)
     <a href="javascript:void(0)" class="download" target="_blank">{% trans "Download" %}</a>
     <span>  /  </span>
-    <a href="javascript:void(0)" class="download-drive">{% trans "Save to Google Drive" %}</a>
+    <button type="button" class="btn btn-primary download-drive" id="d-drive">
+        <span>{% trans "Save to Google Drive" %}</span>
+    </button>
+</div>
+<div class="google-drive-success alert alert-info hidden">
+    <b>{% trans "Uploaded to Google Drive!" %}</b>
+    <ul>
+        <li>
+            <span class="file-google-name"></span> (Id: <span class="file-google-id"></span>)
+        </li>
+    </ul>
 </div>
 <div class="response-warning action-failed alert alert-warning hidden">
     <ul></ul>
@@ -25,6 +35,12 @@
     {% trans "We couldn't check that all files were JSON or of the OCDS type requested." %}
     {% trans "You can add more files or remove them, then click on <b>Start</b> again." %}
     {% trans "Files with validation issues will be ignored by default." %}
+</div>
+<div class="response-access-drive alert alert-danger hidden">
+    <b>{% trans "Error saving to Google Drive: Access Denied" %}</b>
+</div>
+<div class="response-fail-drive alert alert-danger hidden">
+    <b>{% trans "Error saving to Google Drive: Fail Uploading" %}</b>
 </div>
 <div class="response-fail alert alert-danger hidden">
     <b>{% trans "An error has occurred!" %}</b>
