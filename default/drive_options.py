@@ -1,5 +1,5 @@
 from __future__ import print_function
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from google.auth.transport.requests import Request
 from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
@@ -23,13 +23,16 @@ def upload_to_drive(filename, filepath, format=None):
         service = build('drive', 'v3', credentials=credentials)
 
     except AccessDeniedError:
-        return HttpResponse('Access Denied<br>Acceso Denegado', status=400)
+        return HttpResponse("Access Denied", status=400)
 
     try:
         if format == 'xlsx':
             mimeType = 'application/vnd.google-apps.spreadsheet'
         else:
-            mimeType = '*/*'
+            if format == 'csv' or format is None:
+                mimeType = 'application/zip'
+            else:
+                mimeType = '*/*'
 
         file_metadata = {
             'name': filename,
@@ -38,12 +41,12 @@ def upload_to_drive(filename, filepath, format=None):
         media = MediaFileUpload(filepath,
                                 mimetype=mimeType,
                                 resumable=True)
-        service.files().create(body=file_metadata, media_body=media, fields='id').execute()
+        results = service.files().create(body=file_metadata, media_body=media, fields='id').execute()
 
-        return HttpResponse(
-            'Uploaded to Google Drive: Check your account<br>Subido a Google Drive: Verifica tu cuenta',
-            status=200
-        )
+        return JsonResponse({
+            'name': filename,
+            'id': results["id"]
+        })
 
     except (TypeError, Exception, IOError, UnknownFileType):
-        return HttpResponse('Fail uploading to Google Drive<br>Fallo al subir a Google Drive', status=400)
+        return HttpResponse("Fail Uploading", status=400)
