@@ -167,7 +167,6 @@
                             '{% trans "<b>Error saving to Google Drive</b>: " %}'
                             + ( jqXHR.responseText || textStatus ));
                             $('.response-fail').removeClass('hidden');
-                            $('.google-drive-fail').removeClass('hidden');
                             })
                         .always(function(){
                             $('#processing-modal').modal('hide');
@@ -193,7 +192,6 @@
                             '{% trans "<b>Error saving to Google Drive</b>: " %}'
                             + ( jqXHR.responseText || textStatus ));
                             $('.response-fail').removeClass('hidden');
-                            $('.google-drive-fail').removeClass('hidden');
                             })
                         .always(function(){
                             $('#processing-modal').modal('hide');

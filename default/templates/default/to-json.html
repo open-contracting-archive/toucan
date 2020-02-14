@@ -126,6 +126,9 @@
                             $('.response-success').removeClass('hidden');
                             })
                         .fail(function(){
+                            $('.response-fail').html(
+                                '{% trans "An error has occurred! Please verify that all your files are valid OCDS JSON, and try again in a few minutes." %}'
+                            );
                             $('.response-fail').removeClass('hidden');
                             })
                         .always(function(){
@@ -152,7 +155,6 @@
                             '{% trans "<b>Error saving to Google Drive</b>: " %}'
                             + ( jqXHR.responseText || textStatus ));
                             $('.response-fail').removeClass('hidden');
-                            $('.google-drive-fail').removeClass('hidden');
                             })
                         .always(function(){
                             $('#processing-modal').modal('hide');
