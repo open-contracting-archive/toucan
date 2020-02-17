@@ -46,10 +46,8 @@ def retrieve_result(request, folder, id, format=None):
     if output is None:
         return FileResponse(open(file.path, 'rb'), filename=filename, as_attachment=True)
     elif output == 'drive':
-        if request.GET.get('test'):
-            return HttpResponse(status=200)
-        else:
-            return upload_to_drive(filename, file.path, format)
+        is_test = request.GET.get('test')
+        return upload_to_drive(filename, file.path, format, test=is_test)
     else:
         raise Http404('Invalid output')
 

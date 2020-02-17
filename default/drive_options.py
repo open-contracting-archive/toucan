@@ -9,18 +9,21 @@ from oauthlib.oauth2 import AccessDeniedError
 from ocdstoucan.settings import OCDS_TOUCAN_CREDENTIALS_DRIVE
 
 
-def upload_to_drive(filename, filepath, format=None):
+def upload_to_drive(filename, filepath, format=None, test=False):
     try:
         credentials = None
         SCOPES = 'https://www.googleapis.com/auth/drive.file'
-        if not credentials or not credentials.valid:
+        if (not credentials or not credentials.valid) and not test:
             if credentials and credentials.expired and credentials.refresh_token:
                 credentials.refresh(Request())
             else:
                 flow = InstalledAppFlow.from_client_secrets_file(
                     OCDS_TOUCAN_CREDENTIALS_DRIVE, SCOPES)
                 credentials = flow.run_local_server(port=0)
-        service = build('drive', 'v3', credentials=credentials)
+        if test:
+            service = None
+        else:
+            service = build('drive', 'v3', credentials=credentials)
 
     except AccessDeniedError:
         return HttpResponse("Access Denied", status=400)
@@ -49,4 +52,7 @@ def upload_to_drive(filename, filepath, format=None):
         })
 
     except (TypeError, Exception, IOError, UnknownFileType):
-        return HttpResponse("Fail Uploading", status=400)
+        if test:
+            return HttpResponse("Test", status=200)
+        else:
+            return HttpResponse("Fail Uploading", status=400)
