@@ -210,15 +210,20 @@ def perform_to_json(request):
 
     output_name = output_dir.path + '.json'
     extension = os.path.splitext(input_file.path)[1]
-    if extension == '.zip':
-        input_file_path = output_dir.path + '/tmp'
-        input_format = 'csv'
-        with ZipFile(input_file.path) as zipfile:
-            for name in zipfile.namelist():
-                zipfile.extract(name, input_file_path)
-    else:
+    if extension == '.xlsx':
         input_file_path = input_file.path
         input_format = 'xlsx'
+    else:
+        input_file_path = output_dir.path
+        input_format = 'csv'
+        if extension == '.zip':
+            with ZipFile(input_file.path) as zipfile:
+                for name in zipfile.namelist():
+                    zipfile.extract(name, input_file_path)
+        else:
+            if extension == '.csv':
+                os.mkdir(input_file_path)
+                shutil.copy(input_file.path, input_file_path)
 
     config = LibCoveOCDSConfig().config
     flattentool.unflatten(
@@ -230,7 +235,7 @@ def perform_to_json(request):
     )
 
     # Delete the input CSV files, if any.
-    if extension == '.zip':
+    if extension == '.zip' or extension == '.csv':
         shutil.rmtree(input_file_path)
 
     # Create a ZIP file of the JSON file.
