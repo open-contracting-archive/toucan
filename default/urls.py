@@ -5,6 +5,7 @@ from default import views
 urlpatterns = [
     path('', views.index, name='index'),
     path('i18n/', include('django.conf.urls.i18n')),
+    path('about/', views.about, name='about'),
     path('upload/', views.uploadfile, name='upload'),
     path('delete/<uuid:id>', views.deletefile, name='delete_file'),
     path('result/<str:folder>/<uuid:id>/', views.retrieve_result, name='retrieve_result'),

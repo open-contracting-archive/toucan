@@ -24,6 +24,11 @@
                  <h1><a href="/" style="color: white;">{% trans "OCDS Toucan" %}</a> <small> {% block subtitle %}{% endblock %}</small></h1>
              </div>
             <ul class="nav navbar-nav navbar-right">
+                <li>
+                  <a href="/about/" role="button" aria-haspopup="true" aria-expanded="false" style="margin-top:15px;">
+                        <i class="glyphicon glyphicon-question-sign"></i>{% trans " About" %}
+                    </a>
+                </li>
                 <li class="dropdown">
                   {% get_current_language as LANGUAGE_CODE %}
                   {% get_available_languages as LANGUAGES %}

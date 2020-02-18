@@ -47,6 +47,10 @@ def index(request):
     return render(request, 'default/index.html')
 
 
+def about(request):
+    return render(request, 'default/about.html')
+
+
 @clear_files
 def to_spreadsheet(request):
     return render(request, 'default/to-spreadsheet.html')
