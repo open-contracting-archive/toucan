@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-12-23 18:02-0300\n"
+"POT-Creation-Date: 2020-02-18 13:11-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -70,16 +70,87 @@ msgstr "Cargue un archivo"
 msgid "Provide at least one extension URL"
 msgstr "Indique al menos una URL de extensión"
 
+#: default/templates/default/about.html:11
+msgid ""
+"<a href=\"https://standard.open-contracting.org/\" target=\"_blank\">OCDS</"
+"a> Toucan offers a set of transformation tools.<br> You sometimes need to "
+"transform OCDS data before you can use it or publish it."
+msgstr ""
+"<a href=\"https://standard.open-contracting.org/latest/es/\" target=\"_blank"
+"\">OCDS</a> Toucan ofrece un conjunto de herramientas de transformación.<br> "
+"Algunas veces necesita transformar los datos OCDS antes de usarlos o "
+"publicarlos"
+
+#: default/templates/default/about.html:18
+msgid "Toucan allows you to get OCDS data ready for use, in your browser:"
+msgstr ""
+"Toucan le permite tener los datos OCDS listos para su uso, en su navegador:"
+
+#: default/templates/default/about.html:21
+msgid ""
+"&nbsp;&nbsp;&nbsp;&nbsp;&#8226;&nbsp;Create a <a href=\"https://standard."
+"open-contracting.org/latest/en/schema/release_package/\" target=\"_blank"
+"\">release package</a> from individual <a href=\"https://standard.open-"
+"contracting.org/latest/en/getting_started/releases_and_records/#releases\" "
+"target=\"_blank\">releases</a><br> &nbsp;&nbsp;&nbsp;&nbsp;&#8226;&nbsp;"
+"Combine many small packages into a large package<br> &nbsp;&nbsp;&nbsp;&nbsp;"
+"&#8226;&nbsp;Transform release packages into a <a href=\"https://standard."
+"open-contracting.org/latest/en/schema/record_package/\" target=\"_blank"
+"\">record packages</a> with compiled releases and versioned releases<br> "
+"&nbsp;&nbsp;&nbsp;&nbsp;&#8226;&nbsp;Upgrade from an old version of OCDS to "
+"a new version<br> &nbsp;&nbsp;&nbsp;&nbsp;&#8226;&nbsp;Convert release "
+"packages to/from Excel and CSV<br> &nbsp;&nbsp;&nbsp;&nbsp;&#8226;&nbsp;"
+"Generate a spreadsheet version of OCDS schema"
+msgstr ""
+"&nbsp;&nbsp;&nbsp;&nbsp;&#8226;&nbsp;Cree un <a href=\"https://standard.open-"
+"contracting.org/latest/es/schema/release_package/\" target=\"_blank"
+"\">paquete de release</a> a partir de <a href=\"https://standard.open-"
+"contracting.org/latest/es/getting_started/releases_and_records/#releases\" "
+"target=\"_blank\">releases</a> individuales <br> &nbsp;&nbsp;&nbsp;&nbsp;"
+"&#8226;&nbsp;Combine muchos paquetes pequeños en un paquete grande<br> &nbsp;"
+"&nbsp;&nbsp;&nbsp;&#8226;&nbsp;Transforme los paquetes de release en <a href="
+"\"https://standard.open-contracting.org/latest/es/schema/record_package/\" "
+"target=\"_blank\">paquetes de record</a> incluyendo compiled releases y "
+"versioned releases<br> &nbsp;&nbsp;&nbsp;&nbsp;&#8226;&nbsp;Actualice una "
+"versión anterior de OCDS a una nueva versión<br> &nbsp;&nbsp;&nbsp;&nbsp;"
+"&#8226;&nbsp;Convierte paquetes de release a/desde Excel y CSV <br> &nbsp;"
+"&nbsp;&nbsp;&nbsp;&#8226;&nbsp;Genere una versión de la planilla del esquema "
+"OCDS"
+
+#: default/templates/default/about.html:37
+msgid ""
+"You can upload up to 20 files to each tool, and each file should be less "
+"than 20MB. Results remain available for 2 days."
+msgstr ""
+"Puede subir hasta 20 archivos en cada herramienta, y cada archivo debe ser "
+"menor a 20MB. Los Resultados permanecerán disponibles por 2 días."
+
+#: default/templates/default/about.html:43
+msgid ""
+"If you have more or larger files, try using <a href=\"https://ocdskit."
+"readthedocs.io/en/latest/\" target=\"_blank\">OCDS Kit</a> from the command "
+"line. Please report any issues to <a href=\"mailto:data@open-contracting.org"
+"\" target=\"_blank\">data@open-contracting.org</a> or create an issue on <a "
+"href=\"https://github.com/open-contracting/toucan/issues\" target=\"_blank"
+"\">GitHub</a>."
+msgstr ""
+"Si tiene más archivos o son más grandes, trate de utilizar <a href=\"https://"
+"ocdskit.readthedocs.io/en/latest/\" target=\"_blank\">OCDS Kit</a> por línea "
+"de comandos. Favor reporte cualquier falla a <a href=\"mailto:data@open-"
+"contracting.org\" target=\"_blank\">data@open-contracting.org</a> o cree un "
+"issue en <a href=\"https://github.com/open-contracting/toucan/issues\" "
+"target=\"_blank\">GitHub</a>."
+
 #: default/templates/default/base-uploader.html:15
-#: default/templates/default/to-json.html:15
-#: default/templates/default/to-spreadsheet.html:15
+#: default/templates/default/to-json.html:13
+#: default/templates/default/to-spreadsheet.html:13
 msgid "Success!"
 msgstr "Éxito!"
 
 #: default/templates/default/base-uploader.html:16
-#: default/templates/default/to-json.html:19
-#: default/templates/default/to-spreadsheet.html:19
-#: default/templates/default/to-spreadsheet.html:23
+#: default/templates/default/to-json.html:17
+#: default/templates/default/to-spreadsheet.html:17
+#: default/templates/default/to-spreadsheet.html:21
 msgid "Download"
 msgstr "Descargar"
 
@@ -102,7 +173,7 @@ msgid "Files with validation issues will be ignored by default."
 msgstr "Los archivos con problemas de validación serán ignorados por defecto."
 
 #: default/templates/default/base-uploader.html:27
-#: default/templates/default/to-json.html:24
+#: default/templates/default/to-json.html:22
 msgid "An error has occurred!"
 msgstr "¡Ha ocurrido un error!"
 
@@ -115,14 +186,14 @@ msgstr ""
 "estándar OCDS, e intente de nuevo en unos minutos."
 
 #: default/templates/default/base-uploader.html:53
-#: default/templates/default/to-json.html:58
-#: default/templates/default/to-spreadsheet.html:54
+#: default/templates/default/to-json.html:56
+#: default/templates/default/to-spreadsheet.html:52
 msgid "Add a file"
 msgstr "Agregue un archivo"
 
 #: default/templates/default/base-uploader.html:53
-#: default/templates/default/to-json.html:59
-#: default/templates/default/to-spreadsheet.html:55
+#: default/templates/default/to-json.html:57
+#: default/templates/default/to-spreadsheet.html:53
 msgid "or drag and drop here."
 msgstr "o arrastre y suelte aquí"
 
@@ -131,14 +202,14 @@ msgid "Add more files"
 msgstr "Agregar más archivos"
 
 #: default/templates/default/base-uploader.html:65
-#: default/templates/default/to-json.html:65
-#: default/templates/default/to-spreadsheet.html:61
+#: default/templates/default/to-json.html:63
+#: default/templates/default/to-spreadsheet.html:59
 msgid "Start"
 msgstr "Procesar"
 
 #: default/templates/default/base-uploader.html:75
-#: default/templates/default/to-json.html:73
-#: default/templates/default/to-spreadsheet.html:69
+#: default/templates/default/to-json.html:71
+#: default/templates/default/to-spreadsheet.html:67
 msgid ""
 "Processing operation. Please don't refresh nor close the browser window!"
 msgstr ""
@@ -148,6 +219,10 @@ msgstr ""
 #: default/templates/default/base.html:24
 msgid "OCDS Toucan"
 msgstr "OCDS Toucan"
+
+#: default/templates/default/base.html:29
+msgid " About"
+msgstr " Acerca de"
 
 #: default/templates/default/combine-packages.html:4
 #: default/templates/default/index.html:29
@@ -375,7 +450,7 @@ msgstr ""
 msgid "Published date:"
 msgstr "Fecha de Publicación:"
 
-#: default/templates/default/to-json.html:25
+#: default/templates/default/to-json.html:23
 msgid ""
 "Please verify that all your files are valid according to OCDS, and try again "
 "in a few minutes."
@@ -383,7 +458,7 @@ msgstr ""
 "Por favor verifique que todos sus archivos son válidos de acuerdo al "
 "estándar OCDS, e intente de nuevo en unos minutos."
 
-#: default/templates/default/to-json.html:30
+#: default/templates/default/to-json.html:28
 msgid ""
 "Use this page to convert a CSV or Excel version into a <a href=\"https://"
 "standard.open-contracting.org/latest/en/schema/release_package/\" target="
@@ -396,7 +471,7 @@ msgstr ""
 "arrastrándolo y soltándolo en la caja de abajo o usando el enlace "
 "<strong>Agregue un archivo</strong>."
 
-#: default/templates/default/to-json.html:36
+#: default/templates/default/to-json.html:34
 msgid ""
 "The input CSV files must be compressed at the root of a ZIP file and the "
 "Excel file must be an XLSX file. Please verify that your files are in a "
@@ -409,12 +484,12 @@ msgstr ""
 "flatten-tool.readthedocs.io/en/latest/usage-ocds/\" target=\"_blank"
 "\">Flatten Tool</a> para OCDS."
 
-#: default/templates/default/to-json.html:95
-#: default/templates/default/to-spreadsheet.html:91
+#: default/templates/default/to-json.html:93
+#: default/templates/default/to-spreadsheet.html:89
 msgid "Added:"
 msgstr "Añadido:"
 
-#: default/templates/default/to-spreadsheet.html:32
+#: default/templates/default/to-spreadsheet.html:30
 msgid ""
 "Use this page to convert a <a href=\"https://standard.open-contracting.org/"
 "latest/en/schema/release_package/\" target=\"_blank\">release package</a> to "
@@ -427,23 +502,24 @@ msgstr ""
 "un archivo arrastrándolo y soltándolo en la caja de abajo o usando el enlace "
 "<strong>Agregue un archivo</strong>."
 
-#: default/templates/default/to-spreadsheet.html:117
+#: default/templates/default/to-spreadsheet.html:115
 msgid ""
 "An error has occurred! Please verify that all your files are valid OCDS "
 "JSON, and try again in a few minutes."
 msgstr ""
-"¡Ha ocurrido un error! Por favor verifique que todos sus archivos son válidos de acuerdo al "
-"estándar OCDS, e intente de nuevo en unos minutos."
+"¡Ha ocurrido un error! Por favor verifique que todos sus archivos son "
+"válidos de acuerdo al estándar OCDS, e intente de nuevo en unos minutos."
 
-#: default/templates/default/to-spreadsheet.html:127
+#: default/templates/default/to-spreadsheet.html:125
 msgid "<b>Error when processing file</b>: "
 msgstr "<b>Error al procesar el archivo</b>:"
 
-#: default/templates/default/to-spreadsheet.html:130
+#: default/templates/default/to-spreadsheet.html:128
 msgid ""
 "Please verify that the file is a valid OCDS Release Package and try again."
 msgstr ""
-"Favor verifique que su archivo es un Paquete de Release OCDS válido e intente de nuevo."
+"Favor verifique que su archivo es un Paquete de Release OCDS válido e "
+"intente de nuevo."
 
 #: default/templates/default/upgrade.html:10
 msgid ""
@@ -475,40 +551,40 @@ msgstr "Borrar"
 msgid "Processing..."
 msgstr "Procesando..."
 
-#: default/util.py:68
+#: default/util.py:65
 msgid "Not a record package"
 msgstr "No es un paquete de records"
 
-#: default/util.py:71
+#: default/util.py:68
 msgid "Not a release package"
 msgstr "No es un paquete de releases"
 
-#: default/util.py:74
+#: default/util.py:71
 msgid "Not a release or package"
 msgstr "No es un release o paquete"
 
-#: default/util.py:78
+#: default/util.py:75
 msgid "Not a package or list of packages"
 msgstr "No es un paquete o lista de paquetes"
 
-#: default/util.py:82
+#: default/util.py:79
 msgid "Not a release or list of releases"
 msgstr "No es un release o lista de releases"
 
-#: default/util.py:84
+#: default/util.py:81
 #, python-format
 msgid "\"%(type)s\" not recognized"
 msgstr "No se reconoce \"%(type)s\""
 
-#: default/util.py:86
+#: default/util.py:83
 msgid "Error decoding JSON"
 msgstr "Error al decodificar JSON"
 
-#: default/views.py:279 default/views.py:287
+#: default/views.py:283 default/views.py:291
 msgid "File not found"
 msgstr "Archivo no encontrado"
 
-#: default/views.py:285
+#: default/views.py:289
 msgid "File deleted"
 msgstr "Archivo eliminado"
 
