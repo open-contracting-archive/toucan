@@ -81,4 +81,53 @@
         </div>
     </a>
 </div>
+<div class="panel panel-default info">
+<div class="panel-body descriptive">
+    <p>
+        {% blocktrans trimmed %}
+        <a href="https://standard.open-contracting.org/" target="_blank">OCDS</a>
+        Toucan offers a set of transformation tools.<br>
+        You sometimes need to transform OCDS data before you can use it or publish it.
+        {% endblocktrans %}
+    </p>
+    <p>
+        {% trans "Toucan allows you to get OCDS data ready for use, in your browser:" %}
+    </p>
+    <p>
+        {% blocktrans trimmed %}
+        &nbsp;&nbsp;&nbsp;&nbsp;&#8226;&nbsp;Create a
+        <a href="https://standard.open-contracting.org/latest/en/schema/release_package/"
+           target="_blank">release package</a> from individual
+        <a href="https://standard.open-contracting.org/latest/en/getting_started/releases_and_records/#releases"
+           target="_blank">releases</a><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&#8226;&nbsp;Combine many small packages into a large package<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&#8226;&nbsp;Transform release packages into a
+        <a href="https://standard.open-contracting.org/latest/en/schema/record_package/"
+           target="_blank">record packages</a> with compiled releases and versioned releases<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&#8226;&nbsp;Upgrade from an old version of OCDS to a new version<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&#8226;&nbsp;Convert release packages to/from Excel and CSV<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&#8226;&nbsp;Generate a spreadsheet version of OCDS schema
+        {% endblocktrans %}
+    </p>
+    <p>
+        {% blocktrans trimmed %}
+        You can upload up to 20 files to each tool, and each file should be less than 20MB.
+        Results remain available for 2 days.
+        {% endblocktrans %}
+    </p>
+    <p>
+        {% blocktrans trimmed %}
+        If you have more or larger files, try using
+        <a href="https://ocdskit.readthedocs.io/en/latest/" target="_blank">OCDS Kit</a>
+        from the command line. Please report any issues to
+        <a href="mailto:data@open-contracting.org" target="_blank">data@open-contracting.org</a>
+        or create an issue on <a href="https://github.com/open-contracting/toucan/issues" target="_blank">GitHub</a>.
+        {% endblocktrans %}
+    </p>
+</div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script> $('.footer').addClass('home-footer'); </script>
 {% endblock %}
