@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-02-18 13:11-0300\n"
+"POT-Creation-Date: 2020-02-25 08:46-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -69,77 +69,6 @@ msgstr "Cargue un archivo"
 #: default/forms.py:55
 msgid "Provide at least one extension URL"
 msgstr "Indique al menos una URL de extensión"
-
-#: default/templates/default/about.html:11
-msgid ""
-"<a href=\"https://standard.open-contracting.org/\" target=\"_blank\">OCDS</"
-"a> Toucan offers a set of transformation tools.<br> You sometimes need to "
-"transform OCDS data before you can use it or publish it."
-msgstr ""
-"<a href=\"https://standard.open-contracting.org/latest/es/\" target=\"_blank"
-"\">OCDS</a> Toucan ofrece un conjunto de herramientas de transformación.<br> "
-"Algunas veces necesita transformar los datos OCDS antes de usarlos o "
-"publicarlos"
-
-#: default/templates/default/about.html:18
-msgid "Toucan allows you to get OCDS data ready for use, in your browser:"
-msgstr ""
-"Toucan le permite tener los datos OCDS listos para su uso, en su navegador:"
-
-#: default/templates/default/about.html:21
-msgid ""
-"&nbsp;&nbsp;&nbsp;&nbsp;&#8226;&nbsp;Create a <a href=\"https://standard."
-"open-contracting.org/latest/en/schema/release_package/\" target=\"_blank"
-"\">release package</a> from individual <a href=\"https://standard.open-"
-"contracting.org/latest/en/getting_started/releases_and_records/#releases\" "
-"target=\"_blank\">releases</a><br> &nbsp;&nbsp;&nbsp;&nbsp;&#8226;&nbsp;"
-"Combine many small packages into a large package<br> &nbsp;&nbsp;&nbsp;&nbsp;"
-"&#8226;&nbsp;Transform release packages into a <a href=\"https://standard."
-"open-contracting.org/latest/en/schema/record_package/\" target=\"_blank"
-"\">record packages</a> with compiled releases and versioned releases<br> "
-"&nbsp;&nbsp;&nbsp;&nbsp;&#8226;&nbsp;Upgrade from an old version of OCDS to "
-"a new version<br> &nbsp;&nbsp;&nbsp;&nbsp;&#8226;&nbsp;Convert release "
-"packages to/from Excel and CSV<br> &nbsp;&nbsp;&nbsp;&nbsp;&#8226;&nbsp;"
-"Generate a spreadsheet version of OCDS schema"
-msgstr ""
-"&nbsp;&nbsp;&nbsp;&nbsp;&#8226;&nbsp;Cree un <a href=\"https://standard.open-"
-"contracting.org/latest/es/schema/release_package/\" target=\"_blank"
-"\">paquete de release</a> a partir de <a href=\"https://standard.open-"
-"contracting.org/latest/es/getting_started/releases_and_records/#releases\" "
-"target=\"_blank\">releases</a> individuales <br> &nbsp;&nbsp;&nbsp;&nbsp;"
-"&#8226;&nbsp;Combine muchos paquetes pequeños en un paquete grande<br> &nbsp;"
-"&nbsp;&nbsp;&nbsp;&#8226;&nbsp;Transforme los paquetes de release en <a href="
-"\"https://standard.open-contracting.org/latest/es/schema/record_package/\" "
-"target=\"_blank\">paquetes de record</a> incluyendo compiled releases y "
-"versioned releases<br> &nbsp;&nbsp;&nbsp;&nbsp;&#8226;&nbsp;Actualice una "
-"versión anterior de OCDS a una nueva versión<br> &nbsp;&nbsp;&nbsp;&nbsp;"
-"&#8226;&nbsp;Convierte paquetes de release a/desde Excel y CSV <br> &nbsp;"
-"&nbsp;&nbsp;&nbsp;&#8226;&nbsp;Genere una versión de la planilla del esquema "
-"OCDS"
-
-#: default/templates/default/about.html:37
-msgid ""
-"You can upload up to 20 files to each tool, and each file should be less "
-"than 20MB. Results remain available for 2 days."
-msgstr ""
-"Puede subir hasta 20 archivos en cada herramienta, y cada archivo debe ser "
-"menor a 20MB. Los Resultados permanecerán disponibles por 2 días."
-
-#: default/templates/default/about.html:43
-msgid ""
-"If you have more or larger files, try using <a href=\"https://ocdskit."
-"readthedocs.io/en/latest/\" target=\"_blank\">OCDS Kit</a> from the command "
-"line. Please report any issues to <a href=\"mailto:data@open-contracting.org"
-"\" target=\"_blank\">data@open-contracting.org</a> or create an issue on <a "
-"href=\"https://github.com/open-contracting/toucan/issues\" target=\"_blank"
-"\">GitHub</a>."
-msgstr ""
-"Si tiene más archivos o son más grandes, trate de utilizar <a href=\"https://"
-"ocdskit.readthedocs.io/en/latest/\" target=\"_blank\">OCDS Kit</a> por línea "
-"de comandos. Favor reporte cualquier falla a <a href=\"mailto:data@open-"
-"contracting.org\" target=\"_blank\">data@open-contracting.org</a> o cree un "
-"issue en <a href=\"https://github.com/open-contracting/toucan/issues\" "
-"target=\"_blank\">GitHub</a>."
 
 #: default/templates/default/base-uploader.html:15
 #: default/templates/default/to-json.html:13
@@ -219,10 +148,6 @@ msgstr ""
 #: default/templates/default/base.html:24
 msgid "OCDS Toucan"
 msgstr "OCDS Toucan"
-
-#: default/templates/default/base.html:29
-msgid " About"
-msgstr " Acerca de"
 
 #: default/templates/default/combine-packages.html:4
 #: default/templates/default/index.html:29
@@ -354,6 +279,77 @@ msgstr "Convertir a CSV/Excel"
 #: default/templates/default/to-json.html:9
 msgid "Convert to JSON"
 msgstr "Convertir a JSON"
+
+#: default/templates/default/index.html:87
+msgid ""
+"<a href=\"https://standard.open-contracting.org/\" target=\"_blank\">OCDS</"
+"a> Toucan offers a set of transformation tools.<br> You sometimes need to "
+"transform OCDS data before you can use it or publish it."
+msgstr ""
+"<a href=\"https://standard.open-contracting.org/latest/es/\" target=\"_blank"
+"\">OCDS</a> Toucan ofrece un conjunto de herramientas de transformación.<br> "
+"Algunas veces necesita transformar los datos OCDS antes de usarlos o "
+"publicarlos."
+
+#: default/templates/default/index.html:94
+msgid "Toucan allows you to get OCDS data ready for use, in your browser:"
+msgstr ""
+"Toucan le permite tener los datos OCDS listos para su uso, en su navegador:"
+
+#: default/templates/default/index.html:97
+msgid ""
+"&nbsp;&nbsp;&nbsp;&nbsp;&#8226;&nbsp;Create a <a href=\"https://standard."
+"open-contracting.org/latest/en/schema/release_package/\" target=\"_blank"
+"\">release package</a> from individual <a href=\"https://standard.open-"
+"contracting.org/latest/en/getting_started/releases_and_records/#releases\" "
+"target=\"_blank\">releases</a><br> &nbsp;&nbsp;&nbsp;&nbsp;&#8226;&nbsp;"
+"Combine many small packages into a large package<br> &nbsp;&nbsp;&nbsp;&nbsp;"
+"&#8226;&nbsp;Transform release packages into a <a href=\"https://standard."
+"open-contracting.org/latest/en/schema/record_package/\" target=\"_blank"
+"\">record packages</a> with compiled releases and versioned releases<br> "
+"&nbsp;&nbsp;&nbsp;&nbsp;&#8226;&nbsp;Upgrade from an old version of OCDS to "
+"a new version<br> &nbsp;&nbsp;&nbsp;&nbsp;&#8226;&nbsp;Convert release "
+"packages to/from Excel and CSV<br> &nbsp;&nbsp;&nbsp;&nbsp;&#8226;&nbsp;"
+"Generate a spreadsheet version of OCDS schema"
+msgstr ""
+"&nbsp;&nbsp;&nbsp;&nbsp;&#8226;&nbsp;Cree un <a href=\"https://standard.open-"
+"contracting.org/latest/es/schema/release_package/\" target=\"_blank"
+"\">paquete de release</a> a partir de <a href=\"https://standard.open-"
+"contracting.org/latest/es/getting_started/releases_and_records/#releases\" "
+"target=\"_blank\">releases</a> individuales <br> &nbsp;&nbsp;&nbsp;&nbsp;"
+"&#8226;&nbsp;Combine muchos paquetes pequeños en un paquete grande<br> &nbsp;"
+"&nbsp;&nbsp;&nbsp;&#8226;&nbsp;Transforme los paquetes de release en <a href="
+"\"https://standard.open-contracting.org/latest/es/schema/record_package/\" "
+"target=\"_blank\">paquetes de record</a> incluyendo compiled releases y "
+"versioned releases<br> &nbsp;&nbsp;&nbsp;&nbsp;&#8226;&nbsp;Actualice una "
+"versión anterior de OCDS a una nueva versión<br> &nbsp;&nbsp;&nbsp;&nbsp;"
+"&#8226;&nbsp;Convierte paquetes de release a/desde Excel y CSV <br> &nbsp;"
+"&nbsp;&nbsp;&nbsp;&#8226;&nbsp;Genere una versión de la planilla del esquema "
+"OCDS"
+
+#: default/templates/default/index.html:113
+msgid ""
+"You can upload up to 20 files to each tool, and each file should be less "
+"than 20MB. Results remain available for 2 days."
+msgstr ""
+"Puede subir hasta 20 archivos en cada herramienta, y cada archivo debe ser "
+"menor a 20MB. Los Resultados permanecerán disponibles por 2 días."
+
+#: default/templates/default/index.html:119
+msgid ""
+"If you have more or larger files, try using <a href=\"https://ocdskit."
+"readthedocs.io/en/latest/\" target=\"_blank\">OCDS Kit</a> from the command "
+"line. Please report any issues to <a href=\"mailto:data@open-contracting.org"
+"\" target=\"_blank\">data@open-contracting.org</a> or create an issue on <a "
+"href=\"https://github.com/open-contracting/toucan/issues\" target=\"_blank"
+"\">GitHub</a>."
+msgstr ""
+"Si tiene más archivos o son más grandes, trate de utilizar <a href=\"https://"
+"ocdskit.readthedocs.io/en/latest/\" target=\"_blank\">OCDS Kit</a> por línea "
+"de comandos. Favor reporte cualquier falla a <a href=\"mailto:data@open-"
+"contracting.org\" target=\"_blank\">data@open-contracting.org</a> o cree un "
+"issue en <a href=\"https://github.com/open-contracting/toucan/issues\" "
+"target=\"_blank\">GitHub</a>."
 
 #: default/templates/default/mapping_sheet.html:4
 msgid "Generate a spreadsheet version of the schema"
@@ -580,11 +576,11 @@ msgstr "No se reconoce \"%(type)s\""
 msgid "Error decoding JSON"
 msgstr "Error al decodificar JSON"
 
-#: default/views.py:283 default/views.py:291
+#: default/views.py:279 default/views.py:287
 msgid "File not found"
 msgstr "Archivo no encontrado"
 
-#: default/views.py:289
+#: default/views.py:285
 msgid "File deleted"
 msgstr "Archivo eliminado"
 
