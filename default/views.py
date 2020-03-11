@@ -235,7 +235,7 @@ def perform_to_json(request):
     )
 
     # Delete the input CSV files, if any.
-    if extension == '.zip' or extension == '.csv':
+    if extension in ('.csv', '.zip'):
         shutil.rmtree(input_file_path)
 
     # Create a ZIP file of the JSON file.
