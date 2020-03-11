@@ -32,7 +32,7 @@
     </p>
     <p>
         {% blocktrans trimmed %}
-            The input CSV files must be compressed at the root of a ZIP file and the Excel file must be an XLSX file.
+            The input CSV files must be compressed at the root of a ZIP file if there is more than one file, and the Excel file must be an XLSX file.
             Please verify that your files are in a format accepted by <a href="https://flatten-tool.readthedocs.io/en/latest/usage-ocds/"
             target="_blank">Flatten Tool</a> for OCDS.
         {% endblocktrans %}
@@ -43,7 +43,7 @@
     id="fileupload"
     method="POST"
     action="/upload/"
-    data-form-data='{"csrfmiddlewaretoken": "{{csrf_token}}", "type": "xlsx zip"}'
+    data-form-data='{"csrfmiddlewaretoken": "{{csrf_token}}", "type": "csv xlsx zip"}'
     data-auto-upload="false"
     data-replace-file-input="false"
     accept="text/json"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-02-11 11:46-0300\n"
+"POT-Creation-Date: 2020-02-17 10:37-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -402,16 +402,17 @@ msgstr ""
 
 #: default/templates/default/to-json.html:34
 msgid ""
-"The input CSV files must be compressed at the root of a ZIP file and the "
-"Excel file must be an XLSX file. Please verify that your files are in a "
-"format accepted by <a href=\"https://flatten-tool.readthedocs.io/en/latest/"
-"usage-ocds/\" target=\"_blank\">Flatten Tool</a> for OCDS."
+"The input CSV files must be compressed at the root of a ZIP file if there is "
+"more than one file, and the Excel file must be an XLSX file. Please verify "
+"that your files are in a format accepted by <a href=\"https://flatten-tool."
+"readthedocs.io/en/latest/usage-ocds/\" target=\"_blank\">Flatten Tool</a> "
+"for OCDS."
 msgstr ""
-"Los archivos CSV de entrada deben estar comprimidos en la raiz de un archivo "
-"ZIP y el archivo Excel debe ser un archivo XLSX. Favor verifique que sus "
-"archivos estén en un formato aceptado por la herramienta <a href=\"https://"
-"flatten-tool.readthedocs.io/en/latest/usage-ocds/\" target=\"_blank"
-"\">Flatten Tool</a> para OCDS."
+"Los archivos CSV de entrada deben estar comprimidos en la raíz de un archivo "
+"ZIP si son más de un archivo, y el archivo Excel debe ser un archivo XLSX. "
+"Favor verifique que sus archivos estén en un formato aceptado por la "
+"herramienta <a href=\"https://flatten-tool.readthedocs.io/en/latest/usage-"
+"ocds/\" target=\"_blank\">Flatten Tool</a> para OCDS."
 
 #: default/templates/default/to-json.html:93
 #: default/templates/default/to-spreadsheet.html:89
@@ -509,11 +510,11 @@ msgstr "No se reconoce \"%(type)s\""
 msgid "Error decoding JSON"
 msgstr "Error al decodificar JSON"
 
-#: default/views.py:279 default/views.py:287
+#: default/views.py:284 default/views.py:292
 msgid "File not found"
 msgstr "Archivo no encontrado"
 
-#: default/views.py:285
+#: default/views.py:290
 msgid "File deleted"
 msgstr "Archivo eliminado"
 
