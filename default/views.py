@@ -6,14 +6,16 @@ from zipfile import ZIP_DEFLATED, ZipFile
 
 import flattentool
 from django.http import FileResponse, Http404, HttpResponse, JsonResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.utils.translation import gettext as _
 from django.views.decorators.http import require_GET, require_POST
+from jsonref import requests
 from libcoveocds.config import LibCoveOCDSConfig
 from ocdskit.combine import combine_record_packages, combine_release_packages, merge
 from ocdskit.combine import package_releases as package_releases_method
 from ocdskit.upgrade import upgrade_10_11
-
+from requests.exceptions import SSLError, ConnectionError, HTTPError
+from urllib.parse import urlparse
 from default.data_file import DataFile
 from default.decorators import clear_files, published_date, require_files
 from default.forms import MappingSheetOptionsForm
@@ -242,6 +244,43 @@ def perform_to_json(request):
         'url': input_file.url,
         'size': json_zip.size,
     })
+
+
+@require_POST
+def upload_url(request):
+    for data in request.POST:
+        if 'input_url' in data:
+            url = request.POST.get(data)
+            basename = data
+            extension = ".json"
+            folder = 'media'
+            data_file = DataFile(basename, extension)
+
+            try:
+                os.stat(folder + '/' + data_file.folder)
+            except FileNotFoundError:
+                os.mkdir(folder + '/' + data_file.folder)
+
+            try:
+                urlparse(url)
+                with requests.get(url, stream=True) as request_file:
+                    request_file.raise_for_status()
+                    with open(data_file.path, 'wb+') as f:
+                        for chunk in request_file.iter_content(chunk_size=8*1024):
+                            if chunk:
+                                f.write(chunk)
+
+            except (HTTPError, ConnectionError, ValueError, SSLError) as e:
+                return HttpResponse(e, status=400)
+
+            if 'files' not in request.session:
+                request.session['files'] = []
+            request.session['files'].append(data_file.as_dict())
+            request.session.modified = True
+
+    url_ref = request.headers['Referer']
+    url_go = urlparse(url_ref)
+    return redirect(url_go.path + 'go/')
 
 
 @require_POST

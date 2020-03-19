@@ -6,6 +6,7 @@ urlpatterns = [
     path('', views.index, name='index'),
     path('i18n/', include('django.conf.urls.i18n')),
     path('upload/', views.uploadfile, name='upload'),
+    path('upload-url/', views.upload_url, name='upload_url'),
     path('delete/<uuid:id>', views.deletefile, name='delete_file'),
     path('result/<str:folder>/<uuid:id>/', views.retrieve_result, name='retrieve_result'),
     path('result/<str:folder>/<uuid:id>/<str:format>/', views.retrieve_result, name='retrieve_result'),
