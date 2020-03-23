@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-03-09 09:12-0300\n"
+"POT-Creation-Date: 2020-03-23 13:12-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -296,33 +296,49 @@ msgid "Toucan allows you to get OCDS data ready for use, in your browser:"
 msgstr ""
 "Toucan le permite tener los datos OCDS listos para su uso, en su navegador:"
 
-#: default/templates/default/index.html:97
+#: default/templates/default/index.html:98
 msgid ""
-"<ul> <li>Create a <a href=\"https://standard.open-contracting.org/latest/en/"
+"<li> Create a <a href=\"https://standard.open-contracting.org/latest/en/"
 "schema/release_package/\" target=\"_blank\">release package</a> from "
 "individual <a href=\"https://standard.open-contracting.org/latest/en/"
 "getting_started/releases_and_records/#releases\" target=\"_blank\">releases</"
-"a><br></li> <li>Combine many small packages into a large package<br></li> "
-"<li>Transform release packages into a <a href=\"https://standard.open-"
-"contracting.org/latest/en/schema/record_package/\" target=\"_blank\">record "
-"packages</a> with compiled releases and versioned releases<br></li> "
-"<li>Upgrade from an old version of OCDS to a new version<br></li> "
-"<li>Convert release packages to/from Excel and CSV<br></li> <li>Generate a "
-"spreadsheet version of OCDS schema</li>"
+"a><br></li>"
 msgstr ""
-"<ul> <li>Cree un <a href=\"https://standard.open-contracting.org/latest/es/"
+"<li>Cree un <a href=\"https://standard.open-contracting.org/latest/es/"
 "schema/release_package/\" target=\"_blank\">paquete de release</a> a partir "
 "de <a href=\"https://standard.open-contracting.org/latest/es/getting_started/"
 "releases_and_records/#releases\" target=\"_blank\">releases</a> individuales "
-"<br></li> <li>Combine muchos paquetes pequeños en un paquete grande<br></li> "
+"<br></li>"
+
+#: default/templates/default/index.html:106
+msgid "<li> Combine many small packages into a large package <br></li>"
+msgstr "<li>Combine muchos paquetes pequeños en un paquete grande<br></li>"
+
+#: default/templates/default/index.html:110
+msgid ""
+"<li>Transform release packages into a <a href=\"https://standard.open-"
+"contracting.org/latest/en/schema/record_package/\" target=\"_blank\">record "
+"packages</a> with compiled releases and versioned releases<br></li>"
+msgstr ""
 "<li>Transforme los paquetes de release en <a href=\"https://standard.open-"
 "contracting.org/latest/es/schema/record_package/\" target=\"_blank"
 "\">paquetes de record</a> incluyendo compiled releases y versioned "
-"releases<br></li> <li>Actualice una versión anterior de OCDS a una nueva "
-"versión<br></li> <li>Convierte paquetes de release a/desde Excel y CSV <br></"
-"li> <li>Genere una versión de la planilla del esquema OCDS"
+"releases<br></li>"
 
-#: default/templates/default/index.html:115
+#: default/templates/default/index.html:116
+msgid "<li>Upgrade from an old version of OCDS to a new version<br></li>"
+msgstr ""
+"<li>Actualice una versión anterior de OCDS a una nueva versión<br></li>"
+
+#: default/templates/default/index.html:120
+msgid "<li>Convert release packages to/from Excel and CSV<br></li>"
+msgstr "<li>Convierte paquetes de release a/desde Excel y CSV <br></li>"
+
+#: default/templates/default/index.html:124
+msgid "<li>Generate a spreadsheet version of OCDS schema</li>"
+msgstr "<li>Genere una versión de la planilla del esquema OCDS</li>"
+
+#: default/templates/default/index.html:130
 msgid ""
 "You can upload up to 20 files to each tool, and each file should be less "
 "than 20MB. Results remain available for 2 days."
@@ -330,7 +346,7 @@ msgstr ""
 "Puede subir hasta 20 archivos en cada herramienta, y cada archivo debe ser "
 "menor a 20MB. Los Resultados permanecerán disponibles por 2 días."
 
-#: default/templates/default/index.html:121
+#: default/templates/default/index.html:136
 msgid ""
 "If you have more or larger files, try using <a href=\"https://ocdskit."
 "readthedocs.io/en/latest/\" target=\"_blank\">OCDS Kit</a> from the command "
