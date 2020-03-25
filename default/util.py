@@ -54,8 +54,8 @@ def make_package(request, published_date, method, warnings):
 
 def invalid_request_file_message(f, file_type):
     try:
-        # Don't validate XLSX or ZIP files.
-        if file_type == 'xlsx zip':
+        # Only validate JSON files.
+        if file_type == 'csv xlsx zip':
             return
 
         data = json.load(f)
