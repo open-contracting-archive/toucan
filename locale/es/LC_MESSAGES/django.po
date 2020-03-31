@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-02-17 10:37-0300\n"
+"POT-Creation-Date: 2020-03-31 17:10-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -76,58 +76,58 @@ msgstr "Indique al menos una URL de extensión"
 msgid "Success!"
 msgstr "Éxito!"
 
-#: default/templates/default/base-uploader.html:16
-#: default/templates/default/to-json.html:17
-#: default/templates/default/to-spreadsheet.html:17
-#: default/templates/default/to-spreadsheet.html:21
+#: default/templates/default/base-uploader.html:18
+#: default/templates/default/to-json.html:18
+#: default/templates/default/to-spreadsheet.html:18
+#: default/templates/default/to-spreadsheet.html:28
 msgid "Download"
 msgstr "Descargar"
 
-#: default/templates/default/base-uploader.html:20
-#: default/templates/default/to-json.html:20
-#: default/templates/default/to-spreadsheet.html:20
-#: default/templates/default/to-spreadsheet.html:28
+#: default/templates/default/base-uploader.html:22
+#: default/templates/default/to-json.html:22
+#: default/templates/default/to-spreadsheet.html:22
+#: default/templates/default/to-spreadsheet.html:32
 msgid "Save to Google Drive"
 msgstr "Guardar en Google Drive"
 
-#: default/templates/default/base-uploader.html:24
-#: default/templates/default/to-json.html:30
-#: default/templates/default/to-spreadsheet.html:36
+#: default/templates/default/base-uploader.html:26
+#: default/templates/default/to-json.html:32
+#: default/templates/default/to-spreadsheet.html:40
 msgid "Uploaded to Google Drive!"
 msgstr "Guardado en Google Drive!"
 
-#: default/templates/default/base-uploader.html:35
+#: default/templates/default/base-uploader.html:37
 msgid ""
 "We couldn't check that all files were JSON or of the OCDS type requested."
 msgstr ""
 "No pudimos comprobar que todos los archivos sean JSON, o del tipo OCDS "
 "solicitado"
 
-#: default/templates/default/base-uploader.html:36
+#: default/templates/default/base-uploader.html:38
 msgid ""
 "You can add more files or remove them, then click on <b>Start</b> again."
 msgstr ""
 "Puede agregar más archivos o eliminarlos, luego puede hacer clic en "
 "<b>Procesar</b> otra vez"
 
-#: default/templates/default/base-uploader.html:37
+#: default/templates/default/base-uploader.html:39
 msgid "Files with validation issues will be ignored by default."
 msgstr "Los archivos con problemas de validación serán ignorados por defecto."
 
-#: default/templates/default/base-uploader.html:40
+#: default/templates/default/base-uploader.html:42
 msgid "Error saving to Google Drive: Access Denied"
 msgstr "Error guardando en Google Drive: Acceso Denegado"
 
-#: default/templates/default/base-uploader.html:43
-msgid "Error saving to Google Drive: Fail Uploading"
+#: default/templates/default/base-uploader.html:45
+msgid "Error saving to Google Drive: Upload failed"
 msgstr "Error guardando en Google Drive: Fallo en la Carga"
 
-#: default/templates/default/base-uploader.html:46
-#: default/templates/default/to-json.html:26
+#: default/templates/default/base-uploader.html:48
+#: default/templates/default/to-json.html:28
 msgid "An error has occurred!"
 msgstr "¡Ha ocurrido un error!"
 
-#: default/templates/default/base-uploader.html:47
+#: default/templates/default/base-uploader.html:49
 msgid ""
 "Please verify that all your files are valid OCDS JSON, and try again in a "
 "few minutes."
@@ -135,31 +135,31 @@ msgstr ""
 "Por favor verifique que todos sus archivos son válidos de acuerdo al "
 "estándar OCDS, e intente de nuevo en unos minutos."
 
-#: default/templates/default/base-uploader.html:53
-#: default/templates/default/to-json.html:56
-#: default/templates/default/to-spreadsheet.html:52
+#: default/templates/default/base-uploader.html:74
+#: default/templates/default/to-json.html:70
+#: default/templates/default/to-spreadsheet.html:72
 msgid "Add a file"
 msgstr "Agregue un archivo"
 
-#: default/templates/default/base-uploader.html:53
-#: default/templates/default/to-json.html:57
-#: default/templates/default/to-spreadsheet.html:53
+#: default/templates/default/base-uploader.html:74
+#: default/templates/default/to-json.html:71
+#: default/templates/default/to-spreadsheet.html:73
 msgid "or drag and drop here."
 msgstr "o arrastre y suelte aquí"
 
-#: default/templates/default/base-uploader.html:80
+#: default/templates/default/base-uploader.html:82
 msgid "Add more files"
 msgstr "Agregar más archivos"
 
-#: default/templates/default/base-uploader.html:65
-#: default/templates/default/to-json.html:63
-#: default/templates/default/to-spreadsheet.html:59
+#: default/templates/default/base-uploader.html:86
+#: default/templates/default/to-json.html:77
+#: default/templates/default/to-spreadsheet.html:79
 msgid "Start"
 msgstr "Procesar"
 
-#: default/templates/default/base-uploader.html:75
-#: default/templates/default/to-json.html:71
-#: default/templates/default/to-spreadsheet.html:67
+#: default/templates/default/base-uploader.html:96
+#: default/templates/default/to-json.html:85
+#: default/templates/default/to-spreadsheet.html:87
 msgid ""
 "Processing operation. Please don't refresh nor close the browser window!"
 msgstr ""
@@ -400,7 +400,7 @@ msgstr ""
 msgid "Published date:"
 msgstr "Fecha de Publicación:"
 
-#: default/templates/default/to-json.html:23
+#: default/templates/default/to-json.html:29
 msgid ""
 "Please verify that all your files are valid according to OCDS, and try again "
 "in a few minutes."
@@ -408,7 +408,7 @@ msgstr ""
 "Por favor verifique que todos sus archivos son válidos de acuerdo al "
 "estándar OCDS, e intente de nuevo en unos minutos."
 
-#: default/templates/default/to-json.html:28
+#: default/templates/default/to-json.html:42
 msgid ""
 "Use this page to convert a CSV or Excel version into a <a href=\"https://"
 "standard.open-contracting.org/latest/en/schema/release_package/\" target="
@@ -421,7 +421,7 @@ msgstr ""
 "arrastrándolo y soltándolo en la caja de abajo o usando el enlace "
 "<strong>Agregue un archivo</strong>."
 
-#: default/templates/default/to-json.html:34
+#: default/templates/default/to-json.html:48
 msgid ""
 "The input CSV files must be compressed at the root of a ZIP file if there is "
 "more than one file, and the Excel file must be an XLSX file. Please verify "
@@ -435,13 +435,13 @@ msgstr ""
 "herramienta <a href=\"https://flatten-tool.readthedocs.io/en/latest/usage-"
 "ocds/\" target=\"_blank\">Flatten Tool</a> para OCDS."
 
-#: default/templates/default/to-json.html:93
-#: default/templates/default/to-spreadsheet.html:89
+#: default/templates/default/to-json.html:107
+#: default/templates/default/to-spreadsheet.html:109
 msgid "Added:"
 msgstr "Añadido:"
 
-#: default/templates/default/to-json.html:130
-#: default/templates/default/to-spreadsheet.html:133
+#: default/templates/default/to-json.html:132
+#: default/templates/default/to-spreadsheet.html:137
 msgid ""
 "An error has occurred! Please verify that all your files are valid OCDS "
 "JSON, and try again in a few minutes."
@@ -449,13 +449,12 @@ msgstr ""
 "¡Ha ocurrido un error! Por favor verifique que todos sus archivos son "
 "válidos de acuerdo al estándar OCDS, e intente de nuevo en unos minutos."
 
-#: default/templates/default/to-json.html:155
-#: default/templates/default/to-spreadsheet.html:167
-#: default/templates/default/to-spreadsheet.html:192
+#: default/templates/default/to-json.html:161
+#: default/templates/default/to-spreadsheet.html:176
 msgid "<b>Error saving to Google Drive</b>: "
 msgstr "<b>Error guardando en Google Drive</b>: "
 
-#: default/templates/default/to-spreadsheet.html:46
+#: default/templates/default/to-spreadsheet.html:50
 msgid ""
 "Use this page to convert a <a href=\"https://standard.open-contracting.org/"
 "latest/en/schema/release_package/\" target=\"_blank\">release package</a> to "
@@ -468,11 +467,11 @@ msgstr ""
 "un archivo arrastrándolo y soltándolo en la caja de abajo o usando el enlace "
 "<strong>Agregue un archivo</strong>."
 
-#: default/templates/default/to-spreadsheet.html:125
+#: default/templates/default/to-spreadsheet.html:147
 msgid "<b>Error when processing file</b>: "
 msgstr "<b>Error al procesar el archivo</b>:"
 
-#: default/templates/default/to-spreadsheet.html:128
+#: default/templates/default/to-spreadsheet.html:150
 msgid ""
 "Please verify that the file is a valid OCDS Release Package and try again."
 msgstr ""
@@ -538,11 +537,11 @@ msgstr "No se reconoce \"%(type)s\""
 msgid "Error decoding JSON"
 msgstr "Error al decodificar JSON"
 
-#: default/views.py:284 default/views.py:292
+#: default/views.py:293 default/views.py:301
 msgid "File not found"
 msgstr "Archivo no encontrado"
 
-#: default/views.py:290
+#: default/views.py:299
 msgid "File deleted"
 msgstr "Archivo eliminado"
 
