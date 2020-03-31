@@ -13,10 +13,12 @@
 {% block body %}
 <div class="response-success alert alert-info hidden">
     <b>{% trans "Success!" %}</b>
-    result.zip(<span class="file-size"></span>)
-    <a href="javascript:void(0)" class="download" target="_blank">{% trans "Download" %}</a>
+    result.zip(<span class="f-file-size"></span>)
+    <button type="button" class="btn btn-primary btn-download f-file">
+        <span>{% trans "Download" %}</span>
+    </button>
     <span>  /  </span>
-    <button type="button" class="btn btn-primary download-drive" id="d-drive">
+    <button type="button" class="btn btn-primary btn-download d-drive">
         <span>{% trans "Save to Google Drive" %}</span>
     </button>
 </div>

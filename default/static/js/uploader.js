@@ -125,9 +125,9 @@ var app = {};
         });
         $.ajax($('#fileupload').attr('data-perform-action'), {data: actionParams})
             .done(function (data) {
-                $('.response-success .file-size').html(utils.readableFileSize(data.size));
-                $('.response-success .download').attr('href', data.url);
-                $('.response-success .download-drive').attr('href', data.url + '?out=drive');
+                $('.response-success .f-file-size').html(utils.readableFileSize(data.size));
+                $('.response-success .f-file').attr('href', data.url);
+                $('.response-success .d-drive').attr('href', data.url + '?out=drive');
                 $('.response-success').removeClass('hidden');
                 if (data.hasOwnProperty('warnings') && data.warnings.length > 0) {
                     $('.response-warning.action-failed').removeClass('hidden');
@@ -172,9 +172,13 @@ var app = {};
         ;
     }
 
+    function download() {
+        window.location = $(this).attr('href');
+    }
+
     function saveDrive() {
         showProcessingModal();
-        $.ajax($('.response-success .download-drive').attr('href'), { 'dataType': 'json' })
+        $.ajax($('.response-success .d-drive').attr('href'), { 'dataType': 'json' })
             .done(function(data) {
                 $('.google-drive-success .file-google-name').html(data.name);
                 $('.google-drive-success .file-google-id').html(data.id);
@@ -206,8 +210,11 @@ var app = {};
     /** upload call binding **/
     $("#upload-button").click(upload);
 
+    /* click download button behaviour */
+    $('.f-file').click(download);
+
     /* click save to Drive button behaviour */
-    $('#d-drive').click(saveDrive);
+    $('.d-drive').click(saveDrive);
 
     /* add warning before closing/navigating away from page */
     window.onload = function () {

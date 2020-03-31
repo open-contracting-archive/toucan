@@ -13,18 +13,22 @@
     <b>{% trans "Success!" %}</b> 
     <ul>
         <li>
-            result.xlsx (<span class="file-size-xlsx"></span>)
-            <a href="javascript:void(0)" class="download-xlsx">{% trans "Download" %}</a>
+            result.xlsx (<span class="f-size-xlsx"></span>)
+            <button type="button" class="btn btn-primary btn-download f-file f-xlsx">
+                    <span>{% trans "Download" %}</span>
+            </button>
             <span>  /  </span>
-            <button type="button" class="btn btn-primary download-drive d-xlsx" id="drive-xlsx">
+            <button type="button" class="btn btn-primary btn-download d-drive d-xlsx">
                     <span>{% trans "Save to Google Drive" %}</span>
             </button>
         </li>
         <li>
-            result-csv.zip (<span class="file-size-csv"></span>)
-            <a href="javascript:void(0)" class="download-csv">{% trans "Download" %}</a>
+            result-csv.zip (<span class="f-size-csv"></span>)
+            <button type="button" class="btn btn-primary btn-download f-file f-csv">
+                    <span>{% trans "Download" %}</span>
+            </button>
             <span>  /  </span>
-            <button type="button" class="btn btn-primary download-drive d-csv" id="drive-csv">
+            <button type="button" class="btn btn-primary btn-download d-drive d-csv">
                     <span>{% trans "Save to Google Drive" %}</span>
             </button>
         </li>
@@ -120,10 +124,10 @@
                     $('#processing-modal').modal('show');
                     $.ajax('/to-spreadsheet/go/', { 'dataType': 'json' })
                         .done(function(data){
-                            $('.response-success .download-xlsx').attr('href', data.xlsx.url);
-                            $('.response-success .download-csv').attr('href', data.csv.url);
-                            $('.response-success .file-size-xlsx').html(utils.readableFileSize(data.xlsx.size));
-                            $('.response-success .file-size-csv').html(utils.readableFileSize(data.csv.size));
+                            $('.response-success .f-xlsx').attr('href', data.xlsx.url);
+                            $('.response-success .f-csv').attr('href', data.csv.url);
+                            $('.response-success .f-size-xlsx').html(utils.readableFileSize(data.xlsx.size));
+                            $('.response-success .f-size-csv').html(utils.readableFileSize(data.csv.size));
                             $('.response-success .d-xlsx').attr('href', data.xlsx.url + '?out=drive');
                             $('.response-success .d-csv').attr('href', data.csv.url + '?out=drive');
                             $('.response-success').removeClass('hidden');
@@ -149,38 +153,18 @@
                 });
         });
 
-        /* Click drive xlsx behaviour */
-        $('#drive-xlsx').click(function(){
-             data
-                .submit()
-                .done(function(){
-                    $('#processing-modal').modal('show');
-                    $.ajax($('.response-success .d-xlsx').attr('href'), { 'dataType': 'json' })
-                        .done(function(data){
-                            $('.google-drive-success .file-google-name').html(data.name);
-                            $('.google-drive-success .file-google-id').html(data.id);
-                            $('.google-drive-success').removeClass('hidden');
-                            $('.response-fail').addClass('hidden');
-                            })
-                        .fail(function(jqXHR, textStatus, errorThrown){
-                            $('.response-fail').html(
-                            '{% trans "<b>Error saving to Google Drive</b>: " %}'
-                            + ( jqXHR.responseText || textStatus ));
-                            $('.response-fail').removeClass('hidden');
-                            })
-                        .always(function(){
-                            $('#processing-modal').modal('hide');
-                            });
-                })
-        });
+        $('.f-file').click(function () {
+            window.location = $(this).attr('href');
+	    });
 
-        /* Click drive csv behaviour */
-        $('#drive-csv').click(function(){
-             data
+        /* Click drive xlsx behaviour */
+        $('.d-drive').click(function(){
+            url = $(this).attr('href')
+            data
                 .submit()
                 .done(function(){
                     $('#processing-modal').modal('show');
-                    $.ajax($('.response-success .d-csv').attr('href'), { 'dataType': 'json' })
+                    $.ajax(url, { 'dataType': 'json' })
                         .done(function(data){
                             $('.google-drive-success .file-google-name').html(data.name);
                             $('.google-drive-success .file-google-id').html(data.id);

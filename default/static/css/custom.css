@@ -81,14 +81,14 @@
 .content-wrap.ocp-content {
     padding-bottom: 2.5rem;
 }
-.btn.btn-primary.download-drive {
+.btn.btn-primary.btn-download {
     line-height: 0;
     color: #9baf00;
     background-color: transparent;
     border-color: transparent;
     padding: 0px 0px;
 }
-.btn.btn-primary.download-drive:hover {
+.btn.btn-primary.btn-download:hover {
     text-decoration-line: underline;
     color: #6D812B;
 }

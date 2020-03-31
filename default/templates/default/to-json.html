@@ -13,10 +13,12 @@
     <b>{% trans "Success!" %}</b>
     <ul>
         <li>
-            result.zip (<span class="file-size-json"></span>)
-            <a href="javascript:void(0)" class="download-json">{% trans "Download" %}</a>
+            result.zip (<span class="f-file-size"></span>)
+            <button type="button" class="btn btn-primary btn-download f-file">
+                    <span>{% trans "Download" %}</span>
+            </button>
             <span>  /  </span>
-            <button type="button" class="btn btn-primary download-drive d-json" id="drive-json">
+            <button type="button" class="btn btn-primary btn-download d-drive">
                     <span>{% trans "Save to Google Drive" %}</span>
             </button>
         </li>
@@ -120,9 +122,9 @@
                     $('#processing-modal').modal('show');
                     $.ajax('/to-json/go/', { 'dataType': 'json' })
                         .done(function(data){
-                            $('.response-success .download-json').attr('href', data.url);
-                            $('.response-success .file-size-json').html(utils.readableFileSize(data.size));
-                            $('.response-success .d-json').attr('href', data.url + '?out=drive');
+                            $('.response-success .f-file').attr('href', data.url);
+                            $('.response-success .f-file-size').html(utils.readableFileSize(data.size));
+                            $('.response-success .d-drive').attr('href', data.url + '?out=drive');
                             $('.response-success').removeClass('hidden');
                             })
                         .fail(function(){
@@ -137,13 +139,17 @@
                 })
         });
 
+	    $('.f-file').click(function () {
+            window.location = $(this).attr('href');
+	    });
+
         /* Click drive json behaviour */
-        $('#drive-json').click(function(){
+        $('.d-drive').click(function(){
              data
                 .submit()
                 .done(function(){
                     $('#processing-modal').modal('show');
-                    $.ajax($('.response-success .d-json').attr('href'), { 'dataType': 'json' })
+                    $.ajax($('.response-success .d-drive').attr('href'), { 'dataType': 'json' })
                         .done(function(data){
                             $('.google-drive-success .file-google-name').html(data.name);
                             $('.google-drive-success .file-google-id').html(data.id);
