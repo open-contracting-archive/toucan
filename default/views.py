@@ -43,13 +43,11 @@ def retrieve_result(request, folder, id, format=None):
 
     file = DataFile(prefix, ext, id=str(id), folder=folder)
 
-    if output is None:
-        return FileResponse(open(file.path, 'rb'), filename=filename, as_attachment=True)
-    elif output == 'drive':
+    if output == 'drive':
         is_test = request.GET.get('test')
         return upload_to_drive(filename, file.path, format, test=is_test)
     else:
-        raise Http404('Invalid output')
+        return FileResponse(open(file.path, 'rb'), filename=filename, as_attachment=True)
 
 
 def index(request):
