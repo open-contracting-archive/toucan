@@ -5,7 +5,7 @@
 #    pip-compile
 #
 attrs==19.3.0             # via jsonschema
-bleach==3.1.1             # via libcove, libcoveocds
+bleach==3.1.4             # via libcove, libcoveocds
 cached-property==1.5.1    # via libcove, libcoveocds
 certifi==2019.9.11        # via requests, sentry-sdk
 chardet==3.0.4            # via requests
