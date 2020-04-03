@@ -1,5 +1,6 @@
 from __future__ import print_function
 from django.http import HttpResponse, JsonResponse
+from google.auth.exceptions import DefaultCredentialsError
 from google.auth.transport.requests import Request
 from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
@@ -9,24 +10,28 @@ from oauthlib.oauth2 import AccessDeniedError
 from ocdstoucan.settings import OCDS_TOUCAN_CREDENTIALS_DRIVE
 
 
-def upload_to_drive(filename, filepath, format=None, test=False):
+SCOPES = 'https://www.googleapis.com/auth/drive.file'
+
+
+def upload_to_drive(filename, filepath, format=None, test=None, credentials=None):
     try:
-        credentials = None
-        SCOPES = 'https://www.googleapis.com/auth/drive.file'
-        if (not credentials or not credentials.valid) and not test:
+        if not credentials or not credentials.valid:
             if credentials and credentials.expired and credentials.refresh_token:
                 credentials.refresh(Request())
             else:
                 flow = InstalledAppFlow.from_client_secrets_file(
                     OCDS_TOUCAN_CREDENTIALS_DRIVE, SCOPES)
-                credentials = flow.run_local_server(port=0)
-        if test:
-            service = None
-        else:
-            service = build('drive', 'v3', credentials=credentials)
+                if not test:
+                    credentials = flow.run_local_server(port=0)
+                if credentials and not credentials.valid:
+                    raise AccessDeniedError
+        service = build('drive', 'v3', credentials=credentials)
 
     except AccessDeniedError:
         return HttpResponse("Access Denied", status=400)
+
+    except DefaultCredentialsError:
+        service = None
 
     try:
         if format == 'xlsx':
