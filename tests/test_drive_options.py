@@ -2,7 +2,7 @@ from default import drive_options
 
 from unittest.mock import Mock
 
-from tests import ViewTestCase, ViewTests, path
+from tests import path, ViewTestCase, ViewTests
 
 
 class DriveTestCase(ViewTestCase, ViewTests):
