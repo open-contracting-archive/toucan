@@ -1,8 +1,8 @@
-from default import drive_options
-
 from unittest.mock import Mock
 
-from tests import path, ViewTestCase, ViewTests
+from default import drive_options
+
+from tests import ViewTestCase, ViewTests, path
 
 
 class DriveTestCase(ViewTestCase, ViewTests):
