@@ -15,7 +15,7 @@ django==2.2.10
 et-xmlfile==1.0.1         # via openpyxl
 flattentool==0.9.0
 idna==2.8                 # via requests
-ijson==2.5.1              # via ocdskit
+ijson==3.0                # via ocdskit
 importlib-metadata==1.3.0  # via jsonschema
 jdcal==1.4.1              # via openpyxl
 json-merge-patch==0.2     # via libcove, libcoveocds, ocdsextensionregistry
