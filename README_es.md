@@ -81,7 +81,7 @@ Página principal de la aplicación:
 
 ## Ejemplos de uso
 ### 1. Crear un Release Package
-1. Elegir un archivo con "Add a file" o arrastrar al cuadro. Utilizaremos archivos [Release 1.1](default/tests/fixtures/1.1/releases).
+1. Elegir un archivo con "Add a file" o arrastrar al cuadro. Utilizaremos archivos [Release 1.1](/tests/fixtures/1.1/releases).
 ![Alt text](img/ex1_1.png "Figura 1.1")
 2. Añadir más archivos con el botón "Add more files" (2.1) o crear Release Package con "Start" (2.2).
 ![Alt text](img/ex1_2.png "Figura 1.2")
