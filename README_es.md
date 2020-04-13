@@ -88,7 +88,7 @@ Página principal de la aplicación:
 3. Una vez terminado, aparecerá un cuadro para poder descargar el Release Package generado.
 ![Alt text](img/ex1_3.png "Figura 1.3")
 
-### 2. Merge Relase Packages
+### 2. Compile Release Packages
 1. Elegir un archivo con "Add a file" o arrastrar al cuadro, igual al primer ejemplo. Utilizaremos los [Release Packages 1.1](/tests/fixtures/1.1/release-packages) de ejemplo.
 2. Igual que en el ejemplo anterior, podemos agregar más archivos o iniciar la operación. También tenemos la opción de incluir versionado de Releases en nuestro Record Package a generar.
 ![Alt text](img/ex2_1.png "Figura 2.1")
