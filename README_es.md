@@ -20,6 +20,15 @@ pip install -r requirements.txt
 * OCDS_TOUCAN_MAXNUMFILES: número máximo de archivos a subir por operación.
 * OCDS_TOUCAN_MAXFILESIZE: tamaño máximo de archivos a subir en bytes.
 
+### Restricciones
+Las restricciones del sistema son las siguientes:
+
+Restricción | Valor
+--- | ---
+Tamaño máximo de archivos | 10MB
+Cantidad máxima de archivos por operación | 20
+Timeout de sesión | 24 horas
+
 ### Levantar el proyecto
 Levantar el servidor de desarrollo:
 ```
@@ -69,19 +78,6 @@ En el módulo Back-end se encuentran implementados el OCDS Kit y el flatten-tool
 Página principal de la aplicación:
 
 ![alt text](img/landing_page.png "Página de inicio")
-
-Vista de funcionalidades, el diseño es el mismo en la mayoría de los casos:
-
-![alt text](img/feature_view.png "Diseño para las funcionalidades")
-
-### Restricciones
-Las restricciones del sistema son las siguientes:
-
-Restricción | Valor
---- | ---
-Tamaño máximo de archivos | 10MB
-Cantidad máxima de archivos por operación | 20
-Timeout de sesión | 24 horas
 
 ## Ejemplos de uso
 ### 1. Crear un Release Package
