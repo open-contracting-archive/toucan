@@ -61,12 +61,6 @@ Convierte un archivo Release Package a una versión CSV/Excel.
 Utiliza la herramienta [flatten-tool](https://github.com/OpenDataServices/flatten-tool).
 >Tipo de archivo válido: Release Package.
 
-### Data Review Tool
-Enlaza a la [Herramienta de Revisión de Datos](http://standard.open-contracting.org/review/).
-
-### OCDS Extension Creator
-Enlaza a la [Herramienta de Creación de Extensiones OCDS](https://open-contracting.github.io/extension_creator/).
-
 ## Arquitectura
 ### Descripción  de la arquitectura
 Se utiliza Django Framework para construir los módulos Fron-end y Back-end para la aplicación.
