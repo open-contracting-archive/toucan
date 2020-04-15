@@ -20,6 +20,15 @@ pip install -r requirements.txt
 * OCDS_TOUCAN_MAXNUMFILES: número máximo de archivos a subir por operación.
 * OCDS_TOUCAN_MAXFILESIZE: tamaño máximo de archivos a subir en bytes.
 
+### Restricciones
+Las restricciones del sistema son las siguientes:
+
+Restricción | Valor
+--- | ---
+Tamaño máximo de archivos | 10MB
+Cantidad máxima de archivos por operación | 20
+Timeout de sesión | 24 horas
+
 ### Levantar el proyecto
 Levantar el servidor de desarrollo:
 ```
@@ -52,12 +61,6 @@ Convierte un archivo Release Package a una versión CSV/Excel.
 Utiliza la herramienta [flatten-tool](https://github.com/OpenDataServices/flatten-tool).
 >Tipo de archivo válido: Release Package.
 
-### Data Review Tool
-Enlaza a la [Herramienta de Revisión de Datos](http://standard.open-contracting.org/review/).
-
-### OCDS Extension Creator
-Enlaza a la [Herramienta de Creación de Extensiones OCDS](https://open-contracting.github.io/extension_creator/).
-
 ## Arquitectura
 ### Descripción  de la arquitectura
 Se utiliza Django Framework para construir los módulos Fron-end y Back-end para la aplicación.
@@ -70,37 +73,24 @@ Página principal de la aplicación:
 
 ![alt text](img/landing_page.png "Página de inicio")
 
-Vista de funcionalidades, el diseño es el mismo en la mayoría de los casos:
-
-![alt text](img/feature_view.png "Diseño para las funcionalidades")
-
-### Restricciones
-Las restricciones del sistema son las siguientes:
-
-Restricción | Valor
---- | ---
-Tamaño máximo de archivos | 10MB
-Cantidad máxima de archivos por operación | 20
-Timeout de sesión | 24 horas
-
 ## Ejemplos de uso
 ### 1. Crear un Release Package
-1. Elegir un archivo con "Add a file" o arrastrar al cuadro. Utilizaremos archivos [Release 1.1](default/tests/fixtures/1.1/releases).
+1. Elegir un archivo con "Add a file" o arrastrar al cuadro. Utilizaremos archivos [Release 1.1](/tests/fixtures/1.1/releases).
 ![Alt text](img/ex1_1.png "Figura 1.1")
 2. Añadir más archivos con el botón "Add more files" (2.1) o crear Release Package con "Start" (2.2).
 ![Alt text](img/ex1_2.png "Figura 1.2")
 3. Una vez terminado, aparecerá un cuadro para poder descargar el Release Package generado.
 ![Alt text](img/ex1_3.png "Figura 1.3")
 
-### 2. Merge Relase Packages
-1. Elegir un archivo con "Add a file" o arrastrar al cuadro, igual al primer ejemplo. Utilizaremos los [Release Packages 1.1](default/tests/fixtures/1.1/release-packages) de ejemplo.
+### 2. Compile Release Packages
+1. Elegir un archivo con "Add a file" o arrastrar al cuadro, igual al primer ejemplo. Utilizaremos los [Release Packages 1.1](/tests/fixtures/1.1/release-packages) de ejemplo.
 2. Igual que en el ejemplo anterior, podemos agregar más archivos o iniciar la operación. También tenemos la opción de incluir versionado de Releases en nuestro Record Package a generar.
 ![Alt text](img/ex2_1.png "Figura 2.1")
 3. Igual al anterior ejemplo, nos aparece un cuadro para descargar el Record Package generado.
 ![Alt text](img/ex2_2.png "Figura 2.2")
 
 ### 3. Actualizar un archivo 1.0 a 1.1
-1. Elegir uno o más archivos Release/Record Package que sean versión 1.0. Para este ejemplo utilizamos [este](default/tests/fixtures/1.0/release-packages/0001-tender.json) archivo de prueba.
+1. Elegir uno o más archivos Release/Record Package que sean versión 1.0. Para este ejemplo utilizamos [este](/tests/fixtures/1.0/release-packages/0001-tender.json) archivo de prueba.
 2. Podemos añadir más archivos 1.0 o iniciar la conversión.
 3. Una vez terminado, aparecerá un cuadro para poder descargar los archivos actualizados.
 ![Alt text](img/ex3.png "Figura 3")
@@ -111,7 +101,7 @@ Timeout de sesión | 24 horas
 2. Se generará un archivo con extensión .csv y se descargará automáticamente.
 
 ### 5. Convertir un Release Package a .csv
-1. Elegir el archivo Release Package a convertir. Sólo se puede subir uno. Utilizaremos [este](default/tests/fixtures/1.1/release-packages/0002-tender.json) archivo de prueba.
+1. Elegir el archivo Release Package a convertir. Sólo se puede subir uno. Utilizaremos [este](/tests/fixtures/1.1/release-packages/0002-tender.json) archivo de prueba.
 2. Se generarán dos archivos, un archivo .xlsx y un comprimido con archivos .csv, que contienen los datos del Release Package..
 ![Alt text](img/ex5.png "Figura 5")
 
