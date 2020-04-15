@@ -35,7 +35,7 @@ lxml==4.4.1
 mccabe==0.6.1             # via flake8
 more-itertools==8.0.2
 ocdsextensionregistry==0.0.16
-ocdskit[perf]==0.2.5
+ocdskit[perf]==0.2.6
 ocdsmerge==0.6.4
 openpyxl==3.0.1
 orjson==2.1.3
