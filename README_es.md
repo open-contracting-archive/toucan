@@ -86,19 +86,19 @@ Página principal de la aplicación:
 #### 2.1. Release Package
 1. Para este ejemplo se utiliza la opción Release Package del cuadro Package type.
 2. Elegir uno o más archivos Release Package con "Add a file" o arrastrar al cuadro. En este ejemplo se utilizan los archivos [Release Packages 1.1](/tests/fixtures/1.1/release-packages).
-![Alt text](img/ex2_1.png "Figura 2.1.1")
+![Alt text](img/ex2_1.png "Figura 2.1.2")
 3. Podemos añadir más archivos con el botón "Add more files" o arrastrando al cuadro, como también se puede iniciar la operación con "Start".
-![Alt text](img/ex2_2.png "Figura 2.1.2")
+![Alt text](img/ex2_2.png "Figura 2.1.3")
 4. Una vez terminado, aparecerá un cuadro para descargar el archivo generado.
-![Alt text](img/ex2_3.png "Figura 2.1.3")
+![Alt text](img/ex2_3.png "Figura 2.1.4")
 #### 2.2. Record Package
 1. Para este ejemplo se utiliza la opción Record Package del cuadro Package type.
 2. Elegir uno o más archivos Record Package con "Add a file" o arrastrar al cuadro. En este ejemplo se utilizan los archivos [Record Packages 1.1](/tests/fixtures/1.1/record-packages).
-![Alt text](img/ex2_4.png "Figura 2.1.1")
+![Alt text](img/ex2_4.png "Figura 2.2.2")
 3. Podemos añadir más archivos con el botón "Add more files" o arrastrando al cuadro, como también se puede iniciar la operación con "Start".
-![Alt text](img/ex2_5.png "Figura 2.1.2")
+![Alt text](img/ex2_5.png "Figura 2.2.3")
 4. Una vez terminado, aparecerá un cuadro para descargar el archivo generado.
-![Alt text](img/ex2_6.png "Figura 2.1.3")
+![Alt text](img/ex2_6.png "Figura 2.2.4")
 
 ### 3. Compile Release Packages
 1. Elegir un archivo con "Add a file" o arrastrar al cuadro, igual al primer ejemplo. Utilizaremos los [Release Packages 1.1](/tests/fixtures/1.1/release-packages) de ejemplo.
@@ -122,6 +122,14 @@ Página principal de la aplicación:
 1. Elegir el archivo Release Package a convertir. Sólo se puede subir uno. Utilizaremos [este](/tests/fixtures/1.1/release-packages/0002-tender.json) archivo de prueba.
 2. Se generarán dos archivos, un archivo .xlsx y un comprimido con archivos .csv, que contienen los datos del Release Package..
 ![Alt text](img/ex6.png "Figura 6")
+
+### 7. Convertir a JSON
+1. Elegir al archivo con extensión .csv o .xlsx a convertir. Para multiples archivos .csv, comprimir en formato .zip. Para este ejemplo se utiliza [este](/tests/fixtures/1.1/spreadsheets/flattened.csv) archivo.
+![Alt text](img/ex7_1.png "Figura 7.1")
+2. Luego de elegir el archivo, presionar el botón "Start" para iniciar la operación.
+![Alt text](img/ex7_2.png "Figura 7.2")
+3. Una vez terminado, aparecerá un cuadro para descargar el archivo generado.
+![Alt text](img/ex7_3.png "Figura 7.3")
 
 ## Herramientas utilizadas
 * [Python 3.5+](https://www.python.org/) - Lenguaje de programación interpretado.
