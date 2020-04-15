@@ -124,7 +124,7 @@ Página principal de la aplicación:
 ![Alt text](img/ex6.png "Figura 6")
 
 ### 7. Convertir a JSON
-1. Elegir al archivo con extensión .csv o .xlsx a convertir. Para multiples archivos .csv, comprimir en formato .zip. Para este ejemplo se utiliza [este](/tests/fixtures/1.1/spreadsheets/flattened.csv) archivo.
+1. Elegir el archivo con extensión .csv o .xlsx a convertir. Para multiples archivos .csv, comprimir en formato .zip. Para este ejemplo se utiliza [este](/tests/fixtures/1.1/spreadsheets/flattened.csv) archivo.
 ![Alt text](img/ex7_1.png "Figura 7.1")
 2. Luego de elegir el archivo, presionar el botón "Start" para iniciar la operación.
 ![Alt text](img/ex7_2.png "Figura 7.2")
