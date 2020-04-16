@@ -133,9 +133,9 @@ Página principal de la aplicación:
 
 ## Herramientas utilizadas
 * [Python 3.5+](https://www.python.org/) - Lenguaje de programación interpretado.
-* [Django 2.1](https://www.djangoproject.com/) - Framework Web de Python.
+* [Django 2.3](https://www.djangoproject.com/) - Framework Web de Python.
 * [JQuery 3.3](https://jquery.com/) - Biblioteca JavaScript.
-* [Bootstrap 3](https://getbootstrap.com/) - Biblioteca Multiplataforma.
+* [Bootstrap 3+](https://getbootstrap.com/) - Biblioteca Multiplataforma.
 
 ## Versiones
 Se utiliza Git para el control de versiones.
