@@ -66,47 +66,47 @@ Uses [flatten-tool](https://github.com/OpenDataServices/flatten-tool).
 This web application use Django Framework to build Front-end and Backend modules.
 The Front-end module contains the user-interaction elements.
 In the Back-end module, the OCDS Kit and flatten-tool are implemented as libraries that implement the functionalities.
-![alt text](img/architecture.png "Diagrama General")
+![alt text](img/architecture.png "Architecture Overview")
 
 ### Design
 Applications home page:
 
-![alt text](img/landing_page.png "Página de inicio")
+![alt text](img/landing_page.png "Homepage")
 
 ## Use examples
 ### 1. Create a Release Package
 1. Select a file with "Add a file" or by dragging it to the rectangle. We will be using [Release 1.1](/tests/fixtures/1.1/releases) files.
-![Alt text](img/ex1_1.png "Figura 1.1")
-2. Add more files with the "Add more files" button or create a Release Package with "Start" (2.2). 
-![Alt text](img/ex1_2.png "Figura 1.2")
+![Alt text](img/ex1_1.png "Image 1.1")
+2. Add more files with the "Add more files"(2.1) button or create a Release Package with "Start" (2.2). 
+![Alt text](img/ex1_2.png "Image 1.2")
 3. When finished, a message will appear to download the generated Release Packaged.
-![Alt text](img/ex1_3.png "Figura 1.3")
+![Alt text](img/ex1_3.png "Image 1.3")
 
 ### 2. Combine Packages
 #### 2.1 Release Package
 1. For this example we selected the Release Package option in the Package type dropdown list.
 2. Select one or more Release Package files with "Add a file" or by dragging to the rectangle. In this example we use the [Release Packages 1.1](/tests/fixtures/1.1/release-packages) files.
-![Alt text](img/ex2_1.png "Figura 2.1.2")
+![Alt text](img/ex2_1.png "Image 2.1.2")
 3. We can add more files with the "Add more files" button or by dragging to the rectangle, or we can start the operation with "Start".
-![Alt text](img/ex2_2.png "Figura 2.1.3")
+![Alt text](img/ex2_2.png "Image 2.1.3")
 4. Once finished, a message will appear to download the generated file.
-![Alt text](img/ex2_3.png "Figura 2.1.4")
+![Alt text](img/ex2_3.png "Image 2.1.4")
 
 ### 2.2 Record Package
 1. For this example we selected the Record Package option in the Package type dropdown list.
 2. Select one or more Release Package files with "Add a file" or by dragging to the rectangle. In this example we use the [Record Packages 1.1](/tests/fixtures/1.1/record-packages) files.
-![Alt text](img/ex2_4.png "Figura 2.2.2")
+![Alt text](img/ex2_4.png "Image 2.2.2")
 3. We can add more files with the "Add more files" button or by dragging to the rectangle, or we can start the operation with "Start".
-![Alt text](img/ex2_5.png "Figura 2.2.3")
+![Alt text](img/ex2_5.png "Image 2.2.3")
 4. Once finished, a message will appear to download the generated file.
-![Alt text](img/ex2_6.png "Figura 2.2.4")
+![Alt text](img/ex2_6.png "Image 2.2.4")
 
 ### 3. Compile Release Packages
 1. Select a file with "Add a file" or by dragging to the rectangle, just as the first example. We will use the [Release Packages 1.1](/tests/fixtures/1.1/release-packages) examples.
 2. Just as the example before, we can add more files or start  the operation. We also have the option to include Release versioning on our Record Package that will be generated.
-![Alt text](img/ex3_1.png "Figura 3.1")
+![Alt text](img/ex3_1.png "Image 3.1")
 3. Just as the example before, a message to download the generated Record Package appears.
-![Alt text](img/ex3_2.png "Figura 3.2")
+![Alt text](img/ex3_2.png "Image 3.2")
 
 ### 4. Update a 1.0 OCDS file to 1.1
 1. Select one or more Release/Record Package version 1.0 files. For this example we will be using [this](/tests/fixtures/1.0/release-packages/0001-tender.json) test file.
@@ -115,21 +115,21 @@ Applications home page:
 
 ### 5. Generate a spreadsheed version of a OCDS schema
 1. Select the schema type and the version to generate. In this example we will be using a Release Package Schema 1.1.
-![Alt text](img/ex5.png "Figura 5")
+![Alt text](img/ex5.png "Image 5")
 2. A file with .csv extention will be generated, and automatically dowloaded
 
 ### 6. Convert a Release Package to .csv
 1. Select the Release Package to convert. Only one can be uploaded. We will be using [this](/tests/fixtures/1.1/release-packages/0002-tender.json) test file.
 2. Two files will be generated, a .xlsx file and a compressed file with .csv files, that contain data from the Release Package.
-![Alt text](img/ex6.png "Figura 6")
+![Alt text](img/ex6.png "Image 6")
 
 ### 7. Convert to JSON
 1. Select the file with .csv or .xlsx extention to convert. For multiple .csv files, compress them in .zip format. For this example we use [this](/tests/fixtures/1.1/spreadsheets/flattened.csv) file. 
-![Alt text](img/ex7_1.png "Figura 7.1")
+![Alt text](img/ex7_1.png "Image 7.1")
 2. After selecting the file, click the "Start" button to start the operation.
-![Alt text](img/ex7_2.png "Figura 7.2")
+![Alt text](img/ex7_2.png "Image 7.2")
 3. Once finished, a message to download the generated file will appear.
-![Alt text](img/ex7_3.png "Figura 7.3")
+![Alt text](img/ex7_3.png "Image 7.3")
 
 ## Used Tools
 * [Python 3.6+](https://www.python.org/) - Interpreted programming language
