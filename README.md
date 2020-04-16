@@ -56,14 +56,14 @@ Generates a spreadsheet of any OCDS schema version.
 Uses the command `mapping-sheet`. [More Information](https://ocdskit.readthedocs.io/en/latest/cli/schema.html#mapping-sheet).
 >Valid file types: Release, Release Package, Record Package.
 
-### Convert to CSV/Excell
+### Convert to CSV/Excel
 Converts a Release Package file to a CSV/Excel version.
 Uses [flatten-tool](https://github.com/OpenDataServices/flatten-tool).
 >Valid file types: Release Package.
 
 ## Architecture
 ### Architectures Description
-Django Framework is to build the Front-end and backend modules of the application.
+This web application use Django Framework to build Front-end and Backend modules.
 The Front-end module contains the user-interaction elements.
 In the Back-end module, the OCDS Kit and flatten-tool are implemented as libraries that implement the functionalities.
 ![alt text](img/architecture.png "Diagrama General")
@@ -85,8 +85,8 @@ Applications home page:
 ### 2. Combine Packages
 #### 2.1 Release Package
 1. For this example we selected the Release Package option in the Package type dropdown list.
-2. Select one or more Release Package files with "Add a file" or by dragging to the rectangle. In this example we use the [Release Packages 1.1](/tests/fixtures/1.1/release-packages).
-![Alt text](img/ex2_1.png "Figura 2.1.2") files.
+2. Select one or more Release Package files with "Add a file" or by dragging to the rectangle. In this example we use the [Release Packages 1.1](/tests/fixtures/1.1/release-packages) files.
+![Alt text](img/ex2_1.png "Figura 2.1.2")
 3. We can add more files with the "Add more files" button or by dragging to the rectangle, or we can start the operation with "Start".
 ![Alt text](img/ex2_2.png "Figura 2.1.3")
 4. Once finished, a message will appear to download the generated file.
@@ -94,7 +94,7 @@ Applications home page:
 
 ### 2.2 Record Package
 1. For this example we selected the Record Package option in the Package type dropdown list.
-2. Select one or more Release Package files with "Add a file" or by dragging to the rectangle. In this example we use the [Record Packages 1.1](/tests/fixtures/1.1/record-packages).
+2. Select one or more Release Package files with "Add a file" or by dragging to the rectangle. In this example we use the [Record Packages 1.1](/tests/fixtures/1.1/record-packages) files.
 ![Alt text](img/ex2_4.png "Figura 2.2.2")
 3. We can add more files with the "Add more files" button or by dragging to the rectangle, or we can start the operation with "Start".
 ![Alt text](img/ex2_5.png "Figura 2.2.3")
@@ -124,9 +124,9 @@ Applications home page:
 ![Alt text](img/ex6.png "Figura 6")
 
 ### 7. Convert to JSON
-1. Select the file with .csv or .xlsx extention to convert. For multiple .csv files, compress them in .zip forma. For this example we use [this](/tests/fixtures/1.1/spreadsheets/flattened.csv) file. 
+1. Select the file with .csv or .xlsx extention to convert. For multiple .csv files, compress them in .zip format. For this example we use [this](/tests/fixtures/1.1/spreadsheets/flattened.csv) file. 
 ![Alt text](img/ex7_1.png "Figura 7.1")
-2. Ater selecting the file, click the "Start" button to start the operation.
+2. After selecting the file, click the "Start" button to start the operation.
 ![Alt text](img/ex7_2.png "Figura 7.2")
 3. Once finished, a message to download the generated file will appear.
 ![Alt text](img/ex7_3.png "Figura 7.3")
