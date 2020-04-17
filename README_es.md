@@ -43,8 +43,9 @@ Utiliza el comando `package-releases`. [Más información](https://ocdskit.readt
 
 ### Combinar Paquetes
 Combina paquetes de release o paquetes de record en un solo paquete.	
-Utiliza el comando `combine-record-packages` para paquetes release. [Más información](https://ocdskit.readthedocs.io/en/latest/cli/ocds.html#combine-record-packages).	
-Utiliza el comando `combine-release-packages` para paquetes record. [Más información](https://ocdskit.readthedocs.io/en/latest/cli/ocds.html#combine-release-packages).
+Utiliza el comando `combine-record-packages` para paquetes release. [Más información](https://ocdskit.readthedocs.io/en/latest/cli/ocds.html#combine-record-packages).		
+Utiliza el comando `combine-release-packages` para paquetes record. [Más información](https://ocdskit.readthedocs.io/en/latest/cli/ocds.html#combine-release-packages).	
+>Tipo de archivo válido: Release Package, Record Package.
 
 ### Compile Releases
 Genera un [Record Package](http://standard.open-contracting.org/latest/en/getting_started/publication_patterns/#packaging-releases-and-records) a partir de archivos Release Package.  
