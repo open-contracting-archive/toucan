@@ -41,6 +41,11 @@ Generates a [Release Package](http://standard.open-contracting.org/latest/en/get
 Uses the command `package-releases`. [More Information](https://ocdskit.readthedocs.io/en/latest/cli/ocds.html#package-releases).
 >Valid file types: Release.
 
+### Combine Packages
+Combines release packages or record packages into a single package.		
+Uses the command `combine-record-packages` for record packages. [More information](https://ocdskit.readthedocs.io/en/latest/cli/ocds.html#combine-record-packages).	
+Uses the command `combine-release-packages` for release packages. [More information](https://ocdskit.readthedocs.io/en/latest/cli/ocds.html#combine-release-packages).
+
 ### Compile Releases
 Generates a [Record Package](http://standard.open-contracting.org/latest/en/getting_started/publication_patterns/#packaging-releases-and-records) from Release Package files.
 Uses the command `compile`. **Attention**: this command uses `--package` and `--versioned` as parameters, visit the [documentation](https://ocdskit.readthedocs.io/en/latest/cli/ocds.html#compile) for more information. 
@@ -58,6 +63,11 @@ Uses the command `mapping-sheet`. [More Information](https://ocdskit.readthedocs
 
 ### Convert to CSV/Excel
 Converts a Release Package file to a CSV/Excel version.
+Uses [flatten-tool](https://github.com/OpenDataServices/flatten-tool).
+>Valid file types: Release Package.
+
+### Convert to JSON
+Converts a CSV or Excel file extension into a release package.	
 Uses [flatten-tool](https://github.com/OpenDataServices/flatten-tool).
 >Valid file types: Release Package.
 

@@ -41,15 +41,15 @@ Genera un [Release Package](http://standard.open-contracting.org/latest/en/getti
 Utiliza el comando `package-releases`. [Más información](https://ocdskit.readthedocs.io/en/latest/cli/ocds.html#package-releases).
 >Tipo de archivo válido: Release.
 
+### Combinar Paquetes
+Combina paquetes de release o paquetes de record en un solo paquete.	
+Utiliza el comando `combine-record-packages` para paquetes release. [Más información](https://ocdskit.readthedocs.io/en/latest/cli/ocds.html#combine-record-packages).	
+Utiliza el comando `combine-release-packages` para paquetes record. [Más información](https://ocdskit.readthedocs.io/en/latest/cli/ocds.html#combine-release-packages).
+
 ### Compile Releases
 Genera un [Record Package](http://standard.open-contracting.org/latest/en/getting_started/publication_patterns/#packaging-releases-and-records) a partir de archivos Release Package.  
 Utiliza el comando `compile`. **Observación**: este comando utiliza como parámetros `--package` y `--versioned`, visite la [documentación](https://ocdskit.readthedocs.io/en/latest/cli/ocds.html#compile) del comando para más información.
 >Tipo de archivo válido: Release Package.
-
-### Combinar Paquetes
-Combina paquetes de release o paquetes de record en un solo paquete.
-Utiliza el comando `combine-record-packages` para paquetes release. [Más información](https://ocdskit.readthedocs.io/en/latest/cli/ocds.html#combine-record-packages)
-Utiliza el comando `combine-release-packages` para paquetes record. [Más información](https://ocdskit.readthedocs.io/en/latest/cli/ocds.html#combine-release-packages)
 
 ### Upgrade from 1.0 to 1.1
 Actualiza packages y releases de la versión 1.0 de OCDS a la 1.1.  
@@ -67,7 +67,7 @@ Utiliza la herramienta [flatten-tool](https://github.com/OpenDataServices/flatte
 >Tipo de archivo válido: Release Package.
 
 ### Convertir a JSON
-Convierte una versión de archivo con extensión CSV o Excel en un paquete de release.
+Convierte una versión de archivo con extensión CSV o Excel en un paquete de release.	
 Utiliza la herramienta [flatten-tool](https://github.com/OpenDataServices/flatten-tool).
 >Tipo de archivo válido: Release Package.
 
