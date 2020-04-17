@@ -24,7 +24,7 @@ pip intall -r requirements.txt
 The system can be configured by setting the environment variables mentioned above, some of this variables have
 default values as shown in the following table
 
-Restriction | Value |
+Restriction | Value | Environment Variables
 --- | --- | ---
 Maximun file size | 10MB | OCDS_TOUCAN_MAXFILESIZE
 Maximun quantity of files per request | 20 | OCDS_TOUCAN_MAXNUMFILES
