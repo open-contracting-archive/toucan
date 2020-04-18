@@ -20,14 +20,14 @@ pip install -r requirements.txt
 * OCDS_TOUCAN_MAXNUMFILES: número máximo de archivos a subir por operación.
 * OCDS_TOUCAN_MAXFILESIZE: tamaño máximo de archivos a subir en bytes.
 
-### Restricciones
-Las restricciones del sistema son las siguientes:
+### Configuracion 
+El sistema se puede configurar asignando valores a las variables de entorno mencionadas arriba, se pueden ver los 
+valores por defecto de algunas de estas variables en la siguiente tabla:
 
-Restricción | Valor
---- | ---
-Tamaño máximo de archivos | 10MB
-Cantidad máxima de archivos por operación | 20
-Timeout de sesión | 24 horas
+Restricción | Valor por defecto | Variable de entorno
+--- | --- | ---
+Tamaño máximo de archivos | 10MB | OCDS_TOUCAN_MAXFILESIZE
+Cantidad máxima de archivos por operación | 20 | OCDS_TOUCAN_MAXNUMFILES:
 
 ### Levantar el proyecto
 Levantar el servidor de desarrollo:
@@ -39,7 +39,7 @@ python manage.py runserver
 ### Create Release Packages
 Genera un [Release Package](http://standard.open-contracting.org/latest/en/getting_started/publication_patterns/#packaging-releases-and-records) a partir de varios archivos [Release](http://standard.open-contracting.org/latest/en/getting_started/releases_and_records/#releases).  
 Utiliza el comando `package-releases`. [Más información](https://ocdskit.readthedocs.io/en/latest/cli/ocds.html#package-releases).
->Tipo de archivo válido: Release.
+>Tipo de archivo válido: [Release](/tests/fixtures/1.1/releases).
 
 ### Combinar Paquetes
 Combina paquetes de release o paquetes de record en un solo paquete.	
@@ -50,7 +50,7 @@ Utiliza el comando `combine-release-packages` para paquetes record. [Más inform
 ### Compile Releases
 Genera un [Record Package](http://standard.open-contracting.org/latest/en/getting_started/publication_patterns/#packaging-releases-and-records) a partir de archivos Release Package.  
 Utiliza el comando `compile`. **Observación**: este comando utiliza como parámetros `--package` y `--versioned`, visite la [documentación](https://ocdskit.readthedocs.io/en/latest/cli/ocds.html#compile) del comando para más información.
->Tipo de archivo válido: Release Package.
+>Tipo de archivo válido: [Release Packages](/tests/fixtures/1.1/release-packages).
 
 ### Upgrade from 1.0 to 1.1
 Actualiza packages y releases de la versión 1.0 de OCDS a la 1.1.  
@@ -60,12 +60,12 @@ Utiliza el comando `upgrade`. [Más información](https://ocdskit.readthedocs.io
 ### Generate a spreadsheet version of schema
 Genera un spreadsheet de cualquier versión de un OCDS schema.  
 Utiliza el comando `mapping-sheet`. [Más información](https://ocdskit.readthedocs.io/en/latest/cli/schema.html#mapping-sheet).
->Puede generar spreadsheets de Release, Release Package o Record Package.
+>Puede generar spreadsheets de [Release](/tests/fixtures/1.1/releases), [Release Packages](/tests/fixtures/1.1/release-packages) o [Record Packages](/tests/fixtures/1.1/record-packages).
 
 ### Convert to CSV/Excel
 Convierte un archivo Release Package a una versión CSV/Excel.  
 Utiliza la herramienta [flatten-tool](https://github.com/OpenDataServices/flatten-tool).
->Tipo de archivo válido: Release Package.
+>Tipo de archivo válido: [Release Packages](/tests/fixtures/1.1/release-packages).
 
 ### Convertir a JSON
 Convierte una versión de archivo con extensión CSV o Excel en un paquete de release.	
@@ -84,7 +84,20 @@ Página principal de la aplicación:
 
 ![alt text](img/landing_page.png "Página de inicio")
 
+### Restricciones
+Las restricciones del sistema son las siguientes:
+
+Restricción | Valor
+--- | ---
+Tamaño máximo de archivos | 10MB
+Cantidad máxima de archivos por operación | 20
+Timeout de sesión | 24 horas
+
 ## Ejemplos de uso
+
+Las capturas de pantalla utilizadas en los diferentes ejemplos que siguen corresponden a como se ven las diferentes 
+funcionalidades de la herramienta en abril de 2020 
+
 ### 1. Crear un Release Package
 1. Elegir un archivo con "Add a file" o arrastrar al cuadro. Utilizaremos archivos [Release 1.1](/tests/fixtures/1.1/releases).
 ![Alt text](img/ex1_1.png "Figura 1.1")
@@ -94,6 +107,7 @@ Página principal de la aplicación:
 ![Alt text](img/ex1_3.png "Figura 1.3")
 
 ### 2. Combinar Paquetes
+
 #### 2.1. Release Package
 1. Para este ejemplo se utiliza la opción Release Package del cuadro Package type.
 2. Elegir uno o más archivos Release Package con "Add a file" o arrastrar al cuadro. En este ejemplo se utilizan los archivos [Release Packages 1.1](/tests/fixtures/1.1/release-packages).
@@ -102,6 +116,7 @@ Página principal de la aplicación:
 ![Alt text](img/ex2_2.png "Figura 2.1.3")
 4. Una vez terminado, aparecerá un cuadro para descargar el archivo generado.
 ![Alt text](img/ex2_3.png "Figura 2.1.4")
+
 #### 2.2. Record Package
 1. Para este ejemplo se utiliza la opción Record Package del cuadro Package type.
 2. Elegir uno o más archivos Record Package con "Add a file" o arrastrar al cuadro. En este ejemplo se utilizan los archivos [Record Packages 1.1](/tests/fixtures/1.1/record-packages).
@@ -143,8 +158,8 @@ Página principal de la aplicación:
 ![Alt text](img/ex7_3.png "Figura 7.3")
 
 ## Herramientas utilizadas
-* [Python 3.5+](https://www.python.org/) - Lenguaje de programación interpretado.
-* [Django 2.3](https://www.djangoproject.com/) - Framework Web de Python.
+* [Python 3.6+](https://www.python.org/) - Lenguaje de programación interpretado.
+* [Django 2.2](https://www.djangoproject.com/) - Framework Web de Python.
 * [JQuery 3.3](https://jquery.com/) - Biblioteca JavaScript.
 * [Bootstrap 3+](https://getbootstrap.com/) - Biblioteca Multiplataforma.
 

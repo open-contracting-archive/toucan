@@ -3,7 +3,7 @@
 OCDS Toucan is a web application for handling OCDS files based on [OCDS Kit](https://github.com/open-contracting/ocdskit).
 OCDS Toucan provides the same functionalities as OCDS Kit through a intuitive and easy to use web interface.
 
-## Starting up
+## Getting Started 
 ### Requirements
 1. Install [Python 3.6+](https://www.python.org/downloads).
 2. [Clone](https://help.github.com/en/articles/cloning-a-repository) the Github project.
@@ -20,14 +20,14 @@ pip intall -r requirements.txt
 * OCDS_TOUCAN_MAXNUMFILES: max number of files to upload per request.
 * OCDS_TOUCAN_MAXFILESIZE: max size of files to upload in bytes.
 
-### Restrictions
-The systems rectrictions are as follows:
+### Configuration 
+The system can be configured by setting the environment variables mentioned above, some of this variables have
+default values as shown in the following table
 
-Restriction|Value
---- | ---
-Maximun file size | 10MB
-Maximun quantity of files per request | 20
-Session timeout | 24 hours
+Restriction | Value | Environment Variables
+--- | --- | ---
+Maximun file size | 10MB | OCDS_TOUCAN_MAXFILESIZE
+Maximun quantity of files per request | 20 | OCDS_TOUCAN_MAXNUMFILES
 
 ### Project deployment
 Running the development server:
@@ -39,7 +39,7 @@ python manage.py runserver
 ### Create Release Package
 Generates a [Release Package](http://standard.open-contracting.org/latest/en/getting_started/publication_patterns/#packaging-releases-and-records) from many [Release](http://standard.open-contracting.org/latest/en/getting_started/releases_and_records/#releases) files.
 Uses the command `package-releases`. [More Information](https://ocdskit.readthedocs.io/en/latest/cli/ocds.html#package-releases).
->Valid file types: Release.
+>Valid file types: [Release](/tests/fixtures/1.1/releases).
 
 ### Combine Packages
 Combines release packages or record packages into a single package.		
@@ -49,7 +49,8 @@ Uses the command `combine-release-packages` for release packages. [More informat
 ### Compile Releases
 Generates a [Record Package](http://standard.open-contracting.org/latest/en/getting_started/publication_patterns/#packaging-releases-and-records) from Release Package files.
 Uses the command `compile`. **Attention**: this command uses `--package` and `--versioned` as parameters, visit the [documentation](https://ocdskit.readthedocs.io/en/latest/cli/ocds.html#compile) for more information. 
->Valid file types: Release Package.
+>Valid file types: [Release Packages](/tests/fixtures/1.1/release-packages).
+
 
 ### Upgrade from 1.0 to 1.1
 Updates packages and releases from OCDS version 1.0 to 1.1.
@@ -59,12 +60,14 @@ Uses the command `upgrade`. [More information](https://ocdskit.readthedocs.io/en
 ### Generate a spreadsheet version of schema
 Generates a spreadsheet of any OCDS schema version.
 Uses the command `mapping-sheet`. [More Information](https://ocdskit.readthedocs.io/en/latest/cli/schema.html#mapping-sheet).
->Valid file types: Release, Release Package, Record Package.
+>Valid file types: [Release](/tests/fixtures/1.1/releases), [Release Packages](/tests/fixtures/1.1/release-packages) o [Record Packages](/tests/fixtures/1.1/record-packages).
+
 
 ### Convert to CSV/Excel
 Converts a Release Package file to a CSV/Excel version.
 Uses [flatten-tool](https://github.com/OpenDataServices/flatten-tool).
->Valid file types: Release Package.
+>Valid file types: [Release Packages](/tests/fixtures/1.1/release-packages).
+
 
 ### Convert to JSON
 Converts a CSV or Excel file extension into a release package.	
@@ -83,7 +86,20 @@ Applications home page:
 
 ![alt text](img/landing_page.png "Homepage")
 
+### Restrictions
+The systems rectrictions are as follows:
+
+Restriction|Value
+--- | ---
+Maximun file size | 10MB
+Maximun quantity of files per request | 20
+Session timeout | 24 hours
+
 ## Use examples
+
+The screenshots used in the differet following examples correspond to how the different functionalities look in the website as of
+april 2020
+
 ### 1. Create a Release Package
 1. Select a file with "Add a file" or by dragging it to the rectangle. We will be using [Release 1.1](/tests/fixtures/1.1/releases) files.
 ![Alt text](img/ex1_1.png "Image 1.1")
@@ -93,6 +109,7 @@ Applications home page:
 ![Alt text](img/ex1_3.png "Image 1.3")
 
 ### 2. Combine Packages
+
 #### 2.1 Release Package
 1. For this example we selected the Release Package option in the Package type dropdown list.
 2. Select one or more Release Package files with "Add a file" or by dragging to the rectangle. In this example we use the [Release Packages 1.1](/tests/fixtures/1.1/release-packages) files.
@@ -143,7 +160,7 @@ Applications home page:
 
 ## Used Tools
 * [Python 3.6+](https://www.python.org/) - Interpreted programming language
-* [Django 2.3](https://www.djangoproject.com/) - Python Web Framework
+* [Django 2.2](https://www.djangoproject.com/) - Python Web Framework
 * [JQuery 3.3](https://jquery.com/) - JavaScript library.
 * [Bootstrap 3+](https://getbootstrap.com/) - Multiplatform library.
 
