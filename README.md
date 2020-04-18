@@ -45,12 +45,12 @@ Uses the command `package-releases`. [More Information](https://ocdskit.readthed
 Combines release packages or record packages into a single package.		
 Uses the command `combine-record-packages` for record packages. [More information](https://ocdskit.readthedocs.io/en/latest/cli/ocds.html#combine-record-packages).	
 Uses the command `combine-release-packages` for release packages. [More information](https://ocdskit.readthedocs.io/en/latest/cli/ocds.html#combine-release-packages).
+>Valid file types: [Release Packages](/tests/fixtures/1.1/release-packages), [Record Packages](/tests/fixtures/1.1/record-packages).
 
 ### Compile Releases
 Generates a [Record Package](http://standard.open-contracting.org/latest/en/getting_started/publication_patterns/#packaging-releases-and-records) from Release Package files.
 Uses the command `compile`. **Attention**: this command uses `--package` and `--versioned` as parameters, visit the [documentation](https://ocdskit.readthedocs.io/en/latest/cli/ocds.html#compile) for more information. 
 >Valid file types: [Release Packages](/tests/fixtures/1.1/release-packages).
-
 
 ### Upgrade from 1.0 to 1.1
 Updates packages and releases from OCDS version 1.0 to 1.1.
@@ -62,17 +62,15 @@ Generates a spreadsheet of any OCDS schema version.
 Uses the command `mapping-sheet`. [More Information](https://ocdskit.readthedocs.io/en/latest/cli/schema.html#mapping-sheet).
 >Valid file types: [Release](/tests/fixtures/1.1/releases), [Release Packages](/tests/fixtures/1.1/release-packages) o [Record Packages](/tests/fixtures/1.1/record-packages).
 
-
 ### Convert to CSV/Excel
 Converts a Release Package file to a CSV/Excel version.
 Uses [flatten-tool](https://github.com/OpenDataServices/flatten-tool).
 >Valid file types: [Release Packages](/tests/fixtures/1.1/release-packages).
 
-
 ### Convert to JSON
 Converts a CSV or Excel file extension into a release package.	
 Uses [flatten-tool](https://github.com/OpenDataServices/flatten-tool).
->Valid file types: Release Package.
+>Valid file types: [Release Packages](/tests/fixtures/1.1/release-packages).
 
 ## Architecture
 ### Architectures Description
