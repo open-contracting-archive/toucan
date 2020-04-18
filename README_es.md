@@ -41,6 +41,12 @@ Genera un [Release Package](http://standard.open-contracting.org/latest/en/getti
 Utiliza el comando `package-releases`. [Más información](https://ocdskit.readthedocs.io/en/latest/cli/ocds.html#package-releases).
 >Tipo de archivo válido: [Release](/tests/fixtures/1.1/releases).
 
+### Combinar Paquetes
+Combina paquetes de release o paquetes de record en un solo paquete.	
+Utiliza el comando `combine-record-packages` para paquetes release. [Más información](https://ocdskit.readthedocs.io/en/latest/cli/ocds.html#combine-record-packages).		
+Utiliza el comando `combine-release-packages` para paquetes record. [Más información](https://ocdskit.readthedocs.io/en/latest/cli/ocds.html#combine-release-packages).	
+>Tipo de archivo válido: [Release Packages](/tests/fixtures/1.1/release-packages), [Record Packages](/tests/fixtures/1.1/record-packages).
+
 ### Compile Releases
 Genera un [Record Package](http://standard.open-contracting.org/latest/en/getting_started/publication_patterns/#packaging-releases-and-records) a partir de archivos Release Package.  
 Utiliza el comando `compile`. **Observación**: este comando utiliza como parámetros `--package` y `--versioned`, visite la [documentación](https://ocdskit.readthedocs.io/en/latest/cli/ocds.html#compile) del comando para más información.
@@ -58,6 +64,11 @@ Utiliza el comando `mapping-sheet`. [Más información](https://ocdskit.readthed
 
 ### Convert to CSV/Excel
 Convierte un archivo Release Package a una versión CSV/Excel.  
+Utiliza la herramienta [flatten-tool](https://github.com/OpenDataServices/flatten-tool).
+>Tipo de archivo válido: [Release Packages](/tests/fixtures/1.1/release-packages).
+
+### Convertir a JSON
+Convierte una versión de archivo con extensión CSV o Excel en un paquete de release.	
 Utiliza la herramienta [flatten-tool](https://github.com/OpenDataServices/flatten-tool).
 >Tipo de archivo válido: [Release Packages](/tests/fixtures/1.1/release-packages).
 
@@ -98,7 +109,7 @@ funcionalidades de la herramienta en abril de 2020
 ### 2. Combinar Paquetes
 
 #### 2.1. Release Package
-1. Para este ejemplo se utiliza la opción Release Package del cuadro Package type.
+1. Para este ejemplo se selecciona la opción Release Package del cuadro de lista Package type.
 2. Elegir uno o más archivos Release Package con "Add a file" o arrastrar al cuadro. En este ejemplo se utilizan los archivos [Release Packages 1.1](/tests/fixtures/1.1/release-packages).
 ![Alt text](img/ex2_1.png "Figura 2.1.2")
 3. Podemos añadir más archivos con el botón "Add more files" o arrastrando al cuadro, como también se puede iniciar la operación con "Start".
@@ -107,7 +118,7 @@ funcionalidades de la herramienta en abril de 2020
 ![Alt text](img/ex2_3.png "Figura 2.1.4")
 
 #### 2.2. Record Package
-1. Para este ejemplo se utiliza la opción Record Package del cuadro Package type.
+1. Para este ejemplo se selecciona la opción Record Package del cuadro de lista Package type.
 2. Elegir uno o más archivos Record Package con "Add a file" o arrastrar al cuadro. En este ejemplo se utilizan los archivos [Record Packages 1.1](/tests/fixtures/1.1/record-packages).
 ![Alt text](img/ex2_4.png "Figura 2.2.2")
 3. Podemos añadir más archivos con el botón "Add more files" o arrastrando al cuadro, como también se puede iniciar la operación con "Start".
