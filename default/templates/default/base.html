@@ -45,10 +45,20 @@
             </ul>
         </div>
       </nav>
-    <div class="container">
-      {# page content here #}
-      {% block body %}{% endblock %}
-    </div>
+        <div class="container">
+          {# page content here #}
+          {% block body %}{% endblock %}
+        </div>
+        {% include 'default/logo.html' %}
+        <footer class="footer logo">
+          <div class="container">
+              <a class="footer-brand ocp-logo" href="http://open-contracting.org">
+                <svg style="margin-left: -30px;">
+                  <use xlink:href="#ocp-logo"/>
+                </svg>
+              </a>
+          </div>
+        </footer>
     <script src="{% static "js/jquery-3.3.1.min.js" %}"></script>
     <script src="{% static "js/bootstrap.min.js" %}"></script>
     <script src="https://use.typekit.net/xpw3jps.js"></script>
@@ -68,16 +78,6 @@
       gtag('config', 'UA-35677147-3');
     </script>
     </div>
-    {% include 'default/logo.html' %}
-    <footer class="footer logo">
-      <div class="container">
-          <a class="footer-brand ocp-logo" href="http://open-contracting.org">
-            <svg style="margin-left: -30px;">
-              <use xlink:href="#ocp-logo"/>
-            </svg>
-          </a>
-      </div>
-    </footer>
    </div>
   </body>
 </html>
