@@ -43,9 +43,7 @@ class ToSpreadsheetTestCase(ViewTestCase, ViewTests):
                              read('results/flattened/' + name))
 
         actual = self.get_zipfile(contents['xlsx'])
-        with open(path('results/flattened.xlsx'), 'rb') as f:
-            expected = ZipFile(f)
-
+        with ZipFile(path('results/flattened.xlsx')) as expected:
             self.assertEqual(_worksheets_length(actual), _worksheets_length(expected))
             for name in results['xlsx']:
                 self.assertEqual(actual.read(name), expected.read(name))
