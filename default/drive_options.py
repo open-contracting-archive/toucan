@@ -1,4 +1,5 @@
-from __future__ import print_function
+import logging
+
 from django.http import HttpResponse, JsonResponse
 from google.auth.exceptions import DefaultCredentialsError
 from google.auth.transport.requests import Request
@@ -9,11 +10,12 @@ from googleapiclient.http import MediaFileUpload
 from oauthlib.oauth2 import AccessDeniedError
 from ocdstoucan.settings import OCDS_TOUCAN_CREDENTIALS_DRIVE
 
+logger = logging.getLogger(__name__)
 
 SCOPES = 'https://www.googleapis.com/auth/drive.file'
 
 
-def upload_to_drive(filename, filepath, format=None, test=None, credentials=None):
+def upload_to_drive(filename, filepath, format=None, credentials=None):
     try:
         if not credentials or not credentials.valid:
             if credentials and credentials.expired and credentials.refresh_token:
@@ -21,26 +23,20 @@ def upload_to_drive(filename, filepath, format=None, test=None, credentials=None
             else:
                 flow = InstalledAppFlow.from_client_secrets_file(
                     OCDS_TOUCAN_CREDENTIALS_DRIVE, SCOPES)
-                if not test:
-                    credentials = flow.run_local_server(port=0)
+
+                credentials = flow.run_local_server(port=0)
                 if credentials and not credentials.valid:
                     raise AccessDeniedError
         service = build('drive', 'v3', credentials=credentials)
 
-    except AccessDeniedError:
-        return HttpResponse("Access Denied", status=400)
-
-    except DefaultCredentialsError:
-        service = None
+    except (AccessDeniedError, DefaultCredentialsError):
+        return HttpResponse("There was an error when trying to authenticate", status=400)
 
     try:
         if format == 'xlsx':
             mimeType = 'application/vnd.google-apps.spreadsheet'
         else:
-            if format == 'csv' or format is None:
-                mimeType = 'application/zip'
-            else:
-                mimeType = '*/*'
+            mimeType = 'application/zip'
 
         file_metadata = {
             'name': filename,
@@ -56,8 +52,6 @@ def upload_to_drive(filename, filepath, format=None, test=None, credentials=None
             'id': results["id"]
         })
 
-    except (TypeError, Exception, IOError, UnknownFileType):
-        if test:
-            return HttpResponse("Test", status=200)
-        else:
-            return HttpResponse("Fail Uploading", status=400)
+    except (TypeError, Exception, IOError, UnknownFileType) as e:
+        logger.debug(e)
+        return HttpResponse("There was an error when trying to upload files", status=400)
