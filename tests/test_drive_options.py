@@ -1,7 +1,7 @@
-from unittest.mock import Mock
+from unittest.mock import Mock, patch
+from oauthlib.oauth2 import AccessDeniedError
 
 from default import drive_options
-
 from tests import ViewTestCase, ViewTests, path
 
 
@@ -11,30 +11,47 @@ class DriveTestCase(ViewTestCase, ViewTests):
         '1.1/release-packages/0001-tender.json',
     ]
 
-    def test_go_with_files(self):
+    @patch('google_auth_oauthlib.flow.InstalledAppFlow.run_local_server')
+    @patch('default.drive_options.build')
+    def test_go_with_files(self, mock_build, mock_run_local_server):
+        mock_run_local_server.return_value.valid = True
+        mock_build.return_value.files.return_value.create.return_value.execute.return_value = {'id': 1}
         contents = self.upload_and_go({'type': 'release-package'})
 
         for extension, content in contents.items():
-            response = self.client.get(content['url'] + '?out=drive&test=true')
+            response = self.client.get(content['url'] + '?out=drive')
             self.assertEqual(response.status_code, 200)
 
-    def test_access_denied(self):
-        credentials = Mock(valid=False, expired=False, refresh_token='test')
+    @patch('google_auth_oauthlib.flow.InstalledAppFlow.run_local_server')
+    def test_invalid_credentials(self, mock_run_local_server):
+        mock_run_local_server.return_value.valid = False
+        contents = self.upload_and_go({'type': 'release-package'})
+
+        response = self.client.get(contents['csv']['url'] + '?out=drive')
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.content, b'There was an error when trying to authenticate')
+
+    def test_refresh_fail(self):
+        credentials = Mock(valid=False, expired=True, refresh_token='test')
+        credentials.refresh = Mock(side_effect=AccessDeniedError())
         response = drive_options.upload_to_drive(
             filename="test",
-            filepath="test",
-            test=True,
+            filepath=path(self.files[0]),
+            format="json",
             credentials=credentials
         )
         self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.content, b'There was an error when trying to authenticate')
 
-    def test_fail_uploading(self):
+    @patch('default.drive_options.build')
+    def test_upload_fail(self, mock_build):
+        mock_build.files = Mock(side_effect=IOError())
         credentials = Mock(valid=False, expired=True, refresh_token='test')
-        for file in self.files:
-            response = drive_options.upload_to_drive(
-                filename="test",
-                filepath=path(file),
-                format="json",
-                credentials=credentials
-            )
-            self.assertEqual(response.status_code, 400)
+        response = drive_options.upload_to_drive(
+            filename="test",
+            filepath=path(self.files[0]),
+            format="json",
+            credentials=credentials
+        )
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.content, b'There was an error when trying to upload files')
