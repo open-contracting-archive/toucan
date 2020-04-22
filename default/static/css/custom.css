@@ -65,6 +65,9 @@
     height: 100px;
     background-color: #222;
 }
+.footer.logo.home-footer {
+    position: relative;
+}
 .footer-brand.ocp-logo{
     max-width: 100px;
 }
