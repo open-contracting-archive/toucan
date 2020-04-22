@@ -15,6 +15,7 @@ import os
 import sentry_sdk
 from django.utils.translation import gettext_lazy as _
 from sentry_sdk.integrations.django import DjangoIntegration
+from sentry_sdk.integrations.sqlalchemy import SqlalchemyIntegration
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -145,5 +146,5 @@ OCDS_TOUCAN_MAXFILESIZE = os.getenv('OCDS_TOUCAN_MAXFILESIZE', 10000000)  # in b
 if os.getenv('SENTRY_DSN') is not None:
     sentry_sdk.init(
         dsn=os.getenv('SENTRY_DSN'),
-        integrations=[DjangoIntegration()]
+        integrations=[DjangoIntegration(), SqlalchemyIntegration()]
     )
