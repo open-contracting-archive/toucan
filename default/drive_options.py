@@ -1,11 +1,9 @@
 import logging
 
 from django.http import HttpResponse, JsonResponse
-from google.auth.exceptions import DefaultCredentialsError
 from google.auth.transport.requests import Request
 from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
-from googleapiclient.errors import UnknownFileType
 from googleapiclient.http import MediaFileUpload
 from oauthlib.oauth2 import AccessDeniedError
 from ocdstoucan.settings import OCDS_TOUCAN_CREDENTIALS_DRIVE
@@ -21,16 +19,12 @@ def upload_to_drive(filename, filepath, format=None, credentials=None):
             if credentials and credentials.expired and credentials.refresh_token:
                 credentials.refresh(Request())
             else:
-                flow = InstalledAppFlow.from_client_secrets_file(
-                    OCDS_TOUCAN_CREDENTIALS_DRIVE, SCOPES)
-
+                flow = InstalledAppFlow.from_client_secrets_file(OCDS_TOUCAN_CREDENTIALS_DRIVE, SCOPES)
                 credentials = flow.run_local_server(port=0)
-                if credentials and not credentials.valid:
-                    raise AccessDeniedError
         service = build('drive', 'v3', credentials=credentials)
 
-    except (AccessDeniedError, DefaultCredentialsError):
-        return HttpResponse("There was an error when trying to authenticate", status=400)
+    except AccessDeniedError:
+        return HttpResponse("AccessDeniedError", status=400)
 
     try:
         if format == 'xlsx':
@@ -52,6 +46,5 @@ def upload_to_drive(filename, filepath, format=None, credentials=None):
             'id': results["id"]
         })
 
-    except (TypeError, Exception, IOError, UnknownFileType) as e:
-        logger.debug(e)
-        return HttpResponse("There was an error when trying to upload files", status=400)
+    except (TypeError, Exception, IOError):
+        return HttpResponse("UploadError", status=400)
