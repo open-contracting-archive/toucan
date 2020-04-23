@@ -140,6 +140,22 @@ LANGUAGES = [
     ('es', _('Spanish')),
 ]
 
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+       'null': {
+            'class': 'logging.NullHandler',
+        },
+    },
+    'loggers': {
+       'django.security.DisallowedHost': {
+            'handlers': ['null'],
+            'propagate': False,
+        },
+    },
+}
+
 OCDS_TOUCAN_MAXNUMFILES = os.getenv('OCDS_TOUCAN_MAXNUMFILES', 20)
 OCDS_TOUCAN_MAXFILESIZE = os.getenv('OCDS_TOUCAN_MAXFILESIZE', 10000000)  # in bytes
 
