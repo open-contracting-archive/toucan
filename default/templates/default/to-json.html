@@ -28,6 +28,12 @@
     <b>{% trans "An error has occurred!" %}</b>
     {% trans "Please verify that all your files are valid according to OCDS, and try again in a few minutes." %}
 </div>
+<div class="response-access-drive alert alert-danger hidden">
+    <b>{% trans "Error saving to Google Drive: Access Denied" %}</b>
+</div>
+<div class="response-fail-drive alert alert-danger hidden">
+    <b>{% trans "Error saving to Google Drive: Upload failed" %}</b>
+</div>
 <div class="google-drive-success alert alert-info hidden">
     <b>{% trans "Uploaded to Google Drive!" %}</b>
     <ul>
@@ -157,11 +163,12 @@
                             $('.response-fail').addClass('hidden');
                             })
                         .fail(function(jqXHR, textStatus, errorThrown){
-                            $('.response-fail').html(
-                            '{% trans "<b>Error saving to Google Drive</b>: " %}'
-                            + ( jqXHR.responseText || textStatus ));
-                            $('.response-fail').removeClass('hidden');
-                            })
+                            if (jqXHR.responseText == 'AccessDeniedError'){
+                                $('.response-access-drive').removeClass('hidden');
+                            } else {
+                                $('.response-fail-drive').removeClass('hidden');
+                            }
+                        })
                         .always(function(){
                             $('#processing-modal').modal('hide');
                             });

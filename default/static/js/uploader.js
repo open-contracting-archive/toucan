@@ -187,7 +187,7 @@ var app = {};
                 $('.response-fail-drive').addClass('hidden');
             })
             .fail(function(jqXHR, textStatus, errorThrown){
-                if (jqXHR.responseText == 'Access Denied'){
+                if (jqXHR.responseText == 'AccessDeniedError'){
                     $('.response-access-drive').removeClass('hidden');
                 } else {
                     $('.response-fail-drive').removeClass('hidden');

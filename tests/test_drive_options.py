@@ -29,7 +29,7 @@ class DriveTestCase(ViewTestCase, ViewTests):
 
         response = self.client.get(contents['csv']['url'] + '?out=drive')
         self.assertEqual(response.status_code, 400)
-        self.assertEqual(response.content, b'There was an error when trying to authenticate')
+        self.assertEqual(response.content, b'UploadError')
 
     def test_refresh_fail(self):
         credentials = Mock(valid=False, expired=True, refresh_token='test')
@@ -41,17 +41,4 @@ class DriveTestCase(ViewTestCase, ViewTests):
             credentials=credentials
         )
         self.assertEqual(response.status_code, 400)
-        self.assertEqual(response.content, b'There was an error when trying to authenticate')
-
-    @patch('default.drive_options.build')
-    def test_upload_fail(self, mock_build):
-        mock_build.files = Mock(side_effect=IOError())
-        credentials = Mock(valid=False, expired=True, refresh_token='test')
-        response = drive_options.upload_to_drive(
-            filename="test",
-            filepath=path(self.files[0]),
-            format="json",
-            credentials=credentials
-        )
-        self.assertEqual(response.status_code, 400)
-        self.assertEqual(response.content, b'There was an error when trying to upload files')
+        self.assertEqual(response.content, b'AccessDeniedError')
