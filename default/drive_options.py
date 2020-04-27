@@ -51,5 +51,5 @@ def upload_to_drive(filename, filepath, format=None, credentials=None):
             'id': results["id"]
         })
 
-    except:
+    except Exception:
         return HttpResponse(_('Upload failed'), status=400)
