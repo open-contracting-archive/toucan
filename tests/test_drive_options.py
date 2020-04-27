@@ -29,7 +29,7 @@ class DriveTestCase(ViewTestCase, ViewTests):
 
         response = self.client.get(contents['csv']['url'] + '?out=drive')
         self.assertEqual(response.status_code, 400)
-        self.assertEqual(response.content, b'UploadError')
+        self.assertEqual(response.content, b'Upload failed')
 
     def test_refresh_fail(self):
         credentials = Mock(valid=False, expired=True, refresh_token='test')
@@ -41,4 +41,4 @@ class DriveTestCase(ViewTestCase, ViewTests):
             credentials=credentials
         )
         self.assertEqual(response.status_code, 400)
-        self.assertEqual(response.content, b'AccessDeniedError')
+        self.assertEqual(response.content, b'Access denied')
