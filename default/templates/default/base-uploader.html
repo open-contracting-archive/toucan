@@ -38,11 +38,8 @@
     {% trans "You can add more files or remove them, then click on <b>Start</b> again." %}
     {% trans "Files with validation issues will be ignored by default." %}
 </div>
-<div class="response-access-drive alert alert-danger hidden">
-    <b>{% trans "Error saving to Google Drive: Access Denied" %}</b>
-</div>
 <div class="response-fail-drive alert alert-danger hidden">
-    <b>{% trans "Error saving to Google Drive: Upload failed" %}</b>
+    <b>{% trans "Error saving to Google Drive: " %}</b> <span class="message-drive"></span>
 </div>
 <div class="response-fail alert alert-danger hidden">
     <b>{% trans "An error has occurred!" %}</b>

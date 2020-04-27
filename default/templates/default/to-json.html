@@ -25,14 +25,9 @@
     </ul>
 </div>
 <div class="response-fail alert alert-danger hidden">
-    <b>{% trans "An error has occurred!" %}</b>
-    {% trans "Please verify that all your files are valid according to OCDS, and try again in a few minutes." %}
-</div>
-<div class="response-access-drive alert alert-danger hidden">
-    <b>{% trans "Error saving to Google Drive: Access Denied" %}</b>
 </div>
 <div class="response-fail-drive alert alert-danger hidden">
-    <b>{% trans "Error saving to Google Drive: Upload failed" %}</b>
+    <b>{% trans "Error saving to Google Drive: " %}</b> <span class="message-drive"></span>
 </div>
 <div class="google-drive-success alert alert-info hidden">
     <b>{% trans "Uploaded to Google Drive!" %}</b>
@@ -156,15 +151,14 @@
                             $('.google-drive-success .file-google-name').html(data.name);
                             $('.google-drive-success .file-google-id').html(data.id);
                             $('.google-drive-success').removeClass('hidden');
-                            $('.response-fail').addClass('hidden');
+                            $('.response-fail-drive').addClass('hidden');
                             })
                         .fail(function(jqXHR, textStatus, errorThrown){
-                            if (jqXHR.responseText == 'AccessDeniedError'){
-                                $('.response-access-drive').removeClass('hidden');
-                            } else {
-                                $('.response-fail-drive').removeClass('hidden');
-                            }
-                        })
+                            $('.response-fail-drive .message-drive').html(
+                                ( jqXHR.responseText || textStatus )
+                            );
+                            $('.response-fail-drive').removeClass('hidden');
+                            })
                         .always(function(){
                             $('#processing-modal').modal('hide');
                             });
