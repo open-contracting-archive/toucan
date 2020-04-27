@@ -14,9 +14,9 @@
     <ul>
         <li>
             result.xlsx (<span class="f-size-xlsx"></span>)
-            <button type="button" class="btn btn-primary btn-download f-file f-xlsx">
-                    <span>{% trans "Download" %}</span>
-            </button>
+            <a class="btn btn-primary btn-download f-file f-xlsx" href="#" role="button">
+                {% trans "Download" %}
+            </a>
             <span>  /  </span>
             <button type="button" class="btn btn-primary btn-download d-drive d-xlsx">
                     <span>{% trans "Save to Google Drive" %}</span>
@@ -24,9 +24,9 @@
         </li>
         <li>
             result-csv.zip (<span class="f-size-csv"></span>)
-            <button type="button" class="btn btn-primary btn-download f-file f-csv">
-                    <span>{% trans "Download" %}</span>
-            </button>
+            <a class="btn btn-primary btn-download f-file f-csv" href="#" role="button">
+                {% trans "Download" %}
+            </a>
             <span>  /  </span>
             <button type="button" class="btn btn-primary btn-download d-drive d-csv">
                     <span>{% trans "Save to Google Drive" %}</span>
@@ -158,10 +158,6 @@
                     $('.response-fail').removeClass('hidden');
                 });
         });
-
-        $('.f-file').click(function () {
-            window.location = $(this).attr('href');
-	    });
 
         /* Click drive xlsx behaviour */
         $('.d-drive').click(function(){

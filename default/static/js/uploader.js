@@ -172,10 +172,6 @@ var app = {};
         ;
     }
 
-    function download() {
-        window.location = $(this).attr('href');
-    }
-
     function saveDrive() {
         showProcessingModal();
         $.ajax($('.response-success .d-drive').attr('href'), { 'dataType': 'json' })
@@ -209,9 +205,6 @@ var app = {};
 
     /** upload call binding **/
     $("#upload-button").click(upload);
-
-    /* click download button behaviour */
-    $('.f-file').click(download);
 
     /* click save to Drive button behaviour */
     $('.d-drive').click(saveDrive);
