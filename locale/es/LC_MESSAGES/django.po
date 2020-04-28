@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-03-30 12:24-0400\n"
+"POT-Creation-Date: 2020-04-28 19:20-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -30,11 +30,12 @@ msgstr ""
 msgid "Select a schema and version"
 msgstr "Seleccione un esquema y versión"
 
-#: default/forms.py:19
+#: default/forms.py:19 default/templates/default/base-uploader.html:48
 msgid "Provide a URL"
 msgstr "Indique una URL"
 
 #: default/forms.py:20 default/forms.py:26
+#: default/templates/default/base-uploader.html:43
 msgid "Upload a file"
 msgstr "Cargue un archivo"
 
@@ -102,11 +103,15 @@ msgid "Files with validation issues will be ignored by default."
 msgstr "Los archivos con problemas de validación serán ignorados por defecto."
 
 #: default/templates/default/base-uploader.html:27
+msgid "There was an error when trying to access the entered URL: "
+msgstr "Se produjo un error al intentar acceder a la URL ingresada: "
+
+#: default/templates/default/base-uploader.html:31
 #: default/templates/default/to-json.html:22
 msgid "An error has occurred!"
 msgstr "¡Ha ocurrido un error!"
 
-#: default/templates/default/base-uploader.html:28
+#: default/templates/default/base-uploader.html:32
 msgid ""
 "Please verify that all your files are valid OCDS JSON, and try again in a "
 "few minutes."
@@ -114,35 +119,45 @@ msgstr ""
 "Por favor verifique que todos sus archivos son válidos de acuerdo al "
 "estándar OCDS, e intente de nuevo en unos minutos."
 
-#: default/templates/default/base-uploader.html:53
-#: default/templates/default/to-json.html:56
-#: default/templates/default/to-spreadsheet.html:52
-msgid "Add a file"
-msgstr "Agregue un archivo"
-
-#: default/templates/default/base-uploader.html:53
-#: default/templates/default/to-json.html:57
-#: default/templates/default/to-spreadsheet.html:53
-msgid "or drag and drop here."
-msgstr "o arrastre y suelte aquí"
-
-#: default/templates/default/base-uploader.html:61
-msgid "Add more files"
-msgstr "Agregar más archivos"
-
-#: default/templates/default/base-uploader.html:65
-#: default/templates/default/to-json.html:63
-#: default/templates/default/to-spreadsheet.html:59
-msgid "Start"
-msgstr "Procesar"
-
-#: default/templates/default/base-uploader.html:75
+#: default/templates/default/base-uploader.html:59
 #: default/templates/default/to-json.html:71
 #: default/templates/default/to-spreadsheet.html:67
 msgid ""
 "Processing operation. Please don't refresh nor close the browser window!"
 msgstr ""
 "Procesando la operación. Por favor no refresque ni cierre el navegador."
+
+#: default/templates/default/base-uploader.html:72
+msgid "Add one or more URLs for each OCDS File:"
+msgstr "Agregue una o más URLs para cada archivo OCDS:"
+
+#: default/templates/default/base-uploader.html:91
+#: default/templates/default/mapping_sheet.html:124
+msgid "Add URL"
+msgstr "Añadir URL"
+
+#: default/templates/default/base-uploader.html:93
+#: default/templates/default/base-uploader.html:130
+#: default/templates/default/to-json.html:63
+#: default/templates/default/to-spreadsheet.html:59
+msgid "Start"
+msgstr "Procesar"
+
+#: default/templates/default/base-uploader.html:118
+#: default/templates/default/to-json.html:56
+#: default/templates/default/to-spreadsheet.html:52
+msgid "Add a file"
+msgstr "Agregue un archivo"
+
+#: default/templates/default/base-uploader.html:118
+#: default/templates/default/to-json.html:57
+#: default/templates/default/to-spreadsheet.html:53
+msgid "or drag and drop here."
+msgstr "o arrastre y suelte aquí"
+
+#: default/templates/default/base-uploader.html:126
+msgid "Add more files"
+msgstr "Agregar más archivos"
 
 #: default/templates/default/base.html:16
 #: default/templates/default/base.html:24
@@ -229,7 +244,7 @@ msgid ""
 "releases included."
 msgstr ""
 "Arrastre y suelte uno o más <a href=\"https://standard.open-contracting.org/"
-"latest/es/schema/release_package/\" target=\"_blank\">paquetes de delease</"
+"latest/es/schema/release_package/\" target=\"_blank\">paquetes de release</"
 "a> para generar un <a href=\"https://standard.open-contracting.org/latest/es/"
 "schema/record_package/\" target=\"_blank\">paquete de record</a> con "
 "compiled releases incluidos."
@@ -429,10 +444,6 @@ msgstr ""
 "Favor indique una o más URLs del archivo <code>extension.json</code> por "
 "cada extensión OCDS que desee:"
 
-#: default/templates/default/mapping_sheet.html:124
-msgid "Add URL"
-msgstr "Añadir URL"
-
 #: default/templates/default/mapping_sheet.html:127
 msgid "Generate"
 msgstr "Generar"
@@ -511,7 +522,7 @@ msgid ""
 msgstr ""
 "Use esta página para convertir un <a href=\"https://standard.open-"
 "contracting.org/latest/es/schema/release_package/\" target=\"_blank"
-"\">Paquete de Release</a> a su versión CSV y Excel. Por favor no suba más de "
+"\">paquete de release</a> a su versión CSV y Excel. Por favor no suba más de "
 "un archivo arrastrándolo y soltándolo en la caja de abajo o usando el enlace "
 "<strong>Agregue un archivo</strong>."
 
@@ -593,11 +604,11 @@ msgstr "No se reconoce \"%(type)s\""
 msgid "Error decoding JSON"
 msgstr "Error al decodificar JSON"
 
-#: default/views.py:284 default/views.py:292
+#: default/views.py:323 default/views.py:331
 msgid "File not found"
 msgstr "Archivo no encontrado"
 
-#: default/views.py:290
+#: default/views.py:329
 msgid "File deleted"
 msgstr "Archivo eliminado"
 
