@@ -6,7 +6,7 @@ from zipfile import ZIP_DEFLATED, ZipFile
 
 import flattentool
 from django.http import FileResponse, Http404, HttpResponse, JsonResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 from django.utils.translation import gettext as _
 from django.views.decorators.http import require_GET, require_POST
 from jsonref import requests
@@ -276,16 +276,16 @@ def upload_url(request):
                                 f.write(chunk)
 
             except (HTTPError, ConnectionError, ValueError, SSLError) as e:
-                return HttpResponse(e, status=400)
+                return HttpResponse(url, status=400)
 
             if 'files' not in request.session:
                 request.session['files'] = []
             request.session['files'].append(data_file.as_dict())
             request.session.modified = True
 
-    url_ref = request.headers['Referer']
-    url_go = urlparse(url_ref)
-    return redirect(url_go.path + 'go/')
+    return JsonResponse({
+        'files': request.session['files']
+    })
 
 
 @require_POST
