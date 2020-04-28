@@ -275,7 +275,7 @@ def upload_url(request):
                             if chunk:
                                 f.write(chunk)
 
-            except (HTTPError, ConnectionError, ValueError, SSLError) as e:
+            except (HTTPError, ConnectionError, ValueError, SSLError):
                 return HttpResponse(url, status=400)
 
             if 'files' not in request.session:
