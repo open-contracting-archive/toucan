@@ -2,6 +2,7 @@ import os
 import shutil
 import warnings
 from collections import OrderedDict
+from urllib.parse import urlparse
 from zipfile import ZIP_DEFLATED, ZipFile
 
 import flattentool
@@ -14,8 +15,8 @@ from libcoveocds.config import LibCoveOCDSConfig
 from ocdskit.combine import combine_record_packages, combine_release_packages, merge
 from ocdskit.combine import package_releases as package_releases_method
 from ocdskit.upgrade import upgrade_10_11
-from requests.exceptions import SSLError, ConnectionError, HTTPError
-from urllib.parse import urlparse
+from requests.exceptions import ConnectionError, HTTPError, SSLError
+
 from default.data_file import DataFile
 from default.decorators import clear_files, published_date, require_files
 from default.forms import MappingSheetOptionsForm
