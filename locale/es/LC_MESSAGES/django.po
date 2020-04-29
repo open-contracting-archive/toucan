@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-27 15:46-0400\n"
+"POT-Creation-Date: 2020-04-29 14:15-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -30,11 +30,11 @@ msgstr ""
 msgid "The authentication flow has completed. You may close this window."
 msgstr "El flujo de autenticacion se ha completado. Puede cerrar esta ventana."
 
-#: default/drive_options.py:31
+#: default/drive_options.py:32
 msgid "Access denied"
 msgstr "Acceso denegado"
 
-#: default/drive_options.py:54
+#: default/drive_options.py:55
 msgid "Upload failed"
 msgstr "Fallo en la carga"
 
@@ -624,10 +624,10 @@ msgstr "Archivo no encontrado"
 msgid "File deleted"
 msgstr "Archivo eliminado"
 
-#: ocdstoucan/settings.py:139
+#: ocdstoucan/settings.py:140
 msgid "English"
 msgstr "Inglés"
 
-#: ocdstoucan/settings.py:140
+#: ocdstoucan/settings.py:141
 msgid "Spanish"
 msgstr "Español"
