@@ -173,23 +173,27 @@ var app = {};
     }
 
     function saveDrive() {
-        showProcessingModal();
-        $.ajax($('.response-success .d-drive').attr('href'), { 'dataType': 'json' })
-            .done(function(data) {
-                $('.google-drive-success .file-google-name').html(data.name);
-                $('.google-drive-success .file-google-id').html(data.id);
-                $('.google-drive-success').removeClass('hidden');
-                $('.response-fail-drive').addClass('hidden');
-            })
-            .fail(function(jqXHR, textStatus, errorThrown){
-                $('.response-fail-drive .message-drive').html(
-                    ( jqXHR.responseText || textStatus )
-                );
-                $('.response-fail-drive').removeClass('hidden');
-            })
-            .always(function() {
-                hideProcessingModal()
-            });
+        if ($('.response-success .d-drive').attr('href')) {
+            showProcessingModal();
+            $.ajax($('.response-success .d-drive').attr('href'), { 'dataType': 'json' })
+                .done(function(data) {
+                    $('.google-drive-success .file-google').html(data.name);
+                    $('.google-drive-success .file-google').attr('href', data.url);
+                    $('.google-drive-success').removeClass('hidden');
+                    $('.response-fail-drive').addClass('hidden');
+                    $('.response-success .d-drive').removeAttr('href');
+                    $('.response-success .d-drive').addClass('disabled');
+                })
+                .fail(function(jqXHR, textStatus, errorThrown){
+                    $('.response-fail-drive .message-drive').html(
+                        ( jqXHR.responseText || textStatus )
+                    );
+                    $('.response-fail-drive').removeClass('hidden');
+                })
+                .always(function() {
+                    hideProcessingModal()
+                });
+        }
     }
 
     /** plugin initialization & listeners**/

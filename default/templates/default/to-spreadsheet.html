@@ -43,7 +43,7 @@
     <b>{% trans "Uploaded to Google Drive!" %}</b>
     <ul>
         <li>
-            <span class="file-google-name"></span> (Id: <span class="file-google-id"></span>)
+            <a class="btn btn-primary btn-download file-google" target="_blank" href="#" role="button"></a>
         </li>
     </ul>
 </div>
@@ -158,28 +158,33 @@
 
         /* Click drive xlsx behaviour */
         $('.d-drive').click(function(){
-            url = $(this).attr('href')
-            data
-                .submit()
-                .done(function(){
-                    $('#processing-modal').modal('show');
-                    $.ajax(url, { 'dataType': 'json' })
-                        .done(function(data){
-                            $('.google-drive-success .file-google-name').html(data.name);
-                            $('.google-drive-success .file-google-id').html(data.id);
-                            $('.google-drive-success').removeClass('hidden');
-                            $('.response-fail-drive').addClass('hidden');
-                            })
-                        .fail(function(jqXHR, textStatus, errorThrown){
-                            $('.response-fail-drive .message-drive').html(
-                                ( jqXHR.responseText || textStatus )
-                            );
-                            $('.response-fail-drive').removeClass('hidden');
-                            })
-                        .always(function(){
-                            $('#processing-modal').modal('hide');
-                            });
-                })
+            button = $(this)
+            if (button.attr('href')) {
+                url = button.attr('href')
+                data
+                    .submit()
+                    .done(function(){
+                        $('#processing-modal').modal('show');
+                        $.ajax(url, { 'dataType': 'json' })
+                            .done(function(data){
+                                $('.google-drive-success .file-google').html(data.name);
+                                $('.google-drive-success .file-google').attr('href', data.url);
+                                $('.google-drive-success').removeClass('hidden');
+                                $('.response-fail-drive').addClass('hidden');
+                                button.removeAttr('href');
+                                button.addClass('disabled');
+                                })
+                            .fail(function(jqXHR, textStatus, errorThrown){
+                                $('.response-fail-drive .message-drive').html(
+                                    ( jqXHR.responseText || textStatus )
+                                );
+                                $('.response-fail-drive').removeClass('hidden');
+                                })
+                            .always(function(){
+                                $('#processing-modal').modal('hide');
+                                });
+                    })
+            }
         });
     });
 

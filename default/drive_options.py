@@ -48,7 +48,7 @@ def upload_to_drive(filename, filepath, format=None, credentials=None):
 
         return JsonResponse({
             'name': filename,
-            'id': results["id"]
+            'url': "https://drive.google.com/file/d/" + results["id"]
         })
 
     except Exception:
