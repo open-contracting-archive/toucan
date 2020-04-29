@@ -15,7 +15,7 @@ class DriveTestCase(ViewTestCase, ViewTests):
     @patch('default.drive_options.build')
     def test_go_with_files(self, mock_build, mock_run_local_server):
         mock_run_local_server.return_value.valid = True
-        mock_build.return_value.files.return_value.create.return_value.execute.return_value = {'id': 1}
+        mock_build.return_value.files.return_value.create.return_value.execute.return_value = {'id': '1'}
         contents = self.upload_and_go({'type': 'release-package'})
 
         for extension, content in contents.items():
