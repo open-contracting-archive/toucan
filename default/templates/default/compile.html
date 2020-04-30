@@ -8,15 +8,11 @@
 {% block info %}
 <p>
     {% blocktrans trimmed %}
-        Drag and drop one or more
-        <a href="https://standard.open-contracting.org/latest/en/schema/release_package/" target="_blank">release packages</a>
-        to create a
+        Use this tool to create a
         <a href="https://standard.open-contracting.org/latest/en/schema/record_package/" target="_blank">record package</a>
-        with compiled releases included.
+        with compiled releases included from <a href="https://standard.open-contracting.org/latest/en/schema/release_package/" target="_blank">release packages</a>.
     {% endblocktrans %}
-    {% trans "You can also click the <strong>Add a file</strong> link below." %}
 </p>
-
 <p>
     {% trans "Fill in the <strong>Published date</strong> textbox to set <code>publishedDate</code> in the output package." %}
     {% blocktrans trimmed %}
@@ -25,8 +21,23 @@
         <a href="https://standard.open-contracting.org/latest/en/schema/merging/" target="_blank">OCDS documentation</a>.
     {% endblocktrans %}
 </p>
-
-<p>{% trans "Please verify that your files are release packages before uploading." %}</p>
+<p>
+    {% trans "The options available for input files are:" %}
+</p>
+<ul class="list-unstyled">
+    <li>
+        <strong>{% trans "Upload a file:" %}</strong>
+        {% trans "Drag and drop one or more files." %}
+        {% trans "You can also click the <strong>Add a file</strong> link below." %}
+    </li>
+    <li>
+        <strong>{% trans "Provide a URL:" %}</strong>
+        {% trans "Enter one or more URLs to each file. Click <strong>Add URL</strong> to provide more URLs." %}
+    </li>
+</ul>
+<p>
+    {% trans "Please verify that your files are release packages before uploading." %}
+</p>
 {% endblock %}
 
 {% block extraoptions %}

@@ -8,16 +8,27 @@
 {% block info %}
 <p>
     {% blocktrans trimmed %}
-        Drag and drop one or more
-        <a href="https://standard.open-contracting.org/latest/en/getting_started/releases_and_records/#releases" target="_blank">releases</a>
-        to create a
-        <a href="https://standard.open-contracting.org/latest/en/schema/release_package/" target="_blank">release package</a>.
+        Use this tool to create a <a href="https://standard.open-contracting.org/latest/en/schema/release_package/" target="_blank">release package</a>
+        from <a href="https://standard.open-contracting.org/latest/en/getting_started/releases_and_records/#releases" target="_blank">releases</a>.
     {% endblocktrans %}
-    {% trans "You can also click the <strong>Add a file</strong> link below." %}
 </p>
 <p>
     {% trans "Fill in the <strong>Published date</strong> textbox to set <code>publishedDate</code> in the output package." %}
 </p>
+<p>
+    {% trans "The options available for input files are:" %}
+</p>
+<ul class="list-unstyled">
+    <li>
+        <strong>{% trans "Upload a file:" %}</strong>
+        {% trans "Drag and drop one or more files." %}
+        {% trans "You can also click the <strong>Add a file</strong> link below." %}
+    </li>
+    <li>
+        <strong>{% trans "Provide a URL:" %}</strong>
+        {% trans "Enter one or more URLs to each file. Click <strong>Add URL</strong> to provide more URLs." %}
+    </li>
+</ul>
 <p>
     {% trans "Each input file must be a JSON file containing either one release or an array of releases." %}
 </p>
