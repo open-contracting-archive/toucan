@@ -177,7 +177,6 @@ var app = {};
             showProcessingModal();
             $.ajax($('.response-success .d-drive').attr('href'), { 'dataType': 'json' })
                 .done(function(data) {
-                    $('.google-drive-success .file-google').html(data.name);
                     $('.google-drive-success .file-google').attr('href', data.url);
                     $('.google-drive-success').removeClass('hidden');
                     $('.response-fail-drive').addClass('hidden');
