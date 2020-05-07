@@ -15,6 +15,8 @@ import os
 import sentry_sdk
 from django.utils.translation import gettext_lazy as _
 from sentry_sdk.integrations.django import DjangoIntegration
+from sentry_sdk.integrations.logging import ignore_logger
+from sentry_sdk.integrations.sqlalchemy import SqlalchemyIntegration
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -139,11 +141,30 @@ LANGUAGES = [
     ('es', _('Spanish')),
 ]
 
+# https://docs.djangoproject.com/en/2.2/topics/logging/#django-security
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+       'null': {
+            'class': 'logging.NullHandler',
+        },
+    },
+    'loggers': {
+       'django.security.DisallowedHost': {
+            'handlers': ['null'],
+            'propagate': False,
+        },
+    },
+}
+
 OCDS_TOUCAN_MAXNUMFILES = os.getenv('OCDS_TOUCAN_MAXNUMFILES', 20)
 OCDS_TOUCAN_MAXFILESIZE = os.getenv('OCDS_TOUCAN_MAXFILESIZE', 10000000)  # in bytes
 
 if os.getenv('SENTRY_DSN') is not None:
+    # https://docs.sentry.io/platforms/python/logging/#ignoring-a-logger
+    ignore_logger('django.security.DisallowedHost')
     sentry_sdk.init(
         dsn=os.getenv('SENTRY_DSN'),
-        integrations=[DjangoIntegration()]
+        integrations=[DjangoIntegration(), SqlalchemyIntegration()]
     )
