@@ -14,23 +14,23 @@
     <ul>
         <li>
             result.xlsx (<span class="f-size-xlsx"></span>)
-            <a class="btn btn-primary btn-download f-file f-xlsx" href="#" role="button">
+            <a class="download f-file f-xlsx" href="#" role="button">
                 {% trans "Download" %}
             </a>
             <span>  /  </span>
-            <button type="button" class="btn btn-primary btn-download d-drive d-xlsx">
-                    <span>{% trans "Save to Google Drive" %}</span>
-            </button>
+            <a class="d-drive d-xlsx" href="#" role="button">
+                {% trans "Save to Google Drive" %}
+            </a>
         </li>
         <li>
             result-csv.zip (<span class="f-size-csv"></span>)
-            <a class="btn btn-primary btn-download f-file f-csv" href="#" role="button">
+            <a class="download f-file f-csv" href="#" role="button">
                 {% trans "Download" %}
             </a>
             <span>  /  </span>
-            <button type="button" class="btn btn-primary btn-download d-drive d-csv">
-                    <span>{% trans "Save to Google Drive" %}</span>
-            </button>
+            <a class="d-drive d-csv" href="#" role="button">
+                {% trans "Save to Google Drive" %}
+            </a>
         </li>
     </ul>
 </div>
@@ -43,8 +43,8 @@
     <b>{% trans "Uploaded to Google Drive!" %}</b>
     <ul>
         <li>
-            result.zip
-            <a class="btn btn-primary btn-download file-google" target="_blank" role="button">
+            <span class="file-name"></span>
+            <a class="file-google" target="_blank" role="button">
                 {% trans "Open in Google Drive" %}
             </a>
         </li>
@@ -134,8 +134,8 @@
                             $('.response-success .f-csv').attr('href', data.csv.url);
                             $('.response-success .f-size-xlsx').html(utils.readableFileSize(data.xlsx.size));
                             $('.response-success .f-size-csv').html(utils.readableFileSize(data.csv.size));
-                            $('.response-success .d-xlsx').attr('href', data.xlsx.url + '?out=drive');
-                            $('.response-success .d-csv').attr('href', data.csv.url + '?out=drive');
+                            $('.response-success .d-xlsx').attr('data-url', data.xlsx.url + '?out=drive');
+                            $('.response-success .d-csv').attr('data-url', data.csv.url + '?out=drive');
                             $('.response-success').removeClass('hidden');
                             })
                         .fail(function(){
@@ -162,19 +162,21 @@
         /* Click drive xlsx behaviour */
         $('.d-drive').click(function(){
             button = $(this)
-            if (button.attr('href')) {
-                url = button.attr('href')
+            if (button.attr('data-url')) {
+                url = button.attr('data-url')
                 data
                     .submit()
                     .done(function(){
                         $('#processing-modal').modal('show');
                         $.ajax(url, { 'dataType': 'json' })
                             .done(function(data){
+                                $('.google-drive-success .file-name').html(data.name);
                                 $('.google-drive-success .file-google').attr('href', data.url);
                                 $('.google-drive-success').removeClass('hidden');
                                 $('.response-fail-drive').addClass('hidden');
                                 button.removeAttr('href');
-                                button.addClass('disabled');
+                                button.removeAttr('data-url');
+                                button.addClass('link-disabled');
                                 })
                             .fail(function(jqXHR, textStatus, errorThrown){
                                 $('.response-fail-drive .message-drive').html(

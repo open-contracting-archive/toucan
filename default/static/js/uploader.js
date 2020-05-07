@@ -127,7 +127,7 @@ var app = {};
             .done(function (data) {
                 $('.response-success .f-file-size').html(utils.readableFileSize(data.size));
                 $('.response-success .f-file').attr('href', data.url);
-                $('.response-success .d-drive').attr('href', data.url + '?out=drive');
+                $('.response-success .d-drive').attr('data-url', data.url + '?out=drive');
                 $('.response-success').removeClass('hidden');
                 if (data.hasOwnProperty('warnings') && data.warnings.length > 0) {
                     $('.response-warning.action-failed').removeClass('hidden');
@@ -175,13 +175,14 @@ var app = {};
     function saveDrive() {
         if ($('.response-success .d-drive').attr('href')) {
             showProcessingModal();
-            $.ajax($('.response-success .d-drive').attr('href'), { 'dataType': 'json' })
+            $.ajax($('.response-success .d-drive').attr('data-url'), { 'dataType': 'json' })
                 .done(function(data) {
                     $('.google-drive-success .file-google').attr('href', data.url);
                     $('.google-drive-success').removeClass('hidden');
                     $('.response-fail-drive').addClass('hidden');
                     $('.response-success .d-drive').removeAttr('href');
-                    $('.response-success .d-drive').addClass('disabled');
+                    $('.response-success .d-drive').removeAttr('data-url');
+                    $('.response-success .d-drive').addClass('link-disabled');
                 })
                 .fail(function(jqXHR, textStatus, errorThrown){
                     $('.response-fail-drive .message-drive').html(

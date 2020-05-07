@@ -14,20 +14,20 @@
 <div class="response-success alert alert-info hidden">
     <b>{% trans "Success!" %}</b>
     result.zip(<span class="f-file-size"></span>)
-    <a class="btn btn-primary btn-download f-file" href="#" role="button">
+    <a class="download f-file" href="#" role="button">
         {% trans "Download" %}
     </a>
     <span>  /  </span>
-    <button type="button" class="btn btn-primary btn-download d-drive">
-        <span>{% trans "Save to Google Drive" %}</span>
-    </button>
+    <a class="d-drive" href="#" role="button">
+        {% trans "Save to Google Drive" %}
+    </a>
 </div>
 <div class="google-drive-success alert alert-info hidden">
     <b>{% trans "Uploaded to Google Drive!" %}</b>
     <ul>
         <li>
             result.zip
-            <a class="btn btn-primary btn-download file-google" target="_blank" role="button">
+            <a class="file-google" target="_blank" role="button">
                 {% trans "Open in Google Drive" %}
             </a>
         </li>

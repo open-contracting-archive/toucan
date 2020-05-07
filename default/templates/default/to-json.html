@@ -14,13 +14,13 @@
     <ul>
         <li>
             result.zip (<span class="f-file-size"></span>)
-            <a class="btn btn-primary btn-download f-file" href="#" role="button">
+            <a class="download f-file" href="#" role="button">
                 {% trans "Download" %}
             </a>
             <span>  /  </span>
-            <button type="button" class="btn btn-primary btn-download d-drive">
-                    <span>{% trans "Save to Google Drive" %}</span>
-            </button>
+            <a class="d-drive" href="#" role="button">
+                {% trans "Save to Google Drive" %}
+            </a>
         </li>
     </ul>
 </div>
@@ -34,7 +34,7 @@
     <ul>
         <li>
             result.zip
-            <a class="btn btn-primary btn-download file-google" target="_blank" role="button">
+            <a class="file-google" target="_blank" role="button">
                 {% trans "Open in Google Drive" %}
             </a>
         </li>
@@ -128,7 +128,7 @@
                         .done(function(data){
                             $('.response-success .f-file').attr('href', data.url);
                             $('.response-success .f-file-size').html(utils.readableFileSize(data.size));
-                            $('.response-success .d-drive').attr('href', data.url + '?out=drive');
+                            $('.response-success .d-drive').attr('data-url', data.url + '?out=drive');
                             $('.response-success').removeClass('hidden');
                             })
                         .fail(function(){
@@ -145,18 +145,19 @@
 
         /* Click drive json behaviour */
         $('.d-drive').click(function(){
-            if ($('.response-success .d-drive').attr('href')) {
+            if ($('.response-success .d-drive').attr('data-url')) {
                 data
                     .submit()
                     .done(function(){
                         $('#processing-modal').modal('show');
-                        $.ajax($('.response-success .d-drive').attr('href'), { 'dataType': 'json' })
+                        $.ajax($('.response-success .d-drive').attr('data-url'), { 'dataType': 'json' })
                             .done(function(data){
                                 $('.google-drive-success .file-google').attr('href', data.url);
                                 $('.google-drive-success').removeClass('hidden');
                                 $('.response-fail-drive').addClass('hidden');
                                 $('.response-success .d-drive').removeAttr('href');
-                                $('.response-success .d-drive').addClass('disabled');
+                                $('.response-success .d-drive').removeAttr('data-url');
+                                $('.response-success .d-drive').addClass('link-disabled');
                                 })
                             .fail(function(jqXHR, textStatus, errorThrown){
                                 $('.response-fail-drive .message-drive').html(
