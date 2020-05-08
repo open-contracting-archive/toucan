@@ -38,6 +38,7 @@
 {% block scripts %}
     {{ block.super }}
     <script type="text/javascript">
+    $('.response-success .form-send').removeClass('hidden');
     (function(){
         app.setParams(function(params){
             if ($('.packageType').val() == 'release')

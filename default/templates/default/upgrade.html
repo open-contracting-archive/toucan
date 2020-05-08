@@ -17,3 +17,11 @@
     {% trans "You can also click the <strong>Add a file</strong> link below." %}
 </p>
 {% endblock %}
+
+{% block scripts %}
+    {{ block.super }}
+    <script type="text/javascript">
+        $('#upgrade').remove();
+        $('.response-success .form-send').removeClass('hidden');
+    </script>
+{% endblock %}

@@ -10,13 +10,16 @@
 
 {% block body %}
 <div class="response-success alert alert-info hidden">
-    <b>{% trans "Success!" %}</b>
-    <ul>
-        <li>
-            result.zip (<span class="file-size-json"></span>)
-            <a href="javascript:void(0)" class="download-json">{% trans "Download" %}</a>
-        </li>
-    </ul>
+    <b>{% trans "Success!" %}</b> result.zip(<span class="file-size-json"></span>)
+    <a href="javascript:void(0)" class="download-json">{% trans "Download" %}</a>
+    <div class="form-group form-inline form-send">
+        <label>{% trans "Send result to function:" %}</label>
+        <select class="form-control">
+            <option id="compile">{% trans "Compile Package" %}</option>
+            <option id="upgrade">{% trans "Upgrade to 1.1" %}</option>
+        </select>
+        <a href="javascript:void(0)" class="send-to" target="_blank">{% trans "Send" %}</a>
+    </div>
 </div>
 <div class="response-fail alert alert-danger hidden">
     <b>{% trans "An error has occurred!" %}</b>

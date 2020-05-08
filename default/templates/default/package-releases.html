@@ -29,5 +29,8 @@
 
 {% block scripts %}
     {{ block.super }}
+    <script type="text/javascript">
+        $('.response-success .form-send').removeClass('hidden');
+    </script>
     {% include "default/snippets/published_date_scripts.html" %}
 {% endblock %}

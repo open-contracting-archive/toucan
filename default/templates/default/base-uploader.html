@@ -14,6 +14,15 @@
 <div class="response-success alert alert-info hidden">
     <b>{% trans "Success!" %}</b> result.zip(<span class="file-size"></span>)
     <a href="javascript:void(0)" class="download" target="_blank">{% trans "Download" %}</a>
+    <div class="form-group form-inline form-send hidden">
+        <label>{% trans "Send result to function:" %}</label>
+        <select class="form-control">
+            <option id="compile">{% trans "Compile Package" %}</option>
+            <option id="upgrade">{% trans "Upgrade to 1.1" %}</option>
+            <option id="convert">{% trans "Convert to CSV/Excel" %}</option>
+        </select>
+        <a class="send-to" href="#" role="button" target="_blank">{% trans "Send" %}</a>
+    </div>
 </div>
 <div class="response-warning action-failed alert alert-warning hidden">
     <ul></ul>
