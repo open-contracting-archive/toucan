@@ -43,8 +43,7 @@
                 {% trans "Upload a file" %}
     </label>
     <label class="btn btn-default ">
-        <input type="radio" name="type" class="choice-header toucan-nav-input" autocomplete="off" value="input"
-               id="url-input">
+        <input type="radio" name="type" class="choice-header toucan-nav-input" autocomplete="off" value="input">
                 {% trans "Provide a URL" %}
     </label>
 </div>
@@ -78,7 +77,8 @@
                 <span class="input-group-btn">
                     <button class="btn btn-danger input-delete"
                             type="button"
-                            onclick="inputDelete(this)" >
+                            onclick="inputDelete(this)"
+                            disabled="disabled">
                             x
                     </button>
                 </span>

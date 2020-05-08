@@ -2,8 +2,8 @@ var app = {};
 
 function inputDelete(button) {
     $(button).parents('.form-group').remove();
-    if ($('.extension-url-container .btn.input-delete').length < 2) {
-        $('.extension-url-container .btn.input-delete').attr('disabled', true);
+    if ($('.input-url-container .btn.input-delete').length < 2) {
+        $('.input-url-container .btn.input-delete').attr('disabled', true);
     }
 }
 
@@ -115,12 +115,6 @@ function getCookie(name) {
             '</span>' +
             '</div>' +
             '</div>')
-    });
-
-    $('#url-input').click(function () {
-        if ($('.extension-url-container .btn.input-delete').length < 2) {
-            $('.extension-url-container .btn.input-delete').attr('disabled', true);
-        }
     });
 
 }).apply(app);
