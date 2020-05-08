@@ -173,7 +173,7 @@ var app = {};
     }
 
     function saveDrive() {
-        if ($('.response-success .d-drive').attr('href')) {
+        if ($('.response-success .d-drive').attr('data-url')) {
             showProcessingModal();
             $.ajax($('.response-success .d-drive').attr('data-url'), { 'dataType': 'json' })
                 .done(function(data) {
