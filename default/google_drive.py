@@ -41,9 +41,7 @@ def upload_to_drive(filename, filepath, format=None, credentials=None):
             'name': filename,
             'mimeType': mimeType
         }
-        media = MediaFileUpload(filepath,
-                                mimetype=mimeType,
-                                resumable=True)
+        media = MediaFileUpload(filepath, mimetype=mimeType, resumable=True)
         results = service.files().create(body=file_metadata, media_body=media, fields='id').execute()
 
         return JsonResponse({

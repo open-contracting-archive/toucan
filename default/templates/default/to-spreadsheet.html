@@ -134,8 +134,8 @@
                             $('.response-success .f-csv').attr('href', data.csv.url);
                             $('.response-success .f-size-xlsx').html(utils.readableFileSize(data.xlsx.size));
                             $('.response-success .f-size-csv').html(utils.readableFileSize(data.csv.size));
-                            $('.response-success .d-xlsx').attr('data-url', data.xlsx.url + '?out=drive');
-                            $('.response-success .d-csv').attr('data-url', data.csv.url + '?out=drive');
+                            $('.response-success .d-xlsx').attr('data-url', data.xlsx.url + '?destination=drive');
+                            $('.response-success .d-csv').attr('data-url', data.csv.url + '?destination=drive');
                             $('.response-success').removeClass('hidden');
                             })
                         .fail(function(){

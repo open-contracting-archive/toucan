@@ -16,8 +16,8 @@ from ocdskit.upgrade import upgrade_10_11
 
 from default.data_file import DataFile
 from default.decorators import clear_files, published_date, require_files
-from default.drive_options import upload_to_drive
 from default.forms import MappingSheetOptionsForm
+from default.google_drive import upload_to_drive
 from default.mapping_sheet import (get_extended_mapping_sheet, get_mapping_sheet_from_uploaded_file,
                                    get_mapping_sheet_from_url)
 from default.util import (get_files_from_session, invalid_request_file_message, json_response, make_package,
@@ -25,7 +25,7 @@ from default.util import (get_files_from_session, invalid_request_file_message, 
 
 
 def retrieve_result(request, folder, id, format=None):
-    output = request.GET.get('out')
+    destination = request.GET.get('destination')
     if format is None:
         prefix = 'result'
         ext = '.zip'
@@ -43,7 +43,7 @@ def retrieve_result(request, folder, id, format=None):
 
     file = DataFile(prefix, ext, id=str(id), folder=folder)
 
-    if output == 'drive':
+    if destination == 'drive':
         return upload_to_drive(filename, file.path, format)
     else:
         return FileResponse(open(file.path, 'rb'), filename=filename, as_attachment=True)

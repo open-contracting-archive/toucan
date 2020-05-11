@@ -127,7 +127,7 @@ var app = {};
             .done(function (data) {
                 $('.response-success .f-file-size').html(utils.readableFileSize(data.size));
                 $('.response-success .f-file').attr('href', data.url);
-                $('.response-success .d-drive').attr('data-url', data.url + '?out=drive');
+                $('.response-success .d-drive').attr('data-url', data.url + '?destination=drive');
                 $('.response-success').removeClass('hidden');
                 if (data.hasOwnProperty('warnings') && data.warnings.length > 0) {
                     $('.response-warning.action-failed').removeClass('hidden');
