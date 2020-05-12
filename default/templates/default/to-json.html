@@ -20,10 +20,6 @@
 </div>
 <div class="response-fail alert alert-danger hidden">
     <b>{% trans "An error has occurred!" %}</b>
-    {% trans "Please verify that all your files are valid according to OCDS, and try again in a few minutes." %}
-</div>
-<div class="response-fail alert alert-danger hidden">
-    <b>{% trans "An error has occurred!" %}</b>
     {% trans "Please verify that all your files are valid OCDS JSON, and try again in a few minutes." %}
 </div>
 <div class="info panel panel-default">
@@ -75,8 +71,6 @@
                 {% endblocktrans %}</label>
             <input type="text" name="input_url_0" id="id_0'"
                    class="form-control" value="{{ field.value }}"/>
-            {% if field.errors %}
-                <div class="help-block">{{ field.errors }}</div>{% endif %}
         </div>
     </div>
     <div class="buttons">
@@ -135,7 +129,6 @@
 <script src="{% static "js/vendor/jquery.ui.widget.js" %}"></script>
 <script src="{% static "js/jquery.iframe-transport.js" %}"></script>
 <script src="{% static "js/jquery.fileupload.js" %}"></script>
-<script src="{% static "js/url_uploader.js" %}"></script>
 <script src="{% static "js/utils.js" %}"></script>
 <script type="text/javascript">
     /* fileupload widget, config options are attached to form */
@@ -180,11 +173,9 @@
     $("#url-button-ts").click(function(){
         $('.response-warning').addClass('hidden');
         $('#processing-modal').modal('show');
-        $.ajax('/upload-url/',
-        {'dataType': 'json', type: 'POST',
+        $.ajax('/upload-url/', {'dataType': 'json', type: 'POST',
         'data': $('.input-url-container .form-group .form-control').serialize(),
-        headers: {"X-CSRFToken": getCookie('csrftoken')}
-        })
+        headers: {'X-CSRFToken': getCookie('csrftoken')}})
             .done(function (data) {
                 $.ajax('/to-json/go/', { 'dataType': 'json' })
                     .done(function (data) {
@@ -207,4 +198,5 @@
         e.preventDefault();
     });
 </script>
+{% include "default/snippets/url_uploader_scripts.html" %}
 {% endblock %}
