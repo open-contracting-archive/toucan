@@ -171,6 +171,42 @@ var app = {};
         ;
     }
 
+    function performUrlAction() {
+        var actionParams = {};
+        _paramSetters.forEach(function (f) {
+            f(actionParams);
+        });
+        $.ajax($('#url-button').attr('data-perform-action'), {data: actionParams})
+            .done(function (data) {
+                $('.response-success .file-size').html(utils.readableFileSize(data.size));
+                $('.response-success .download').attr('href', data.url);
+                $('.response-success').removeClass('hidden');
+            })
+            .fail(whenAjaxReqFails)
+            .always(function () {
+                hideProcessingModal();
+            });
+    }
+
+    function upload_url() {
+        hideMessages();
+        showProcessingModal();
+        $.ajax('/upload-url/', {'dataType': 'json', type: 'POST',
+        'data': $('.input-url-container .form-group .input-group .form-control').serialize(),
+        headers: {'X-CSRFToken': getCookie('csrftoken')}})
+            .done(function (data) {
+                performUrlAction();
+            })
+            .fail(function(jqXHR, textStatus, errorThrown) {
+                $('.response-warning.url-process-failed .message-url').html(
+                    ( jqXHR.responseText || textStatus )
+                );
+                $('.response-warning.url-process-failed').removeClass('hidden');
+                hideProcessingModal();
+            })
+        ;
+    }
+
     /** plugin initialization & listeners**/
 
     var fileupload = $('#fileupload')
@@ -182,6 +218,9 @@ var app = {};
 
     /** upload call binding **/
     $("#upload-button").click(upload);
+
+    /* click upload url button behaviour */
+    $("#url-button").click(upload_url);
 
     /* add warning before closing/navigating away from page */
     window.onload = function () {
