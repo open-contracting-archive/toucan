@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-03-30 12:24-0400\n"
+"POT-Creation-Date: 2020-05-19 13:52-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -71,42 +71,78 @@ msgid "Provide at least one extension URL"
 msgstr "Indique al menos una URL de extensión"
 
 #: default/templates/default/base-uploader.html:15
+#: default/templates/default/base-uploader.html:30
 #: default/templates/default/to-json.html:13
+#: default/templates/default/to-json.html:27
 #: default/templates/default/to-spreadsheet.html:13
 msgid "Success!"
 msgstr "Éxito!"
 
 #: default/templates/default/base-uploader.html:16
-#: default/templates/default/to-json.html:17
+#: default/templates/default/base-uploader.html:34
+#: default/templates/default/base-uploader.html:39
+#: default/templates/default/to-json.html:14
+#: default/templates/default/to-json.html:28
 #: default/templates/default/to-spreadsheet.html:17
 #: default/templates/default/to-spreadsheet.html:21
 msgid "Download"
 msgstr "Descargar"
 
+#: default/templates/default/base-uploader.html:18
+#: default/templates/default/to-json.html:16
+msgid "Send result to function:"
+msgstr "Enviar resultado a función:"
+
+#: default/templates/default/base-uploader.html:20
+#: default/templates/default/to-json.html:18
+msgid "Compile Package"
+msgstr "Combinar Paquete"
+
+#: default/templates/default/base-uploader.html:21
+#: default/templates/default/to-json.html:19
+msgid "Upgrade to 1.1"
+msgstr "Actualizar a 1.1"
+
 #: default/templates/default/base-uploader.html:22
+#: default/templates/default/index.html:69
+#: default/templates/default/to-spreadsheet.html:9
+msgid "Convert to CSV/Excel"
+msgstr "Convertir a CSV/Excel"
+
+#: default/templates/default/base-uploader.html:24
+#: default/templates/default/to-json.html:21
+msgid "Send"
+msgstr "Enviar"
+
+#: default/templates/default/base-uploader.html:28
+#: default/templates/default/to-json.html:25
+msgid "Sent to "
+msgstr "Enviado a "
+
+#: default/templates/default/base-uploader.html:49
 msgid ""
 "We couldn't check that all files were JSON or of the OCDS type requested."
 msgstr ""
 "No pudimos comprobar que todos los archivos sean JSON, o del tipo OCDS "
 "solicitado"
 
-#: default/templates/default/base-uploader.html:23
+#: default/templates/default/base-uploader.html:50
 msgid ""
 "You can add more files or remove them, then click on <b>Start</b> again."
 msgstr ""
 "Puede agregar más archivos o eliminarlos, luego puede hacer clic en "
 "<b>Procesar</b> otra vez"
 
-#: default/templates/default/base-uploader.html:24
+#: default/templates/default/base-uploader.html:51
 msgid "Files with validation issues will be ignored by default."
 msgstr "Los archivos con problemas de validación serán ignorados por defecto."
 
-#: default/templates/default/base-uploader.html:27
-#: default/templates/default/to-json.html:22
+#: default/templates/default/base-uploader.html:54
+#: default/templates/default/to-json.html:32
 msgid "An error has occurred!"
 msgstr "¡Ha ocurrido un error!"
 
-#: default/templates/default/base-uploader.html:28
+#: default/templates/default/base-uploader.html:55
 msgid ""
 "Please verify that all your files are valid OCDS JSON, and try again in a "
 "few minutes."
@@ -114,30 +150,30 @@ msgstr ""
 "Por favor verifique que todos sus archivos son válidos de acuerdo al "
 "estándar OCDS, e intente de nuevo en unos minutos."
 
-#: default/templates/default/base-uploader.html:53
-#: default/templates/default/to-json.html:56
+#: default/templates/default/base-uploader.html:80
+#: default/templates/default/to-json.html:66
 #: default/templates/default/to-spreadsheet.html:52
 msgid "Add a file"
 msgstr "Agregue un archivo"
 
-#: default/templates/default/base-uploader.html:53
-#: default/templates/default/to-json.html:57
+#: default/templates/default/base-uploader.html:80
+#: default/templates/default/to-json.html:67
 #: default/templates/default/to-spreadsheet.html:53
 msgid "or drag and drop here."
 msgstr "o arrastre y suelte aquí"
 
-#: default/templates/default/base-uploader.html:61
+#: default/templates/default/base-uploader.html:88
 msgid "Add more files"
 msgstr "Agregar más archivos"
 
-#: default/templates/default/base-uploader.html:65
-#: default/templates/default/to-json.html:63
+#: default/templates/default/base-uploader.html:92
+#: default/templates/default/to-json.html:73
 #: default/templates/default/to-spreadsheet.html:59
 msgid "Start"
 msgstr "Procesar"
 
-#: default/templates/default/base-uploader.html:75
-#: default/templates/default/to-json.html:71
+#: default/templates/default/base-uploader.html:102
+#: default/templates/default/to-json.html:81
 #: default/templates/default/to-spreadsheet.html:67
 msgid ""
 "Processing operation. Please don't refresh nor close the browser window!"
@@ -269,11 +305,6 @@ msgstr "Actualizar de 1.0 a 1.1"
 #: default/templates/default/index.html:59
 msgid "Generate a spreadsheet version of schema"
 msgstr "Generar una planilla del esquema"
-
-#: default/templates/default/index.html:69
-#: default/templates/default/to-spreadsheet.html:9
-msgid "Convert to CSV/Excel"
-msgstr "Convertir a CSV/Excel"
 
 #: default/templates/default/index.html:79
 #: default/templates/default/to-json.html:9
@@ -462,7 +493,7 @@ msgstr ""
 msgid "Published date:"
 msgstr "Fecha de Publicación:"
 
-#: default/templates/default/to-json.html:23
+#: default/templates/default/to-json.html:33
 msgid ""
 "Please verify that all your files are valid according to OCDS, and try again "
 "in a few minutes."
@@ -470,7 +501,7 @@ msgstr ""
 "Por favor verifique que todos sus archivos son válidos de acuerdo al "
 "estándar OCDS, e intente de nuevo en unos minutos."
 
-#: default/templates/default/to-json.html:28
+#: default/templates/default/to-json.html:38
 msgid ""
 "Use this page to convert a CSV or Excel version into a <a href=\"https://"
 "standard.open-contracting.org/latest/en/schema/release_package/\" target="
@@ -483,7 +514,7 @@ msgstr ""
 "arrastrándolo y soltándolo en la caja de abajo o usando el enlace "
 "<strong>Agregue un archivo</strong>."
 
-#: default/templates/default/to-json.html:34
+#: default/templates/default/to-json.html:44
 msgid ""
 "The input CSV files must be compressed at the root of a ZIP file if there is "
 "more than one file, and the Excel file must be an XLSX file. Please verify "
@@ -497,7 +528,7 @@ msgstr ""
 "herramienta <a href=\"https://flatten-tool.readthedocs.io/en/latest/usage-"
 "ocds/\" target=\"_blank\">Flatten Tool</a> para OCDS."
 
-#: default/templates/default/to-json.html:93
+#: default/templates/default/to-json.html:103
 #: default/templates/default/to-spreadsheet.html:89
 msgid "Added:"
 msgstr "Añadido:"
@@ -593,18 +624,18 @@ msgstr "No se reconoce \"%(type)s\""
 msgid "Error decoding JSON"
 msgstr "Error al decodificar JSON"
 
-#: default/views.py:284 default/views.py:292
+#: default/views.py:308 default/views.py:316
 msgid "File not found"
 msgstr "Archivo no encontrado"
 
-#: default/views.py:290
+#: default/views.py:314
 msgid "File deleted"
 msgstr "Archivo eliminado"
 
-#: ocdstoucan/settings.py:138
+#: ocdstoucan/settings.py:140
 msgid "English"
 msgstr "Inglés"
 
-#: ocdstoucan/settings.py:139
+#: ocdstoucan/settings.py:141
 msgid "Spanish"
 msgstr "Español"
