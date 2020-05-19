@@ -20,7 +20,6 @@ google-api-python-client==1.7.11
 google-auth-httplib2==0.0.3
 google-auth-oauthlib==0.4.1
 google-auth==1.11.0
-google==2.0.3
 httplib2==0.17.0          # via google-api-python-client, google-auth-httplib2
 idna==2.8                 # via requests
 ijson==3.0                # via ocdskit

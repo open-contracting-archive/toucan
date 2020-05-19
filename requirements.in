@@ -1,6 +1,5 @@
 Django>=2.2,<2.3
 flattentool
-google
 google-api-python-client
 google-auth
 google-auth-httplib2
