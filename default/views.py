@@ -24,6 +24,7 @@ from default.util import (get_files_from_session, invalid_request_file_message, 
 
 
 def retrieve_result(request, folder, id, format=None):
+    destination = request.GET.get('destination')
     if format is None:
         prefix = 'result'
         ext = '.zip'
@@ -40,7 +41,11 @@ def retrieve_result(request, folder, id, format=None):
         raise Http404('Invalid option')
 
     file = DataFile(prefix, ext, id=str(id), folder=folder)
-    return FileResponse(open(file.path, 'rb'), filename=filename, as_attachment=True)
+
+    if destination == 'function':
+        return add_result(request, file)
+    else:
+        return FileResponse(open(file.path, 'rb'), filename=filename, as_attachment=True)
 
 
 def index(request):
@@ -246,6 +251,25 @@ def perform_to_json(request):
     return JsonResponse({
         'url': input_file.url,
         'size': json_zip.size,
+    })
+
+
+def add_result(request, data_file):
+    request.session['files'] = []
+    if data_file.ext == '.zip':
+        with ZipFile(data_file.path) as zipfile:
+            for file in zipfile.infolist():
+                prefix, ext = os.path.splitext(file.filename)
+                new_file = DataFile(prefix, ext)
+                path, file.filename = os.path.split(new_file.path)
+                zipfile.extract(file, 'media/' + new_file.folder)
+                request.session['files'].append(new_file.as_dict())
+    else:
+        request.session['files'].append(data_file.as_dict())
+    request.session.modified = True
+
+    return JsonResponse({
+        'files': request.session['files']
     })
 
 
