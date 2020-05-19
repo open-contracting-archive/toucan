@@ -127,6 +127,7 @@ var app = {};
             .done(function (data) {
                 $('.response-success .file-size').html(utils.readableFileSize(data.size));
                 $('.response-success .download').attr('href', data.url);
+                $('.response-success .send-button').attr('data-url', data.url + '?destination=function');
                 $('.response-success').removeClass('hidden');
                 if (data.hasOwnProperty('warnings') && data.warnings.length > 0) {
                     $('.response-warning.action-failed').removeClass('hidden');
@@ -171,6 +172,36 @@ var app = {};
         ;
     }
 
+    function send_to() {
+        hideMessages();
+        showProcessingModal();
+        $.ajax($('.response-success .send-button').attr('data-url'), { 'dataType': 'json' })
+            .done(function (data) {
+                $.ajax($('.to-function').val(), { 'dataType': 'json' })
+                    .done(function (data) {
+                        if ( $('.to-function option:selected').attr('id') === "convert") {
+                            $('.response-send-success .download-a').attr('href', data.xlsx.url);
+                            $('.response-send-success .download-b').attr('href', data.csv.url);
+                            $('.response-send-success .file-size-a').html(utils.readableFileSize(data.xlsx.size));
+                            $('.response-send-success .file-size-b').html(utils.readableFileSize(data.csv.size));
+                            $('.response-send-success .file-name-a').html('result.xlsx');
+                            $('.response-send-success .file-name-b').html('result-csv.zip');
+                            $('.response-send-success .response-convert-success').removeClass('hidden');
+                        } else {
+                            $('.response-send-success .download-a').attr('href', data.url);
+                            $('.response-send-success .file-size-a').html(utils.readableFileSize(data.size));
+                            $('.response-send-success .file-name-a').html('result.zip');
+                            $('.response-send-success .response-convert-success').addClass('hidden');
+                        }
+                        $('.response-send-success .s-function').html($('.to-function option:selected').text());
+                        $('.response-send-success').removeClass('hidden');
+                        hideProcessingModal();
+                    })
+                    .fail(whenAjaxReqFails)
+            })
+            .fail(whenAjaxReqFails)
+    }
+
     /** plugin initialization & listeners**/
 
     var fileupload = $('#fileupload')
@@ -182,6 +213,9 @@ var app = {};
 
     /** upload call binding **/
     $("#upload-button").click(upload);
+
+    /* Click send to function behaviour */
+    $('.send-button').click(send_to);
 
     /* add warning before closing/navigating away from page */
     window.onload = function () {

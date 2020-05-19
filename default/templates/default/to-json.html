@@ -14,12 +14,19 @@
     <a href="javascript:void(0)" class="download-json">{% trans "Download" %}</a>
     <div class="form-group form-inline form-send">
         <label>{% trans "Send result to function:" %}</label>
-        <select class="form-control">
-            <option id="compile">{% trans "Compile Package" %}</option>
-            <option id="upgrade">{% trans "Upgrade to 1.1" %}</option>
+        <select class="form-control to-function">
+            <option id="compile" value="/compile/go/">{% trans "Compile Package" %}</option>
+            <option id="upgrade" value="/upgrade/go/">{% trans "Upgrade to 1.1" %}</option>
         </select>
-        <a href="javascript:void(0)" class="send-to" target="_blank">{% trans "Send" %}</a>
+        <a class="send-button" href="#" role="button">{% trans "Send" %}</a>
     </div>
+</div>
+<div class="response-send-success alert alert-info hidden">
+    <b>{% trans "Sent to " %}<span class="s-function"></span>: </b>
+    <p style="margin-top: 10px;">
+        <b>{% trans "Success!" %}</b> result.zip(<span class="file-size-json"></span>)
+        <a href="javascript:void(0)" class="download-json">{% trans "Download" %}</a>
+    </p>
 </div>
 <div class="response-fail alert alert-danger hidden">
     <b>{% trans "An error has occurred!" %}</b>
@@ -113,6 +120,7 @@
                         .done(function(data){
                             $('.response-success .download-json').attr('href', data.url);
                             $('.response-success .file-size-json').html(utils.readableFileSize(data.size));
+                            $('.response-success .send-button').attr('data-url', data.url + '?destination=function');
                             $('.response-success').removeClass('hidden');
                             })
                         .fail(function(){
@@ -125,6 +133,30 @@
                 .always(function(){
                 });
         });
+
+        /* Click send button behaviour */
+        $('.send-button').click(function(){
+            $('#processing-modal').modal('show');
+            $.ajax($('.response-success .send-button').attr('data-url'), { 'dataType': 'json' })
+                .done(function (data) {
+                    $.ajax($('.to-function').val(), { 'dataType': 'json' })
+                        .done(function (data) {
+                            $('.response-send-success .download-json').attr('href', data.url);
+                            $('.response-send-success .file-size-json').html(utils.readableFileSize(data.size));
+                            $('.response-send-success .s-function').html($('.to-function option:selected').text());
+                            $('.response-send-success').removeClass('hidden');
+                        })
+                        .fail(function(){
+                            $('.response-fail').removeClass('hidden');
+                        })
+                })
+                .fail(function(){
+                    $('.response-fail').removeClass('hidden');
+                })
+                .always(function(){
+                    $('#processing-modal').modal('hide');
+                });
+        })
     });
 
     /* prevent browser's default action when dragging and dropping files */
