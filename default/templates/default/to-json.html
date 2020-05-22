@@ -18,9 +18,13 @@
         </li>
     </ul>
 </div>
+<div class="response-fail-url alert alert-danger hidden">
+    <b>{% trans "An error has occurred!" %}</b>
+    {% trans "Please verify that the file in your URL entered are valid OCDS JSON, and try again in a few minutes." %}
+</div>
 <div class="response-fail alert alert-danger hidden">
     <b>{% trans "An error has occurred!" %}</b>
-    {% trans "Please verify that all your files are valid OCDS JSON, and try again in a few minutes." %}
+    {% trans "Please verify that the file are valid OCDS JSON, and try again in a few minutes." %}
 </div>
 <div class="info panel panel-default">
   <div class="panel-body">
@@ -65,12 +69,11 @@
 
 <div role="tabpanel" class="panel-collapse collapse {% if form.type.value == 'input' %}in{% endif %} toucan-nav-input">
     <div class="input-url-container">
-        <div class="form-group {% if field.errors %}has-error{% endif %}">
+        <div class="form-group" id="input_url_0">
             <label>{% blocktrans trimmed %}
                 Provide the URL to a file:
                 {% endblocktrans %}</label>
-            <input type="text" name="input_url_0" id="id_0'"
-                   class="form-control" value="{{ field.value }}"/>
+            <input type="text" name="input_url_0" class="form-control"/>
         </div>
     </div>
     <div class="buttons">
@@ -165,7 +168,9 @@
                             $('#processing-modal').modal('hide');
                             });
                 })
-                .always(function(){
+                .fail(function(){
+                    $('.response-fail').removeClass('hidden');
+                    $('#processing-modal').modal('hide');
                 });
         });
     });
@@ -173,6 +178,10 @@
     $("#url-button-ts").click(function(){
         $('.response-warning').addClass('hidden');
         $('#processing-modal').modal('show');
+        $('.response-fail-url').addClass('hidden');
+        $('.form-group').removeClass('has-error');
+        $('.help-block').remove();
+
         $.ajax('/upload-url/', {'dataType': 'json', type: 'POST',
         'data': $('.input-url-container .form-group .form-control').serialize(),
         headers: {'X-CSRFToken': getCookie('csrftoken')}})
@@ -183,13 +192,21 @@
                         $('.response-success .file-size-json').html(utils.readableFileSize(data.size));
                         $('.response-success').removeClass('hidden');
                     })
+                    .fail(function () {
+                        $('.response-fail-url').removeClass('hidden');
+                    })
                     .always(function () {
                         $('#processing-modal').modal('hide');
                     });
             })
             .fail(function(jqXHR, textStatus, errorThrown) {
-                $('.response-warning.url-process-failed .message-url').html(( jqXHR.responseText || textStatus ));
-                $('.response-warning.url-process-failed').removeClass('hidden');
+                $.each(JSON.parse(jqXHR.responseText), function(i, item) {
+                    slt = "#" + item.id;
+                    msg = item.message;
+                    $(slt).addClass('has-error');
+                    $(slt).append('<div class="help-block">' + msg + '</div>');
+                });
+                $('#processing-modal').modal('hide');
             });
     });
 

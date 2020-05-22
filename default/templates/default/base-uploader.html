@@ -23,9 +23,9 @@
     {% trans "You can add more files or remove them, then click on <b>Start</b> again." %}
     {% trans "Files with validation issues will be ignored by default." %}
 </div>
-<div class="response-warning url-process-failed alert alert-warning hidden">
-    {% trans "There was an error when trying to access the entered URL: " %}
-    "<span class="message-url"></span>"
+<div class="response-fail-url alert alert-danger hidden">
+    <b>{% trans "An error has occurred!" %}</b>
+    {% trans "Please verify that each file in all your URLs entered are valid OCDS JSON, and try again in a few minutes." %}
 </div>
 <div class="response-fail alert alert-danger hidden">
     <b>{% trans "An error has occurred!" %}</b>
@@ -67,13 +67,12 @@
 
 <div role="tabpanel" class="panel-collapse collapse {% if form.type.value == 'input' %}in{% endif %} toucan-nav-input">
     <div class="input-url-container">
-        <div class="form-group {% if field.errors %}has-error{% endif %}">
+        <div class="form-group" id="input_url_0">
             <label>{% blocktrans trimmed %}
                 Provide the URL to a file:
                 {% endblocktrans %}</label>
             <div class="input-group">
-                <input type="text" name="input_url_0" id="id_0'"
-                       class="form-control" value="{{ field.value }}"/>
+                <input type="text" name="input_url_0" class="form-control"/>
                 <span class="input-group-btn">
                     <button class="btn btn-danger input-delete"
                             type="button"
@@ -83,8 +82,6 @@
                     </button>
                 </span>
             </div>
-            {% if field.errors %}
-                <div class="help-block">{{ field.errors }}</div>{% endif %}
         </div>
     </div>
     <div class="buttons">

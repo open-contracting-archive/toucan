@@ -254,6 +254,9 @@ def perform_to_json(request):
 
 @require_POST
 def upload_url(request):
+    request.session['files'] = []
+    errors = []
+
     for data in request.POST:
         if 'input_url' in data:
             url = request.POST.get(data)
@@ -276,13 +279,18 @@ def upload_url(request):
                             if chunk:
                                 f.write(chunk)
 
-            except (HTTPError, ConnectionError, ValueError, SSLError):
-                return HttpResponse(url, status=400)
+            except ValueError:
+                errors.append({'id': data, 'message': _('Enter a valid URL.')})
 
-            if 'files' not in request.session:
-                request.session['files'] = []
-            request.session['files'].append(data_file.as_dict())
-            request.session.modified = True
+            except (HTTPError, ConnectionError, SSLError):
+                errors.append({'id': data, 'message': _('There was an error when trying to access this URL.')})
+
+            else:
+                request.session['files'].append(data_file.as_dict())
+                request.session.modified = True
+
+    if len(errors) > 0:
+        return JsonResponse(errors, status=400, safe=False)
 
     return JsonResponse({
         'files': request.session['files']

@@ -182,7 +182,9 @@ var app = {};
                 $('.response-success .download').attr('href', data.url);
                 $('.response-success').removeClass('hidden');
             })
-            .fail(whenAjaxReqFails)
+            .fail(function () {
+                $('.response-fail-url').removeClass('hidden');
+            })
             .always(function () {
                 hideProcessingModal();
             });
@@ -191,6 +193,10 @@ var app = {};
     function upload_url() {
         hideMessages();
         showProcessingModal();
+        $('.response-fail-url').addClass('hidden');
+        $('.form-group').removeClass('has-error');
+        $('.help-block').remove();
+
         $.ajax('/upload-url/', {'dataType': 'json', type: 'POST',
         'data': $('.input-url-container .form-group .input-group .form-control').serialize(),
         headers: {'X-CSRFToken': getCookie('csrftoken')}})
@@ -198,10 +204,12 @@ var app = {};
                 performUrlAction();
             })
             .fail(function(jqXHR, textStatus, errorThrown) {
-                $('.response-warning.url-process-failed .message-url').html(
-                    ( jqXHR.responseText || textStatus )
-                );
-                $('.response-warning.url-process-failed').removeClass('hidden');
+                $.each(JSON.parse(jqXHR.responseText), function(i, item) {
+                    slt = "#" + item.id;
+                    msg = item.message;
+                    $(slt).addClass('has-error');
+                    $(slt).append('<div class="help-block">' + msg + '</div>');
+                });
                 hideProcessingModal();
             })
         ;
