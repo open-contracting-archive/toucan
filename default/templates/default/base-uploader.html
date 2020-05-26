@@ -34,6 +34,18 @@
 <div class="panel panel-default info">
   <div class="panel-body">
     {% block info %}{% endblock %}
+    <p>{% trans "The options available for input files are:" %}</p>
+    <ul class="list-unstyled">
+        <li>
+            <strong>{% trans "Upload a file:" %}</strong>
+            {% trans "Drag and drop one or more files." %}
+            {% trans "You can also click the <strong>Add a file</strong> link below." %}
+        </li>
+        <li>
+            <strong>{% trans "Provide a URL:" %}</strong>
+            {% trans "Enter one or more URLs to each file. Click <strong>Add URL</strong> to provide more URLs." %}
+        </li>
+    </ul>
   </div>
 </div>
 <div class="text-danger"></div>
