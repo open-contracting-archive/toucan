@@ -117,13 +117,13 @@ var app = {};
         hideProcessingModal();
     }
 
-    function performAction(values) {
+    function performAction(url) {
         showProcessingModal();
         var actionParams = {};
         _paramSetters.forEach(function (f) {
             f(actionParams);
         });
-        $.ajax($('#fileupload').attr('data-perform-action'), {data: actionParams})
+        $.ajax(url, {data: actionParams})
             .done(function (data) {
                 $('.response-success .file-size').html(utils.readableFileSize(data.size));
                 $('.response-success .download').attr('href', data.url);
@@ -153,7 +153,9 @@ var app = {};
             return val.submit();
         });
         $.when.apply($, promises)
-            .done(performAction)
+            .done(function () {
+                performAction($('#fileupload').attr('data-perform-action'));
+            })
             .fail(function () {
                 enableAddFiles();
                 $('.response-warning.file-process-failed').removeClass('hidden');
@@ -171,25 +173,6 @@ var app = {};
         ;
     }
 
-    function performUrlAction() {
-        var actionParams = {};
-        _paramSetters.forEach(function (f) {
-            f(actionParams);
-        });
-        $.ajax($('#url-button').attr('data-perform-action'), {data: actionParams})
-            .done(function (data) {
-                $('.response-success .file-size').html(utils.readableFileSize(data.size));
-                $('.response-success .download').attr('href', data.url);
-                $('.response-success').removeClass('hidden');
-            })
-            .fail(function () {
-                $('.response-fail-url').removeClass('hidden');
-            })
-            .always(function () {
-                hideProcessingModal();
-            });
-    }
-
     function upload_url() {
         hideMessages();
         showProcessingModal();
@@ -200,8 +183,8 @@ var app = {};
         $.ajax('/upload-url/', {'dataType': 'json', type: 'POST',
         'data': $('.input-url-container .form-group .input-group .form-control').serialize(),
         headers: {'X-CSRFToken': getCookie('csrftoken')}})
-            .done(function (data) {
-                performUrlAction();
+            .done(function () {
+                performAction($('#url-button').attr('data-perform-action'));
             })
             .fail(function(jqXHR, textStatus, errorThrown) {
                 $.each(JSON.parse(jqXHR.responseText), function(i, item) {
