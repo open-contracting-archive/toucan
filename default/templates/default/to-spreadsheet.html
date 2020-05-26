@@ -179,7 +179,7 @@
 
         $.ajax('/upload-url/', {'dataType': 'json', type: 'POST',
         'data': $('.input-url-container .form-group .form-control').serialize(),
-        headers: {'X-CSRFToken': getCookie('csrftoken')}})
+        headers: {'X-CSRFToken': JSON.parse($('#fileupload').attr('data-form-data')).csrfmiddlewaretoken}})
             .done(function (data) {
                 $.ajax('/to-spreadsheet/go/', { 'dataType': 'json' })
                     .done(function (data) {

@@ -182,7 +182,7 @@ var app = {};
 
         $.ajax('/upload-url/', {'dataType': 'json', type: 'POST',
         'data': $('.input-url-container .form-group .input-group .form-control').serialize(),
-        headers: {'X-CSRFToken': getCookie('csrftoken')}})
+        headers: {'X-CSRFToken': JSON.parse($('#fileupload').attr('data-form-data')).csrfmiddlewaretoken}})
             .done(function () {
                 performAction($('#url-button').attr('data-perform-action'));
             })
