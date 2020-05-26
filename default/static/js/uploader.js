@@ -176,7 +176,7 @@ var app = {};
     function upload_url() {
         hideMessages();
         showProcessingModal();
-        $('.response-fail-url').addClass('hidden');
+        $('.response-fail').addClass('hidden');
         $('.form-group').removeClass('has-error');
         $('.help-block').remove();
 

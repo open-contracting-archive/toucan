@@ -22,10 +22,6 @@
         </li>
     </ul>
 </div>
-<div class="response-fail-url alert alert-danger hidden">
-    <b>{% trans "An error has occurred!" %}</b>
-    {% trans "Please verify that the file in your URL entered are valid OCDS JSON, and try again in a few minutes." %}
-</div>
 <div class="response-fail alert alert-danger hidden">
     <b>{% trans "An error has occurred!" %}</b>
     {% trans "Please verify that the file are valid OCDS JSON, and try again in a few minutes." %}
@@ -177,7 +173,7 @@
     $("#url-button-ts").click(function(){
         $('.response-warning').addClass('hidden');
         $('#processing-modal').modal('show');
-        $('.response-fail-url').addClass('hidden');
+        $('.response-fail').addClass('hidden');
         $('.form-group').removeClass('has-error');
         $('.help-block').remove();
 
@@ -194,7 +190,7 @@
                         $('.response-success').removeClass('hidden');
                     })
                     .fail(function () {
-                        $('.response-fail-url').removeClass('hidden');
+                        $('.response-fail').removeClass('hidden');
                     })
                     .always(function () {
                         $('#processing-modal').modal('hide');
