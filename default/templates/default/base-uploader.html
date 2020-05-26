@@ -36,13 +36,13 @@
     {% block info %}{% endblock %}
   </div>
 </div>
-<div class="text-danger">{{ form.type.errors }}</div>
+<div class="text-danger"></div>
 <div class="btn-group schema-nav" data-toggle="buttons" style="margin-top: 0px;margin-bottom: 15px;">
-    <label class="btn btn-default ">
+    <label class="btn btn-default active">
         <input type="radio" name="type" class="choice-header toucan-nav-file" autocomplete="off" value="file">
                 {% trans "Upload files" %}
     </label>
-    <label class="btn btn-default ">
+    <label class="btn btn-default">
         <input type="radio" name="type" class="choice-header toucan-nav-input" autocomplete="off" value="input">
                 {% trans "Provide URLs" %}
     </label>
@@ -65,7 +65,7 @@
     </div>
 </div>
 
-<div role="tabpanel" class="panel-collapse collapse {% if form.type.value == 'input' %}in{% endif %} toucan-nav-input">
+<div role="tabpanel" class="panel-collapse toucan-nav-input collapse">
     <div class="input-url-container">
         <div class="form-group" id="input_url_0">
             <label>{% blocktrans trimmed %}
@@ -93,8 +93,8 @@
     </div>
 </div>
 
-<div role="tabpanel" class="panel-collapse collapse {% if form.type.value == 'file' %}in{% endif %} toucan-nav-file">
-    <div class="form-group  {% if form.custom_file.errors %}has-error{% endif %}">
+<div role="tabpanel" class="panel-collapse toucan-nav-file collapse in">
+    <div class="form-group">
         <form
             id="fileupload"
             method="POST"
@@ -129,8 +129,6 @@
             </div>
           </div>
         </form>
-        {% if form.custom_file.errors %}
-            <div class="help-block">{{ form.custom_file.errors }}</div>{% endif %}
     </div>
 </div>
 {% endblock body %}
