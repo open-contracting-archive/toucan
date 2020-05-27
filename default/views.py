@@ -283,7 +283,9 @@ def upload_url(request):
                 errors.append({'id': data, 'message': _('Enter a valid URL.')})
 
             except (HTTPError, ConnectionError, SSLError):
-                errors.append({'id': data, 'message': _('There was an error when trying to access this URL.')})
+                msj = _('There was an error when trying to access this URL. '
+                        'Please verify that the URL is correct and the file has the expected format.')
+                errors.append({'id': data, 'message': msj})
 
             else:
                 request.session['files'].append(data_file.as_dict())
