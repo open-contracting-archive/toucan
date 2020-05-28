@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-02-05 13:48-0300\n"
+"POT-Creation-Date: 2020-05-25 22:13-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -82,11 +82,11 @@ msgstr "Formatos de salida"
 msgid "Use titles instead of field names"
 msgstr "Usar títulos en lugar de nombres de campos"
 
-#: default/forms.py:122 default/forms.py:137
+#: default/forms.py:122 default/forms.py:146
 msgid "Yes"
 msgstr "Sí"
 
-#: default/forms.py:122 default/forms.py:137
+#: default/forms.py:122 default/forms.py:146
 msgid "No"
 msgstr "No"
 
@@ -104,13 +104,14 @@ msgstr "Incluir estos campos solamente"
 
 #: default/forms.py:134
 msgid "Enter the full path to each field, separated by a newline"
-msgstr "Ingrese el camino completo para cada campo, e ingrese un campo por línea"
+msgstr ""
+"Ingrese el camino completo para cada campo, e ingrese un campo por línea"
 
-#: default/forms.py:136
+#: default/forms.py:145
 msgid "Remove empty schema columns"
 msgstr "Remover columnas del esquema vacías"
 
-#: default/forms.py:154
+#: default/forms.py:163
 msgid "Define both the field and value to filter data"
 msgstr "Defina el nombre del campo y un valor para el filtro de datos"
 
@@ -419,22 +420,22 @@ msgstr ""
 msgid "Published date:"
 msgstr "Fecha de Publicación:"
 
-#: default/templates/default/snippets/unflatten-options-modal.html:9
+#: default/templates/default/snippets/unflatten-options-modal.html:7
 #: default/templates/default/to-spreadsheet.html:74
 msgid "Options"
 msgstr "Opciones"
 
-#: default/templates/default/snippets/unflatten-options-modal.html:30
+#: default/templates/default/snippets/unflatten-options-modal.html:28
 #, fuzzy
 #| msgid "Please choose an operation type"
 msgid "Please choose at least one output format."
 msgstr "Elija un tipo de operación"
 
-#: default/templates/default/snippets/unflatten-options-modal.html:42
+#: default/templates/default/snippets/unflatten-options-modal.html:40
 msgid "Filter data by field"
 msgstr "Filtrar datos por campo"
 
-#: default/templates/default/snippets/unflatten-options-modal.html:70
+#: default/templates/default/snippets/unflatten-options-modal.html:68
 msgid "Close"
 msgstr "Cerrar"
 
@@ -499,8 +500,9 @@ msgstr ""
 msgid ""
 "An error has occurred when processing options. Click the <b>Options</b> "
 "button for more details."
-msgstr "Ha ocurrido un error al procesar las opciones. Haga click en el "
-"botón de <b>Opciones</b> para más detalles."
+msgstr ""
+"Ha ocurrido un error al procesar las opciones. Haga click en el botón de "
+"<b>Opciones</b> para más detalles."
 
 #: default/templates/default/to-spreadsheet.html:41
 msgid ""

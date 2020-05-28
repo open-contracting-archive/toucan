@@ -96,7 +96,11 @@ def flatten(input_file, output_dir, options):
     if 'preserve_fields' in options:
         preserve_fields_tmp_file = tempfile.NamedTemporaryFile(delete=False)
         _options['preserve_fields'] = preserve_fields_tmp_file.name
-        preserve_fields_tmp_file.write(str.encode(options['preserve_fields']))
+        auxStr = ''
+        for item in options['preserve_fields'] :
+            auxStr = auxStr + (item + '\n')
+        preserve_fields_tmp_file.write(str.encode(auxStr))
+        #preserve_fields_tmp_file.write(str.encode(options['preserve_fields']))
         # it is not strictly necessary to close the file here, but doing so should make the code compatible with
         # non-Unix systems
         preserve_fields_tmp_file.close()
