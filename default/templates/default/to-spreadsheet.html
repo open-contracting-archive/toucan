@@ -101,10 +101,18 @@
 
 <script>
   $(document).ready(function(){
-    var option1 = [ 'prueba1' ];
+    var option1 = [ 'ocid' ];
     var option2 = [ 'prueba2' ];
     var option3 = [ 'prueba3' ];
 
+    $('#id_preserve_fields').append(
+      `
+      <option value="${option1[0]}">
+        ${option1[0]}
+      </option>
+
+      `
+    );
 
     $('#id_schema').on('change', function(){
 

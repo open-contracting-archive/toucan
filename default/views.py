@@ -152,7 +152,6 @@ def perform_to_spreadsheet(request):
     output_dir = DataFile('flatten', '', input_file.id, input_file.folder)
 
     form = UnflattenOptionsForm(request.POST)
-    form.show_schema_options()
 
     if not form.is_valid():
         return JsonResponse({'form_errors': dict(form.errors)}, status=400)

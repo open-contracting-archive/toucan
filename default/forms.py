@@ -131,10 +131,7 @@ class UnflattenOptionsForm(forms.Form):
 
     #id_preserve_fields
     preserve_fields = forms.MultipleChoiceField(required=False,
-                                              label=_('Include ,the following fields only'),
-                                              choices=(('ocid', 'OCID'),
-                                                       ('id', 'ID'),
-                                                       ('awa_ame_changes/ocid', 'awa_ame_changes/ocid')))
+                                              label=_('Include ,the following fields only'))
 # forms.CharField(required=False,
 #                                      label=_('Include the following fields only'),
 #                                      widget=forms.Textarea(attrs={'class': 'form-control'}),
@@ -145,9 +142,6 @@ class UnflattenOptionsForm(forms.Form):
                                                     choices=((True, _('Yes')), (False, _('No'))),
                                                     initial=False,
                                                     widget=forms.Select(attrs={'class': 'form-control'}))
-
-    def show_schema_options(self):
-        print(self.schema)
 
     def clean_output_format(self):
         return 'all' if len(self.cleaned_data['output_format']) > 1 else self.cleaned_data['output_format'][0]

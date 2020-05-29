@@ -1,5 +1,7 @@
 from io import StringIO
 
+import csv
+
 import jsonref
 from django.http.response import HttpResponse
 from ocdsextensionregistry import ProfileBuilder
@@ -25,8 +27,6 @@ def get_extended_mapping_sheet(extensions, version):
 def _get_mapping_sheet(data):
     io = StringIO()
     mapping_sheet_method(data, io, infer_required=True)
-
     response = HttpResponse(io.getvalue(), content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="mapping-sheet.csv"'
-
     return response
