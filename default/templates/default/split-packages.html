@@ -1,0 +1,73 @@
+{% extends 'default/base-uploader.html' %}
+{% load i18n %}
+
+{% block subtitle %} &gt;&gt; {% trans "Split Packages" %} {% endblock %}
+
+{% block form-options %}, "type": "package package-array"{% endblock %}
+
+{% block info %}
+<p>
+    {% blocktrans trimmed %}
+        Drag and drop one or more
+        <a href="https://standard.open-contracting.org/latest/en/schema/release_package/" target="_blank">release packages</a>
+        or <a href="https://standard.open-contracting.org/latest/en/schema/record_package/" target="_blank">record packages</a>
+        to split in smaller packages for each.
+    {% endblocktrans %}
+    {% trans "You can also click the <strong>Add a file</strong> link below." %}
+</p>
+<p>
+    {% trans "To change the <code>publishedDate</code> for the output package checked the <strong>check box</strong>" %}
+    {% trans "on the side of <strong>Published date</strong> and fill in the <strong>Published date</strong> textbox." %}
+</p>
+<p>
+    {% trans "Select the correct <strong>Package type</strong> option before uploading." %}
+</p>
+<p>
+    {% trans "Put the number of elements (records or releases) per package in <strong>Package size</strong> box before start process." %}
+</p>
+<p>
+    {% trans "Each input file must be a JSON file containing either a single package or an array of packages." %}
+</p>
+{% endblock %}
+
+{% block extraoptions %}
+<div class="form-group pull-right">
+    <input type="checkbox" id="change-published-date" class="form-control">
+</div>
+{% include "default/snippets/published_date.html" %}
+
+<div class="form-group">
+    <label>{% trans "Package type:" %}</label>
+    <select class="form-control packageType">
+        <option value="release">{% trans "Release Package" %}</option>
+        <option value="record">{% trans "Record Package" %}</option>
+	</select>
+	<label>{% trans "Package size:" %}</label>
+	<input type="number" id="split-size" min="1" value="1" class="form-control split-package-input-box">
+</div>
+{% endblock %}
+
+{% block scripts %}
+    {{ block.super }}
+    <script type="text/javascript">
+    (function(){
+        app.setParams(function(params){
+            if ($('.packageType').val() == 'release')
+                params['packageType'] = 'release';
+            else if ($('.packageType').val() == 'record')
+				params['packageType'] = 'record';
+
+            if ($('#change-published-date').is(":checked")) {
+                params['changePublishedDate'] = "on";
+            } else {
+                params['changePublishedDate'] = "off";
+            }
+                
+			params['splitSize'] = $('#split-size').val()
+            return params;
+        });
+    })();
+
+    </script>
+    {% include "default/snippets/published_date_scripts.html" %}
+{% endblock %}

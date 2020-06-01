@@ -15,7 +15,7 @@ from ocdskit.combine import package_releases as package_releases_method
 from ocdskit.upgrade import upgrade_10_11
 
 from default.data_file import DataFile
-from default.decorators import clear_files, published_date, require_files
+from default.decorators import clear_files, published_date, require_files, split_size
 from default.forms import MappingSheetOptionsForm
 from default.mapping_sheet import (get_extended_mapping_sheet, get_mapping_sheet_from_uploaded_file,
                                    get_mapping_sheet_from_url)
@@ -75,6 +75,61 @@ def combine_packages(request):
 @clear_files
 def upgrade(request):
     return ocds_command(request, 'upgrade')
+
+
+@clear_files
+def split_packages(request):
+    return ocds_command(request, 'split-packages')
+
+
+@require_files
+@published_date
+@split_size
+def perfom_split_packages(request, published_date='', size=1, warnings=None):
+    packages = [file.json() for file in get_files_from_session(request)]
+
+    if request.GET.get('packageType') == 'release':
+        package_data = 'releases'
+    else:
+        package_data = 'records'
+
+    if request.GET.get('changePublishedDate') == 'off':
+        published_date = None
+
+    count = 0
+    element = 0
+    result = {}
+
+    while element < len(packages):
+        package = packages[element]
+        if isinstance(package, list):
+            packages.extend(package)
+            packages.pop(element)
+            continue
+
+        context = package[package_data]
+
+        # based on the code
+        # cdskit/ocdskit/cli/commands/split_record_packages.py
+        # cdskit/ocdskit/cli/commands/split_release_packages.py
+
+        # We can't determine which records came from which packages.
+        if package_data == 'records' and 'packages' in package:
+            del package['packages']
+
+        for i in range(0, len(context), size):
+            count += 1
+            name = "result{}.json".format(count)
+            content = dict(package)
+
+            if published_date:
+                content['publishedDate'] = published_date
+            content[package_data] = context[i:i + size]
+
+            result.update({name: content})
+        element += 1
+
+    return json_response(files=result, warnings=warnings)
 
 
 @require_files

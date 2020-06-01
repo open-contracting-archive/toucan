@@ -41,3 +41,20 @@ def published_date(function):
         return function(request, *args, **kwargs)
 
     return wrap
+
+
+def split_size(function):
+    @wraps(function)
+    def wrap(request, *args, **kwargs):
+        split_size = request.GET.get('splitSize')
+        if split_size is None or split_size.isdecimal():
+            kwargs['size'] = int(split_size)
+        else:
+            msg = _('An invalid split size was submitted, and therefore ignored. Default value is used, split size: 1')
+            if 'warnings' in kwargs:
+                kwargs['warnings'].append([msg])
+            else:
+                kwargs['warnings'] = [msg]
+        return function(request, *args, **kwargs)
+
+    return wrap

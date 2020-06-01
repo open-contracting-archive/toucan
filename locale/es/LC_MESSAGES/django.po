@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-03-30 12:24-0400\n"
+"POT-Creation-Date: 2020-06-01 13:48-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -25,6 +25,14 @@ msgid ""
 msgstr ""
 "La fecha enviada es inválida: %(date)s, por lo que se omitió en los "
 "resultados."
+
+#: default/decorators.py:53
+msgid ""
+"An invalid split size was submitted, and therefore ignored. Default value is "
+"used, split size: 1"
+msgstr ""
+"El tamaño de paquete ingresado es inválido, se omitio el valor. Se utiliza "
+"el valor por defecto. Tamaño de paquete: 1"
 
 #: default/forms.py:18 default/forms.py:24
 msgid "Select a schema and version"
@@ -172,6 +180,7 @@ msgstr ""
 #: default/templates/default/combine-packages.html:16
 #: default/templates/default/compile.html:17
 #: default/templates/default/package-releases.html:16
+#: default/templates/default/split-packages.html:16
 #: default/templates/default/upgrade.html:17
 msgid "You can also click the <strong>Add a file</strong> link below."
 msgstr ""
@@ -189,6 +198,7 @@ msgstr ""
 "<code>publishedDate</code> del paquete de salida."
 
 #: default/templates/default/combine-packages.html:20
+#: default/templates/default/split-packages.html:23
 msgid ""
 "Select the correct <strong>Package type</strong> option before uploading."
 msgstr ""
@@ -196,6 +206,7 @@ msgstr ""
 "cargar."
 
 #: default/templates/default/combine-packages.html:23
+#: default/templates/default/split-packages.html:29
 msgid ""
 "Each input file must be a JSON file containing either a single package or an "
 "array of packages."
@@ -204,14 +215,17 @@ msgstr ""
 "array de paquetes"
 
 #: default/templates/default/combine-packages.html:30
+#: default/templates/default/split-packages.html:40
 msgid "Package type:"
 msgstr "Tipo de Paquete:"
 
 #: default/templates/default/combine-packages.html:32
+#: default/templates/default/split-packages.html:42
 msgid "Release Package"
 msgstr "Paquete de Release"
 
 #: default/templates/default/combine-packages.html:33
+#: default/templates/default/split-packages.html:43
 msgid "Record Package"
 msgstr "Paquete de Record"
 
@@ -280,7 +294,12 @@ msgstr "Convertir a CSV/Excel"
 msgid "Convert to JSON"
 msgstr "Convertir a JSON"
 
-#: default/templates/default/index.html:87
+#: default/templates/default/index.html:89
+#: default/templates/default/split-packages.html:4
+msgid "Split Packages"
+msgstr "Dividir Paquetes"
+
+#: default/templates/default/index.html:97
 msgid ""
 "<a href=\"https://standard.open-contracting.org/\" target=\"_blank\">OCDS</"
 "a> Toucan offers a set of transformation tools."
@@ -288,7 +307,7 @@ msgstr ""
 "<a href=\"https://standard.open-contracting.org/latest/es/\" target=\"_blank"
 "\">OCDS</a> Toucan ofrece un conjunto de herramientas de transformación. "
 
-#: default/templates/default/index.html:93
+#: default/templates/default/index.html:103
 msgid ""
 "You sometimes need to transform OCDS data before you can use it or publish "
 "it."
@@ -296,12 +315,12 @@ msgstr ""
 "Algunas veces usted necesita transformar los datos OCDS antes de usarlos o "
 "publicarlos."
 
-#: default/templates/default/index.html:96
+#: default/templates/default/index.html:106
 msgid "Toucan allows you to get OCDS data ready for use, in your browser:"
 msgstr ""
 "Toucan le permite tener los datos OCDS listos para su uso, en su navegador:"
 
-#: default/templates/default/index.html:100
+#: default/templates/default/index.html:110
 msgid ""
 "Create a <a href=\"https://standard.open-contracting.org/latest/en/schema/"
 "release_package/\" target=\"_blank\">release package</a> from individual <a "
@@ -313,11 +332,11 @@ msgstr ""
 "href=\"https://standard.open-contracting.org/latest/es/getting_started/"
 "releases_and_records/#releases\" target=\"_blank\">releases</a> individuales"
 
-#: default/templates/default/index.html:110
+#: default/templates/default/index.html:120
 msgid "Combine many small packages into a large package"
 msgstr "Combine muchos paquetes pequeños en un paquete grande"
 
-#: default/templates/default/index.html:114
+#: default/templates/default/index.html:124
 msgid ""
 "Transform release packages into a <a href=\"https://standard.open-"
 "contracting.org/latest/en/schema/record_package/\" target=\"_blank\">record "
@@ -327,19 +346,19 @@ msgstr ""
 "contracting.org/latest/es/schema/record_package/\" target=\"_blank"
 "\">paquetes de record</a> incluyendo compiled releases y versioned releases"
 
-#: default/templates/default/index.html:122
+#: default/templates/default/index.html:132
 msgid "Upgrade from an old version of OCDS to a new version"
 msgstr "Actualice una versión anterior de OCDS a una nueva versión"
 
-#: default/templates/default/index.html:126
+#: default/templates/default/index.html:136
 msgid "Convert release packages to/from Excel and CSV"
 msgstr "Convierte paquetes de release a/desde Excel y CSV"
 
-#: default/templates/default/index.html:130
+#: default/templates/default/index.html:140
 msgid "Generate a spreadsheet version of OCDS schema"
 msgstr "Generar una planilla del esquema"
 
-#: default/templates/default/index.html:134
+#: default/templates/default/index.html:144
 msgid ""
 "You can upload up to 20 files to each tool, and each file should be less "
 "than 20MB. Results remain available for 2 days."
@@ -347,7 +366,7 @@ msgstr ""
 "Puede subir hasta 20 archivos en cada herramienta, y cada archivo debe ser "
 "menor a 20MB. Los Resultados permanecerán disponibles por 2 días."
 
-#: default/templates/default/index.html:140
+#: default/templates/default/index.html:150
 msgid ""
 "If you have more or larger files, try using <a href=\"https://ocdskit."
 "readthedocs.io/en/latest/\" target=\"_blank\">OCDS Kit</a> from the command "
@@ -461,6 +480,49 @@ msgstr ""
 #: default/templates/default/snippets/published_date.html:3
 msgid "Published date:"
 msgstr "Fecha de Publicación:"
+
+#: default/templates/default/split-packages.html:10
+msgid ""
+"Drag and drop one or more <a href=\"https://standard.open-contracting.org/"
+"latest/en/schema/release_package/\" target=\"_blank\">release packages</a> "
+"or <a href=\"https://standard.open-contracting.org/latest/en/schema/"
+"record_package/\" target=\"_blank\">record packages</a> to split in smaller "
+"packages for each."
+msgstr ""
+"Arrastra y suelta uno o más <a href=\"https://standard.open-contracting.org/"
+"latest/es/schema/release_package/\" target=\"_blank\">paquetes de release</"
+"a> o\n"
+" <a href=\"https://standard.open-contracting.org/latest/es/schema/"
+"record_package/\" target=\"_blank\">paquetes de record</a> para divirlos en "
+"paquetes más pequeños."
+
+#: default/templates/default/split-packages.html:19
+msgid ""
+"To change the <code>publishedDate</code> for the output package checked the "
+"<strong>check box</strong>"
+msgstr ""
+"Para cambiar el valor de <code>publishedDate</code> del paquete de salida "
+"marque la <strong>casilla de selección</strong> "
+
+#: default/templates/default/split-packages.html:20
+msgid ""
+"on the side of <strong>Published date</strong> and fill in the "
+"<strong>Published date</strong> textbox."
+msgstr ""
+"que se encuentra en <strong>Fecha de Publicación</strong> y use la opción "
+"<code>Fecha de Publicación</code>."
+
+#: default/templates/default/split-packages.html:26
+msgid ""
+"Put the number of elements (records or releases) per package in "
+"<strong>Package size</strong> box before start process."
+msgstr ""
+"Ingresa en la caja de texto <strong>Tamaño de paquete</strong> el número de "
+"elementos (release o records) antes de comenzar el proceso."
+
+#: default/templates/default/split-packages.html:45
+msgid "Package size:"
+msgstr "Tamaño de paquete:"
 
 #: default/templates/default/to-json.html:23
 msgid ""
@@ -593,18 +655,18 @@ msgstr "No se reconoce \"%(type)s\""
 msgid "Error decoding JSON"
 msgstr "Error al decodificar JSON"
 
-#: default/views.py:284 default/views.py:292
+#: default/views.py:339 default/views.py:347
 msgid "File not found"
 msgstr "Archivo no encontrado"
 
-#: default/views.py:290
+#: default/views.py:345
 msgid "File deleted"
 msgstr "Archivo eliminado"
 
-#: ocdstoucan/settings.py:138
+#: ocdstoucan/settings.py:140
 msgid "English"
 msgstr "Inglés"
 
-#: ocdstoucan/settings.py:139
+#: ocdstoucan/settings.py:141
 msgid "Spanish"
 msgstr "Español"
