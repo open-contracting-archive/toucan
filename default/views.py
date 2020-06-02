@@ -10,17 +10,20 @@ from django.shortcuts import render
 from django.utils.translation import gettext as _
 from django.views.decorators.http import require_GET, require_POST
 from libcoveocds.config import LibCoveOCDSConfig
-from ocdskit.combine import combine_record_packages, combine_release_packages, merge
+from ocdskit.combine import (combine_record_packages, combine_release_packages,
+                             merge)
 from ocdskit.combine import package_releases as package_releases_method
 from ocdskit.upgrade import upgrade_10_11
 
 from default.data_file import DataFile
-from default.decorators import clear_files, published_date, require_files, split_size, encoding_option
+from default.decorators import (clear_files, encoding_option, published_date,
+                                require_files, split_size)
 from default.forms import MappingSheetOptionsForm
-from default.mapping_sheet import (get_extended_mapping_sheet, get_mapping_sheet_from_uploaded_file,
+from default.mapping_sheet import (get_extended_mapping_sheet,
+                                   get_mapping_sheet_from_uploaded_file,
                                    get_mapping_sheet_from_url)
-from default.util import (get_files_from_session, invalid_request_file_message, json_response, make_package,
-                          ocds_command)
+from default.util import (get_files_from_session, invalid_request_file_message,
+                          json_response, make_package, ocds_command)
 
 
 def retrieve_result(request, folder, id, format=None):
