@@ -1,0 +1,13 @@
+<script type="text/javascript">
+    (function(){
+        app.setParams(function(params){
+            if ($('#pretty-json').is(":checked")) {
+                params['pretty-json'] = "on";
+            } else {
+                params['pretty-json'] = "off";
+            }
+            params['encoding'] = $('#encoding').val();
+            return params;
+        });
+    })();
+</script>

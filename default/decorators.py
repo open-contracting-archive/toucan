@@ -58,3 +58,22 @@ def split_size(function):
         return function(request, *args, **kwargs)
 
     return wrap
+
+
+def encoding_option(function):
+    @wraps(function)
+    def wrap(request, *args, **kwargs):
+        encoding = request.GET.get('encoding')
+        try:
+            teststr = "test"
+            teststr.encode(encoding)
+            kwargs['encoding'] = encoding
+        except LookupError:
+            msg = _('An invalid encoding was submitted, and therefore ignored. Default value is used, utf-8')
+            if 'warnings' in kwargs:
+                kwargs['warnings'].append([msg])
+            else:
+                kwargs['warnings'] = [msg]
+        return function(request, *args, **kwargs)
+
+    return wrap

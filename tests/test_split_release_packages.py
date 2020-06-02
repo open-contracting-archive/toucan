@@ -13,7 +13,8 @@ class SplitReleasePackageTestCase(ViewTestCase, ViewTests):
     def test_go_with_files(self):
         self.assertResults(
             {'type': 'package package-array'},
-            {'packageType': 'release', 'splitSize':'1', 'changePublishedDate': 'off'},
+            {'packageType': 'release', 'splitSize': '1', 'changePublishedDate': 'off',
+                'pretty-json': 'off', 'encoding': 'utf-8'},
             {
                 'result1.json': 'results/split-package/release/1/result1.json',
                 'result2.json': 'results/split-package/release/1/result2.json',
@@ -26,7 +27,8 @@ class SplitReleasePackageTestCase(ViewTestCase, ViewTests):
     def test_go_with_invalid_split_size(self):
         self.assertResults(
             {'type': 'package package-array'},
-            {'packageType': 'release', 'splitSize':'-1', 'changePublishedDate': 'off'},
+            {'packageType': 'release', 'splitSize': '-1', 'changePublishedDate': 'off',
+                'pretty-json': 'off', 'encoding': 'utf-8'},
             {
                 'result1.json': 'results/split-package/release/1/result1.json',
                 'result2.json': 'results/split-package/release/1/result2.json',
@@ -39,7 +41,8 @@ class SplitReleasePackageTestCase(ViewTestCase, ViewTests):
     def test_go_with_valid_published_date_and_valid_split_size(self):
         self.assertResults(
             {'type': 'package package-array'},
-            {'packageType': 'release', 'splitSize':'1', 'changePublishedDate': 'on', 'publishedDate': '2001-02-03T00:00:00Z'},
+            {'packageType': 'release', 'splitSize': '1', 'changePublishedDate': 'on',
+                'pretty-json': 'off', 'encoding': 'utf-8', 'publishedDate': '2001-02-03T00:00:00Z'},
             {
                 'result1.json': 'results/split-package/release/2/result1.json',
                 'result2.json': 'results/split-package/release/2/result2.json',
@@ -52,7 +55,8 @@ class SplitReleasePackageTestCase(ViewTestCase, ViewTests):
     def test_go_with_valid_published_date_and_invalid_split_size(self):
         self.assertResults(
             {'type': 'package package-array'},
-            {'packageType': 'release', 'splitSize':'-1', 'changePublishedDate': 'on', 'publishedDate': '2001-02-03T00:00:00Z'},
+            {'packageType': 'release', 'splitSize': '-1', 'changePublishedDate': 'on',
+                'pretty-json': 'off', 'encoding': 'utf-8', 'publishedDate': '2001-02-03T00:00:00Z'},
             {
                 'result1.json': 'results/split-package/release/2/result1.json',
                 'result2.json': 'results/split-package/release/2/result2.json',
@@ -65,7 +69,8 @@ class SplitReleasePackageTestCase(ViewTestCase, ViewTests):
     def test_go_with_invalid_published_date_and_invalid_split_size(self):
         self.assertResults(
             {'type': 'package package-array'},
-            {'packageType': 'release', 'splitSize':'-1', 'changePublishedDate': 'on', 'publishedDate': '2000-00-00T00:00:00Z'},
+            {'packageType': 'release', 'splitSize': '-1', 'changePublishedDate': 'on',
+                'pretty-json': 'off', 'encoding': 'utf-8', 'publishedDate': '2000-00-00T00:00:00Z'},
             {
                 'result1.json': 'results/split-package/release/1/result1.json',
                 'result2.json': 'results/split-package/release/1/result2.json',

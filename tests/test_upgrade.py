@@ -10,8 +10,10 @@ class UpgradeTestCase(ViewTestCase, ViewTests):
     ]
 
     def test_go_with_files(self):
-        self.assertResults({'type': 'package release'}, {}, {
-            r'^ocds-213czf-000-00001-[0-9a-f-]{36}-upgraded.json$': 'results/upgrade_record-package.json',
-            r'^0001-tender-[0-9a-f-]{36}-upgraded.json$': 'results/upgrade_release-package.json',
-            r'^0001-planning-[0-9a-f-]{36}-upgraded.json$': 'results/upgrade_release.json',
-        }, load_json=True)
+        self.assertResults(
+            {'type': 'package release'},
+            {'pretty-json': 'off', 'encoding': 'utf-8'}, {
+                r'^ocds-213czf-000-00001-[0-9a-f-]{36}-upgraded.json$': 'results/upgrade_record-package.json',
+                r'^0001-tender-[0-9a-f-]{36}-upgraded.json$': 'results/upgrade_release-package.json',
+                r'^0001-planning-[0-9a-f-]{36}-upgraded.json$': 'results/upgrade_release.json',
+            }, load_json=True)

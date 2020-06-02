@@ -15,7 +15,7 @@ from ocdskit.combine import package_releases as package_releases_method
 from ocdskit.upgrade import upgrade_10_11
 
 from default.data_file import DataFile
-from default.decorators import clear_files, published_date, require_files, split_size
+from default.decorators import clear_files, published_date, require_files, split_size, encoding_option
 from default.forms import MappingSheetOptionsForm
 from default.mapping_sheet import (get_extended_mapping_sheet, get_mapping_sheet_from_uploaded_file,
                                    get_mapping_sheet_from_url)
@@ -84,8 +84,9 @@ def split_packages(request):
 
 @require_files
 @published_date
+@encoding_option
 @split_size
-def perfom_split_packages(request, published_date='', size=1, warnings=None):
+def perfom_split_packages(request, published_date='', size=1, encoding='utf-8', warnings=None):
     packages = [file.json() for file in get_files_from_session(request)]
 
     if request.GET.get('packageType') == 'release':
@@ -99,6 +100,8 @@ def perfom_split_packages(request, published_date='', size=1, warnings=None):
     count = 0
     element = 0
     result = {}
+
+    pretty_json = request.GET.get('pretty-json')
 
     while element < len(packages):
         package = packages[element]
@@ -129,42 +132,52 @@ def perfom_split_packages(request, published_date='', size=1, warnings=None):
             result.update({name: content})
         element += 1
 
-    return json_response(files=result, warnings=warnings)
+    return json_response(result, warnings, pretty_json, encoding)
 
 
 @require_files
-def perform_upgrade(request):
-    return json_response((file.name_with_suffix('upgraded'), upgrade_10_11(file.json(object_pairs_hook=OrderedDict)))
-                         for file in get_files_from_session(request))
+@encoding_option
+def perform_upgrade(request, encoding='utf-8', warnings=None):
+    data = {}
+    pretty_json = request.GET.get('pretty-json')
+    for file in get_files_from_session(request):
+        data.update({file.name_with_suffix('upgraded'): upgrade_10_11(file.json(object_pairs_hook=OrderedDict))})
+    return json_response(data, warnings, pretty_json, encoding)
 
 
 @require_files
 @published_date
-def perform_package_releases(request, published_date='', warnings=None):
+@encoding_option
+def perform_package_releases(request, published_date='', encoding='utf-8', warnings=None):
     method = package_releases_method
-    return make_package(request, published_date, method, warnings)
+    pretty_json = request.GET.get('pretty-json')
+    return make_package(request, published_date, method, pretty_json, encoding, warnings)
 
 
 @require_files
 @published_date
-def perform_combine_packages(request, published_date='', warnings=None):
+@encoding_option
+def perform_combine_packages(request, published_date='', encoding='utf-8', warnings=None):
     if request.GET.get('packageType') == 'release':
         method = combine_release_packages
     else:
         method = combine_record_packages
-    return make_package(request, published_date, method, warnings)
+    pretty_json = request.GET.get('pretty-json')
+    return make_package(request, published_date, method, pretty_json, encoding, warnings)
 
 
 @require_files
 @published_date
-def perform_compile(request, published_date='', warnings=None):
+@encoding_option
+def perform_compile(request, published_date='', encoding='utf-8', warnings=None):
     packages = [file.json() for file in get_files_from_session(request)]
+    pretty_json = request.GET.get('pretty-json')
     return_versioned_release = request.GET.get('includeVersioned') == 'true'
 
     return json_response({
         'result.json': next(merge(packages, return_package=True, published_date=published_date,
                                   return_versioned_release=return_versioned_release)),
-    }, warnings)
+    }, warnings, pretty_json, encoding)
 
 
 def mapping_sheet(request):

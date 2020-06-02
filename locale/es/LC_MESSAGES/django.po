@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-06-01 13:48-0400\n"
+"POT-Creation-Date: 2020-06-01 23:22-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -33,6 +33,14 @@ msgid ""
 msgstr ""
 "El tamaño de paquete ingresado es inválido, se omitio el valor. Se utiliza "
 "el valor por defecto. Tamaño de paquete: 1"
+
+#: default/decorators.py:72
+msgid ""
+"An invalid encoding was submitted, and therefore ignored. Default value is "
+"used, utf-8"
+msgstr ""
+"Se ha ingresado una codificación inválida, se omitio el valor. Se utiliza "
+"el valor por defecto. Codificación: utf-8"
 
 #: default/forms.py:18 default/forms.py:24
 msgid "Select a schema and version"
@@ -206,7 +214,29 @@ msgstr ""
 "cargar."
 
 #: default/templates/default/combine-packages.html:23
+#: default/templates/default/compile.html:29
+#: default/templates/default/package-releases.html:22
 #: default/templates/default/split-packages.html:29
+#: default/templates/default/upgrade.html:20
+msgid ""
+"Check the <strong>Pretty JSON</strong> checkbox to format the output files."
+msgstr ""
+"Marca la casilla <strong>Dar formato a JSON</strong> para colocar indentaciones en la salida de archivo."
+
+#: default/templates/default/combine-packages.html:24
+#: default/templates/default/compile.html:30
+#: default/templates/default/package-releases.html:23
+#: default/templates/default/split-packages.html:30
+#: default/templates/default/upgrade.html:21
+msgid ""
+"By default the output encoding is utf-8, to use another, put in "
+"<strong>Encoding</strong> text box."
+msgstr ""
+"Por defecto la codificación de salida es utf-8, utiliza la caja "
+"de texto <strong>Codificación</strong> para ingresar otra codificación."
+
+#: default/templates/default/combine-packages.html:27
+#: default/templates/default/split-packages.html:33
 msgid ""
 "Each input file must be a JSON file containing either a single package or an "
 "array of packages."
@@ -214,18 +244,18 @@ msgstr ""
 "Los archivos de entrada deben ser JSON con un solo paquete cada uno o un "
 "array de paquetes"
 
-#: default/templates/default/combine-packages.html:30
-#: default/templates/default/split-packages.html:40
+#: default/templates/default/combine-packages.html:34
+#: default/templates/default/split-packages.html:43
 msgid "Package type:"
 msgstr "Tipo de Paquete:"
 
-#: default/templates/default/combine-packages.html:32
-#: default/templates/default/split-packages.html:42
+#: default/templates/default/combine-packages.html:36
+#: default/templates/default/split-packages.html:45
 msgid "Release Package"
 msgstr "Paquete de Release"
 
-#: default/templates/default/combine-packages.html:33
-#: default/templates/default/split-packages.html:43
+#: default/templates/default/combine-packages.html:37
+#: default/templates/default/split-packages.html:46
 msgid "Record Package"
 msgstr "Paquete de Record"
 
@@ -261,12 +291,12 @@ msgstr ""
 "contracting.org/latest/es/schema/merging/\" target=\"_blank\">documentación "
 "de OCDS</a>."
 
-#: default/templates/default/compile.html:29
+#: default/templates/default/compile.html:32
 msgid "Please verify that your files are release packages before uploading."
 msgstr ""
 "Favor verifique que sus archivos sean paquetes de release antes de subirlos."
 
-#: default/templates/default/compile.html:36
+#: default/templates/default/compile.html:39
 msgid "Include Versioned Releases"
 msgstr "Incluir el bloque versionedRelease"
 
@@ -469,13 +499,23 @@ msgstr ""
 "\"https://standard.open-contracting.org/latest/es/schema/release_package/\" "
 "target=\"_blank\">paquete de release</a>."
 
-#: default/templates/default/package-releases.html:22
+#: default/templates/default/package-releases.html:26
 msgid ""
 "Each input file must be a JSON file containing either one release or an "
 "array of releases."
 msgstr ""
 "Los archivos de entrada deben ser JSON con un solo Release cada uno o un "
 "array de releases."
+
+#: default/templates/default/snippets/optional_arguments.html:3
+msgid "Encoding:"
+msgstr ""
+"Codificación"
+
+#: default/templates/default/snippets/optional_arguments.html:5
+msgid "Pretty JSON:"
+msgstr ""
+"Dar formato a JSON:"
 
 #: default/templates/default/snippets/published_date.html:3
 msgid "Published date:"
@@ -520,7 +560,7 @@ msgstr ""
 "Ingresa en la caja de texto <strong>Tamaño de paquete</strong> el número de "
 "elementos (release o records) antes de comenzar el proceso."
 
-#: default/templates/default/split-packages.html:45
+#: default/templates/default/split-packages.html:48
 msgid "Package size:"
 msgstr "Tamaño de paquete:"
 
@@ -626,40 +666,40 @@ msgstr "Borrar"
 msgid "Processing..."
 msgstr "Procesando..."
 
-#: default/util.py:65
+#: default/util.py:70
 msgid "Not a record package"
 msgstr "No es un paquete de records"
 
-#: default/util.py:68
+#: default/util.py:73
 msgid "Not a release package"
 msgstr "No es un paquete de releases"
 
-#: default/util.py:71
+#: default/util.py:76
 msgid "Not a release or package"
 msgstr "No es un release o paquete"
 
-#: default/util.py:75
+#: default/util.py:80
 msgid "Not a package or list of packages"
 msgstr "No es un paquete o lista de paquetes"
 
-#: default/util.py:79
+#: default/util.py:84
 msgid "Not a release or list of releases"
 msgstr "No es un release o lista de releases"
 
-#: default/util.py:81
+#: default/util.py:86
 #, python-format
 msgid "\"%(type)s\" not recognized"
 msgstr "No se reconoce \"%(type)s\""
 
-#: default/util.py:83
+#: default/util.py:88
 msgid "Error decoding JSON"
 msgstr "Error al decodificar JSON"
 
-#: default/views.py:339 default/views.py:347
+#: default/views.py:352 default/views.py:360
 msgid "File not found"
 msgstr "Archivo no encontrado"
 
-#: default/views.py:345
+#: default/views.py:358
 msgid "File deleted"
 msgstr "Archivo eliminado"
 

@@ -16,4 +16,17 @@
     {% endblocktrans %}
     {% trans "You can also click the <strong>Add a file</strong> link below." %}
 </p>
+<p>
+    {% trans "Check the <strong>Pretty JSON</strong> checkbox to format the output files." %}
+    {% trans "By default the output encoding is utf-8, to use another, put in <strong>Encoding</strong> text box." %}
+</p>
+{% endblock %}
+
+{% block extraoptions %}
+{% include "default/snippets/optional_arguments.html" %}
+{% endblock %}
+
+{% block scripts %}
+    {{ block.super }}
+    {% include "default/snippets/optional_arguments_scripts.html" %}
 {% endblock %}

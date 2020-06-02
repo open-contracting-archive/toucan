@@ -23,9 +23,14 @@ def get_files_from_session(request):
         yield DataFile(**fileinfo)
 
 
-def json_response(files, warnings=None):
+def json_response(files, warnings=None, pretty_json=None, codec='utf-8'):
+    if pretty_json == 'on':
+        pretty_json = True
+    else:
+        pretty_json = False
+
     file = DataFile('result', '.zip')
-    file.write_json_to_zip(files)
+    file.write_json_to_zip(files, pretty_json=pretty_json, codec=codec)
 
     response = {
         'url': file.url,
@@ -38,7 +43,7 @@ def json_response(files, warnings=None):
     return JsonResponse(response)
 
 
-def make_package(request, published_date, method, warnings):
+def make_package(request, published_date, method, pretty_json, codec, warnings):
     items = []
     for file in get_files_from_session(request):
         item = file.json()
@@ -49,7 +54,7 @@ def make_package(request, published_date, method, warnings):
 
     return json_response({
         'result.json': method(items, published_date=published_date),
-    }, warnings=warnings)
+    }, warnings=warnings, pretty_json=pretty_json, codec=codec)
 
 
 def invalid_request_file_message(f, file_type):

@@ -26,6 +26,10 @@
     {% trans "Put the number of elements (records or releases) per package in <strong>Package size</strong> box before start process." %}
 </p>
 <p>
+    {% trans "Check the <strong>Pretty JSON</strong> checkbox to format the output files." %}
+    {% trans "By default the output encoding is utf-8, to use another, put in <strong>Encoding</strong> text box." %}
+</p>
+<p>
     {% trans "Each input file must be a JSON file containing either a single package or an array of packages." %}
 </p>
 {% endblock %}
@@ -35,7 +39,6 @@
     <input type="checkbox" id="change-published-date" class="form-control">
 </div>
 {% include "default/snippets/published_date.html" %}
-
 <div class="form-group">
     <label>{% trans "Package type:" %}</label>
     <select class="form-control packageType">
@@ -43,8 +46,9 @@
         <option value="record">{% trans "Record Package" %}</option>
 	</select>
 	<label>{% trans "Package size:" %}</label>
-	<input type="number" id="split-size" min="1" value="1" class="form-control split-package-input-box">
+    <input type="number" id="split-size" min="1" value="1" class="form-control split-package-input-box">
 </div>
+{% include "default/snippets/optional_arguments.html" %}
 {% endblock %}
 
 {% block scripts %}
@@ -67,7 +71,7 @@
             return params;
         });
     })();
-
     </script>
+    {% include "default/snippets/optional_arguments_scripts.html" %}
     {% include "default/snippets/published_date_scripts.html" %}
 {% endblock %}
