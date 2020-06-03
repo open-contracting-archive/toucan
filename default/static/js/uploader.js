@@ -175,6 +175,9 @@ var app = {};
 
     function upload_url() {
         hideMessages();
+        $('#processing-modal .total-files')
+            .html($('.input-url-container .form-group .input-group .form-control').length);
+        $('#processing-modal .downloading-status').removeClass('hidden');
         showProcessingModal();
         $('.response-fail').addClass('hidden');
         $('.form-group').removeClass('has-error');
@@ -201,7 +204,18 @@ var app = {};
                     $('.response-warning.file-process-failed').removeClass('hidden');
                 }
                 hideProcessingModal();
+                $('#processing-modal .downloading-status').addClass('hidden');
             })
+            .always(function () {
+                clearInterval(pollInterval);
+            })
+            pollInterval = setInterval(function () {
+                $.ajax('/upload-url/status/', {'dataType': 'json', type: 'GET'})
+                    .done(function (data) {
+                        $('#processing-modal .current-files').html(data);
+                    })
+                ;
+            }, 500);
         ;
     }
 

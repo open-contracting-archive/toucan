@@ -299,6 +299,7 @@ def upload_url(request):
                     else:
                         request.session['files'].append(data_file.as_dict())
                         request.session.modified = True
+                        request.session.save()
 
     if len(errors) > 0:
         return JsonResponse(errors, status=status, safe=False)
@@ -306,6 +307,11 @@ def upload_url(request):
     return JsonResponse({
         'files': request.session['files']
     })
+
+
+@require_GET
+def upload_url_status(request):
+    return JsonResponse(len(request.session['files']), safe=False)
 
 
 @require_POST
