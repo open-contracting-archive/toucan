@@ -256,6 +256,7 @@ def perform_to_json(request):
 def upload_url(request):
     request.session['files'] = []
     errors = []
+    status = 401
 
     for data in request.POST:
         if 'input_url' in data:
@@ -280,19 +281,27 @@ def upload_url(request):
                                 f.write(chunk)
 
             except ValueError:
+                status = 400
                 errors.append({'id': data, 'message': _('Enter a valid URL.')})
 
             except (HTTPError, ConnectionError, SSLError):
-                msj = _('There was an error when trying to access this URL. '
-                        'Please verify that the URL is correct and the file has the expected format.')
-                errors.append({'id': data, 'message': msj})
+                status = 400
+                message = _('There was an error when trying to access this URL. '
+                            'Please verify that the URL is correct and the file has the expected format.')
+                errors.append({'id': data, 'message': message})
 
             else:
-                request.session['files'].append(data_file.as_dict())
-                request.session.modified = True
+                with open(data_file.path, 'rb') as f:
+                    file_type = request.POST.get('type', None)
+                    message = invalid_request_file_message(f, file_type)
+                    if message:
+                        errors.append({'id': data, 'message': message})
+                    else:
+                        request.session['files'].append(data_file.as_dict())
+                        request.session.modified = True
 
     if len(errors) > 0:
-        return JsonResponse(errors, status=400, safe=False)
+        return JsonResponse(errors, status=status, safe=False)
 
     return JsonResponse({
         'files': request.session['files']

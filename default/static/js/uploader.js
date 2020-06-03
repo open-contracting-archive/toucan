@@ -181,7 +181,8 @@ var app = {};
         $('.help-block').remove();
 
         $.ajax('/upload-url/', {'dataType': 'json', type: 'POST',
-        'data': $('.input-url-container .form-group .input-group .form-control').serialize(),
+        'data': $('.input-url-container .form-group .input-group .form-control').serialize() +
+        '&type=' + JSON.parse($('#fileupload').attr('data-form-data')).type,
         headers: {'X-CSRFToken': JSON.parse($('#fileupload').attr('data-form-data')).csrfmiddlewaretoken}})
             .done(function () {
                 performAction($('#url-button').attr('data-perform-action'));
@@ -193,6 +194,12 @@ var app = {};
                     $(slt).addClass('has-error');
                     $(slt).append('<div class="help-block">' + msg + '</div>');
                 });
+                if (jqXHR.status === 400) {
+                    $('.response-fail').removeClass('hidden');
+                }
+                if (jqXHR.status === 401) {
+                    $('.response-warning.file-process-failed').removeClass('hidden');
+                }
                 hideProcessingModal();
             })
         ;
