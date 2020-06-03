@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-05-26 19:29-0400\n"
+"POT-Creation-Date: 2020-06-03 18:20-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -172,19 +172,31 @@ msgid ""
 msgstr ""
 "Procesando la operación. Por favor no refresque ni cierre el navegador."
 
-#: default/templates/default/base-uploader.html:79
+#: default/templates/default/base-uploader.html:68
+msgid "Processed "
+msgstr "Procesado "
+
+#: default/templates/default/base-uploader.html:68
+msgid " of "
+msgstr " de "
+
+#: default/templates/default/base-uploader.html:68
+msgid " files ..."
+msgstr " archivos..."
+
+#: default/templates/default/base-uploader.html:82
 #: default/templates/default/to-json.html:69
 #: default/templates/default/to-spreadsheet.html:66
 msgid "Provide the URL to a file:"
 msgstr "Provea la URL a un archivo:"
 
-#: default/templates/default/base-uploader.html:96
+#: default/templates/default/base-uploader.html:99
 #: default/templates/default/mapping_sheet.html:124
 msgid "Add URL"
 msgstr "Añadir URL"
 
-#: default/templates/default/base-uploader.html:98
-#: default/templates/default/base-uploader.html:135
+#: default/templates/default/base-uploader.html:101
+#: default/templates/default/base-uploader.html:138
 #: default/templates/default/to-json.html:77
 #: default/templates/default/to-json.html:106
 #: default/templates/default/to-spreadsheet.html:74
@@ -192,19 +204,19 @@ msgstr "Añadir URL"
 msgid "Start"
 msgstr "Procesar"
 
-#: default/templates/default/base-uploader.html:123
+#: default/templates/default/base-uploader.html:126
 #: default/templates/default/to-json.html:99
 #: default/templates/default/to-spreadsheet.html:96
 msgid "Add a file"
 msgstr "Agregue un archivo"
 
-#: default/templates/default/base-uploader.html:123
+#: default/templates/default/base-uploader.html:126
 #: default/templates/default/to-json.html:100
 #: default/templates/default/to-spreadsheet.html:97
 msgid "or drag and drop here."
 msgstr "o arrastre y suelte aquí"
 
-#: default/templates/default/base-uploader.html:131
+#: default/templates/default/base-uploader.html:134
 msgid "Add more files"
 msgstr "Agregar más archivos"
 
@@ -626,11 +638,11 @@ msgstr "No se reconoce \"%(type)s\""
 msgid "Error decoding JSON"
 msgstr "Error al decodificar JSON"
 
-#: default/views.py:283
+#: default/views.py:285
 msgid "Enter a valid URL."
 msgstr "Introduzca una URL válida."
 
-#: default/views.py:286
+#: default/views.py:289
 msgid ""
 "There was an error when trying to access this URL. Please verify that the "
 "URL is correct and the file has the expected format."
@@ -638,11 +650,11 @@ msgstr ""
 "Se produjo un error al intentar acceder a esta URL. Favor verifique que la "
 "URL sea correcta y el archivo tenga el formato esperado."
 
-#: default/views.py:334 default/views.py:342
+#: default/views.py:349 default/views.py:357
 msgid "File not found"
 msgstr "Archivo no encontrado"
 
-#: default/views.py:340
+#: default/views.py:355
 msgid "File deleted"
 msgstr "Archivo eliminado"
 
