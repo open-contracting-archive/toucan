@@ -21,6 +21,8 @@ from default.mapping_sheet import (get_extended_mapping_sheet, get_mapping_sheet
 from default.util import (get_files_from_session, get_options, invalid_request_file_message, json_response, make_package,
                           ocds_command, flatten)
 
+from django.views.decorators.csrf import csrf_exempt
+
 
 def retrieve_result(request, folder, id, format=None):
     if format is None:
@@ -81,6 +83,17 @@ def perform_upgrade(request):
     return json_response((file.name_with_suffix('upgraded'), upgrade_10_11(file.json(object_pairs_hook=OrderedDict)))
                          for file in get_files_from_session(request))
 
+@csrf_exempt
+@require_GET
+def get_option_list(request):
+    options1 = get_options('https://standard.open-contracting.org/1.1/en/release-schema.json', tupleFlag=False)
+    options2 = get_options('http://standard.open-contracting.org/1.1/es/release-schema.json', tupleFlag=False)
+    options3 = get_options('https://standard.open-contracting.org/schema/1__0__3/release-schema.json', tupleFlag=False)
+    return JsonResponse({
+                        'options1' : options1,
+                        'options2' : options2,
+                        'options3' : options3
+                        })
 
 @require_files
 @published_date

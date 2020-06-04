@@ -94,7 +94,7 @@ def invalid_request_file_message(f, file_type):
     except json.JSONDecodeError:
         return _('Error decoding JSON')
 
-def get_options(option='https://standard.open-contracting.org/1.1/en/release-schema.json',tupleFlag=True):
+def get_options(option,tupleFlag=True):
     io = StringIO(newline='')
     schema = jsonref.load_uri(option)
     mapping_sheet_method(schema, io, infer_required=True)

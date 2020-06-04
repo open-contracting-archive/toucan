@@ -132,12 +132,12 @@ class UnflattenOptionsForm(forms.Form):
                                    help_text=_('Enter a value'),
                                    widget=forms.TextInput(attrs={'class': 'form-control'}))
 
-    firstOption = get_options(option='https://standard.open-contracting.org/1.1/en/release-schema.json', tupleFlag=False)
-
     #id_preserve_fields
     preserve_fields = forms.MultipleChoiceField(required=False,
                                                label=_('Include ,the following fields only'),
+                                               widget=forms.SelectMultiple(attrs={'class': 'form-control'}),
                                                choices=get_options('https://standard.open-contracting.org/1.1/en/release-schema.json'))
+
 # forms.CharField(required=False,
 #                                      label=_('Include the following fields only'),
 #                                      widget=forms.Textarea(attrs={'class': 'form-control'}),
@@ -151,8 +151,8 @@ class UnflattenOptionsForm(forms.Form):
 
     def __init__(self, selectedSchema=None, *args, **kwargs):
         super().__init__(selectedSchema, *args, **kwargs)
-        get_options()
-        if selectedSchema == 1:
+        get_options('https://standard.open-contracting.org/1.1/en/release-schema.json')
+        if selectedSchema != None:
             self.fields['preserve_fields'] = forms.MultipleChoiceField(required=False,
                                                                        label=_('Include ,the following fields only'),
                                                                        choices=get_options(selectedSchema))

@@ -100,49 +100,52 @@
 
 <script>
   $(document).ready(function(){
-    var option1 = $('#id_firstOption').val();
-    var option2 = [ 'prueba2' ];
-    var option3 = [ 'prueba3' ];
+
+    var option1;
+    var option2;
+    var option3;
+
+    $.ajax({
+          url: '/to-spreadsheet/option-list',
+          async: false,
+          success: function(data) {
+                    option1 = data["options1"];
+                    option2 = data["options2"];
+                    option3 = data["options3"];
+                }
+    });
 
     $('#id_schema').on('change', function(){
-
       var selectedSchema = $('#id_schema').val();
       $('#id_preserve_fields').empty();
-
       if( $('#id_schema').val() == 'https://standard.open-contracting.org/1.1/en/release-schema.json'){
-
-        $('#id_preserve_fields').append(
-          ` <option value="${option1[0]}"> ${option1[0]} </option> `
-        );
+        for (let i = 0; i<option1.length; i++){
+            $('#id_preserve_fields').append(
+              ` <option value="${option1[i]}"> ${option1[i]} </option> `
+            );
+          };
       };
 
       if( $('#id_schema').val() == 'http://standard.open-contracting.org/1.1/es/release-schema.json'){
-
-        $('#id_preserve_fields').append(
-          `
-          <option value="${option2[0]}">
-            ${option2[0]}
-          </option>
-
-          `
-        );
+        for (let i = 0; i<option2.length; i++){
+            $('#id_preserve_fields').append(
+              ` <option value="${option2[i]}"> ${option2[i]} </option> `
+            );
+          };
       };
 
       if( $('#id_schema').val() == 'https://standard.open-contracting.org/schema/1__0__3/release-schema.json' ){
-
-        $('#id_preserve_fields').append(
-          `
-          <option value="${option3[0]}">
-            ${option3[0]}
-          </option>
-
-          `
-        );
+        for (let i = 0; i<option3.length; i++){
+            $('#id_preserve_fields').append(
+              ` <option value="${option3[i]}"> ${option3[i]} </option> `
+            );
+          };
       };
 
     });
 
    });
+
 </script>
 
 <script src="{% static "js/vendor/jquery.ui.widget.js" %}"></script>
