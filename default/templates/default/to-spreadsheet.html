@@ -97,22 +97,12 @@
 {% include "default/snippets/unflatten-options-modal.html" %}
 {% endblock %}
 {% block scripts %}
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 <script>
   $(document).ready(function(){
-    var option1 = [ 'ocid' ];
+    var option1 = $('#id_firstOption').val();
     var option2 = [ 'prueba2' ];
     var option3 = [ 'prueba3' ];
-
-    $('#id_preserve_fields').append(
-      `
-      <option value="${option1[0]}">
-        ${option1[0]}
-      </option>
-
-      `
-    );
 
     $('#id_schema').on('change', function(){
 
@@ -122,12 +112,7 @@
       if( $('#id_schema').val() == 'https://standard.open-contracting.org/1.1/en/release-schema.json'){
 
         $('#id_preserve_fields').append(
-          `
-          <option value="${option1[0]}">
-            ${option1[0]}
-          </option>
-
-          `
+          ` <option value="${option1[0]}"> ${option1[0]} </option> `
         );
       };
 

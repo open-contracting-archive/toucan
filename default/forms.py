@@ -2,6 +2,9 @@ from django import forms
 from django.core.cache import cache
 from django.utils.translation import gettext_lazy as _
 from ocdsmerge.util import get_tags
+from ocdskit.mapping_sheet import mapping_sheet as mapping_sheet_method
+
+from default.util import get_options
 
 
 def _get_tags():
@@ -129,9 +132,12 @@ class UnflattenOptionsForm(forms.Form):
                                    help_text=_('Enter a value'),
                                    widget=forms.TextInput(attrs={'class': 'form-control'}))
 
+    firstOption = get_options(option='https://standard.open-contracting.org/1.1/en/release-schema.json', tupleFlag=False)
+
     #id_preserve_fields
     preserve_fields = forms.MultipleChoiceField(required=False,
-                                              label=_('Include ,the following fields only'))
+                                               label=_('Include ,the following fields only'),
+                                               choices=get_options('https://standard.open-contracting.org/1.1/en/release-schema.json'))
 # forms.CharField(required=False,
 #                                      label=_('Include the following fields only'),
 #                                      widget=forms.Textarea(attrs={'class': 'form-control'}),
@@ -142,6 +148,14 @@ class UnflattenOptionsForm(forms.Form):
                                                     choices=((True, _('Yes')), (False, _('No'))),
                                                     initial=False,
                                                     widget=forms.Select(attrs={'class': 'form-control'}))
+
+    def __init__(self, selectedSchema=None, *args, **kwargs):
+        super().__init__(selectedSchema, *args, **kwargs)
+        get_options()
+        if selectedSchema == 1:
+            self.fields['preserve_fields'] = forms.MultipleChoiceField(required=False,
+                                                                       label=_('Include ,the following fields only'),
+                                                                       choices=get_options(selectedSchema))
 
     def clean_output_format(self):
         return 'all' if len(self.cleaned_data['output_format']) > 1 else self.cleaned_data['output_format'][0]

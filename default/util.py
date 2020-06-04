@@ -13,6 +13,13 @@ from ocdskit.util import is_package, is_record_package, is_release, is_release_p
 from default.data_file import DataFile
 from ocdstoucan.settings import OCDS_TOUCAN_MAXFILESIZE, OCDS_TOUCAN_MAXNUMFILES
 
+from io import StringIO
+
+import csv
+
+import jsonref
+
+from ocdskit.mapping_sheet import mapping_sheet as mapping_sheet_method
 
 def ocds_command(request, command):
     context = {
@@ -87,6 +94,30 @@ def invalid_request_file_message(f, file_type):
     except json.JSONDecodeError:
         return _('Error decoding JSON')
 
+def get_options(option='https://standard.open-contracting.org/1.1/en/release-schema.json',tupleFlag=True):
+    io = StringIO(newline='')
+    schema = jsonref.load_uri(option)
+    mapping_sheet_method(schema, io, infer_required=True)
+    pathList=[]
+    optionList = []
+
+    csvList = io.getvalue().split('\n')
+
+    for row in csvList :
+        element = row.split(',')
+        if len(element) > 1:
+            pathList.append(element[1])
+
+    pathList = list(set(pathList))
+    del(pathList[0])
+    pathList.sort()
+
+    for element in pathList:
+        optionList.append((element,element))
+
+    if tupleFlag == True:
+        return tuple(optionList)
+    return pathList
 
 def flatten(input_file, output_dir, options):
 

@@ -18,7 +18,7 @@ from default.decorators import clear_files, published_date, require_files
 from default.forms import MappingSheetOptionsForm, UnflattenOptionsForm
 from default.mapping_sheet import (get_extended_mapping_sheet, get_mapping_sheet_from_uploaded_file,
                                    get_mapping_sheet_from_url)
-from default.util import (get_files_from_session, invalid_request_file_message, json_response, make_package,
+from default.util import (get_files_from_session, get_options, invalid_request_file_message, json_response, make_package,
                           ocds_command, flatten)
 
 
@@ -151,7 +151,7 @@ def perform_to_spreadsheet(request):
     input_file = next(get_files_from_session(request))
     output_dir = DataFile('flatten', '', input_file.id, input_file.folder)
 
-    form = UnflattenOptionsForm(request.POST)
+    form = UnflattenOptionsForm(request.POST,request.POST.__getitem__('schema')[0])
 
     if not form.is_valid():
         return JsonResponse({'form_errors': dict(form.errors)}, status=400)
