@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-06-01 23:22-0400\n"
+"POT-Creation-Date: 2020-06-04 21:14-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -39,8 +39,8 @@ msgid ""
 "An invalid encoding was submitted, and therefore ignored. Default value is "
 "used, utf-8"
 msgstr ""
-"Se ha ingresado una codificación inválida, se omitio el valor. Se utiliza "
-"el valor por defecto. Codificación: utf-8"
+"Se ha ingresado una codificación inválida, se omitio el valor. Se utiliza el "
+"valor por defecto. Codificación: utf-8"
 
 #: default/forms.py:18 default/forms.py:24
 msgid "Select a schema and version"
@@ -221,7 +221,8 @@ msgstr ""
 msgid ""
 "Check the <strong>Pretty JSON</strong> checkbox to format the output files."
 msgstr ""
-"Marca la casilla <strong>Dar formato a JSON</strong> para colocar indentaciones en la salida de archivo."
+"Marca la casilla <strong>Dar formato</strong> para colocar indentaciones en "
+"la salida de archivo."
 
 #: default/templates/default/combine-packages.html:24
 #: default/templates/default/compile.html:30
@@ -232,8 +233,8 @@ msgid ""
 "By default the output encoding is utf-8, to use another, put in "
 "<strong>Encoding</strong> text box."
 msgstr ""
-"Por defecto la codificación de salida es utf-8, utiliza la caja "
-"de texto <strong>Codificación</strong> para ingresar otra codificación."
+"Por defecto la codificación de salida es utf-8, utiliza la caja de texto "
+"<strong>Codificación</strong> para ingresar otra codificación."
 
 #: default/templates/default/combine-packages.html:27
 #: default/templates/default/split-packages.html:33
@@ -245,17 +246,17 @@ msgstr ""
 "array de paquetes"
 
 #: default/templates/default/combine-packages.html:34
-#: default/templates/default/split-packages.html:43
+#: default/templates/default/split-packages.html:45
 msgid "Package type:"
 msgstr "Tipo de Paquete:"
 
 #: default/templates/default/combine-packages.html:36
-#: default/templates/default/split-packages.html:45
+#: default/templates/default/split-packages.html:47
 msgid "Release Package"
 msgstr "Paquete de Release"
 
 #: default/templates/default/combine-packages.html:37
-#: default/templates/default/split-packages.html:46
+#: default/templates/default/split-packages.html:48
 msgid "Record Package"
 msgstr "Paquete de Record"
 
@@ -509,13 +510,11 @@ msgstr ""
 
 #: default/templates/default/snippets/optional_arguments.html:3
 msgid "Encoding:"
-msgstr ""
-"Codificación"
+msgstr "Codificación"
 
 #: default/templates/default/snippets/optional_arguments.html:5
 msgid "Pretty JSON:"
-msgstr ""
-"Dar formato a JSON:"
+msgstr "Dar formato:"
 
 #: default/templates/default/snippets/published_date.html:3
 msgid "Published date:"
@@ -560,9 +559,13 @@ msgstr ""
 "Ingresa en la caja de texto <strong>Tamaño de paquete</strong> el número de "
 "elementos (release o records) antes de comenzar el proceso."
 
-#: default/templates/default/split-packages.html:48
+#: default/templates/default/split-packages.html:52
 msgid "Package size:"
 msgstr "Tamaño de paquete:"
+
+#: default/templates/default/split-packages.html:94
+msgid "An invalid split size was submitted. Put a valid value"
+msgstr "El tamaño de paquete ingresado es inválido, ingrese un valor válido"
 
 #: default/templates/default/to-json.html:23
 msgid ""
@@ -666,40 +669,40 @@ msgstr "Borrar"
 msgid "Processing..."
 msgstr "Procesando..."
 
-#: default/util.py:70
+#: default/util.py:65
 msgid "Not a record package"
 msgstr "No es un paquete de records"
 
-#: default/util.py:73
+#: default/util.py:68
 msgid "Not a release package"
 msgstr "No es un paquete de releases"
 
-#: default/util.py:76
+#: default/util.py:71
 msgid "Not a release or package"
 msgstr "No es un release o paquete"
 
-#: default/util.py:80
+#: default/util.py:75
 msgid "Not a package or list of packages"
 msgstr "No es un paquete o lista de paquetes"
 
-#: default/util.py:84
+#: default/util.py:79
 msgid "Not a release or list of releases"
 msgstr "No es un release o lista de releases"
 
-#: default/util.py:86
+#: default/util.py:81
 #, python-format
 msgid "\"%(type)s\" not recognized"
 msgstr "No se reconoce \"%(type)s\""
 
-#: default/util.py:88
+#: default/util.py:83
 msgid "Error decoding JSON"
 msgstr "Error al decodificar JSON"
 
-#: default/views.py:352 default/views.py:360
+#: default/views.py:345 default/views.py:353
 msgid "File not found"
 msgstr "Archivo no encontrado"
 
-#: default/views.py:358
+#: default/views.py:351
 msgid "File deleted"
 msgstr "Archivo eliminado"
 

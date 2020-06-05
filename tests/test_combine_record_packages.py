@@ -13,23 +13,21 @@ class CombineRecordPackageTestCase(ViewTestCase, ViewTests):
     def test_go_with_files(self):
         self.assertResults(
             {'type': 'package package-array'},
-            {'packageType': 'record', 'pretty-json': 'off', 'encoding': 'utf-8'},
+            {'packageType': 'record'},
             {'result.json': 'results/combine_record_packages.json'},
         )
 
     def test_go_with_valid_published_date(self):
         self.assertResults(
             {'type': 'package package-array'},
-            {'packageType': 'record', 'pretty-json': 'off',
-                'encoding': 'utf-8', 'publishedDate': '2001-02-03T00:00:00Z'},
+            {'packageType': 'record', 'publishedDate': '2001-02-03T00:00:00Z'},
             {'result.json': 'results/combine_record_packages-date.json'},
         )
 
     def test_go_with_invalid_published_date(self):
         self.assertResults(
             {'type': 'package package-array'},
-            {'packageType': 'record', 'pretty-json': 'off', 'encoding': 'utf-8',
-                'publishedDate': '2000-00-00T00:00:00Z'},
+            {'packageType': 'record', 'publishedDate': '2000-00-00T00:00:00Z'},
             {'result.json': 'results/combine_record_packages.json'},
             has_warnings=True,
         )

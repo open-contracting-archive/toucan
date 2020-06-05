@@ -1,11 +1,10 @@
 <script type="text/javascript">
     (function(){
         app.setParams(function(params){
-            if ($('#pretty-json').is(":checked")) {
-                params['pretty-json'] = "on";
-            } else {
-                params['pretty-json'] = "off";
-            }
+            if ($('#pretty-json').is(":checked"))
+                params['pretty-json'] = true;
+            else
+                params['pretty-json'] = false;
             params['encoding'] = $('#encoding').val();
             return params;
         });

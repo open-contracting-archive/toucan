@@ -60,10 +60,10 @@ def split_size(function):
     return wrap
 
 
-def encoding_option(function):
+def optional_args(function):
     @wraps(function)
     def wrap(request, *args, **kwargs):
-        encoding = request.GET.get('encoding')
+        encoding = request.GET.get('encoding', 'utf-8')
         try:
             teststr = "test"
             teststr.encode(encoding)
@@ -74,6 +74,7 @@ def encoding_option(function):
                 kwargs['warnings'].append([msg])
             else:
                 kwargs['warnings'] = [msg]
+        kwargs['pretty_json'] = request.GET.get('pretty-json') == 'true'
         return function(request, *args, **kwargs)
 
     return wrap

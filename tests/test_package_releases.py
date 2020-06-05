@@ -11,23 +11,16 @@ class PackageReleasesTestCase(ViewTestCase, ViewTests):
     ]
 
     def test_go_with_files(self):
-        self.assertResults(
-            {'type': 'release release-array'},
-            {'pretty-json': 'off', 'encoding': 'utf-8'},
-            {'result.json': 'results/package-releases.json'},
-        )
+        self.assertResults({'type': 'release release-array'}, {}, {
+            'result.json': 'results/package-releases.json',
+        })
 
     def test_go_with_valid_published_date(self):
-        self.assertResults(
-            {'type': 'release release-array'},
-            {'pretty-json': 'off', 'encoding': 'utf-8', 'publishedDate': '2001-02-03T00:00:00Z'},
-            {'result.json': 'results/package-releases_published-date.json'},
-        )
+        self.assertResults({'type': 'release release-array'}, {'publishedDate': '2001-02-03T00:00:00Z'}, {
+            'result.json': 'results/package-releases_published-date.json',
+        })
 
     def test_go_with_invalid_published_date(self):
-        self.assertResults(
-            {'type': 'release release-array'},
-            {'pretty-json': 'off', 'encoding': 'utf-8', 'publishedDate': '2000-00-00T00:00:00Z'},
-            {'result.json': 'results/package-releases.json'},
-            has_warnings=True,
-        )
+        self.assertResults({'type': 'release release-array'}, {'publishedDate': '2000-00-00T00:00:00Z'}, {
+            'result.json': 'results/package-releases.json',
+        }, has_warnings=True)

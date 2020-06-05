@@ -3,12 +3,10 @@ import json
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.utils.translation import gettext_lazy as _
-from ocdskit.util import (is_package, is_record_package, is_release,
-                          is_release_package)
+from ocdskit.util import is_package, is_record_package, is_release, is_release_package
 
 from default.data_file import DataFile
-from ocdstoucan.settings import (OCDS_TOUCAN_MAXFILESIZE,
-                                 OCDS_TOUCAN_MAXNUMFILES)
+from ocdstoucan.settings import OCDS_TOUCAN_MAXFILESIZE, OCDS_TOUCAN_MAXNUMFILES
 
 
 def ocds_command(request, command):
@@ -25,12 +23,7 @@ def get_files_from_session(request):
         yield DataFile(**fileinfo)
 
 
-def json_response(files, warnings=None, pretty_json=None, codec='utf-8'):
-    if pretty_json == 'on':
-        pretty_json = True
-    else:
-        pretty_json = False
-
+def json_response(files, warnings=None, pretty_json=False, codec='utf-8'):
     file = DataFile('result', '.zip')
     file.write_json_to_zip(files, pretty_json=pretty_json, codec=codec)
 
@@ -48,7 +41,7 @@ def json_response(files, warnings=None, pretty_json=None, codec='utf-8'):
 def make_package(request, published_date, method, pretty_json, codec, warnings):
     items = []
     for file in get_files_from_session(request):
-        item = file.json()
+        item = file.json(codec=codec)
         if isinstance(item, list):
             items.extend(item)
         else:

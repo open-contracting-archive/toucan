@@ -66,15 +66,11 @@ class DataFile:
         """
         return os.path.getsize(self.path)
 
-    def json(self, **kwargs):
+    def json(self, codec='utf-8', **kwargs):
         """
         Returns the file's parsed JSON contents.
         """
-        # For eatch uploaded file by user
-        # has used encoding utf-8
-        # to add support for other encodings
-        # change encoding='utf-8' to codec selected by user
-        with open(self.path, encoding='utf-8') as f:
+        with open(self.path, encoding=codec) as f:
             return json.load(f, **kwargs)
 
     def write(self, file):
@@ -104,45 +100,9 @@ class DataFile:
         if isinstance(files, dict):
             files = files.items()
 
-        # It is necessary to modify
-        # def json_dumps(data, ensure_ascii=False, **kwargs) in
-        # https://github.com/open-contracting/ocdskit/blob/master/ocdskit/util.py
-        # to add support for output encoding
-        '''
-        def json_dumps(data, ensure_ascii=False, codec="utf-8", **kwargs):
-            """
-            Dumps JSON to a string, and returns it.
-            """
-            # orjson doesn't support `ensure_ascii`, `indent` or `separators`.
-            if not using_orjson or ensure_ascii or kwargs:
-                if 'indent' not in kwargs:
-                    kwargs['separators'] = (',', ':')
-                result = json.dumps(data, default=_default, ensure_ascii=ensure_ascii, **kwargs)
-                if not ensure_ascii and codec != "utf-8":
-                    result = result.encode(codec)
-                return result
-
-            # orjson dumps to bytes.
-            return orjson.dumps(data, default=_default).decode()
-        '''
-        # and change zipfile.writestr to zipfile.write
-        # to write byte streams under encoding other than the used by default writestr method (utf-8)
-
-        if codec:
-            # thi is incorrect implementation
-            # because json.dumps() in def json_dumps, use the default codec utf-8 to encode the output
-            # so, codec selected with user --> codec utf-8 in def json_dumps
-            tmpfiles = {}
-            for name, content in files:
-                data = json.dumps(content).encode(codec)
-                tmpfiles.update({str(name): json.loads(data)})
-            files = dict(tmpfiles)
-            files = files.items()
-
         with ZipFile(self.path, 'w', compression=ZIP_DEFLATED) as zipfile:
             for name, content in files:
-                # change to zipfile.write(....)
-                zipfile.writestr(name, json_dumps(content, **kwargs) + '\n')
+                zipfile.writestr(name, (json_dumps(content, **kwargs) + '\n').encode(codec))
 
     @property
     def _name(self):

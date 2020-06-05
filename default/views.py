@@ -10,20 +10,17 @@ from django.shortcuts import render
 from django.utils.translation import gettext as _
 from django.views.decorators.http import require_GET, require_POST
 from libcoveocds.config import LibCoveOCDSConfig
-from ocdskit.combine import (combine_record_packages, combine_release_packages,
-                             merge)
+from ocdskit.combine import combine_record_packages, combine_release_packages, merge
 from ocdskit.combine import package_releases as package_releases_method
 from ocdskit.upgrade import upgrade_10_11
 
 from default.data_file import DataFile
-from default.decorators import (clear_files, encoding_option, published_date,
-                                require_files, split_size)
+from default.decorators import clear_files, optional_args, published_date, require_files, split_size
 from default.forms import MappingSheetOptionsForm
-from default.mapping_sheet import (get_extended_mapping_sheet,
-                                   get_mapping_sheet_from_uploaded_file,
+from default.mapping_sheet import (get_extended_mapping_sheet, get_mapping_sheet_from_uploaded_file,
                                    get_mapping_sheet_from_url)
-from default.util import (get_files_from_session, invalid_request_file_message,
-                          json_response, make_package, ocds_command)
+from default.util import (get_files_from_session, invalid_request_file_message, json_response, make_package,
+                          ocds_command)
 
 
 def retrieve_result(request, folder, id, format=None):
@@ -86,25 +83,24 @@ def split_packages(request):
 
 
 @require_files
+@optional_args
 @published_date
-@encoding_option
 @split_size
-def perfom_split_packages(request, published_date='', size=1, encoding='utf-8', warnings=None):
-    packages = [file.json() for file in get_files_from_session(request)]
+def perfom_split_packages(request, pretty_json=False, published_date='', size=1, encoding='utf-8', warnings=None):
+    change_published_date = request.GET.get('changePublishedDate') == 'true'
+    packages = [file.json(codec=encoding) for file in get_files_from_session(request)]
 
     if request.GET.get('packageType') == 'release':
         package_data = 'releases'
     else:
         package_data = 'records'
 
-    if request.GET.get('changePublishedDate') == 'off':
-        published_date = None
+    if not published_date:
+        change_published_date = False
 
     count = 0
     element = 0
     result = {}
-
-    pretty_json = request.GET.get('pretty-json')
 
     while element < len(packages):
         package = packages[element]
@@ -127,11 +123,9 @@ def perfom_split_packages(request, published_date='', size=1, encoding='utf-8', 
             count += 1
             name = "result{}.json".format(count)
             content = dict(package)
-
-            if published_date:
+            if change_published_date:
                 content['publishedDate'] = published_date
             content[package_data] = context[i:i + size]
-
             result.update({name: content})
         element += 1
 
@@ -139,42 +133,39 @@ def perfom_split_packages(request, published_date='', size=1, encoding='utf-8', 
 
 
 @require_files
-@encoding_option
-def perform_upgrade(request, encoding='utf-8', warnings=None):
+@optional_args
+def perform_upgrade(request, pretty_json=False, encoding='utf-8', warnings=None):
     data = {}
-    pretty_json = request.GET.get('pretty-json')
     for file in get_files_from_session(request):
-        data.update({file.name_with_suffix('upgraded'): upgrade_10_11(file.json(object_pairs_hook=OrderedDict))})
+        data.update({file.name_with_suffix('upgraded'): upgrade_10_11(
+            file.json(codec=encoding, object_pairs_hook=OrderedDict))})
     return json_response(data, warnings, pretty_json, encoding)
 
 
 @require_files
+@optional_args
 @published_date
-@encoding_option
-def perform_package_releases(request, published_date='', encoding='utf-8', warnings=None):
+def perform_package_releases(request, pretty_json=False, published_date='', encoding='utf-8', warnings=None):
     method = package_releases_method
-    pretty_json = request.GET.get('pretty-json')
     return make_package(request, published_date, method, pretty_json, encoding, warnings)
 
 
 @require_files
+@optional_args
 @published_date
-@encoding_option
-def perform_combine_packages(request, published_date='', encoding='utf-8', warnings=None):
+def perform_combine_packages(request, pretty_json=False, published_date='', encoding='utf-8', warnings=None):
     if request.GET.get('packageType') == 'release':
         method = combine_release_packages
     else:
         method = combine_record_packages
-    pretty_json = request.GET.get('pretty-json')
     return make_package(request, published_date, method, pretty_json, encoding, warnings)
 
 
 @require_files
+@optional_args
 @published_date
-@encoding_option
-def perform_compile(request, published_date='', encoding='utf-8', warnings=None):
-    packages = [file.json() for file in get_files_from_session(request)]
-    pretty_json = request.GET.get('pretty-json')
+def perform_compile(request, pretty_json=False, published_date='', encoding='utf-8', warnings=None):
+    packages = [file.json(codec=encoding) for file in get_files_from_session(request)]
     return_versioned_release = request.GET.get('includeVersioned') == 'true'
 
     return json_response({
