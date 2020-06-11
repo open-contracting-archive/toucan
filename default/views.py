@@ -73,18 +73,47 @@ def combine_packages(request):
 
 
 @clear_files
-def upgrade(request):
-    return ocds_command(request, 'upgrade')
-
-
-@clear_files
 def split_packages(request):
     return ocds_command(request, 'split-packages')
 
 
+@clear_files
+def upgrade(request):
+    return ocds_command(request, 'upgrade')
+
+
 @require_files
 @optional_args
+def perform_upgrade(request, pretty_json=False, encoding='utf-8', warnings=None):
+    data = {}
+    for file in get_files_from_session(request):
+        data.update({file.name_with_suffix('upgraded'): upgrade_10_11(
+            file.json(codec=encoding, object_pairs_hook=OrderedDict))})
+    return json_response(data, warnings, pretty_json, encoding)
+
+
+@require_files
 @published_date
+@optional_args
+def perform_package_releases(request, pretty_json=False, published_date='', encoding='utf-8', warnings=None):
+    method = package_releases_method
+    return make_package(request, published_date, method, pretty_json, encoding, warnings)
+
+
+@require_files
+@published_date
+@optional_args
+def perform_combine_packages(request, pretty_json=False, published_date='', encoding='utf-8', warnings=None):
+    if request.GET.get('packageType') == 'release':
+        method = combine_release_packages
+    else:
+        method = combine_record_packages
+    return make_package(request, published_date, method, pretty_json, encoding, warnings)
+
+
+@require_files
+@published_date
+@optional_args
 @split_size
 def perfom_split_packages(request, pretty_json=False, published_date='', size=1, encoding='utf-8', warnings=None):
     change_published_date = request.GET.get('changePublishedDate') == 'true'
@@ -99,14 +128,11 @@ def perfom_split_packages(request, pretty_json=False, published_date='', size=1,
         change_published_date = False
 
     count = 0
-    element = 0
     result = {}
 
-    while element < len(packages):
-        package = packages[element]
+    for package in packages:
         if isinstance(package, list):
             packages.extend(package)
-            packages.pop(element)
             continue
 
         context = package[package_data]
@@ -127,43 +153,13 @@ def perfom_split_packages(request, pretty_json=False, published_date='', size=1,
                 content['publishedDate'] = published_date
             content[package_data] = context[i:i + size]
             result.update({name: content})
-        element += 1
 
     return json_response(result, warnings, pretty_json, encoding)
 
 
 @require_files
-@optional_args
-def perform_upgrade(request, pretty_json=False, encoding='utf-8', warnings=None):
-    data = {}
-    for file in get_files_from_session(request):
-        data.update({file.name_with_suffix('upgraded'): upgrade_10_11(
-            file.json(codec=encoding, object_pairs_hook=OrderedDict))})
-    return json_response(data, warnings, pretty_json, encoding)
-
-
-@require_files
-@optional_args
 @published_date
-def perform_package_releases(request, pretty_json=False, published_date='', encoding='utf-8', warnings=None):
-    method = package_releases_method
-    return make_package(request, published_date, method, pretty_json, encoding, warnings)
-
-
-@require_files
 @optional_args
-@published_date
-def perform_combine_packages(request, pretty_json=False, published_date='', encoding='utf-8', warnings=None):
-    if request.GET.get('packageType') == 'release':
-        method = combine_release_packages
-    else:
-        method = combine_record_packages
-    return make_package(request, published_date, method, pretty_json, encoding, warnings)
-
-
-@require_files
-@optional_args
-@published_date
 def perform_compile(request, pretty_json=False, published_date='', encoding='utf-8', warnings=None):
     packages = [file.json(codec=encoding) for file in get_files_from_session(request)]
     return_versioned_release = request.GET.get('includeVersioned') == 'true'

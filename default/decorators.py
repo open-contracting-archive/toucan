@@ -47,12 +47,12 @@ def split_size(function):
     @wraps(function)
     def wrap(request, *args, **kwargs):
         split_size = request.GET.get('splitSize')
-        if split_size is None or split_size.isdecimal():
+        if split_size.isdecimal():
             kwargs['size'] = int(split_size)
         else:
             msg = _('An invalid split size was submitted, and therefore ignored. Default value is used, split size: 1')
             if 'warnings' in kwargs:
-                kwargs['warnings'].append([msg])
+                kwargs['warnings'].append(msg)
             else:
                 kwargs['warnings'] = [msg]
         return function(request, *args, **kwargs)
@@ -69,9 +69,11 @@ def optional_args(function):
             teststr.encode(encoding)
             kwargs['encoding'] = encoding
         except LookupError:
-            msg = _('An invalid encoding was submitted, and therefore ignored. Default value is used, utf-8')
+            msg = _('Encoding %(encoding)s ... is not recognized. The default value \'utf-8\' was used.') % {
+                        'encoding': encoding[0:64],
+                    }
             if 'warnings' in kwargs:
-                kwargs['warnings'].append([msg])
+                kwargs['warnings'].append(msg)
             else:
                 kwargs['warnings'] = [msg]
         kwargs['pretty_json'] = request.GET.get('pretty-json') == 'true'

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-06-04 21:14-0400\n"
+"POT-Creation-Date: 2020-06-11 19:22-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -35,12 +35,13 @@ msgstr ""
 "el valor por defecto. Tamaño de paquete: 1"
 
 #: default/decorators.py:72
+#, python-format
 msgid ""
-"An invalid encoding was submitted, and therefore ignored. Default value is "
-"used, utf-8"
+"Encoding %(encoding)s ... is not recognized. The default value 'utf-8' was "
+"used."
 msgstr ""
-"Se ha ingresado una codificación inválida, se omitio el valor. Se utiliza el "
-"valor por defecto. Codificación: utf-8"
+"La codificación %(encoding)s ... no se reconoce. Se utiliza la codificación "
+"'utf-8' por defecto."
 
 #: default/forms.py:18 default/forms.py:24
 msgid "Select a schema and version"
@@ -219,10 +220,11 @@ msgstr ""
 #: default/templates/default/split-packages.html:29
 #: default/templates/default/upgrade.html:20
 msgid ""
-"Check the <strong>Pretty JSON</strong> checkbox to format the output files."
+"Check the <strong>Pretty JSON</strong> checkbox to get a pretty print on the "
+"output files."
 msgstr ""
-"Marca la casilla <strong>Dar formato</strong> para colocar indentaciones en "
-"la salida de archivo."
+"Seleccione la opción <strong>Dar formato</strong> para colocar indentaciones "
+"en los resultados."
 
 #: default/templates/default/combine-packages.html:24
 #: default/templates/default/compile.html:30
@@ -230,7 +232,7 @@ msgstr ""
 #: default/templates/default/split-packages.html:30
 #: default/templates/default/upgrade.html:21
 msgid ""
-"By default the output encoding is utf-8, to use another, put in "
+"By default the output encoding is utf-8, you can change it in "
 "<strong>Encoding</strong> text box."
 msgstr ""
 "Por defecto la codificación de salida es utf-8, utiliza la caja de texto "
@@ -261,7 +263,7 @@ msgid "Record Package"
 msgstr "Paquete de Record"
 
 #: default/templates/default/compile.html:4
-#: default/templates/default/index.html:39
+#: default/templates/default/index.html:49
 msgid "Compile Releases"
 msgstr "Compilar Releases"
 
@@ -297,38 +299,38 @@ msgid "Please verify that your files are release packages before uploading."
 msgstr ""
 "Favor verifique que sus archivos sean paquetes de release antes de subirlos."
 
-#: default/templates/default/compile.html:39
-msgid "Include Versioned Releases"
-msgstr "Incluir el bloque versionedRelease"
+#: default/templates/default/compile.html:38
+msgid "Include Versioned Releases: "
+msgstr "Incluir el bloque versionedRelease: "
 
 #: default/templates/default/index.html:19
 #: default/templates/default/package-releases.html:4
 msgid "Create Release Packages"
 msgstr "Crear Paquetes de Entregas"
 
-#: default/templates/default/index.html:49
+#: default/templates/default/index.html:39
+#: default/templates/default/split-packages.html:4
+msgid "Split Packages"
+msgstr "Dividir Paquetes"
+
+#: default/templates/default/index.html:59
 #: default/templates/default/upgrade.html:4
 msgid "Upgrade from 1.0 to 1.1"
 msgstr "Actualizar de 1.0 a 1.1"
 
-#: default/templates/default/index.html:59
+#: default/templates/default/index.html:69
 msgid "Generate a spreadsheet version of schema"
 msgstr "Generar una planilla del esquema"
 
-#: default/templates/default/index.html:69
+#: default/templates/default/index.html:79
 #: default/templates/default/to-spreadsheet.html:9
 msgid "Convert to CSV/Excel"
 msgstr "Convertir a CSV/Excel"
 
-#: default/templates/default/index.html:79
+#: default/templates/default/index.html:89
 #: default/templates/default/to-json.html:9
 msgid "Convert to JSON"
 msgstr "Convertir a JSON"
-
-#: default/templates/default/index.html:89
-#: default/templates/default/split-packages.html:4
-msgid "Split Packages"
-msgstr "Dividir Paquetes"
 
 #: default/templates/default/index.html:97
 msgid ""
@@ -510,7 +512,7 @@ msgstr ""
 
 #: default/templates/default/snippets/optional_arguments.html:3
 msgid "Encoding:"
-msgstr "Codificación"
+msgstr "Codificación:"
 
 #: default/templates/default/snippets/optional_arguments.html:5
 msgid "Pretty JSON:"
@@ -564,8 +566,8 @@ msgid "Package size:"
 msgstr "Tamaño de paquete:"
 
 #: default/templates/default/split-packages.html:94
-msgid "An invalid split size was submitted. Put a valid value"
-msgstr "El tamaño de paquete ingresado es inválido, ingrese un valor válido"
+msgid "An invalid split size was entered. Change it to a valid number."
+msgstr "El tamaño de paquete ingresado es inválido, ingrese un valor válido."
 
 #: default/templates/default/to-json.html:23
 msgid ""
@@ -698,11 +700,11 @@ msgstr "No se reconoce \"%(type)s\""
 msgid "Error decoding JSON"
 msgstr "Error al decodificar JSON"
 
-#: default/views.py:345 default/views.py:353
+#: default/views.py:342 default/views.py:350
 msgid "File not found"
 msgstr "Archivo no encontrado"
 
-#: default/views.py:351
+#: default/views.py:348
 msgid "File deleted"
 msgstr "Archivo eliminado"
 

@@ -36,5 +36,19 @@ class OptionalArgsTestCase(ViewTestCase, ViewTests):
             {'type': 'release release-array'},
             {'encoding': 'none'},
             {'result.json': 'results/package-releases.json', },
-            has_warnings=True
+            has_warnings=True,
+            warnings=['Encoding none ... is not recognized. The default value \'utf-8\' was used.']
+        )
+
+    def test_multiple_warnings(self):
+        content = self.upload_and_go(
+            upload_data={'type': 'release release-array'},
+            data={'encoding': 'none', 'publishedDate': '2000-00-00T00:00:00Z'}, mode='r'
+        )
+        self.assertEqual(
+            content['warnings'],
+            [
+                'An invalid published date was submitted, and therefore ignored: 2000-00-00T00:00:00Z',
+                'Encoding none ... is not recognized. The default value \'utf-8\' was used.'
+            ]
         )
