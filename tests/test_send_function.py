@@ -1,3 +1,5 @@
+import json
+
 from tests import ViewTestCase, ViewTests
 
 
@@ -26,3 +28,24 @@ class SendTestCase(ViewTestCase, ViewTests):
         for extension, content in contents.items():
             response = self.client.get(content['url'] + '?destination=function')
             self.assertEqual(response.status_code, 200)
+
+    def test_receive_result(self):
+        self.url = '/upgrade/'
+        content = self.upload_and_go({'type': 'release-package'})
+
+        response = self.client.get(content['url'] + '?destination=function')
+        self.assertEqual(response.status_code, 200)
+
+        response = self.client.get('/result/receive/')
+        self.assertEqual(response.status_code, 200)
+        json_data = json.loads(response.content.decode('utf-8'))
+        self.assertEqual(json_data.get('receive_result'), True)
+
+        response = self.client.get('/result/receive/')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.content, b'{"receive_result": false}')
+
+    def test_not_receive_result(self):
+        response = self.client.get('/result/receive/')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.content, b'{"receive_result": false}')
