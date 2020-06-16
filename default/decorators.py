@@ -8,7 +8,8 @@ from django.utils.translation import gettext as _
 def clear_files(function):
     @wraps(function)
     def wrap(request, *args, **kwargs):
-        request.session['files'] = []
+        if 'clear' not in request.session or request.session['clear']:
+            request.session['files'] = []
         return function(request, *args, **kwargs)
 
     return wrap
