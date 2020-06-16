@@ -17,30 +17,12 @@
     <div class="form-group form-inline form-send hidden">
         <label>{% trans "Send result to function:" %}</label>
         <select class="form-control to-function">
-            <option id="compile" value="/compile/go/">{% trans "Compile Package" %}</option>
-            <option id="upgrade" value="/upgrade/go/">{% trans "Upgrade to 1.1" %}</option>
-            <option id="convert" value="/to-spreadsheet/go/">{% trans "Convert to CSV/Excel" %}</option>
+            <option id="compile" value="/compile/">{% trans "Compile Package" %}</option>
+            <option id="upgrade" value="/upgrade/">{% trans "Upgrade to 1.1" %}</option>
+            <option id="convert" value="/to-spreadsheet/">{% trans "Convert to CSV/Excel" %}</option>
         </select>
         <a class="send-button" href="#" role="button">{% trans "Send" %}</a>
     </div>
-</div>
-<div class="response-send-success alert alert-info hidden">
-    <b>{% trans "Sent to " %}<span class="s-function"></span>: </b>
-    <p style="margin-top: 10px;">
-        <b>{% trans "Success!" %}</b>
-        <ul>
-            <li>
-                <span class="file-name-a"></span> (<span class="file-size-a"></span>)
-                <a href="javascript:void(0)" class="download-a">{% trans "Download" %}</a>
-            </li>
-            <div class="response-convert-success hidden">
-                <li>
-                    <span class="file-name-b"></span> (<span class="file-size-b"></span>)
-                    <a href="javascript:void(0)" class="download-b">{% trans "Download" %}</a>
-                </li>
-            </div>
-        </ul>
-    </p>
 </div>
 <div class="response-warning action-failed alert alert-warning hidden">
     <ul></ul>
@@ -90,7 +72,11 @@
       <button type="submit" class="btn btn-primary pull-right start" id="upload-button" disabled>
         <i class="glyphicon glyphicon-cloud-upload"></i>
         <span>{% trans "Start" %}</span>
-    </button>
+      </button>
+      <button type="submit" class="btn btn-primary pull-right start hidden" id="go-button">
+        <i class="glyphicon glyphicon-play-circle"></i>
+        <span>{% trans "Process" %}</span>
+      </button>
     </div>
   </div>
 </form>
