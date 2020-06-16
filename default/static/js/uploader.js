@@ -23,9 +23,14 @@ var app = {};
         $('#upload-button').attr('disabled', true);
     }
 
+    function disableGoButton() {
+        $('#go-button').attr('disabled', true);
+    }
+
     function disableAddFiles() {
         $('.fileinput-button').attr('disabled', true);
         $('.fileinput-button input:file').attr('disabled', true);
+        $('.fileinput-button label').removeAttr("for");
     }
 
     function enableAddFiles() {
@@ -172,34 +177,23 @@ var app = {};
         ;
     }
 
+    function go() {
+        disableGoButton();
+        hideMessages();
+
+        var promises = $.map(_fileItems, function (val) {
+            return val.submit();
+        });
+        performAction();
+    }
+
     function send_to() {
         hideMessages();
         showProcessingModal();
         $.ajax($('.response-success .send-button').attr('data-url'), { 'dataType': 'json' })
             .done(function (data) {
-                $.ajax($('.to-function').val(), { 'dataType': 'json' })
-                    .done(function (data) {
-                        if ( $('.to-function option:selected').attr('id') === "convert") {
-                            $('.response-send-success .download-a').attr('href', data.xlsx.url);
-                            $('.response-send-success .download-b').attr('href', data.csv.url);
-                            $('.response-send-success .file-size-a').html(utils.readableFileSize(data.xlsx.size));
-                            $('.response-send-success .file-size-b').html(utils.readableFileSize(data.csv.size));
-                            $('.response-send-success .file-name-a').html('result.xlsx');
-                            $('.response-send-success .file-name-b').html('result-csv.zip');
-                            $('.response-send-success .response-convert-success').removeClass('hidden');
-                        } else {
-                            $('.response-send-success .download-a').attr('href', data.url);
-                            $('.response-send-success .file-size-a').html(utils.readableFileSize(data.size));
-                            $('.response-send-success .file-name-a').html('result.zip');
-                            $('.response-send-success .response-convert-success').addClass('hidden');
-                        }
-                        $('.response-send-success .s-function').html($('.to-function option:selected').text());
-                        $('.response-send-success').removeClass('hidden');
-                        hideProcessingModal();
-                    })
-                    .fail(whenAjaxReqFails)
+                window.location.href = $('.to-function').val();
             })
-            .fail(whenAjaxReqFails)
     }
 
     /** plugin initialization & listeners**/
@@ -214,11 +208,31 @@ var app = {};
     /** upload call binding **/
     $("#upload-button").click(upload);
 
-    /* Click send to function behaviour */
+    /** go call binding **/
+    $("#go-button").click(go);
+
+    /** click send button behaviour **/
     $('.send-button').click(send_to);
 
-    /* add warning before closing/navigating away from page */
     window.onload = function () {
+        /* check if results were sent to this page */
+        $.ajax('/result/receive/', { 'dataType': 'json' })
+            .done(function (data) {
+                if (data.receive_result) {
+                    showProcessingModal();
+                    disableAddFiles();
+                    $('.drop-area').removeClass('empty');
+                    $('.drop-area').addClass('single');
+                    $('.drop-area .file-selector-empty').html('<strong>Received:</strong> ' + data.prefix + data.ext);
+                    $('.actions').removeClass('hidden');
+                    $('#upload-button').addClass('hidden');
+                    $('#go-button').removeClass('hidden');
+                }})
+            .always(function () {
+                hideProcessingModal();
+                });
+
+        /* add warning before closing/navigating away from page */
         window.addEventListener("beforeunload", function (e) {
             if (_fileItems.length === 0 || _done) {
                 return undefined;
