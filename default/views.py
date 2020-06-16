@@ -266,10 +266,32 @@ def add_result(request, data_file):
                 request.session['files'].append(new_file.as_dict())
     else:
         request.session['files'].append(data_file.as_dict())
+    request.session['clear'] = False
     request.session.modified = True
 
     return JsonResponse({
         'files': request.session['files']
+    })
+
+
+@require_GET
+def receive_result(request):
+    if 'clear' not in request.session:
+        return JsonResponse({
+            'receive_result': False,
+        })
+
+    clear = request.session['clear']
+    if clear:
+        return JsonResponse({
+            'receive_result': False,
+        })
+
+    request.session['clear'] = True
+    return JsonResponse({
+        'receive_result': True,
+        'prefix': request.session['files'][0]['prefix'],
+        'ext': request.session['files'][0]['ext'],
     })
 
 
