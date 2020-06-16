@@ -124,6 +124,7 @@
         performAction();
     });
 
+    /** check if results were sent to this page **/
     window.onload = function () {
         $.ajax('/result/receive/', { 'dataType': 'json' })
             .done(function (data) {
@@ -138,6 +139,7 @@
                 });
     };
 
+    /** perform go ajax call **/
     function performAction() {
         $('#processing-modal').modal('show');
         $.ajax('/to-spreadsheet/go/', { 'dataType': 'json' })
