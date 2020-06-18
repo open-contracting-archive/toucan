@@ -53,6 +53,9 @@
                 {% trans "or drag and drop here." %}
             </span>
         </span>
+        <span class="drop-area-received-msg hidden">
+            {% trans "<b>Received</b>: " %}<span class="file-result"></span>
+        </span>
     </div>
     <button type="button" class="btn btn-primary pull-right hidden" id="upload-button">
       <i class="glyphicon glyphicon-cloud-upload"></i>
@@ -132,7 +135,9 @@
                 if (data.receive_result) {
                     $('#processing-modal').modal('show');
                     $('.drop-area').removeClass('empty');
-                    $('.drop-area .file-selector-empty').html('<strong>Received:</strong> ' + data.prefix + data.ext);
+                    $('.drop-area .file-selector-empty').addClass('hidden');
+                    $('.drop-area .drop-area-received-msg').removeClass('hidden');
+                    $('.drop-area .drop-area-received-msg .file-result').html(data.prefix + data.ext);
                     $('#go-button').removeClass('hidden');
                 }})
             .fail(function(jqXHR, textStatus, errorThrown){
