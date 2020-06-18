@@ -216,7 +216,8 @@ var app = {};
 
     window.onload = function () {
         /* check if results were sent to this page */
-        $.ajax('/result/receive/', { 'dataType': 'json' })
+        url = '/result/receive/?type=' + JSON.parse($('#fileupload').attr('data-form-data')).type;
+        $.ajax(url, { 'dataType': 'json' })
             .done(function (data) {
                 if (data.receive_result) {
                     showProcessingModal();
@@ -228,6 +229,9 @@ var app = {};
                     $('#upload-button').addClass('hidden');
                     $('#go-button').removeClass('hidden');
                 }})
+            .fail(function () {
+                $('.response-warning.file-process-failed').removeClass('hidden');
+            })
             .always(function () {
                 hideProcessingModal();
                 });

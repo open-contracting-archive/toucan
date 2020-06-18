@@ -124,9 +124,10 @@
         performAction();
     });
 
-    /** check if results were sent to this page **/
+    /** check if results were sent to this page and validate it with 'type' if so **/
     window.onload = function () {
-        $.ajax('/result/receive/', { 'dataType': 'json' })
+        url = '/result/receive/?type=' + JSON.parse($('#fileupload').attr('data-form-data')).type;
+        $.ajax(url, { 'dataType': 'json' })
             .done(function (data) {
                 if (data.receive_result) {
                     $('#processing-modal').modal('show');
@@ -134,6 +135,15 @@
                     $('.drop-area .file-selector-empty').html('<strong>Received:</strong> ' + data.prefix + data.ext);
                     $('#go-button').removeClass('hidden');
                 }})
+            .fail(function(jqXHR, textStatus, errorThrown){
+                $('.response-fail').html(
+                    '{% trans "<b>Error when processing file</b>: " %}'
+                    + ( jqXHR.responseText || textStatus )
+                    + '. '
+                    + '{% trans "Please verify that the file is a valid OCDS Release Package and try again." %}'
+                );
+                $('.response-fail').removeClass('hidden');
+            })
             .always(function () {
                 $('#processing-modal').modal('hide');
                 });

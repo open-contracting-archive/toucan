@@ -288,11 +288,20 @@ def receive_result(request):
         })
 
     request.session['clear'] = True
-    return JsonResponse({
-        'receive_result': True,
-        'prefix': request.session['files'][0]['prefix'],
-        'ext': request.session['files'][0]['ext'],
-    })
+    for file in request.session['files']:
+        result_file = DataFile(**file)
+        file_type = request.GET.get('type', None)
+
+        with open(result_file.path, 'rb') as f:
+            message = invalid_request_file_message(f, file_type)
+            if message:
+                return HttpResponse(message, status=400)
+            else:
+                return JsonResponse({
+                    'receive_result': True,
+                    'prefix': file['prefix'],
+                    'ext': file['ext'],
+                })
 
 
 @require_POST
