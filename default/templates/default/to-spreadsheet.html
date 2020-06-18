@@ -141,7 +141,7 @@
 
         $('#fileupload').fileupload('disable');
 
-        /* Click button behaviour */
+        /* click upload button behaviour */
         $('#upload-button').click(function(){
             $('#fileupload').fileupload('option', 'dropZone', undefined);
             data
@@ -170,6 +170,7 @@
         });
     });
 
+    /* click url button behaviour */
     $("#url-button-ts").click(function(){
         $('.response-warning').addClass('hidden');
         $('#processing-modal').modal('show');
@@ -208,6 +209,9 @@
                 $('#processing-modal').modal('hide');
             });
     });
+
+    /* clear text URL input */
+    $('#input_url_0 input').val('');
 
     /* prevent browser's default action when dragging and dropping files */
     $(document).bind('drop dragover', function (e) {

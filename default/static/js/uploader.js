@@ -234,8 +234,11 @@ var app = {};
     /* click upload url button behaviour */
     $("#url-button").click(upload_url);
 
-    /* add warning before closing/navigating away from page */
     window.onload = function () {
+        /* clear text URL input */
+        $('#input_url_0 input').val('');
+
+        /* add warning before closing/navigating away from page */
         window.addEventListener("beforeunload", function (e) {
             if (_fileItems.length === 0 || _done) {
                 return undefined;
