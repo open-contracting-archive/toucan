@@ -235,7 +235,7 @@ var app = {};
     $("#url-button").click(upload_url);
 
     window.onload = function () {
-        /* clear text URL input */
+        /* clear URL input text */
         $('#input_url_0 input').val('');
 
         /* add warning before closing/navigating away from page */
