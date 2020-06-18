@@ -36,7 +36,7 @@ class SendTestCase(ViewTestCase, ViewTests):
         response = self.client.get(content['url'] + '?destination=function')
         self.assertEqual(response.status_code, 200)
 
-        response = self.client.get('/result/receive/')
+        response = self.client.get('/result/receive/?type=release-package')
         self.assertEqual(response.status_code, 200)
         json_data = json.loads(response.content.decode('utf-8'))
         self.assertEqual(json_data.get('receive_result'), True)
@@ -44,6 +44,17 @@ class SendTestCase(ViewTestCase, ViewTests):
         response = self.client.get('/result/receive/')
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.content, b'{"receive_result": false}')
+
+    def test_receive_result_invalid_type(self):
+        self.url = '/package-releases/'
+        content = self.upload_and_go({'type': 'release-package'})
+
+        response = self.client.get(content['url'] + '?destination=function')
+        self.assertEqual(response.status_code, 200)
+
+        response = self.client.get('/result/receive/?type=release release-array')
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.content, b'Not a release or list of releases')
 
     def test_not_receive_result(self):
         response = self.client.get('/result/receive/')
