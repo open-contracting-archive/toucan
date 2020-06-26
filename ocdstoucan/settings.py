@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
 import os
+import json
+import logging
 
 import sentry_sdk
 from django.utils.translation import gettext_lazy as _
@@ -169,4 +171,9 @@ if os.getenv('SENTRY_DSN') is not None:
         integrations=[DjangoIntegration(), SqlalchemyIntegration()]
     )
 
-OCDS_TOUCAN_CREDENTIALS_DRIVE = os.getenv('OCDS_TOUCAN_CREDENTIALS_DRIVE', 'credentials.json')
+OCDS_TOUCAN_GOOGLE_API_CREDENTIALS_FILE = os.getenv('OCDS_TOUCAN_CREDENTIALS_DRIVE', 'googleapi_credentials.json')
+
+OCDS_TOUCAN_GOOGLE_API_CREDENTIALS = {}
+
+with open(OCDS_TOUCAN_GOOGLE_API_CREDENTIALS_FILE) as f:
+    OCDS_TOUCAN_GOOGLE_API_CREDENTIALS = json.load(f)

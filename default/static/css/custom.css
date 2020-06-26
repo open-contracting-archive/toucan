@@ -40,12 +40,13 @@
 {
     text-decoration: none;
 }
-.info.panel .panel-body:before{
+.info.panel .panel-heading:before{
     content: '\e085';
     font-family: "Glyphicons Halflings";
     font-size: 2em;
     float: left;
     margin-right: 10px;
+    margin-top: -8px;
     color: #9BAF00; 
 }
 .schema-nav {
@@ -80,7 +81,7 @@
     position: relative;
     min-height: 100vh;
 }
-}
+
 .content-wrap.ocp-content {
     padding-bottom: 2.5rem;
 }
@@ -88,4 +89,17 @@
     opacity: .4;
     cursor: default !important;
     pointer-events: none;
+}
+
+.panel-title a {
+    color: #9baf00;
+    text-decoration: none;
+}
+
+.panel-title a .control {
+    color: #8c8c8c;
+}
+
+.panel-title a .control .glyphicon{
+    top: 5px;
 }

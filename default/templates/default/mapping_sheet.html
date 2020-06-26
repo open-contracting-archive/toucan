@@ -1,45 +1,66 @@
-{% extends 'default/base.html' %}
+{% extends 'default/base-tool.html' %}
 {% load i18n %}
 
 {% block subtitle %} &gt;&gt; {% trans "Generate a spreadsheet version of the schema" %} {% endblock %}
 
-{% block body %}
+{% block info_title %}
+    {% blocktrans trimmed %}
+        Use this feature to generate a spreadsheet version of an OCDS schema.
+    {% endblocktrans %}
+{% endblock %}
+{% block info_content %}
+    <p>
+        {% blocktrans trimmed %}
+        The spreadsheet contains the
+        names, paths and descriptions of all OCDS fields in a table format. You can refer to the
+        <a href="https://ocdskit.readthedocs.io/en/latest/api/mapping_sheet.html"
+           target="_blank">definitions of the spreadsheet's columns</a>.
+        {% endblocktrans %}
+    </p>
+    <p>{% trans "The options available are:" %}</p>
+    <ul class="list-unstyled">
+        <li>
+            <strong>{% trans "Select a schema and version:" %}</strong>
+            {% trans "Use any of the official OCDS Schemas." %}
+        </li>
+        <li>
+            <strong>{% trans "Provide a URL:" %}</strong>
+            {% trans "Enter a URL to a custom schema." %}
+        </li>
+        <li>
+            <strong>{% trans "Upload a file:" %}</strong>
+            {% trans "Upload a custom schema file from your computer." %}
+        </li>
+        <li>
+            <strong>{% trans "For an OCDS Extension:" %}</strong>
+            {% trans "Generate a patched version of the Release Schema with one or more OCDS extensions." %}
+        </li>
+    </ul>
+{% endblock %}
+{% block messages %}
+    {% if result %}
+        <div class="response-success alert alert-info">
+            <b>{% trans "Success!" %}</b>
+            result.csv (<span class="file size">{{ result.size|filesizeformat }}</span>)
+            <a class="file download-link" href="{{ result.url }}" role="button">
+                {% trans "Download" %}
+            </a>
+            <span>  /  </span>
+            <a class="file save-drive-link" role="button" data-url="{{ result.driveUrl }}">
+                {% trans "Save to Google Drive" %}
+            </a>
+            <span class="file open-drive-link hidden">
+                {% trans "File saved on Google Drive" %}&nbsp;<a target="_blank" role="button"> {% trans "Open" %}</a>
+            </span>
+        </div>
+    {% endif %}
     {% if error %}
         <div class="alert alert-warning">
             {{ error }}
         </div>
     {% endif %}
-    <div class="info panel panel-default">
-        <div class="panel-body">
-            <p>
-                {% blocktrans trimmed %}
-                    Use this feature to generate a spreadsheet version of an OCDS schema. The spreadsheet contains the
-                    names, paths and descriptions of all OCDS fields in a table format. You can refer to the
-                    <a href="https://ocdskit.readthedocs.io/en/latest/api/mapping_sheet.html"
-                       target="_blank">definitions of the spreadsheet's columns</a>.
-                {% endblocktrans %}
-            </p>
-            <p>{% trans "The options available are:" %}</p>
-            <ul class="list-unstyled">
-                <li>
-                    <strong>{% trans "Select a schema and version:" %}</strong>
-                    {% trans "Use any of the official OCDS Schemas." %}
-                </li>
-                <li>
-                    <strong>{% trans "Provide a URL:" %}</strong>
-                    {% trans "Enter a URL to a custom schema." %}
-                </li>
-                <li>
-                    <strong>{% trans "Upload a file:" %}</strong>
-                    {% trans "Upload a custom schema file from your computer." %}
-                </li>
-                <li>
-                    <strong>{% trans "For an OCDS Extension:" %}</strong>
-                    {% trans "Generate a patched version of the Release Schema with one or more OCDS extensions." %}
-                </li>
-            </ul>
-        </div>
-    </div>
+{% endblock %}
+{% block content %}
     {% if form.non_field_errors %}
         <div class="bg-danger">
             {{ form.non_field_errors }}
@@ -129,14 +150,15 @@
 {% endblock %}
 
 {% block scripts %}
+    {{ block.super }}
     <script>
         $('.choice-header').on('change', function() {
             if ($(this).is(':checked')) {
                 var allClasses = $(this).attr('class');
                 var operationIndex = allClasses.search(/toucan-nav-[^\s]+/);
                 var operationClass = allClasses.substring(operationIndex);
-                $('.panel-collapse.collapse ').not(this).collapse('hide');
-                $('.panel-collapse.collapse.' + operationClass).collapse('show');
+                $('.mapping-sheet-form .panel-collapse.collapse ').not(this).collapse('hide');
+                $('.mapping-sheet-form .panel-collapse.collapse.' + operationClass).collapse('show');
             }
         });
 

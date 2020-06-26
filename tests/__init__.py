@@ -45,7 +45,7 @@ class ViewTestCase(TestCase):
     def assertResults(self, upload_data, data, results, mode='r', has_warnings=False, load_json=False):
         content = self.upload_and_go(upload_data=upload_data, data=data, mode=mode)
 
-        keys = ['url', 'size']
+        keys = ['url', 'size', 'driveUrl']
         if has_warnings:
             keys.append('warnings')
 
