@@ -15,7 +15,7 @@ from ocdskit.combine import package_releases as package_releases_method
 from ocdskit.upgrade import upgrade_10_11
 
 from default.data_file import DataFile
-from default.decorators import clear_files, published_date, require_files
+from default.decorators import clear_files, optional_args, published_date, require_files, split_size
 from default.forms import MappingSheetOptionsForm
 from default.mapping_sheet import (get_extended_mapping_sheet, get_mapping_sheet_from_uploaded_file,
                                    get_mapping_sheet_from_url)
@@ -73,43 +73,101 @@ def combine_packages(request):
 
 
 @clear_files
+def split_packages(request):
+    return ocds_command(request, 'split-packages')
+
+
+@clear_files
 def upgrade(request):
     return ocds_command(request, 'upgrade')
 
 
 @require_files
-def perform_upgrade(request):
-    return json_response((file.name_with_suffix('upgraded'), upgrade_10_11(file.json(object_pairs_hook=OrderedDict)))
-                         for file in get_files_from_session(request))
+@optional_args
+def perform_upgrade(request, pretty_json=False, encoding='utf-8', warnings=None):
+    data = {}
+    for file in get_files_from_session(request):
+        data.update({file.name_with_suffix('upgraded'): upgrade_10_11(
+            file.json(codec=encoding, object_pairs_hook=OrderedDict))})
+    return json_response(data, warnings, pretty_json, encoding)
 
 
 @require_files
 @published_date
-def perform_package_releases(request, published_date='', warnings=None):
+@optional_args
+def perform_package_releases(request, pretty_json=False, published_date='', encoding='utf-8', warnings=None):
     method = package_releases_method
-    return make_package(request, published_date, method, warnings)
+    return make_package(request, published_date, method, pretty_json, encoding, warnings)
 
 
 @require_files
 @published_date
-def perform_combine_packages(request, published_date='', warnings=None):
+@optional_args
+def perform_combine_packages(request, pretty_json=False, published_date='', encoding='utf-8', warnings=None):
     if request.GET.get('packageType') == 'release':
         method = combine_release_packages
     else:
         method = combine_record_packages
-    return make_package(request, published_date, method, warnings)
+    return make_package(request, published_date, method, pretty_json, encoding, warnings)
 
 
 @require_files
 @published_date
-def perform_compile(request, published_date='', warnings=None):
-    packages = [file.json() for file in get_files_from_session(request)]
+@optional_args
+@split_size
+def perfom_split_packages(request, pretty_json=False, published_date='', size=1, encoding='utf-8', warnings=None):
+    change_published_date = request.GET.get('changePublishedDate') == 'true'
+    packages = [file.json(codec=encoding) for file in get_files_from_session(request)]
+
+    if request.GET.get('packageType') == 'release':
+        package_data = 'releases'
+    else:
+        package_data = 'records'
+
+    if not published_date:
+        change_published_date = False
+
+    count = 0
+    result = {}
+
+    for package in packages:
+        if isinstance(package, list):
+            packages.extend(package)
+            continue
+
+        context = package[package_data]
+
+        # based on the code
+        # cdskit/ocdskit/cli/commands/split_record_packages.py
+        # cdskit/ocdskit/cli/commands/split_release_packages.py
+
+        # We can't determine which records came from which packages.
+        if package_data == 'records' and 'packages' in package:
+            del package['packages']
+
+        for i in range(0, len(context), size):
+            count += 1
+            name = "result{}.json".format(count)
+            content = dict(package)
+            if change_published_date:
+                content['publishedDate'] = published_date
+            content[package_data] = context[i:i + size]
+            result.update({name: content})
+
+    return json_response(result, warnings, pretty_json, encoding)
+
+
+@require_files
+@published_date
+@optional_args
+def perform_compile(request, pretty_json=False, published_date='', encoding='utf-8', warnings=None):
+    packages = [file.json(codec=encoding) for file in get_files_from_session(request)]
     return_versioned_release = request.GET.get('includeVersioned') == 'true'
 
     return json_response({
         'result.json': next(merge(packages, return_package=True, published_date=published_date,
                                   return_versioned_release=return_versioned_release)),
-    }, warnings)
+    }, warnings, pretty_json, encoding)
 
 
 def mapping_sheet(request):

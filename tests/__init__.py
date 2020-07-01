@@ -42,7 +42,7 @@ class ViewTestCase(TestCase):
         response = self.client.get(content['url'])
         return ZipFile(BytesIO(response.getvalue()))
 
-    def assertResults(self, upload_data, data, results, mode='r', has_warnings=False, load_json=False):
+    def assertResults(self, upload_data, data, results, mode='r', has_warnings=False, load_json=False, warnings=None):
         content = self.upload_and_go(upload_data=upload_data, data=data, mode=mode)
 
         keys = ['url', 'size']
@@ -52,6 +52,10 @@ class ViewTestCase(TestCase):
         for key in keys:
             self.assertIn(key, content.keys())
         self.assertEqual(len(content), len(keys))
+
+        if has_warnings:
+            if warnings:
+                self.assertEqual(content['warnings'], warnings)
 
         self.assertIsInstance(content['size'], int)
         self.assertRegex(content['url'], r'^/result/' + '{:%Y-%m-%d}'.format(date.today()) + r'/[0-9a-f-]{36}/$')

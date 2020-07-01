@@ -17,6 +17,7 @@ var app = {};
 
     function enableUploadButton() {
         $('#upload-button').removeAttr('disabled');
+        $.event.trigger('appHookEnableUploadButton');
     }
 
     function disableUploadButton() {

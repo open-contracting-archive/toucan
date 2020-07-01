@@ -6,3 +6,4 @@ __pycache__
 *.mo
 .coverage
 /media
+.DS_Store

@@ -25,17 +25,22 @@
         <a href="https://standard.open-contracting.org/latest/en/schema/merging/" target="_blank">OCDS documentation</a>.
     {% endblocktrans %}
 </p>
-
+<p>
+    {% trans "Check the <strong>Pretty JSON</strong> checkbox to get a pretty print on the output files." %}
+    {% trans "By default the output encoding is utf-8, you can change it in <strong>Encoding</strong> text box." %}
+</p>
 <p>{% trans "Please verify that your files are release packages before uploading." %}</p>
 {% endblock %}
 
 {% block extraoptions %}
 {% include "default/snippets/published_date.html" %}
-<div class="checkbox">
-    <label>
-        <input type="checkbox" class="include-versioned"> {% trans "Include Versioned Releases" %}
-    </label>
+<div class="form-group">
+    <label>{% trans "Include Versioned Releases: " %}</label>
+    <div class="checkbox">
+        <input type="checkbox" class="include-versioned">
+    </div>
 </div>
+{% include "default/snippets/optional_arguments.html" %}
 {% endblock %}
 
 {% block scripts %}
@@ -51,5 +56,6 @@
         });
     })();
     </script>
+    {% include "default/snippets/optional_arguments_scripts.html" %}
     {% include "default/snippets/published_date_scripts.html" %}
 {% endblock %}

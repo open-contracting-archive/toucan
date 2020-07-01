@@ -66,11 +66,11 @@ class DataFile:
         """
         return os.path.getsize(self.path)
 
-    def json(self, **kwargs):
+    def json(self, codec='utf-8', **kwargs):
         """
         Returns the file's parsed JSON contents.
         """
-        with open(self.path, encoding='utf-8') as f:
+        with open(self.path, encoding=codec) as f:
             return json.load(f, **kwargs)
 
     def write(self, file):
@@ -84,7 +84,7 @@ class DataFile:
             for chunk in file.chunks():
                 f.write(chunk)
 
-    def write_json_to_zip(self, files):
+    def write_json_to_zip(self, files, pretty_json=None, codec=None):
         """
         Writes JSON data to a ZIP file.
 
@@ -92,11 +92,17 @@ class DataFile:
                       tuples of file names and file contents.
         """
         self._makedirs()
+        kwargs = {}
+
+        if pretty_json:
+            kwargs['indent'] = 2
+
         if isinstance(files, dict):
             files = files.items()
+
         with ZipFile(self.path, 'w', compression=ZIP_DEFLATED) as zipfile:
             for name, content in files:
-                zipfile.writestr(name, json_dumps(content) + '\n')
+                zipfile.writestr(name, (json_dumps(content, **kwargs) + '\n').encode(codec))
 
     @property
     def _name(self):
