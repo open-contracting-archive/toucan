@@ -232,7 +232,7 @@ var app = {};
         var promises = $.map(_fileItems, function (val) {
             return val.submit();
         });
-        performAction();
+        performAction($('#fileupload').attr('data-perform-action'));
     }
 
     function send_to() {

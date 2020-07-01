@@ -17,8 +17,8 @@
     <div class="form-group form-inline form-send hidden">
         <label>{% trans "Send result to function:" %}</label>
         <select class="form-control to-function">
-            <option id="compile" value="/compile/">{% trans "Compile Package" %}</option>
-            <option id="upgrade" value="/upgrade/">{% trans "Upgrade to 1.1" %}</option>
+            <option id="compile" value="/compile/">{% trans "Compile Releases" %}</option>
+            <option id="upgrade" value="/upgrade/">{% trans "Upgrade from 1.0 to 1.1" %}</option>
             <option id="convert" value="/to-spreadsheet/">{% trans "Convert to CSV/Excel" %}</option>
         </select>
         <a class="send-button" href="#" role="button">{% trans "Send" %}</a>
@@ -128,7 +128,6 @@
             data-max-file-size="{{maxFileSize}}"
             data-perform-action="{{performAction}}"
           >
-          <div class="action-extra-params form-inline">{% block extraoptions %}{% endblock %}</div>
           <!-- The container for the uploaded files -->
           <div class="drop-area empty">
             <!-- The file input field used as target for the file upload widget -->
