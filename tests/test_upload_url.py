@@ -54,6 +54,16 @@ class UploadUrlTestCase(TestCase):
         response = self.client.get('/upload-url/status/')
         self.assertEqual(response.status_code, 200)
 
+    def test_upload_csv_xlsx_zip(self):
+        file_url = {
+            'input_url_0': 'https://github.com/open-contracting/toucan/blob/master/tests/fixtures/'
+                           '1.1/spreadsheets/flattened.xlsx?raw=true',
+            'type': 'csv xlsx zip'
+        }
+        self.client.post('/upload-url/', file_url)
+        response = self.client.get('/upload-url/status/')
+        self.assertEqual(response.status_code, 200)
+
     def test_bad_url(self):
         bad_files_urls = {
             'input_url_0': 'https://raw.githubusercontent.com/open-contracting/toucan/'
