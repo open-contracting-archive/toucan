@@ -23,5 +23,5 @@ urlpatterns = [
     path('to-json/', views.to_json, name='to_json'),
     path('to-json/go/', views.perform_to_json, name='perform_to_json'),
     path('split-packages/', views.split_packages, name='split_packages'),
-    path('split-packages/go/', views.perfom_split_packages, name='perfom_split_packages')
+    path('split-packages/go/', views.perform_split_packages, name='perform_split_packages')
 ]

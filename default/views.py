@@ -115,7 +115,7 @@ def perform_combine_packages(request, pretty_json=False, published_date='', enco
 @published_date
 @optional_args
 @split_size
-def perfom_split_packages(request, pretty_json=False, published_date='', size=1, encoding='utf-8', warnings=None):
+def perform_split_packages(request, pretty_json=False, published_date='', size=1, encoding='utf-8', warnings=None):
     change_published_date = request.GET.get('changePublishedDate') == 'true'
     packages = [file.json(codec=encoding) for file in get_files_from_session(request)]
 
