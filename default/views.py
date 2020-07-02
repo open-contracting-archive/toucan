@@ -262,7 +262,10 @@ def upload_url(request):
         if 'input_url' in data:
             url = request.POST.get(data)
             basename = data
-            extension = ".json"
+            if request.POST.get('type') == 'csv xlsx zip':
+                extension = os.path.splitext(urlparse(url).path)[1]
+            else:
+                extension = ".json"
             folder = 'media'
             data_file = DataFile(basename, extension)
 
