@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-06-11 19:22-0400\n"
+"POT-Creation-Date: 2020-07-02 20:45-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -207,7 +207,7 @@ msgstr ""
 "<code>publishedDate</code> del paquete de salida."
 
 #: default/templates/default/combine-packages.html:20
-#: default/templates/default/split-packages.html:23
+#: default/templates/default/split-packages.html:25
 msgid ""
 "Select the correct <strong>Package type</strong> option before uploading."
 msgstr ""
@@ -217,19 +217,19 @@ msgstr ""
 #: default/templates/default/combine-packages.html:23
 #: default/templates/default/compile.html:29
 #: default/templates/default/package-releases.html:22
-#: default/templates/default/split-packages.html:29
+#: default/templates/default/split-packages.html:31
 #: default/templates/default/upgrade.html:20
 msgid ""
 "Check the <strong>Pretty JSON</strong> checkbox to get a pretty print on the "
 "output files."
 msgstr ""
-"Seleccione la opción <strong>Dar formato</strong> para colocar indentaciones "
-"en los resultados."
+"Seleccione la opción <strong>JSON Bonito</strong> para obtener una bonita "
+"impresión en los archivos de salida."
 
 #: default/templates/default/combine-packages.html:24
 #: default/templates/default/compile.html:30
 #: default/templates/default/package-releases.html:23
-#: default/templates/default/split-packages.html:30
+#: default/templates/default/split-packages.html:32
 #: default/templates/default/upgrade.html:21
 msgid ""
 "By default the output encoding is utf-8, you can change it in "
@@ -239,7 +239,7 @@ msgstr ""
 "<strong>Codificación</strong> para ingresar otra codificación."
 
 #: default/templates/default/combine-packages.html:27
-#: default/templates/default/split-packages.html:33
+#: default/templates/default/split-packages.html:35
 msgid ""
 "Each input file must be a JSON file containing either a single package or an "
 "array of packages."
@@ -248,17 +248,17 @@ msgstr ""
 "array de paquetes"
 
 #: default/templates/default/combine-packages.html:34
-#: default/templates/default/split-packages.html:45
+#: default/templates/default/split-packages.html:47
 msgid "Package type:"
 msgstr "Tipo de Paquete:"
 
 #: default/templates/default/combine-packages.html:36
-#: default/templates/default/split-packages.html:47
+#: default/templates/default/split-packages.html:49
 msgid "Release Package"
 msgstr "Paquete de Release"
 
 #: default/templates/default/combine-packages.html:37
-#: default/templates/default/split-packages.html:48
+#: default/templates/default/split-packages.html:50
 msgid "Record Package"
 msgstr "Paquete de Record"
 
@@ -516,7 +516,7 @@ msgstr "Codificación:"
 
 #: default/templates/default/snippets/optional_arguments.html:5
 msgid "Pretty JSON:"
-msgstr "Dar formato:"
+msgstr "JSON Bonito:"
 
 #: default/templates/default/snippets/published_date.html:3
 msgid "Published date:"
@@ -539,33 +539,27 @@ msgstr ""
 
 #: default/templates/default/split-packages.html:19
 msgid ""
-"To change the <code>publishedDate</code> for the output package checked the "
-"<strong>check box</strong>"
+"To change the <code>publishedDate</code> for the output package fill in the "
+"<strong>Published date</strong> textbox and check the <strong>checkbox</"
+"strong> next to it."
 msgstr ""
 "Para cambiar el valor de <code>publishedDate</code> del paquete de salida "
-"marque la <strong>casilla de selección</strong> "
+"use la opción <strong>Fecha de Publicación</strong> y marque la "
+"<strong>casilla de selección</strong> junto a ella."
 
-#: default/templates/default/split-packages.html:20
-msgid ""
-"on the side of <strong>Published date</strong> and fill in the "
-"<strong>Published date</strong> textbox."
-msgstr ""
-"que se encuentra en <strong>Fecha de Publicación</strong> y use la opción "
-"<code>Fecha de Publicación</code>."
-
-#: default/templates/default/split-packages.html:26
+#: default/templates/default/split-packages.html:28
 msgid ""
 "Put the number of elements (records or releases) per package in "
 "<strong>Package size</strong> box before start process."
 msgstr ""
-"Ingresa en la caja de texto <strong>Tamaño de paquete</strong> el número de "
+"Ingresa en la caja de texto <strong>Tamaño de Paquete</strong> el número de "
 "elementos (release o records) antes de comenzar el proceso."
 
-#: default/templates/default/split-packages.html:52
+#: default/templates/default/split-packages.html:54
 msgid "Package size:"
-msgstr "Tamaño de paquete:"
+msgstr "Tamaño de Paquete:"
 
-#: default/templates/default/split-packages.html:94
+#: default/templates/default/split-packages.html:96
 msgid "An invalid split size was entered. Change it to a valid number."
 msgstr "El tamaño de paquete ingresado es inválido, ingrese un valor válido."
 
