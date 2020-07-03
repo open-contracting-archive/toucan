@@ -16,8 +16,10 @@
     {% trans "You can also click the <strong>Add a file</strong> link below." %}
 </p>
 <p>
-    {% trans "To change the <code>publishedDate</code> for the output package fill in the <strong>Published date</strong>" %}
-    {% trans "textbox and check the <strong>checkbox</strong> next to it." %}
+    {% blocktrans trimmed %}
+        To change the <code>publishedDate</code> for the output package fill in the <strong>Published date</strong>
+        textbox and check the <strong>checkbox</strong> next to it.
+    {% endblocktrans %}
 </p>
 <p>
     {% trans "Select the correct <strong>Package type</strong> option before uploading." %}
@@ -96,15 +98,7 @@
             $('#upload-button').attr('disabled', true);
         };
         $("#splitSize").keyup(check_split_size);
-        $(document).on("appHookEnableUploadButton", check_split_size);
-        /*
-        // the code prevents messages after user press start button
-        // but the control fails if the content is different than expected
-        $('#upload-button').click(function (event) {
-            if ($('.response-fail').hasClass('hidden'))
-                $("#splitSize").unbind('keyup');
-        });
-        */
+        $(document).on("appHookCheckSplitSize", check_split_size);
     });
     </script>
     {% include "default/snippets/optional_arguments_scripts.html" %}
