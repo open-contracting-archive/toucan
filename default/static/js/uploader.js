@@ -121,13 +121,13 @@ var app = {};
         hideProcessingModal();
     }
 
-    function performAction(values) {
+    function performAction(url) {
         showProcessingModal();
         var actionParams = {};
         _paramSetters.forEach(function (f) {
             f(actionParams);
         });
-        $.ajax($('#fileupload').attr('data-perform-action'), {data: actionParams})
+        $.ajax(url, {data: actionParams})
             .done(function (data) {
                 $('.response-success .file-size').html(utils.readableFileSize(data.size));
                 $('.response-success .download').attr('href', data.url);
@@ -157,7 +157,9 @@ var app = {};
             return val.submit();
         });
         $.when.apply($, promises)
-            .done(performAction)
+            .done(function () {
+                performAction($('#fileupload').attr('data-perform-action'));
+            })
             .fail(function () {
                 enableAddFiles();
                 $('.response-warning.file-process-failed').removeClass('hidden');
@@ -175,6 +177,52 @@ var app = {};
         ;
     }
 
+    function upload_url() {
+        hideMessages();
+        $('#processing-modal .total-files')
+            .html($('.input-url-container .form-group .input-group .form-control').length);
+        $('#processing-modal .downloading-status').removeClass('hidden');
+        showProcessingModal();
+        $('.response-fail').addClass('hidden');
+        $('.form-group').removeClass('has-error');
+        $('.help-block').remove();
+
+        $.ajax('/upload-url/', {'dataType': 'json', type: 'POST',
+        'data': $('.input-url-container .form-group .input-group .form-control').serialize() +
+        '&type=' + JSON.parse($('#fileupload').attr('data-form-data')).type,
+        headers: {'X-CSRFToken': JSON.parse($('#fileupload').attr('data-form-data')).csrfmiddlewaretoken}})
+            .done(function () {
+                performAction($('#url-button').attr('data-perform-action'));
+            })
+            .fail(function(jqXHR, textStatus, errorThrown) {
+                $.each(JSON.parse(jqXHR.responseText), function(i, item) {
+                    slt = "#" + item.id;
+                    msg = item.message;
+                    $(slt).addClass('has-error');
+                    $(slt).append('<div class="help-block">' + msg + '</div>');
+                });
+                if (jqXHR.status === 400) {
+                    $('.response-fail').removeClass('hidden');
+                }
+                if (jqXHR.status === 401) {
+                    $('.response-warning.file-process-failed').removeClass('hidden');
+                }
+                hideProcessingModal();
+                $('#processing-modal .downloading-status').addClass('hidden');
+            })
+            .always(function () {
+                clearInterval(pollInterval);
+            })
+            pollInterval = setInterval(function () {
+                $.ajax('/upload-url/status/', {'dataType': 'json', type: 'GET'})
+                    .done(function (data) {
+                        $('#processing-modal .current-files').html(data);
+                    })
+                ;
+            }, 500);
+        ;
+    }
+
     /** plugin initialization & listeners**/
 
     var fileupload = $('#fileupload')
@@ -187,8 +235,14 @@ var app = {};
     /** upload call binding **/
     $("#upload-button").click(upload);
 
-    /* add warning before closing/navigating away from page */
+    /* click upload url button behaviour */
+    $("#url-button").click(upload_url);
+
     window.onload = function () {
+        /* clear URL input text */
+        $('#input_url_0 input').val('');
+
+        /* add warning before closing/navigating away from page */
         window.addEventListener("beforeunload", function (e) {
             if (_fileItems.length === 0 || _done) {
                 return undefined;
