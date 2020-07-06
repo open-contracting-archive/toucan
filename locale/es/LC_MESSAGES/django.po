@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-07-02 20:45-0400\n"
+"POT-Creation-Date: 2020-07-06 18:58-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -265,16 +265,6 @@ msgstr ""
 #: default/templates/default/combine-packages.html:17
 #: default/templates/default/compile.html:17
 #: default/templates/default/package-releases.html:16
-#: default/templates/default/split-packages.html:16
-#: default/templates/default/upgrade.html:17
-msgid "You can also click the <strong>Add a file</strong> link below."
-msgstr ""
-"También puede hacer clic en el enlace de <strong>Agregue un archivo</strong> "
-"más abajo."
-
-#: default/templates/default/combine-packages.html:19
-#: default/templates/default/compile.html:21
-#: default/templates/default/package-releases.html:19
 msgid ""
 "Fill in the <strong>Published date</strong> textbox to set "
 "<code>publishedDate</code> in the output package."
@@ -282,19 +272,18 @@ msgstr ""
 "Use la opción <strong>Fecha de Publicación</strong> para establecer "
 "<code>publishedDate</code> del paquete de salida."
 
-#: default/templates/default/combine-packages.html:20
-#: default/templates/default/split-packages.html:25
+#: default/templates/default/combine-packages.html:18
 msgid ""
 "Select the correct <strong>Package type</strong> option before starting."
 msgstr ""
 "Seleccione la opción correcta de <strong>Tipo de Paquete</strong> antes de "
 "empezar."
 
-#: default/templates/default/combine-packages.html:23
-#: default/templates/default/compile.html:29
-#: default/templates/default/package-releases.html:22
-#: default/templates/default/split-packages.html:31
-#: default/templates/default/upgrade.html:20
+#: default/templates/default/combine-packages.html:21
+#: default/templates/default/compile.html:25
+#: default/templates/default/package-releases.html:19
+#: default/templates/default/split-packages.html:28
+#: default/templates/default/upgrade.html:19
 msgid ""
 "Check the <strong>Pretty JSON</strong> checkbox to get a pretty print on the "
 "output files."
@@ -302,11 +291,11 @@ msgstr ""
 "Seleccione la opción <strong>JSON Bonito</strong> para obtener una bonita "
 "impresión en los archivos de salida."
 
-#: default/templates/default/combine-packages.html:24
-#: default/templates/default/compile.html:30
-#: default/templates/default/package-releases.html:23
-#: default/templates/default/split-packages.html:32
-#: default/templates/default/upgrade.html:21
+#: default/templates/default/combine-packages.html:22
+#: default/templates/default/compile.html:26
+#: default/templates/default/package-releases.html:20
+#: default/templates/default/split-packages.html:29
+#: default/templates/default/upgrade.html:20
 msgid ""
 "By default the output encoding is utf-8, you can change it in "
 "<strong>Encoding</strong> text box."
@@ -314,8 +303,8 @@ msgstr ""
 "Por defecto la codificación de salida es utf-8, utiliza la caja de texto "
 "<strong>Codificación</strong> para ingresar otra codificación."
 
-#: default/templates/default/combine-packages.html:27
-#: default/templates/default/split-packages.html:35
+#: default/templates/default/combine-packages.html:25
+#: default/templates/default/split-packages.html:32
 msgid ""
 "Each input file must be a JSON file containing either a single package or an "
 "array of packages."
@@ -323,18 +312,18 @@ msgstr ""
 "Los archivos de entrada deben ser JSON con un solo paquete cada uno o un "
 "array de paquetes"
 
-#: default/templates/default/combine-packages.html:34
-#: default/templates/default/split-packages.html:47
+#: default/templates/default/combine-packages.html:32
+#: default/templates/default/split-packages.html:44
 msgid "Package type:"
 msgstr "Tipo de Paquete:"
 
-#: default/templates/default/combine-packages.html:36
-#: default/templates/default/split-packages.html:49
+#: default/templates/default/combine-packages.html:34
+#: default/templates/default/split-packages.html:46
 msgid "Release Package"
 msgstr "Paquete de Release"
 
-#: default/templates/default/combine-packages.html:37
-#: default/templates/default/split-packages.html:50
+#: default/templates/default/combine-packages.html:35
+#: default/templates/default/split-packages.html:47
 msgid "Record Package"
 msgstr "Paquete de Record"
 
@@ -370,12 +359,12 @@ msgstr ""
 "contracting.org/latest/es/schema/merging/\" target=\"_blank\">documentación "
 "de OCDS</a>."
 
-#: default/templates/default/compile.html:32
+#: default/templates/default/compile.html:28
 msgid "Please verify that your files are release packages before uploading."
 msgstr ""
 "Favor verifique que sus archivos sean paquetes de release antes de subirlos."
 
-#: default/templates/default/compile.html:38
+#: default/templates/default/compile.html:34
 msgid "Include Versioned Releases: "
 msgstr "Incluir el bloque versionedRelease: "
 
@@ -567,7 +556,7 @@ msgstr ""
 "contracting.org/latest/es/getting_started/releases_and_records/#releases\" "
 "target=\"_blank\">releases</a> individuales"
 
-#: default/templates/default/package-releases.html:26
+#: default/templates/default/package-releases.html:23
 msgid ""
 "Each input file must be a JSON file containing either one release or an "
 "array of releases."
@@ -589,42 +578,43 @@ msgstr "Fecha de Publicación:"
 
 #: default/templates/default/split-packages.html:10
 msgid ""
-"Drag and drop one or more <a href=\"https://standard.open-contracting.org/"
-"latest/en/schema/release_package/\" target=\"_blank\">release packages</a> "
-"or <a href=\"https://standard.open-contracting.org/latest/en/schema/"
-"record_package/\" target=\"_blank\">record packages</a> to split in smaller "
+"Use this tool to split <a href=\"https://standard.open-contracting.org/"
+"latest/en/schema/record_package/\" target=\"_blank\">record package</a> or "
+"<a href=\"https://standard.open-contracting.org/latest/en/schema/"
+"release_package/\" target=\"_blank\">release packages</a> into smaller "
 "packages for each."
 msgstr ""
-"Arrastra y suelta uno o más <a href=\"https://standard.open-contracting.org/"
-"latest/es/schema/release_package/\" target=\"_blank\">paquetes de release</"
-"a> o\n"
+"Use esta herramienta para dividir <a href=\"https://standard.open-"
+"contracting.org/latest/es/schema/release_package/\" target=\"_blank"
+"\">paquetes de release</a> o\n"
 " <a href=\"https://standard.open-contracting.org/latest/es/schema/"
-"record_package/\" target=\"_blank\">paquetes de record</a> para divirlos en "
-"paquetes más pequeños."
+"record_package/\" target=\"_blank\">paquetes de record</a> en paquetes "
+"mas pequeños."
 
-#: default/templates/default/split-packages.html:19
+#: default/templates/default/split-packages.html:18
 msgid ""
 "To change the <code>publishedDate</code> for the output package fill in the "
 "<strong>Published date</strong> textbox and check the <strong>checkbox</"
-"strong> next to it."
+"strong> next to it. Select the correct <strong>Package type</strong> option "
+"before uploading."
 msgstr ""
 "Para cambiar el valor de <code>publishedDate</code> del paquete de salida "
 "use la opción <strong>Fecha de Publicación</strong> y marque la "
 "<strong>casilla de selección</strong> junto a ella."
 
-#: default/templates/default/split-packages.html:28
+#: default/templates/default/split-packages.html:25
 msgid ""
 "Put the number of elements (records or releases) per package in "
 "<strong>Package size</strong> box before start process."
 msgstr ""
 "Ingresa en la caja de texto <strong>Tamaño de Paquete</strong> el número de "
-"elementos (release o records) antes de comenzar el proceso."
+"elementos (release o record) antes de comenzar el proceso."
 
-#: default/templates/default/split-packages.html:54
+#: default/templates/default/split-packages.html:51
 msgid "Package size:"
 msgstr "Tamaño de Paquete:"
 
-#: default/templates/default/split-packages.html:96
+#: default/templates/default/split-packages.html:93
 msgid "An invalid split size was entered. Change it to a valid number."
 msgstr "El tamaño de paquete ingresado es inválido, ingrese un valor válido."
 
@@ -748,11 +738,11 @@ msgstr "No se reconoce \"%(type)s\""
 msgid "Error decoding JSON"
 msgstr "Error al decodificar JSON"
 
-#: default/views.py:285
+#: default/views.py:346
 msgid "Enter a valid URL."
 msgstr "Introduzca una URL válida."
 
-#: default/views.py:289
+#: default/views.py:350
 msgid ""
 "There was an error when trying to access this URL. Please verify that the "
 "URL is correct and the file has the expected format."
@@ -760,11 +750,11 @@ msgstr ""
 "Se produjo un error al intentar acceder a esta URL. Favor verifique que la "
 "URL sea correcta y el archivo tenga el formato esperado."
 
-#: default/views.py:349 default/views.py:357
+#: default/views.py:410 default/views.py:418
 msgid "File not found"
 msgstr "Archivo no encontrado"
 
-#: default/views.py:355
+#: default/views.py:416
 msgid "File deleted"
 msgstr "Archivo eliminado"
 
