@@ -1,6 +1,6 @@
 import logging
-
 from datetime import datetime
+
 from django.http import JsonResponse
 from django.utils.translation import gettext_lazy as _
 from google.auth.transport.requests import Request as GoogleRequest
@@ -8,8 +8,9 @@ from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import Flow
 from googleapiclient.discovery import build
 from googleapiclient.http import MediaFileUpload
-from ocdstoucan.settings import OCDS_TOUCAN_GOOGLE_API_CREDENTIALS_FILE
+
 from default.data_file import DataFile
+from ocdstoucan.settings import OCDS_TOUCAN_GOOGLE_API_CREDENTIALS_FILE
 
 """
 Code based in the documentation here: https://developers.google.com/identity/protocols/oauth2/web-server

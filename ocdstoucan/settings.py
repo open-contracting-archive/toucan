@@ -10,8 +10,8 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
-import os
 import json
+import os
 
 import sentry_sdk
 from django.utils.translation import gettext_lazy as _
