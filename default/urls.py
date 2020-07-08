@@ -26,7 +26,8 @@ urlpatterns = [
     path('to-json/go/', views.perform_to_json, name='perform_to_json'),
     path('googleapi-auth-response', views.googleapi_auth_callback, name='googleapi_auth_callback'),
     path('google-drive-save-status', views.get_google_drive_save_status, name='get_googleapi_auth_status'),
-    path('google-drive-save-start/<str:folder>/<uuid:id>/', views.google_drive_save_start, name='googleapi_auth_start'),
+    path('google-drive-save-start/<str:folder>/<uuid:id>/', views.google_drive_save_start,
+         name='googleapi_auth_start'),
     path('google-drive-save-start/<str:folder>/<uuid:id>/<str:format>/', views.google_drive_save_start,
          name='googleapi_auth_start')
 ]

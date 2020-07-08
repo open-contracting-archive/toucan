@@ -12,7 +12,6 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 
 import os
 import json
-import logging
 
 import sentry_sdk
 from django.utils.translation import gettext_lazy as _

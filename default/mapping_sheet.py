@@ -1,7 +1,7 @@
 from io import StringIO
 
 import jsonref
-from django.http import FileResponse, HttpResponse
+from django.http import HttpResponse
 from ocdsextensionregistry import ProfileBuilder
 from ocdskit.mapping_sheet import mapping_sheet as mapping_sheet_method
 
