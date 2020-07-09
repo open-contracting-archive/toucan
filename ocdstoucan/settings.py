@@ -38,7 +38,6 @@ if os.getenv('ALLOWED_HOSTS') is not None:
 # Application definition
 
 INSTALLED_APPS = [
-    'sslserver',
     'default.apps.DefaultConfig',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
