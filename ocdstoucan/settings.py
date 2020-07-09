@@ -10,7 +10,6 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
-import json
 import os
 
 import sentry_sdk
@@ -39,6 +38,7 @@ if os.getenv('ALLOWED_HOSTS') is not None:
 # Application definition
 
 INSTALLED_APPS = [
+    'sslserver',
     'default.apps.DefaultConfig',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -171,8 +171,3 @@ if os.getenv('SENTRY_DSN') is not None:
     )
 
 OCDS_TOUCAN_GOOGLE_API_CREDENTIALS_FILE = os.getenv('OCDS_TOUCAN_CREDENTIALS_DRIVE', 'googleapi_credentials.json')
-
-OCDS_TOUCAN_GOOGLE_API_CREDENTIALS = {}
-
-with open(OCDS_TOUCAN_GOOGLE_API_CREDENTIALS_FILE) as f:
-    OCDS_TOUCAN_GOOGLE_API_CREDENTIALS = json.load(f)
