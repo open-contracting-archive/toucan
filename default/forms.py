@@ -2,6 +2,9 @@ from django import forms
 from django.core.cache import cache
 from django.utils.translation import gettext_lazy as _
 from ocdsmerge.util import get_tags
+from ocdskit.mapping_sheet import mapping_sheet as mapping_sheet_method
+
+from default.util import get_options
 
 
 def _get_tags():
@@ -98,9 +101,9 @@ class MappingSheetOptionsForm(forms.Form):
 
 
 class UnflattenOptionsForm(forms.Form):
+    #id_schema
     schema = forms.ChoiceField(required=False,
                                label=_('Schema version'),
-                               initial='1.1',
                                choices=(
                                    ('https://standard.open-contracting.org/1.1/en/release-schema.json',
                                     '1.1'),
@@ -128,15 +131,31 @@ class UnflattenOptionsForm(forms.Form):
     filter_value = forms.CharField(required=False,
                                    help_text=_('Enter a value'),
                                    widget=forms.TextInput(attrs={'class': 'form-control'}))
-    preserve_fields = forms.CharField(required=False,
-                                      label=_('Include the following fields only'),
-                                      widget=forms.Textarea(attrs={'class': 'form-control'}),
-                                      help_text=_('Enter the full path to each field, separated by a newline'))
+
+    #id_preserve_fields
+    preserve_fields = forms.MultipleChoiceField(required=False,
+                                               label=_('Include ,the following fields only'),
+                                               widget=forms.SelectMultiple(attrs={'class': 'form-control'}),
+                                               choices=get_options('https://standard.open-contracting.org/1.1/en/release-schema.json'))
+
+# forms.CharField(required=False,
+#                                      label=_('Include the following fields only'),
+#                                      widget=forms.Textarea(attrs={'class': 'form-control'}),
+#                                      help_text=_('Enter the full path to each field, separated by a newline'))
+
     remove_empty_schema_columns = forms.ChoiceField(required=True,
                                                     label=_('Remove empty schema columns'),
                                                     choices=((True, _('Yes')), (False, _('No'))),
                                                     initial=False,
                                                     widget=forms.Select(attrs={'class': 'form-control'}))
+
+    def __init__(self, selectedSchema=None, *args, **kwargs):
+        super().__init__(selectedSchema, *args, **kwargs)
+        get_options('https://standard.open-contracting.org/1.1/en/release-schema.json')
+        if selectedSchema != None:
+            self.fields['preserve_fields'] = forms.MultipleChoiceField(required=False,
+                                                                       label=_('Include ,the following fields only'),
+                                                                       choices=get_options(selectedSchema))
 
     def clean_output_format(self):
         return 'all' if len(self.cleaned_data['output_format']) > 1 else self.cleaned_data['output_format'][0]
