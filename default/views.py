@@ -1,6 +1,5 @@
 import os
 import shutil
-import warnings
 from collections import OrderedDict
 from zipfile import ZIP_DEFLATED, ZipFile
 
@@ -19,8 +18,10 @@ from default.decorators import clear_files, published_date, require_files
 from default.forms import MappingSheetOptionsForm, UnflattenOptionsForm
 from default.mapping_sheet import (get_extended_mapping_sheet, get_mapping_sheet_from_uploaded_file,
                                    get_mapping_sheet_from_url)
-from default.util import (get_files_from_session, invalid_request_file_message, json_response, make_package,
-                          ocds_command)
+from default.util import (get_files_from_session, get_options, invalid_request_file_message, json_response, make_package,
+                          ocds_command, flatten)
+
+from django.views.decorators.csrf import csrf_exempt
 
 
 def retrieve_result(request, folder, id, format=None):
@@ -82,6 +83,17 @@ def perform_upgrade(request):
     return json_response((file.name_with_suffix('upgraded'), upgrade_10_11(file.json(object_pairs_hook=OrderedDict)))
                          for file in get_files_from_session(request))
 
+@csrf_exempt
+@require_GET
+def get_option_list(request):
+    options1 = get_options('https://standard.open-contracting.org/1.1/en/release-schema.json', tupleFlag=False)
+    options2 = get_options('http://standard.open-contracting.org/1.1/es/release-schema.json', tupleFlag=False)
+    options3 = get_options('https://standard.open-contracting.org/schema/1__0__3/release-schema.json', tupleFlag=False)
+    return JsonResponse({
+                        'options1' : options1,
+                        'options2' : options2,
+                        'options3' : options3
+                        })
 
 @require_files
 @published_date
@@ -152,28 +164,12 @@ def perform_to_spreadsheet(request):
     input_file = next(get_files_from_session(request))
     output_dir = DataFile('flatten', '', input_file.id, input_file.folder)
 
-    form = UnflattenOptionsForm(request.POST)
+    form = UnflattenOptionsForm(request.POST,request.POST.__getitem__('schema')[0])
 
     if not form.is_valid():
-        return JsonResponse(form.errors.as_json(), status=400, safe=False)
+        return JsonResponse({'form_errors': dict(form.errors)}, status=400)
 
-    config = LibCoveOCDSConfig().config
-
-    output_name = output_dir.path + '.xlsx' if form.cleaned_data['output_format'] == 'xlsx' else output_dir.path
-
-    with warnings.catch_warnings():
-        warnings.filterwarnings('ignore')  # flattentool uses UserWarning, so we can't set a specific category
-
-        flattentool.flatten(
-            input_file.path,
-            output_name=output_name,
-            main_sheet_name=config['root_list_path'],
-            root_list_path=config['root_list_path'],
-            root_id=config['root_id'],
-            disable_local_refs=config['flatten_tool']['disable_local_refs'],
-            root_is_list=False,
-            **form.non_empty_values()
-        )
+    flatten(input_file, output_dir, form.non_empty_values())
 
     response = {}
     if form.cleaned_data['output_format'] == 'all' or form.cleaned_data['output_format'] == 'csv':

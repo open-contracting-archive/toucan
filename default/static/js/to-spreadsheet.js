@@ -18,7 +18,7 @@
              'method': 'POST'
             })
              .done(showLinksToResults)
-             .fail(showDefaultErrorMessage)
+             .fail(showActionErrorMessage)
              .always(function () {
                  // hide the modal after the ajax call
                 processingModal.modal('hide');
@@ -27,7 +27,7 @@
     }
 
     function showLinksToResults(data) {
-        // show links to results and file sizes
+        /* show links to results (and file sizes) */
         if (data.xlsx) {
             successBox.find('.xlsx').removeClass('hidden');
             successBox.find('.download-xlsx').attr('href', data.xlsx.url);
@@ -41,25 +41,48 @@
         successBox.removeClass('hidden');
     }
 
-    function showDefaultErrorMessage() {
-        // shows a default error message written in the template
-        errorBox.removeClass('hidden')
-            .children('.default-message')
-            .removeClass('hidden');
+    function showActionErrorMessage(jqXHR, textStatus, errorThrown) {
+        /* show error messages received from the server, after calling the unflatten function */
+        if ('responseJSON' in jqXHR && 'form_errors' in jqXHR.responseJSON) {
+            toucan.unflattenOptions.showErrorsFromServer(jqXHR.responseJSON.form_errors);
+            errorBox.removeClass('hidden')
+                .children('.unflatten-invalid-options')
+                .removeClass('hidden');
+        }
+        else {
+            // shows a default error message written in the template
+            errorBox.removeClass('hidden')
+                .children('.default-message')
+                .removeClass('hidden');
+        }
     }
 
-    function showErrorMsgFromServer(jqXHR, textStatus, errorThrown) {
+    function showFileErrorMsg(jqXHR, textStatus, errorThrown) {
         // shows an error message received from the server
         errorBox.removeClass('hidden')
-            .children('.message-from-server')
+            .children('.unflatten-invalid-options')
             .removeClass('hidden')
             .children('.msg')
             .html(jqXHR.responseText || textStatus)
         ;
     }
 
-    /* listen when a file is selected or dropped in the designated area */
+    function clear() {
+        /* removes all messages in screen */
+        errorBox
+            .addClass('hidden')
+            .children()
+            .addClass('hidden')
+        ;
+        successBox.find('.xlsx').addClass('hidden');
+        successBox.find('.csv').addClass('hidden');
+        successBox.addClass('hidden');
+
+        toucan.unflattenOptions.clear();
+    }
+
     fileUploadObj.bind('fileuploadadd', function (e, data) {
+        /* listen when a file is selected or dropped in the designated area */
         dropArea.removeClass('empty');
         // hide default message
         dropArea.children('.msg-empty').addClass('hidden');
@@ -81,10 +104,12 @@
     uploadButton.click(function () {
         // we don't want to add any more files
         fileUploadObj.fileupload('disable');
+        // clear error messages
+        clear();
 
         selectedFile.submit() // send the file
             .done(transformInServer)
-            .fail(showErrorMsgFromServer)
+            .fail(showFileErrorMsg)
             // enable the input again if there is an error!
             .fail(function () { fileUploadObj.fileupload('enable')})
         ;

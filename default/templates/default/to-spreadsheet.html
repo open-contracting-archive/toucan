@@ -26,10 +26,13 @@
     <span class="default-message hidden">
         {% trans "An error has occurred! Please verify that all your files are valid OCDS JSON, and try again in a few minutes." %}
     </span>
-    <p class="message-from-server hidden">
+    <p class="file-upload-failed hidden">
         <b>{%  trans "Error when processing file:" %}</b>
         <span class="msg"></span>.
         {% trans "Please verify that the file is a valid OCDS Release Package and try again." %}
+    </p>
+    <p class="unflatten-invalid-options hidden">
+        {% trans "An error has occurred when processing options. Click the <b>Options</b> button for more details." %}
     </p>
 </div>
 <div class="info panel panel-default">
@@ -93,8 +96,58 @@
 </div>
 {% include "default/snippets/unflatten-options-modal.html" %}
 {% endblock %}
-
 {% block scripts %}
+
+<script>
+  $(document).ready(function(){
+
+    var option1;
+    var option2;
+    var option3;
+
+    $.ajax({
+          url: '/to-spreadsheet/option-list',
+          async: false,
+          success: function(data) {
+                    option1 = data["options1"];
+                    option2 = data["options2"];
+                    option3 = data["options3"];
+                }
+    });
+
+    $('#id_schema').on('change', function(){
+      var selectedSchema = $('#id_schema').val();
+      $('#id_preserve_fields').empty();
+      if( $('#id_schema').val() == 'https://standard.open-contracting.org/1.1/en/release-schema.json'){
+        for (let i = 0; i<option1.length; i++){
+            $('#id_preserve_fields').append(
+              ` <option value="${option1[i]}"> ${option1[i]} </option> `
+            );
+          };
+      };
+
+      if( $('#id_schema').val() == 'http://standard.open-contracting.org/1.1/es/release-schema.json'){
+        for (let i = 0; i<option2.length; i++){
+            $('#id_preserve_fields').append(
+              ` <option value="${option2[i]}"> ${option2[i]} </option> `
+            );
+          };
+      };
+
+      if( $('#id_schema').val() == 'https://standard.open-contracting.org/schema/1__0__3/release-schema.json' ){
+        for (let i = 0; i<option3.length; i++){
+            $('#id_preserve_fields').append(
+              ` <option value="${option3[i]}"> ${option3[i]} </option> `
+            );
+          };
+      };
+
+    });
+
+   });
+
+</script>
+
 <script src="{% static "js/vendor/jquery.ui.widget.js" %}"></script>
 <script src="{% static "js/jquery.iframe-transport.js" %}"></script>
 <script src="{% static "js/jquery.fileupload.js" %}"></script>
