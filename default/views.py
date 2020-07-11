@@ -1,6 +1,7 @@
 import os
 import shutil
 from collections import OrderedDict
+from urllib.parse import urlparse
 from zipfile import ZIP_DEFLATED, ZipFile
 
 import flattentool
@@ -8,10 +9,12 @@ from django.http import FileResponse, Http404, HttpResponse, JsonResponse
 from django.shortcuts import render
 from django.utils.translation import gettext as _
 from django.views.decorators.http import require_GET, require_POST
+from jsonref import requests
 from libcoveocds.config import LibCoveOCDSConfig
 from ocdskit.combine import combine_record_packages, combine_release_packages, merge
 from ocdskit.combine import package_releases as package_releases_method
 from ocdskit.upgrade import upgrade_10_11
+from requests.exceptions import ConnectionError, HTTPError, SSLError
 
 from default.data_file import DataFile
 from default.decorators import clear_files, published_date, require_files
@@ -201,15 +204,20 @@ def perform_to_json(request):
 
     output_name = output_dir.path + '.json'
     extension = os.path.splitext(input_file.path)[1]
-    if extension == '.zip':
-        input_file_path = output_dir.path + '/tmp'
-        input_format = 'csv'
-        with ZipFile(input_file.path) as zipfile:
-            for name in zipfile.namelist():
-                zipfile.extract(name, input_file_path)
-    else:
+    if extension == '.xlsx':
         input_file_path = input_file.path
         input_format = 'xlsx'
+    else:
+        input_file_path = output_dir.path
+        input_format = 'csv'
+        if extension == '.zip':
+            with ZipFile(input_file.path) as zipfile:
+                for name in zipfile.namelist():
+                    zipfile.extract(name, input_file_path)
+        else:
+            if extension == '.csv':
+                os.mkdir(input_file_path)
+                shutil.copy(input_file.path, input_file_path)
 
     config = LibCoveOCDSConfig().config
     flattentool.unflatten(
@@ -221,7 +229,7 @@ def perform_to_json(request):
     )
 
     # Delete the input CSV files, if any.
-    if extension == '.zip':
+    if extension in ('.csv', '.zip'):
         shutil.rmtree(input_file_path)
 
     # Create a ZIP file of the JSON file.
@@ -233,6 +241,68 @@ def perform_to_json(request):
         'url': input_file.url,
         'size': json_zip.size,
     })
+
+
+@require_POST
+def upload_url(request):
+    request.session['files'] = []
+    errors = []
+    status = 401
+
+    for data in request.POST:
+        if 'input_url' in data:
+            url = request.POST.get(data)
+            basename = data
+            extension = ".json"
+            folder = 'media'
+            data_file = DataFile(basename, extension)
+
+            try:
+                os.stat(folder + '/' + data_file.folder)
+            except FileNotFoundError:
+                os.mkdir(folder + '/' + data_file.folder)
+
+            try:
+                urlparse(url)
+                with requests.get(url, stream=True) as request_file:
+                    request_file.raise_for_status()
+                    with open(data_file.path, 'wb+') as f:
+                        for chunk in request_file.iter_content(chunk_size=8*1024):
+                            if chunk:
+                                f.write(chunk)
+
+            except ValueError:
+                status = 400
+                errors.append({'id': data, 'message': _('Enter a valid URL.')})
+
+            except (HTTPError, ConnectionError, SSLError):
+                status = 400
+                message = _('There was an error when trying to access this URL. '
+                            'Please verify that the URL is correct and the file has the expected format.')
+                errors.append({'id': data, 'message': message})
+
+            else:
+                with open(data_file.path, 'rb') as f:
+                    file_type = request.POST.get('type', None)
+                    message = invalid_request_file_message(f, file_type)
+                    if message:
+                        errors.append({'id': data, 'message': message})
+                    else:
+                        request.session['files'].append(data_file.as_dict())
+                        request.session.modified = True
+                        request.session.save()
+
+    if len(errors) > 0:
+        return JsonResponse(errors, status=status, safe=False)
+
+    return JsonResponse({
+        'files': request.session['files']
+    })
+
+
+@require_GET
+def upload_url_status(request):
+    return JsonResponse(len(request.session['files']), safe=False)
 
 
 @require_POST

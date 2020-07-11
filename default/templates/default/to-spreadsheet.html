@@ -23,63 +23,88 @@
     </ul>
 </div>
 <div class="response-fail alert alert-danger hidden">
-    <span class="default-message hidden">
-        {% trans "An error has occurred! Please verify that all your files are valid OCDS JSON, and try again in a few minutes." %}
-    </span>
-    <p class="file-upload-failed hidden">
-        <b>{%  trans "Error when processing file:" %}</b>
-        <span class="msg"></span>.
-        {% trans "Please verify that the file is a valid OCDS Release Package and try again." %}
-    </p>
-    <p class="unflatten-invalid-options hidden">
-        {% trans "An error has occurred when processing options. Click the <b>Options</b> button for more details." %}
-    </p>
+    <b>{% trans "An error has occurred!" %}</b>
+    {% trans "Please verify that the file is valid OCDS JSON, and try again in a few minutes." %}
 </div>
 <div class="info panel panel-default">
   <div class="panel-body">
     <p>
         {% blocktrans trimmed %}
             Use this page to convert a <a href="https://standard.open-contracting.org/latest/en/schema/release_package/"
-            target="_blank">release package</a> to its CSV and Excel version. Please upload no more than one file by
-            dragging and dropping in the box below or using the <strong>Add a file</strong> link.
+            target="_blank">release package</a> to its CSV and Excel version.
         {% endblocktrans %}
     </p>
+    <p>
+        {% trans "The options available for input files are:" %}
+    </p>
+    <ul class="list-unstyled">
+        <li>
+            <strong>{% trans "Upload a file:" %}</strong>
+            {% trans "Upload no more than one file by dragging and dropping in the box below or using the <strong>Add a file</strong> link." %}
+        </li>
+        <li>
+            <strong>{% trans "Provide a URL:" %}</strong>
+            {% trans "Provide a single URL to a file." %}
+        </li>
+    </ul>
   </div>
 </div>
-<form
-    id="fileupload"
-    method="POST"
-    action="/upload/"
-    data-form-data='{"csrfmiddlewaretoken": "{{csrf_token}}", "type": "release-package"}'
-    data-auto-upload="false"
-    data-replace-file-input="false"
-    accept="text/json"
-    data-accept-file-types="/\.json$/i"
-    >
-    <div class="drop-area empty single">
-        <input type="file" name="file" id="file" accept=".json" multiple/>
-        <span class="file-selector-empty">
-            <span class="msg-empty">
-                <label for="file">{% trans "Add a file" %}</label> 
-                {% trans "or drag and drop here." %}
-            </span>
-        </span>
-        <span class="file-selected"></span>
+<div class="btn-group schema-nav" data-toggle="buttons" style="margin-top: 0px;margin-bottom: 15px;">
+    <label class="btn btn-default active">
+        <input type="radio" name="type" class="choice-header toucan-nav-file" autocomplete="off" value="file">
+                {% trans "Upload a file" %}
+    </label>
+    <label class="btn btn-default">
+        <input type="radio" name="type" class="choice-header toucan-nav-input" autocomplete="off" value="input">
+                {% trans "Provide a URL" %}
+    </label>
+</div>
+
+<div role="tabpanel" class="panel-collapse toucan-nav-input collapse">
+    <div class="input-url-container">
+        <div class="form-group" id="input_url_0">
+            <label>{% blocktrans trimmed %}
+                Provide the URL to a file:
+                {% endblocktrans %}</label>
+            <input type="text" name="input_url_0" class="form-control"/>
+        </div>
     </div>
-    <div class="actions">
-        <div class="buttons">
-            <button type="button" class="btn btn-default" id="options-button"
-                data-toggle="modal" data-target="#unflatten-options-modal">
-              <i class="glyphicon glyphicon-cog"></i>
-              <span>{% trans "Options" %}</span>
-            </button>
+    <div class="buttons">
+    <button type="submit" class="btn btn-primary" id="url-button-ts" data-perform-action="/to-spreadsheet/go/">
+        {% trans "Start" %}
+        <i class="glyphicon glyphicon-play-circle"></i>
+    </button>
+    </div>
+</div>
+
+<div role="tabpanel" class="panel-collapse toucan-nav-file collapse in">
+    <div class="form-group">
+        <form
+            id="fileupload"
+            method="POST"
+            action="/upload/"
+            data-form-data='{"csrfmiddlewaretoken": "{{csrf_token}}", "type": "release-package"}'
+            data-auto-upload="false"
+            data-replace-file-input="false"
+            accept="text/json"
+            data-accept-file-types="/\.json$/i"
+            >
+            <div class="drop-area empty single">
+                <span class="file-selector-empty">
+                    <input type="file" name="file" id="file" accept=".json" multiple/>
+                    <span class="drop-area-msg">
+                        <label for="file">{% trans "Add a file" %}</label>
+                        {% trans "or drag and drop here." %}
+                    </span>
+                </span>
+            </div>
             <button type="button" class="btn btn-primary pull-right hidden" id="upload-button">
               <i class="glyphicon glyphicon-cloud-upload"></i>
               <span>{% trans "Start" %}</span>
             </button>
-        </div>
+        </form>
     </div>
-</form>
+</div>
 <!-- Processing modal -->
 <div id="processing-modal" class="modal fade" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog modal-sm" role="document">
@@ -142,16 +167,85 @@
           };
       };
 
+        /* click upload button behaviour */
+        $('#upload-button').click(function(){
+            $('#fileupload').fileupload('option', 'dropZone', undefined);
+            data
+                .submit()
+                .done(function(){
+                    $('#processing-modal').modal('show');
+                    $.ajax('/to-spreadsheet/go/', { 'dataType': 'json' })
+                        .done(function(data){
+                            $('.response-success .download-xlsx').attr('href', data.xlsx.url);
+                            $('.response-success .download-csv').attr('href', data.csv.url);
+                            $('.response-success .file-size-xlsx').html(utils.readableFileSize(data.xlsx.size));
+                            $('.response-success .file-size-csv').html(utils.readableFileSize(data.csv.size));
+                            $('.response-success').removeClass('hidden');
+                            })
+                        .fail(function(){
+                            $('.response-fail').removeClass('hidden');
+                            })
+                        .always(function(){
+                            $('#processing-modal').modal('hide');
+                            });
+                })
+                .fail(function(){
+                    $('.response-fail').removeClass('hidden');
+                    $('#processing-modal').modal('hide');
+                });
+        });
+    });
+
+    /* click url button behaviour */
+    $("#url-button-ts").click(function(){
+        $('.response-warning').addClass('hidden');
+        $('#processing-modal').modal('show');
+        $('.response-fail').addClass('hidden');
+        $('.form-group').removeClass('has-error');
+        $('.help-block').remove();
+
+        $.ajax('/upload-url/', {'dataType': 'json', type: 'POST',
+        'data': $('.input-url-container .form-group .form-control').serialize() +
+        '&type=' + JSON.parse($('#fileupload').attr('data-form-data')).type,
+        headers: {'X-CSRFToken': JSON.parse($('#fileupload').attr('data-form-data')).csrfmiddlewaretoken}})
+            .done(function (data) {
+                $.ajax('/to-spreadsheet/go/', { 'dataType': 'json' })
+                    .done(function (data) {
+                        $('.response-success .download-xlsx').attr('href', data.xlsx.url);
+                        $('.response-success .download-csv').attr('href', data.csv.url);
+                        $('.response-success .file-size-xlsx').html(utils.readableFileSize(data.xlsx.size));
+                        $('.response-success .file-size-csv').html(utils.readableFileSize(data.csv.size));
+                        $('.response-success').removeClass('hidden');
+                    })
+                    .fail(function () {
+                        $('.response-fail').removeClass('hidden');
+                    })
+                    .always(function () {
+                        $('#processing-modal').modal('hide');
+                    });
+            })
+            .fail(function(jqXHR, textStatus, errorThrown) {
+                $.each(JSON.parse(jqXHR.responseText), function(i, item) {
+                    slt = "#" + item.id;
+                    msg = item.message;
+                    $(slt).addClass('has-error');
+                    $(slt).append('<div class="help-block">' + msg + '</div>');
+                });
+                $('.response-fail').removeClass('hidden');
+                $('#processing-modal').modal('hide');
+            });
+    });
+
+    /* clear URL input text */
+    $('#input_url_0 input').val('');
+
+    /* prevent browser's default action when dragging and dropping files */
+    $(document).bind('drop dragover', function (e) {
+        e.preventDefault();
     });
 
    });
 
 </script>
-
-<script src="{% static "js/vendor/jquery.ui.widget.js" %}"></script>
-<script src="{% static "js/jquery.iframe-transport.js" %}"></script>
-<script src="{% static "js/jquery.fileupload.js" %}"></script>
-<script src="{% static "js/utils.js" %}"></script>
-<script src="{% static "js/to-spreadsheet.js" %}"></script>
-<script src="{% static "js/unflatten-options.js" %}"></script>
+{% include "default/snippets/url_uploader_scripts.html" %}
 {% endblock %}

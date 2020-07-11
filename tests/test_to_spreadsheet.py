@@ -115,11 +115,11 @@ class ToSpreadsheetTestCase(ViewTestCase, ViewTests):
             response = self.client.post('/upload/', {'file': fd, 'type': 'release-package'})
             self.assertEqual(response.status_code, 200)
 
-        response = self.client.post(self.url + 'go/', data=options)
-        self.assertEqual(response.status_code, 400)
-
-        json_content = json.loads(response.content)
-        self.assertEqual(json_content, response_expected)
+        actual = self.get_zipfile(contents['xlsx'])
+        with ZipFile(path('results/flattened.xlsx')) as expected:
+            self.assertEqual(_worksheets_length(actual), _worksheets_length(expected))
+            for name in results['xlsx']:
+                self.assertEqual(actual.read(name), expected.read(name))
 
 
 def _worksheets_length(zipfile):

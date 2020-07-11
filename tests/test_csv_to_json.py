@@ -8,6 +8,6 @@ class CsvToJsonTestCase(ViewTestCase, ViewTests):
     ]
 
     def test_go_with_files(self):
-        self.assertResults({'type': 'xlsx zip'}, {}, {
+        self.assertResults({'type': 'csv xlsx zip'}, {}, {
             'result.json': 'results/unflattened_csv.json',
         }, mode='rb')
