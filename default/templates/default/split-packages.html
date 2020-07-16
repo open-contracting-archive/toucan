@@ -22,7 +22,7 @@
     {% endblocktrans %}
 </p>
 <p>
-    {% trans "Put the number of elements (records or releases) per package in <strong>Package size</strong> box before start process." %}
+    {% trans "Enter the number of items (records or releases) per divided package in <strong>Items per package</strong> box before start process." %}
 </p>
 <p>
     {% trans "Check the <strong>Pretty JSON</strong> checkbox to get a pretty print on the output files." %}
@@ -47,8 +47,8 @@
         <option value="record">{% trans "Record Package" %}</option>
 	</select>
 </div>
-<div class="form-group" style="width: 25%; margin-right: -120px;">
-    <label>{% trans "Package size:" %}</label>
+<div class="form-group" style="width: 25%;">
+    <label>{% trans "Items per package:" %}</label>
     <input type="number" id="splitSize" min="1" value="1" max="99" class="form-control" style="width: 25%;">
 </div>
 {% include "default/snippets/optional_arguments.html" %}
