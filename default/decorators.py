@@ -43,7 +43,7 @@ def published_date(function):
     return wrap
 
 
-def split_size(function):
+def validate_split_size(function):
     @wraps(function)
     def wrap(request, *args, **kwargs):
         split_size = request.GET.get('splitSize')

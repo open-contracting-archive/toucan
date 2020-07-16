@@ -18,7 +18,7 @@ from ocdskit.upgrade import upgrade_10_11
 from requests.exceptions import ConnectionError, HTTPError, SSLError
 
 from default.data_file import DataFile
-from default.decorators import clear_files, optional_args, published_date, require_files, split_size
+from default.decorators import clear_files, optional_args, published_date, require_files, validate_split_size
 from default.forms import MappingSheetOptionsForm
 from default.mapping_sheet import (get_extended_mapping_sheet, get_mapping_sheet_from_uploaded_file,
                                    get_mapping_sheet_from_url)
@@ -117,7 +117,7 @@ def perform_combine_packages(request, pretty_json=False, published_date='', enco
 @require_files
 @published_date
 @optional_args
-@split_size
+@validate_split_size
 def perform_split_packages(request, pretty_json=False, published_date='', size=1, encoding='utf-8', warnings=None):
     change_published_date = request.GET.get('changePublishedDate') == 'true'
     packages = [file.json(codec=encoding) for file in get_files_from_session(request)]
