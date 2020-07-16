@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-07-06 18:58-0400\n"
+"POT-Creation-Date: 2020-07-16 17:18-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -288,7 +288,7 @@ msgid ""
 "Check the <strong>Pretty JSON</strong> checkbox to get a pretty print on the "
 "output files."
 msgstr ""
-"Seleccione la opción <strong>JSON Bonito</strong> para obtener una bonita "
+"Seleccione la opción <strong>JSON Indentado</strong> para obtener una bonita "
 "impresión en los archivos de salida."
 
 #: default/templates/default/combine-packages.html:22
@@ -570,7 +570,7 @@ msgstr "Codificación:"
 
 #: default/templates/default/snippets/optional_arguments.html:5
 msgid "Pretty JSON:"
-msgstr "JSON Bonito:"
+msgstr "JSON Indentado:"
 
 #: default/templates/default/snippets/published_date.html:3
 msgid "Published date:"
@@ -588,8 +588,8 @@ msgstr ""
 "contracting.org/latest/es/schema/release_package/\" target=\"_blank"
 "\">paquetes de release</a> o\n"
 " <a href=\"https://standard.open-contracting.org/latest/es/schema/"
-"record_package/\" target=\"_blank\">paquetes de record</a> en paquetes "
-"mas pequeños."
+"record_package/\" target=\"_blank\">paquetes de record</a> en paquetes mas "
+"pequeños."
 
 #: default/templates/default/split-packages.html:18
 msgid ""
@@ -604,15 +604,16 @@ msgstr ""
 
 #: default/templates/default/split-packages.html:25
 msgid ""
-"Put the number of elements (records or releases) per package in "
-"<strong>Package size</strong> box before start process."
+"Enter the number of items (records or releases) per divided package in "
+"<strong>Items per Package</strong> box before start process."
 msgstr ""
-"Ingresa en la caja de texto <strong>Tamaño de Paquete</strong> el número de "
-"elementos (release o record) antes de comenzar el proceso."
+"Ingrese el número de elementos (records o releases) por paquete dividido en "
+"la caja de texto <strong>Elementos por Paquete</strong> antes de comenzar el "
+"proceso."
 
 #: default/templates/default/split-packages.html:51
-msgid "Package size:"
-msgstr "Tamaño de Paquete:"
+msgid "Items per Package:"
+msgstr "Elementos por Paquete:"
 
 #: default/templates/default/split-packages.html:93
 msgid "An invalid split size was entered. Change it to a valid number."
