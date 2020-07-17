@@ -1,7 +1,11 @@
+import copy
+import io
 import json
+import jsonref
 import os
-import warnings
+import jsonschema
 import tempfile
+import warnings
 
 import flattentool
 from django.http import JsonResponse
@@ -11,15 +15,9 @@ from libcoveocds.config import LibCoveOCDSConfig
 from ocdskit.util import is_package, is_record_package, is_release, is_release_package
 
 from default.data_file import DataFile
+from default.mapping_sheet import mapping_sheet_method
 from ocdstoucan.settings import OCDS_TOUCAN_MAXFILESIZE, OCDS_TOUCAN_MAXNUMFILES
 
-from io import StringIO
-
-import csv
-
-import jsonref
-
-from ocdskit.mapping_sheet import mapping_sheet as mapping_sheet_method
 
 def ocds_command(request, command):
     context = {
@@ -94,30 +92,52 @@ def invalid_request_file_message(f, file_type):
     except json.JSONDecodeError:
         return _('Error decoding JSON')
 
-def get_options(option,tupleFlag=True):
-    io = StringIO(newline='')
+
+def get_schema_field_list(option, tuple_flag=True):
+    buff = io.StringIO(newline='')
     schema = jsonref.load_uri(option)
-    mapping_sheet_method(schema, io, infer_required=True)
-    pathList=[]
-    optionList = []
+    mapping_sheet_method(schema, buff, infer_required=True)
+    path_list = []
+    option_list = []
 
-    csvList = io.getvalue().split('\n')
+    csv_list = buff.getvalue().split('\n')
 
-    for row in csvList :
+    for row in csv_list:
         element = row.split(',')
         if len(element) > 1:
-            pathList.append(element[1])
+            path_list.append(element[1])
 
-    pathList = list(set(pathList))
-    del(pathList[0])
-    pathList.sort()
+    path_list = list(set(path_list))
+    del(path_list[0])
+    path_list.sort()
 
-    for element in pathList:
-        optionList.append((element,element))
+    for element in path_list:
+        option_list.append((element, element))
 
-    if tupleFlag == True:
-        return tuple(optionList)
-    return pathList
+    if tuple_flag:
+        return tuple(option_list)
+    return path_list
+
+
+def resolve_schema_refs(schema):
+    # Django templates seem to have problems with the proxies used by jsonref, so the only solution seems to be a
+    # custom method.
+    resolver = jsonschema.RefResolver.from_schema(copy.deepcopy(schema))
+
+    def resolve_refs(obj):
+        schema_def = obj
+        if '$ref' in obj:
+            ref, schema_def = copy.deepcopy(resolver.resolve(obj['$ref']))
+            schema_def.update(obj)
+        if 'properties' in schema_def:
+            for key, value in schema_def['properties'].items():
+                schema_def['properties'][key] = resolve_refs(value)
+        if 'items' in schema_def:
+            schema_def['items'] = resolve_refs(schema_def['items'])
+        return schema_def
+
+    return resolve_refs(schema)
+
 
 def flatten(input_file, output_dir, options):
 

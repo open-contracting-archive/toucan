@@ -4,6 +4,7 @@
 
 {% block css %}
     <link href="{% static "css/uploader.css"%}" rel="stylesheet"/>
+    <link href="{% static "themes/jstree/default/style.min.css"%}" rel="stylesheet"/>
 {% endblock %}
 
 {% block subtitle %} &gt;&gt; {% trans "Convert to CSV/Excel" %} {% endblock %}
@@ -97,11 +98,21 @@
                         {% trans "or drag and drop here." %}
                     </span>
                 </span>
+                <span class="file-selected"></span>
             </div>
-            <button type="button" class="btn btn-primary pull-right hidden" id="upload-button">
-              <i class="glyphicon glyphicon-cloud-upload"></i>
-              <span>{% trans "Start" %}</span>
-            </button>
+            <div class="actions">
+                <div class="buttons">
+                    <button type="button" class="btn btn-default" id="options-button"
+                        data-toggle="modal" data-target="#unflatten-options-modal">
+                      <i class="glyphicon glyphicon-cog"></i>
+                      <span>{% trans "Options" %}</span>
+                    </button>
+                    <button type="button" class="btn btn-primary pull-right hidden" id="upload-button">
+                      <i class="glyphicon glyphicon-cloud-upload"></i>
+                      <span>{% trans "Start" %}</span>
+                    </button>
+                </div>
+            </div>
         </form>
     </div>
 </div>
@@ -122,79 +133,12 @@
 {% include "default/snippets/unflatten-options-modal.html" %}
 {% endblock %}
 {% block scripts %}
-
+<script src="{% static "js/vendor/jquery.ui.widget.js" %}"></script>
+<script src="{% static "js/jquery.fileupload.js" %}"></script>
+<script src="{% static "js/jquery.fileupload-ui.js" %}"></script>
+<script src="{% static "js/utils.js" %}"></script>
 <script>
   $(document).ready(function(){
-
-    var option1;
-    var option2;
-    var option3;
-
-    $.ajax({
-          url: '/to-spreadsheet/option-list',
-          async: false,
-          success: function(data) {
-                    option1 = data["options1"];
-                    option2 = data["options2"];
-                    option3 = data["options3"];
-                }
-    });
-
-    $('#id_schema').on('change', function(){
-      var selectedSchema = $('#id_schema').val();
-      $('#id_preserve_fields').empty();
-      if( $('#id_schema').val() == 'https://standard.open-contracting.org/1.1/en/release-schema.json'){
-        for (let i = 0; i<option1.length; i++){
-            $('#id_preserve_fields').append(
-              ` <option value="${option1[i]}"> ${option1[i]} </option> `
-            );
-          };
-      };
-
-      if( $('#id_schema').val() == 'http://standard.open-contracting.org/1.1/es/release-schema.json'){
-        for (let i = 0; i<option2.length; i++){
-            $('#id_preserve_fields').append(
-              ` <option value="${option2[i]}"> ${option2[i]} </option> `
-            );
-          };
-      };
-
-      if( $('#id_schema').val() == 'https://standard.open-contracting.org/schema/1__0__3/release-schema.json' ){
-        for (let i = 0; i<option3.length; i++){
-            $('#id_preserve_fields').append(
-              ` <option value="${option3[i]}"> ${option3[i]} </option> `
-            );
-          };
-      };
-
-        /* click upload button behaviour */
-        $('#upload-button').click(function(){
-            $('#fileupload').fileupload('option', 'dropZone', undefined);
-            data
-                .submit()
-                .done(function(){
-                    $('#processing-modal').modal('show');
-                    $.ajax('/to-spreadsheet/go/', { 'dataType': 'json' })
-                        .done(function(data){
-                            $('.response-success .download-xlsx').attr('href', data.xlsx.url);
-                            $('.response-success .download-csv').attr('href', data.csv.url);
-                            $('.response-success .file-size-xlsx').html(utils.readableFileSize(data.xlsx.size));
-                            $('.response-success .file-size-csv').html(utils.readableFileSize(data.csv.size));
-                            $('.response-success').removeClass('hidden');
-                            })
-                        .fail(function(){
-                            $('.response-fail').removeClass('hidden');
-                            })
-                        .always(function(){
-                            $('#processing-modal').modal('hide');
-                            });
-                })
-                .fail(function(){
-                    $('.response-fail').removeClass('hidden');
-                    $('#processing-modal').modal('hide');
-                });
-        });
-    });
 
     /* click url button behaviour */
     $("#url-button-ts").click(function(){
@@ -248,4 +192,8 @@
 
 </script>
 {% include "default/snippets/url_uploader_scripts.html" %}
+<script src="{% static "js/vendor/jstree.min.js" %}"></script>
+<script src="{% static "js/jquery.typewatch.js" %}"></script>
+<script src="{% static "js/unflatten-options.js" %}"></script>
+<script src="{% static "js/to-spreadsheet.js" %}"></script>
 {% endblock %}

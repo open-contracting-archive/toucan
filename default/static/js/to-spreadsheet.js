@@ -44,7 +44,7 @@
     function showActionErrorMessage(jqXHR, textStatus, errorThrown) {
         /* show error messages received from the server, after calling the unflatten function */
         if ('responseJSON' in jqXHR && 'form_errors' in jqXHR.responseJSON) {
-            toucan.unflattenOptions.showErrorsFromServer(jqXHR.responseJSON.form_errors);
+            toucanApp.unflattenOptions.showErrorsFromServer(jqXHR.responseJSON.form_errors);
             errorBox.removeClass('hidden')
                 .children('.unflatten-invalid-options')
                 .removeClass('hidden');
@@ -78,7 +78,7 @@
         successBox.find('.csv').addClass('hidden');
         successBox.addClass('hidden');
 
-        toucan.unflattenOptions.clear();
+        toucanApp.unflattenOptions.clear();
     }
 
     fileUploadObj.bind('fileuploadadd', function (e, data) {
