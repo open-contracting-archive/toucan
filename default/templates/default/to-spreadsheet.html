@@ -61,62 +61,57 @@
     </label>
 </div>
 
-<div role="tabpanel" class="panel-collapse toucan-nav-input collapse">
-    <div class="input-url-container">
-        <div class="form-group" id="input_url_0">
-            <label>{% blocktrans trimmed %}
-                Provide the URL to a file:
-                {% endblocktrans %}</label>
-            <input type="text" name="input_url_0" class="form-control"/>
+
+<form
+    id="fileupload"
+    method="POST"
+    action="/upload/"
+    data-form-data='{"csrfmiddlewaretoken": "{{csrf_token}}", "type": "release-package"}'
+    data-auto-upload="false"
+    data-replace-file-input="false"
+    accept="text/json"
+    data-accept-file-types="/\.json$/i"
+    >
+    <div role="tabpanel" class="panel-collapse toucan-nav-input collapse">
+        <div class="input-url-container">
+            <div class="form-group" id="input_url_0">
+                <label>{% blocktrans trimmed %}
+                    Provide the URL to a file:
+                    {% endblocktrans %}</label>
+                <input type="text" name="input_url_0" class="form-control"/>
+                <span class="help-block"></span>
+            </div>
         </div>
     </div>
-    <div class="buttons">
-    <button type="submit" class="btn btn-primary" id="url-button-ts" data-perform-action="/to-spreadsheet/go/">
-        {% trans "Start" %}
-        <i class="glyphicon glyphicon-play-circle"></i>
-    </button>
-    </div>
-</div>
-
-<div role="tabpanel" class="panel-collapse toucan-nav-file collapse in">
-    <div class="form-group">
-        <form
-            id="fileupload"
-            method="POST"
-            action="/upload/"
-            data-form-data='{"csrfmiddlewaretoken": "{{csrf_token}}", "type": "release-package"}'
-            data-auto-upload="false"
-            data-replace-file-input="false"
-            accept="text/json"
-            data-accept-file-types="/\.json$/i"
-            >
-            <div class="drop-area empty single">
-                <input type="file" name="file" id="file" accept=".json" multiple/>
-                <span class="drop-area-msg-empty">
-                    <label for="file">{% trans "Add a file" %}</label>
-                    {% trans "or drag and drop here." %}
-                </span>
-                <span class="drop-area-msg hidden">
-                    <span class="file-selected"></span>&nbsp;
-                    <label for="file">{% trans "Change" %}</label>
-                </span>
-            </div>
-            <div class="actions">
-                <div class="buttons">
-                    <button type="button" class="btn btn-default" id="options-button"
-                        data-toggle="modal" data-target="#unflatten-options-modal">
-                      <i class="glyphicon glyphicon-cog"></i>
-                      <span>{% trans "Options" %}</span>
-                    </button>
-                    <button type="button" class="btn btn-primary pull-right hidden" id="upload-button">
-                      <i class="glyphicon glyphicon-cloud-upload"></i>
-                      <span>{% trans "Start" %}</span>
-                    </button>
+    <div role="tabpanel" class="panel-collapse toucan-nav-file collapse in">
+        <div class="form-group">
+                <div class="drop-area empty single">
+                    <input type="file" name="file" id="file" accept=".json" multiple/>
+                    <span class="drop-area-msg-empty">
+                        <label for="file">{% trans "Add a file" %}</label>
+                        {% trans "or drag and drop here." %}
+                    </span>
+                    <span class="drop-area-msg hidden">
+                        <span class="file-selected"></span>&nbsp;
+                        <label for="file">{% trans "Change" %}</label>
+                    </span>
                 </div>
-            </div>
-        </form>
+        </div>
     </div>
-</div>
+    <div class="actions">
+        <div class="buttons">
+            <button type="button" class="btn btn-default" id="options-button"
+                data-toggle="modal" data-target="#unflatten-options-modal">
+              <i class="glyphicon glyphicon-cog"></i>
+              <span>{% trans "Options" %}</span>
+            </button>
+            <button type="button" class="btn btn-primary pull-right" id="upload-button" disabled="disabled">
+              <i class="glyphicon glyphicon-cloud-upload"></i>
+              <span>{% trans "Start" %}</span>
+            </button>
+        </div>
+    </div>
+</form>
 <!-- Processing modal -->
 <div id="processing-modal" class="modal fade" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog modal-sm" role="document">
@@ -138,60 +133,6 @@
 <script src="{% static "js/jquery.fileupload.js" %}"></script>
 <script src="{% static "js/jquery.fileupload-ui.js" %}"></script>
 <script src="{% static "js/utils.js" %}"></script>
-<script>
-  $(document).ready(function(){
-
-    /* click url button behaviour */
-    $("#url-button-ts").click(function(){
-        $('.response-warning').addClass('hidden');
-        $('#processing-modal').modal('show');
-        $('.response-fail').addClass('hidden');
-        $('.form-group').removeClass('has-error');
-        $('.help-block').remove();
-
-        $.ajax('/upload-url/', {'dataType': 'json', type: 'POST',
-        'data': $('.input-url-container .form-group .form-control').serialize() +
-        '&type=' + JSON.parse($('#fileupload').attr('data-form-data')).type,
-        headers: {'X-CSRFToken': JSON.parse($('#fileupload').attr('data-form-data')).csrfmiddlewaretoken}})
-            .done(function (data) {
-                $.ajax('/to-spreadsheet/go/', { 'dataType': 'json' })
-                    .done(function (data) {
-                        $('.response-success .download-xlsx').attr('href', data.xlsx.url);
-                        $('.response-success .download-csv').attr('href', data.csv.url);
-                        $('.response-success .file-size-xlsx').html(utils.readableFileSize(data.xlsx.size));
-                        $('.response-success .file-size-csv').html(utils.readableFileSize(data.csv.size));
-                        $('.response-success').removeClass('hidden');
-                    })
-                    .fail(function () {
-                        $('.response-fail').removeClass('hidden');
-                    })
-                    .always(function () {
-                        $('#processing-modal').modal('hide');
-                    });
-            })
-            .fail(function(jqXHR, textStatus, errorThrown) {
-                $.each(JSON.parse(jqXHR.responseText), function(i, item) {
-                    slt = "#" + item.id;
-                    msg = item.message;
-                    $(slt).addClass('has-error');
-                    $(slt).append('<div class="help-block">' + msg + '</div>');
-                });
-                $('.response-fail').removeClass('hidden');
-                $('#processing-modal').modal('hide');
-            });
-    });
-
-    /* clear URL input text */
-    $('#input_url_0 input').val('');
-
-    /* prevent browser's default action when dragging and dropping files */
-    $(document).bind('drop dragover', function (e) {
-        e.preventDefault();
-    });
-
-   });
-
-</script>
 {% include "default/snippets/url_uploader_scripts.html" %}
 <script src="{% static "js/vendor/jstree.min.js" %}"></script>
 <script src="{% static "js/jquery.typewatch.js" %}"></script>

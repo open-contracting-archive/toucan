@@ -63,12 +63,12 @@
                                     <span class="help-block"> {{ form.preserve_fields.help_text }}</span>
                                 </label>
                                 <div class="col-sm-9">
+                                    <input type="text" class="form-control input-sm" id="preserve_fields_search" placeholder="{% trans "Search" %}"/>
                                     <div class="progress hidden">
                                         <div class="progress-bar progress-bar-striped active" style="width: 100%">
                                             {% trans "Please wait..." %}
                                         </div>
                                     </div>
-                                    <input type="text" class="form-control input-sm" id="preserve_fields_search" placeholder="{% trans "Search" %}"/>
                                     <div id="tree-container" class="well"></div>
                                     <div id="preserve-fields-container"></div>
                                 </div>

@@ -1,4 +1,6 @@
+import base64
 import copy
+import hashlib
 import io
 import json
 import jsonref
@@ -8,6 +10,7 @@ import tempfile
 import warnings
 
 import flattentool
+from django.core.cache import cache
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.utils.translation import gettext_lazy as _
@@ -93,30 +96,36 @@ def invalid_request_file_message(f, file_type):
         return _('Error decoding JSON')
 
 
-def get_schema_field_list(option, tuple_flag=True):
-    buff = io.StringIO(newline='')
-    schema = jsonref.load_uri(option)
-    mapping_sheet_method(schema, buff, infer_required=True)
-    path_list = []
-    option_list = []
+def get_schema_field_list(option):
 
-    csv_list = buff.getvalue().split('\n')
+    key = get_cache_name('schema_val_options', option)
 
-    for row in csv_list:
-        element = row.split(',')
-        if len(element) > 1:
-            path_list.append(element[1])
+    if cache.get(key):
+        return cache.get(key)
+    else:
+        buff = io.StringIO(newline='')
+        schema = jsonref.load_uri(option)
+        mapping_sheet_method(schema, buff, infer_required=True)
+        path_list = []
+        option_list = []
 
-    path_list = list(set(path_list))
-    del(path_list[0])
-    path_list.sort()
+        csv_list = buff.getvalue().split('\n')
 
-    for element in path_list:
-        option_list.append((element, element))
+        for row in csv_list:
+            element = row.split(',')
+            if len(element) > 1:
+                path_list.append(element[1])
 
-    if tuple_flag:
+        path_list = list(set(path_list))
+        del(path_list[0])
+        path_list.sort()
+
+        for element in path_list:
+            option_list.append((element, element))
+
+        cache.set(key, option_list, 60*60*24*2)
+
         return tuple(option_list)
-    return path_list
 
 
 def resolve_schema_refs(schema):
@@ -147,11 +156,10 @@ def flatten(input_file, output_dir, options):
     if 'preserve_fields' in options:
         preserve_fields_tmp_file = tempfile.NamedTemporaryFile(delete=False)
         _options['preserve_fields'] = preserve_fields_tmp_file.name
-        auxStr = ''
-        for item in options['preserve_fields'] :
-            auxStr = auxStr + (item + '\n')
-        preserve_fields_tmp_file.write(str.encode(auxStr))
-        #preserve_fields_tmp_file.write(str.encode(options['preserve_fields']))
+        aux_str = ''
+        for item in options['preserve_fields']:
+            aux_str = aux_str + (item + '\n')
+        preserve_fields_tmp_file.write(str.encode(aux_str))
         # it is not strictly necessary to close the file here, but doing so should make the code compatible with
         # non-Unix systems
         preserve_fields_tmp_file.close()
@@ -176,3 +184,7 @@ def flatten(input_file, output_dir, options):
     if 'preserve_fields' in options:
         preserve_fields_tmp_file.close()
         os.remove(preserve_fields_tmp_file.name)
+
+
+def get_cache_name(key, param):
+    return key + '_' + str(base64.b64encode(hashlib.md5(param.encode('utf-8')).digest()))

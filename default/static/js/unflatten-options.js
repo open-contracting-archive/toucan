@@ -19,11 +19,13 @@ var toucanApp = toucanApp || {};
     function showSchemaTree() {
         schemaTreeContainer.removeClass('hidden');
         progressBar.addClass('hidden');
+        preserveFieldsSearchInput.removeAttr('disabled');
     }
 
     function hideSchemaTree() {
         schemaTreeContainer.addClass('hidden');
         progressBar.removeClass('hidden');
+        preserveFieldsSearchInput.attr('disabled', 'disabled');
     }
 
     function addError(selector, withHelpBlock) {
@@ -142,6 +144,7 @@ var toucanApp = toucanApp || {};
             .empty()
             .addClass('hidden')
         ;
+        preserveFieldsSearchInput.val('');
         $('.form-group').removeClass('has-error');
     };
 

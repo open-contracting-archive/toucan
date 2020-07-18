@@ -5,10 +5,21 @@
         processingModal = $('#processing-modal'),
         successBox = $('.response-success'),
         errorBox = $('.response-fail'),
-        dropAreaFileLink = $('.drop-area-msg label')
+        dropAreaFileLink = $('.drop-area-msg label'),
+        urlInput = $('#input_url_0 input'),
+        urlHelpBlock = $('.input-url-container .help-block'),
+        tabPanels = $('.schema-nav .btn')
     ;
 
     var selectedFile;
+
+    function enableUploadButton() {
+        uploadButton.removeAttr('disabled');
+    }
+
+    function disableUploadButton() {
+        uploadButton.attr('disabled', 'disabled');
+    }
 
     function transformInServer() {
         /* call the server to transform the files */
@@ -82,6 +93,7 @@
         successBox.find('.xlsx').addClass('hidden');
         successBox.find('.csv').addClass('hidden');
         successBox.addClass('hidden');
+        urlHelpBlock.empty();
 
         toucanApp.unflattenOptions.clear();
     }
@@ -98,6 +110,78 @@
         dropAreaFileLink.addClass('hidden');
     }
 
+    function getActiveTab() {
+        var selection = $('.panel-collapse.collapse.in');
+        if (selection.hasClass('toucan-nav-input')){
+            return 'url';
+        }
+        else{
+            return 'file';
+        }
+    }
+
+    function uploadAndSubmitFile() {
+        // we don't want to add any more files
+        disableFileInput();
+        // clear error messages
+        clear();
+
+        selectedFile.submit() // send the file
+            .done(transformInServer)
+            .fail(showFileErrorMsg)
+            // enable the file input again if there is an error!
+            .fail(enableFileInput)
+        ;
+    }
+
+    function showUrlErrors(jqXHR) {
+        $.each(JSON.parse(jqXHR.responseText), function(i, item) {
+            slt = "#" + item.id;
+            msg = item.message;
+            $(slt).addClass('has-error');
+            urlHelpBlock.html(msg);
+        });
+        $('.response-fail').removeClass('hidden');
+        $('#processing-modal').modal('hide');
+    }
+
+    function sendUrlAndSubmit() {
+        var data = Object.assign( {},
+            { 'input_url_0': $('#input_url_0 input').val() },
+            fileUploadObj.fileupload('option', 'formData')
+            );
+
+        clear();
+
+        $.ajax('/upload-url/', {
+            type: 'POST',
+            data: data
+        }).done(transformInServer)
+        .fail(showUrlErrors)
+    }
+
+    function send() {
+        if (getActiveTab() === 'url') {
+            sendUrlAndSubmit();
+        }
+        else {
+            uploadAndSubmitFile();
+        }
+    }
+
+    function uploadButtonStatus(event) {
+        if ($(event.target).children('input').hasClass('toucan-nav-input')){
+            enableUploadButton();
+        }
+        else {
+            if (!selectedFile) {
+                disableUploadButton();
+            } else {
+                enableUploadButton();
+            }
+        }
+    }
+
     fileUploadObj.bind('fileuploadadd', function (e, data) {
         /* listen when a file is selected or dropped in the designated area */
         dropArea.removeClass('empty');
@@ -112,28 +196,24 @@
             )
         ;
         dropArea.children('.drop-area-msg').removeClass('hidden');
-        // show "Start" button
-        uploadButton.removeClass('hidden');
+        // enable "Start" button
+        enableUploadButton();
         selectedFile = data;
     });
 
     /* "Start" button click listener */
-    uploadButton.click(function () {
-        // we don't want to add any more files
-        disableFileInput();
-        // clear error messages
-        clear();
+    uploadButton.click(send);
 
-        selectedFile.submit() // send the file
-            .done(transformInServer)
-            .fail(showFileErrorMsg)
-            // enable the input again if there is an error!
-            .fail(enableFileInput)
-        ;
-    });
+    tabPanels.click(uploadButtonStatus);
 
     /* prevent browser's default action when dragging and dropping files */
     $(document).bind('drop dragover', function (e) {
         e.preventDefault();
+    });
+
+    $(document).ready(function(){
+        // clear the input's value
+        urlInput.val('');
+        disableUploadButton();
     });
 })();

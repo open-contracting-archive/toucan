@@ -6,6 +6,7 @@ from urllib.parse import urlparse
 from zipfile import ZIP_DEFLATED, ZipFile
 
 import flattentool
+from django.core.cache import cache
 from django.http import FileResponse, Http404, HttpResponse, JsonResponse
 from django.shortcuts import render
 from django.utils.translation import gettext as _
@@ -22,8 +23,8 @@ from default.decorators import clear_files, published_date, require_files
 from default.forms import MappingSheetOptionsForm, UnflattenOptionsForm
 from default.mapping_sheet import (get_extended_mapping_sheet, get_mapping_sheet_from_uploaded_file,
                                    get_mapping_sheet_from_url)
-from default.util import (get_files_from_session, invalid_request_file_message, json_response, make_package,
-                          ocds_command, flatten, resolve_schema_refs)
+from default.util import (get_cache_name, get_files_from_session, invalid_request_file_message, json_response,
+                          make_package, ocds_command, flatten, resolve_schema_refs)
 
 from django.views.decorators.csrf import csrf_exempt
 
@@ -90,13 +91,20 @@ def perform_upgrade(request):
 
 @require_GET
 def get_schema_as_options(request):
-    response = requests.get(request.GET.get('url'))
-    omit_deprecated = request.GET.get('omitDeprecated', 'true')
-    if response.status_code == 200:
-        schema = json.loads(response.text)
+    try:
+        key = get_cache_name('schema_options', request.GET.get('url'))
+        omit_deprecated = request.GET.get('omitDeprecated', 'true')
+        if cache.get(key):
+            schema = cache.get(key)
+        else:
+            response = requests.get(request.GET.get('url'))
+            response.raise_for_status()
+            schema = resolve_schema_refs(json.loads(response.text))
+            cache.set(key, schema, 60*60*24*2)
         return render(request, 'default/flatten_schema_options.html',
-                      {'schema': resolve_schema_refs(schema), 'omitDeprecated': omit_deprecated == 'true'})
-    return HttpResponse(_('There was an error retrieving the schema requested'), status=400)
+                      {'schema': schema, 'omitDeprecated': omit_deprecated == 'true'})
+    except Exception:
+        return HttpResponse(_('There was an error retrieving the schema requested'), status=500)
 
 
 @require_files
