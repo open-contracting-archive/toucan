@@ -97,15 +97,28 @@
 	position: absolute;
 	z-index: -1;
 }
-.drop-area.empty label
+
+.drop-area label
 {
     cursor: pointer;
+    border-bottom: dashed 2px;
+}
+
+.drop-area.empty label
+{
     border-bottom: dashed 2px #fff;
 }
+
 .fileinput-button label
 {
     margin: 0;
 }
+
+.drop-area label:hover
+{
+    border-bottom: dotted 2px;
+}
+
 .drop-area.empty label:hover
 {
     border-bottom: dotted 2px #fff;

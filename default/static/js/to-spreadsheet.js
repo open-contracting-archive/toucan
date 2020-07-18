@@ -4,7 +4,9 @@
         uploadButton = $('#upload-button'),
         processingModal = $('#processing-modal'),
         successBox = $('.response-success'),
-        errorBox = $('.response-fail');
+        errorBox = $('.response-fail'),
+        dropAreaFileLink = $('.drop-area-msg label')
+    ;
 
     var selectedFile;
 
@@ -12,7 +14,7 @@
         /* call the server to transform the files */
         // mask the page
         processingModal.modal('show');
-         $.ajax('/to-spreadsheet/go/', {
+        $.ajax('/to-spreadsheet/go/', {
              'dataType': 'json',
              'data': $('#unflatten-options').serialize(),
              'method': 'POST'
@@ -48,6 +50,8 @@
             errorBox.removeClass('hidden')
                 .children('.unflatten-invalid-options')
                 .removeClass('hidden');
+            $('#unflatten-options-modal').modal('show');
+
         }
         else {
             // shows a default error message written in the template
@@ -55,6 +59,7 @@
                 .children('.default-message')
                 .removeClass('hidden');
         }
+        enableFileInput();
     }
 
     function showFileErrorMsg(jqXHR, textStatus, errorThrown) {
@@ -81,20 +86,32 @@
         toucanApp.unflattenOptions.clear();
     }
 
+    function enableFileInput(){
+        fileUploadObj.fileupload('enable');
+        if (dropAreaFileLink.hasClass('hidden')){
+            dropAreaFileLink.removeClass('hidden')
+        }
+    }
+
+    function disableFileInput(){
+        fileUploadObj.fileupload('disable');
+        dropAreaFileLink.addClass('hidden');
+    }
+
     fileUploadObj.bind('fileuploadadd', function (e, data) {
         /* listen when a file is selected or dropped in the designated area */
         dropArea.removeClass('empty');
         // hide default message
-        dropArea.children('.msg-empty').addClass('hidden');
+        dropArea.children('.drop-area-msg-empty').addClass('hidden');
         // fill area with file's name and size
-        dropArea.children('.file-selected')
+        $('.drop-area .file-selected')
             .html(data.files[0].name
                 + '<small>('
                 + utils.readableFileSize(data.files[0].size)
                 + ')</small>'
             )
         ;
-        dropArea.children('.file-selector-empty').addClass('hidden');
+        dropArea.children('.drop-area-msg').removeClass('hidden');
         // show "Start" button
         uploadButton.removeClass('hidden');
         selectedFile = data;
@@ -103,7 +120,7 @@
     /* "Start" button click listener */
     uploadButton.click(function () {
         // we don't want to add any more files
-        fileUploadObj.fileupload('disable');
+        disableFileInput();
         // clear error messages
         clear();
 
@@ -111,7 +128,7 @@
             .done(transformInServer)
             .fail(showFileErrorMsg)
             // enable the input again if there is an error!
-            .fail(function () { fileUploadObj.fileupload('enable')})
+            .fail(enableFileInput)
         ;
     });
 

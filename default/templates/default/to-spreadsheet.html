@@ -91,14 +91,15 @@
             data-accept-file-types="/\.json$/i"
             >
             <div class="drop-area empty single">
-                <span class="file-selector-empty">
-                    <input type="file" name="file" id="file" accept=".json" multiple/>
-                    <span class="drop-area-msg">
-                        <label for="file">{% trans "Add a file" %}</label>
-                        {% trans "or drag and drop here." %}
-                    </span>
+                <input type="file" name="file" id="file" accept=".json" multiple/>
+                <span class="drop-area-msg-empty">
+                    <label for="file">{% trans "Add a file" %}</label>
+                    {% trans "or drag and drop here." %}
                 </span>
-                <span class="file-selected"></span>
+                <span class="drop-area-msg hidden">
+                    <span class="file-selected"></span>&nbsp;
+                    <label for="file">{% trans "Change" %}</label>
+                </span>
             </div>
             <div class="actions">
                 <div class="buttons">

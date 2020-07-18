@@ -87,6 +87,7 @@ var toucanApp = toucanApp || {};
             }
         });
 
+        setPreserveFields();
         showSchemaTree();
     }
 
@@ -108,11 +109,12 @@ var toucanApp = toucanApp || {};
     }
 
     function setPreserveFields() {
-        var selected = $.jstree.reference(schemaTreeContainer).get_selected();
+        /* this function copies the checked values from the tree to hidden inputs in the Unflatten Form */
+        var selected = $.jstree.reference(schemaTreeContainer).get_top_selected(true);
         preserveFieldsContainer.empty();
 
-        $.each(selected, function (index, id) {
-            var val = $('#' + id).attr('data-path');
+        $.each(selected, function (index, el) {
+            var val = el.data.path;
             preserveFieldsContainer.append('<input type="hidden" name="preserve_fields" value="' + val + '"/>')
         });
     }

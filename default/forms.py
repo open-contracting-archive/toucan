@@ -105,6 +105,8 @@ class UnflattenOptionsForm(forms.Form):
                                choices=(
                                    ('https://standard.open-contracting.org/1.1/en/release-schema.json',
                                     '1.1'),
+                                   ('https://standard.open-contracting.org/1.1/es/release-schema.json',
+                                    '1.1 (Español)'),
                                    ('https://standard.open-contracting.org/schema/1__0__3/release-schema.json',
                                     '1.0')),
                                widget=forms.Select(attrs={'class': 'form-control'}))
@@ -146,7 +148,7 @@ class UnflattenOptionsForm(forms.Form):
         except forms.ValidationError:
             schema_valid = False
         if self.is_bound and schema_valid:
-            self.fields['preserve_fields'].choices=get_schema_field_list(self.data.get('schema'))
+            self.fields['preserve_fields'].choices = get_schema_field_list(self.data.get('schema'))
 
     def clean_output_format(self):
         return 'all' if len(self.cleaned_data['output_format']) > 1 else self.cleaned_data['output_format'][0]
