@@ -100,8 +100,7 @@ class MappingSheetOptionsForm(forms.Form):
 
 
 class UnflattenOptionsForm(forms.Form):
-    schema = forms.ChoiceField(required=False,
-                               label=_('Schema version'),
+    schema = forms.ChoiceField(label=_('Schema version'),
                                choices=(
                                    ('https://standard.open-contracting.org/1.1/en/release-schema.json',
                                     '1.1'),
@@ -144,7 +143,7 @@ class UnflattenOptionsForm(forms.Form):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         try:
-            schema_valid = self.fields['schema'].clean(self.data.get('schema')) is not None
+            schema_valid = bool(self.fields['schema'].clean(self.data.get('schema')))
         except forms.ValidationError:
             schema_valid = False
         if self.is_bound and schema_valid:

@@ -22,7 +22,6 @@ urlpatterns = [
     path('mapping-sheet/', views.mapping_sheet, name='mapping_sheet'),
     path('to-spreadsheet/', views.to_spreadsheet, name='to_spreadsheet'),
     path('to-spreadsheet/get-schema-options', views.get_schema_as_options, name='get_schema_as_options'),
-    # path('to-spreadsheet/option-list', views.get_option_list, name='get_option_list'),
     path('to-spreadsheet/go/', views.perform_to_spreadsheet, name='perform_to_spreadsheet'),
     path('to-json/', views.to_json, name='to_json'),
     path('to-json/go/', views.perform_to_json, name='perform_to_json')

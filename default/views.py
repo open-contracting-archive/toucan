@@ -19,14 +19,12 @@ from ocdskit.upgrade import upgrade_10_11
 from requests.exceptions import ConnectionError, HTTPError, SSLError
 
 from default.data_file import DataFile
-from default.decorators import clear_files, published_date, require_files
+from default.decorators import clear_files, published_date, require_files, require_get_param
 from default.forms import MappingSheetOptionsForm, UnflattenOptionsForm
 from default.mapping_sheet import (get_extended_mapping_sheet, get_mapping_sheet_from_uploaded_file,
                                    get_mapping_sheet_from_url)
-from default.util import (get_cache_name, get_files_from_session, invalid_request_file_message, json_response,
-                          make_package, ocds_command, flatten, resolve_schema_refs)
-
-from django.views.decorators.csrf import csrf_exempt
+from default.util import (flatten, get_cache_name, get_files_from_session, invalid_request_file_message, json_response,
+                          make_package, ocds_command, resolve_schema_refs)
 
 
 def retrieve_result(request, folder, id, format=None):
@@ -90,13 +88,13 @@ def perform_upgrade(request):
 
 
 @require_GET
+@require_get_param('url')
 def get_schema_as_options(request):
     try:
         key = get_cache_name('schema_options', request.GET.get('url'))
         omit_deprecated = request.GET.get('omitDeprecated', 'true')
-        if cache.get(key):
-            schema = cache.get(key)
-        else:
+        schema = cache.get(key)
+        if not schema:
             response = requests.get(request.GET.get('url'))
             response.raise_for_status()
             schema = resolve_schema_refs(json.loads(response.text))

@@ -1,7 +1,5 @@
 from io import StringIO
 
-import csv
-
 import jsonref
 from django.http.response import HttpResponse
 from ocdsextensionregistry import ProfileBuilder

@@ -3,13 +3,13 @@ import copy
 import hashlib
 import io
 import json
-import jsonref
 import os
-import jsonschema
 import tempfile
 import warnings
 
 import flattentool
+import jsonref
+import jsonschema
 from django.core.cache import cache
 from django.http import JsonResponse
 from django.shortcuts import render
@@ -98,11 +98,7 @@ def invalid_request_file_message(f, file_type):
 
 def get_schema_field_list(option):
 
-    key = get_cache_name('schema_val_options', option)
-
-    if cache.get(key):
-        return cache.get(key)
-    else:
+    def make_list():
         buff = io.StringIO(newline='')
         schema = jsonref.load_uri(option)
         mapping_sheet_method(schema, buff, infer_required=True)
@@ -123,9 +119,10 @@ def get_schema_field_list(option):
         for element in path_list:
             option_list.append((element, element))
 
-        cache.set(key, option_list, 60*60*24*2)
-
         return tuple(option_list)
+
+    key = get_cache_name('schema_val_options', option)
+    return cache.get_or_set(key, make_list, 60*60*24*2)
 
 
 def resolve_schema_refs(schema):
