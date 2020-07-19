@@ -101,12 +101,6 @@ class ToSpreadsheetTestCase(ViewTestCase, ViewTests):
     def test_validation_errors(self):
         file = 'tests/fixtures/1.1/release-packages/ocds-213czf-000-00001.json'
 
-        results = {
-            'xlsx': [
-                'xl/worksheets/sheet1.xml'
-            ]
-        }
-
         options = {
             'filter_field': 'ocid'
         }
@@ -145,17 +139,20 @@ class ToSpreadsheetTestCase(ViewTestCase, ViewTests):
 
         # ocid is a top-level, required element which should be selected and disabled
         self.assertInHTML(
-            '<li data-jstree=\'{ "selected": true, "icon": "glyphicon glyphicon-minus", "disabled": true }\' data-path="ocid">ocid</li>',
+            '<li data-jstree=\'{ "selected": true, "icon": "glyphicon glyphicon-minus", "disabled": true }\' '
+            'data-path="ocid">ocid</li>',
             contents)
 
         # parties is a top-level element, should be selected by default
         self.assertIn(
-            '<li data-jstree=\'{ "selected": true, "icon": "glyphicon glyphicon-th-list" }\' data-path="parties" > parties <ul>',
+            '<li data-jstree=\'{ "selected": true, "icon": "glyphicon glyphicon-th-list" }\' data-path="parties" > '
+            'parties <ul>',
             contents)
 
         # identifier is not a top-level field, so it does not have any special attributes
         self.assertIn(
-            '<li data-jstree=\'{ "icon": "glyphicon glyphicon-th-list" }\' data-path="parties/identifier" > identifier <ul>',
+            '<li data-jstree=\'{ "icon": "glyphicon glyphicon-th-list" }\' data-path="parties/identifier" > '
+            'identifier <ul>',
             contents)
 
     def test_get_schema_options_fail(self):
@@ -177,8 +174,6 @@ class ToSpreadsheetTestCase(ViewTestCase, ViewTests):
         response = self.client.get(options_url, data)
         self.assertEqual(response.status_code, 500)
         self.assertEqual(response.content.decode('utf-8'), 'There was an error retrieving the schema requested')
-
-
 
 
 def _worksheets_length(zipfile):
