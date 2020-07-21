@@ -60,17 +60,17 @@ def validate_split_size(function):
     return wrap
 
 
-def optional_args(function):
+def validate_optional_args(function):
     @wraps(function)
     def wrap(request, *args, **kwargs):
         encoding = request.GET.get('encoding', 'utf-8')
         try:
-            teststr = "test"
-            teststr.encode(encoding)
+            test_str = "test"
+            test_str.encode(encoding)
             kwargs['encoding'] = encoding
         except LookupError:
             msg = _('Encoding %(encoding)s ... is not recognized. The default value \'utf-8\' was used.') % {
-                        'encoding': encoding[0:64],
+                        'encoding': encoding,
                     }
             if 'warnings' in kwargs:
                 kwargs['warnings'].append(msg)
