@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-07-16 17:18-0400\n"
+"POT-Creation-Date: 2020-07-20 21:40-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -31,7 +31,7 @@ msgid ""
 "An invalid split size was submitted, and therefore ignored. Default value is "
 "used, split size: 1"
 msgstr ""
-"El tamaño de paquete ingresado es inválido, se omitio el valor. Se utiliza "
+"El tamaño de paquete ingresado es inválido, se omitió el valor. Se utiliza "
 "el valor por defecto. Tamaño de paquete: 1"
 
 #: default/decorators.py:72
@@ -288,8 +288,8 @@ msgid ""
 "Check the <strong>Pretty JSON</strong> checkbox to get a pretty print on the "
 "output files."
 msgstr ""
-"Seleccione la opción <strong>JSON Indentado</strong> para obtener una bonita "
-"impresión en los archivos de salida."
+"Seleccione la opción <strong>JSON Indentado</strong> para indentar los "
+"archivos de salida."
 
 #: default/templates/default/combine-packages.html:22
 #: default/templates/default/compile.html:26
@@ -588,7 +588,7 @@ msgstr ""
 "contracting.org/latest/es/schema/release_package/\" target=\"_blank"
 "\">paquetes de release</a> o\n"
 " <a href=\"https://standard.open-contracting.org/latest/es/schema/"
-"record_package/\" target=\"_blank\">paquetes de record</a> en paquetes mas "
+"record_package/\" target=\"_blank\">paquetes de record</a> en paquetes más "
 "pequeños."
 
 #: default/templates/default/split-packages.html:18
