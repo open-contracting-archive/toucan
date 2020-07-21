@@ -18,7 +18,7 @@ from ocdskit.upgrade import upgrade_10_11
 from requests.exceptions import ConnectionError, HTTPError, SSLError
 
 from default.data_file import DataFile
-from default.decorators import clear_files, optional_args, published_date, require_files, validate_split_size
+from default.decorators import clear_files, validate_optional_args, published_date, require_files, validate_split_size
 from default.forms import MappingSheetOptionsForm
 from default.mapping_sheet import (get_extended_mapping_sheet, get_mapping_sheet_from_uploaded_file,
                                    get_mapping_sheet_from_url)
@@ -86,7 +86,7 @@ def upgrade(request):
 
 
 @require_files
-@optional_args
+@validate_optional_args
 def perform_upgrade(request, pretty_json=False, encoding='utf-8', warnings=None):
     data = {}
     for file in get_files_from_session(request):
@@ -97,7 +97,7 @@ def perform_upgrade(request, pretty_json=False, encoding='utf-8', warnings=None)
 
 @require_files
 @published_date
-@optional_args
+@validate_optional_args
 def perform_package_releases(request, pretty_json=False, published_date='', encoding='utf-8', warnings=None):
     method = package_releases_method
     return make_package(request, published_date, method, pretty_json, encoding, warnings)
@@ -105,7 +105,7 @@ def perform_package_releases(request, pretty_json=False, published_date='', enco
 
 @require_files
 @published_date
-@optional_args
+@validate_optional_args
 def perform_combine_packages(request, pretty_json=False, published_date='', encoding='utf-8', warnings=None):
     if request.GET.get('packageType') == 'release':
         method = combine_release_packages
@@ -116,7 +116,7 @@ def perform_combine_packages(request, pretty_json=False, published_date='', enco
 
 @require_files
 @published_date
-@optional_args
+@validate_optional_args
 @validate_split_size
 def perform_split_packages(request, pretty_json=False, published_date='', size=1, encoding='utf-8', warnings=None):
     change_published_date = request.GET.get('changePublishedDate') == 'true'
@@ -162,7 +162,7 @@ def perform_split_packages(request, pretty_json=False, published_date='', size=1
 
 @require_files
 @published_date
-@optional_args
+@validate_optional_args
 def perform_compile(request, pretty_json=False, published_date='', encoding='utf-8', warnings=None):
     packages = [file.json(codec=encoding) for file in get_files_from_session(request)]
     return_versioned_release = request.GET.get('includeVersioned') == 'true'
