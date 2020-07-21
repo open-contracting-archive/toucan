@@ -81,11 +81,6 @@
 .content-wrap.ocp-content {
     padding-bottom: 12rem;
 }
-.link-disabled {
-    opacity: .4;
-    cursor: default !important;
-    pointer-events: none;
-}
 
 .panel-title a {
     color: #9baf00;

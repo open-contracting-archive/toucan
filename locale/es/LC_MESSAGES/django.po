@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-07-08 22:52+0000\n"
+"POT-Creation-Date: 2020-07-21 23:32+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -70,19 +70,21 @@ msgstr "Cargue un archivo"
 msgid "Provide at least one extension URL"
 msgstr "Indique al menos una URL de extensión"
 
-#: default/google_drive.py:30
+#: default/google_drive.py:31
 msgid ""
 "There was an issue when trying to upload the file to Google Drive, please "
 "try again later."
-msgstr "Hubo un error tratando de subir el archivo a Google Drive, favor "
-"intente de nuevo más tarde."
+msgstr ""
+"Hubo un error tratando de subir el archivo a Google Drive, favor intente de "
+"nuevo más tarde."
 
-#: default/google_drive.py:31
+#: default/google_drive.py:32
 msgid ""
 "There was an authorization issue when saving the file to Google Drive, "
-"please try again."
-msgstr "Se encontró un problema de autorización al guardar el archivo en Google Drive, "
-"favor intente de nuevo más tarde"
+"please try again later."
+msgstr ""
+"Se encontró un problema de autorización al guardar el archivo en Google "
+"Drive, favor intente de nuevo más tarde"
 
 #: default/templates/default/base-tool.html:14
 msgid "more"
@@ -134,7 +136,9 @@ msgstr ""
 
 #: default/templates/default/base-tool.html:59
 msgid "Please wait... If a new window opens, please authorize the application."
-msgstr "Por favor espere... Si se abre una nueva ventana, favor autorice la aplicación."
+msgstr ""
+"Por favor espere... Si se abre una nueva ventana, favor autorice la "
+"aplicación."
 
 #: default/templates/default/base-uploader.html:15
 msgid ""
@@ -445,10 +449,10 @@ msgid ""
 "readthedocs.io/en/latest/api/mapping_sheet.html\" target=\"_blank"
 "\">definitions of the spreadsheet's columns</a>."
 msgstr ""
-"La planilla contiene los nombres, rutas y descripciones de todos los "
-"campos del estándar en un formato de tabla. Puede consultar las <a href="
-"\"https://ocdskit.readthedocs.io/en/latest/api/mapping_sheet.html\" target="
-"\"_blank\">definiciones de columnas de la planilla</a>."
+"La planilla contiene los nombres, rutas y descripciones de todos los campos "
+"del estándar en un formato de tabla. Puede consultar las <a href=\"https://"
+"ocdskit.readthedocs.io/en/latest/api/mapping_sheet.html\" target=\"_blank"
+"\">definiciones de columnas de la planilla</a>."
 
 #: default/templates/default/mapping_sheet.html:20
 msgid "The options available are:"
@@ -463,7 +467,7 @@ msgid "Use any of the official OCDS Schemas."
 msgstr "Use cualquiera de los esquemas OCDS oficiales."
 
 #: default/templates/default/mapping_sheet.html:27
-#: default/templates/default/snippets/input-options/input_description.html:11
+#: default/templates/default/snippets/input-options/input_description_single.html:11
 msgid "Provide a URL:"
 msgstr "Indique una URL:"
 
@@ -472,7 +476,7 @@ msgid "Enter a URL to a custom schema."
 msgstr "Ingrese una URL a un esquema personalizado."
 
 #: default/templates/default/mapping_sheet.html:31
-#: default/templates/default/snippets/input-options/input_description.html:7
+#: default/templates/default/snippets/input-options/input_description_single.html:7
 msgid "Upload a file:"
 msgstr "Cargue un archivo:"
 
@@ -527,10 +531,35 @@ msgstr ""
 "array de releases."
 
 #: default/templates/default/snippets/input-options/input_description.html:3
+#: default/templates/default/snippets/input-options/input_description_single.html:3
 msgid "The options available for input files are:"
 msgstr "Las opciones disponibles para los archivos de entrada son:"
 
+#: default/templates/default/snippets/input-options/input_description.html:7
+msgid "Upload files:"
+msgstr "Subir archivos:"
+
 #: default/templates/default/snippets/input-options/input_description.html:8
+msgid ""
+"Drag and drop one or more files. You can also click the <strong>Add a file</"
+"strong> link below. "
+msgstr ""
+"Arrastre y suelte uno o más archivos. También puede hacer clic en el enlace "
+"de <strong>Agregue un archivo</strong> más abajo."
+
+#: default/templates/default/snippets/input-options/input_description.html:11
+msgid "Provide URLs:"
+msgstr "Indique URLs:"
+
+#: default/templates/default/snippets/input-options/input_description.html:12
+msgid ""
+"Enter one or more URLs to each file. Click <strong>Add URL</strong> to "
+"provide more URLs."
+msgstr ""
+"Ingresa una o más URLs a cada archivo. Haga click en <strong>Añadir URL</"
+"strong> para ingresar más URLs."
+
+#: default/templates/default/snippets/input-options/input_description_single.html:8
 msgid ""
 "Upload no more than one file by dragging and dropping in the box below or "
 "using the <strong>Add a file</strong> link."
@@ -538,7 +567,7 @@ msgstr ""
 "Suba no más de un archivo arrastrándolo y soltándolo en la caja de abajo o "
 "usando el enlace <strong>Agregue un archivo</strong>."
 
-#: default/templates/default/snippets/input-options/input_description.html:12
+#: default/templates/default/snippets/input-options/input_description_single.html:12
 msgid "Provide a single URL to a file."
 msgstr "Ingresa una sola URL al archivo."
 
@@ -597,8 +626,8 @@ msgid ""
 "An error has occurred! Please verify that all your files are valid OCDS "
 "JSON, and try again in a few minutes."
 msgstr ""
-"¡Ha ocurrido un error! Por favor verifique que todos sus archivos son válidos "
-" de acuerdo al estándar OCDS, e intente de nuevo en unos minutos."
+"¡Ha ocurrido un error! Por favor verifique que todos sus archivos son "
+"válidos  de acuerdo al estándar OCDS, e intente de nuevo en unos minutos."
 
 #: default/templates/default/to-spreadsheet.html:51
 msgid ""
@@ -672,11 +701,11 @@ msgstr "Error al decodificar JSON"
 msgid "No valid option selected"
 msgstr "No se seleccionó ninguna opción válida"
 
-#: default/views.py:301
+#: default/views.py:304
 msgid "Enter a valid URL."
 msgstr "Introduzca una URL válida."
 
-#: default/views.py:305
+#: default/views.py:308
 msgid ""
 "There was an error when trying to access this URL. Please verify that the "
 "URL is correct and the file has the expected format."
@@ -684,22 +713,22 @@ msgstr ""
 "Se produjo un error al intentar acceder a esta URL. Favor verifique que la "
 "URL sea correcta y el archivo tenga el formato esperado."
 
-#: default/views.py:365 default/views.py:373
+#: default/views.py:368 default/views.py:376
 msgid "File not found"
 msgstr "Archivo no encontrado"
 
-#: default/views.py:371
+#: default/views.py:374
 msgid "File deleted"
 msgstr "Archivo eliminado"
 
-#: default/views.py:398
+#: default/views.py:401
 msgid "Invalid request, authentication process has not been started."
 msgstr "Solicitud inválida, el proceso de autenticación no ha sido iniciado"
 
-#: ocdstoucan/settings.py:143
+#: ocdstoucan/settings.py:140
 msgid "English"
 msgstr "Inglés"
 
-#: ocdstoucan/settings.py:144
+#: ocdstoucan/settings.py:141
 msgid "Spanish"
 msgstr "Español"
