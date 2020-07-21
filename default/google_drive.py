@@ -29,7 +29,8 @@ SCOPES = ['https://www.googleapis.com/auth/drive.file']
 
 google_api_messages = {
     '_default': _('There was an issue when trying to upload the file to Google Drive, please try again later.'),
-    'access_denied': _('There was an authorization issue when saving the file to Google Drive, please try again later.')
+    'access_denied': _(
+        'There was an authorization issue when saving the file to Google Drive, please try again later.')
 }
 
 mime_types = {
@@ -80,7 +81,7 @@ def upload_to_drive(request):
             'url': "https://drive.google.com/file/d/" + results["id"]
         })
 
-    except Exception as e:
+    except Exception:
         return JsonResponse({
             'status': 'failed',
             'message': google_api_messages['_default']
