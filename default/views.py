@@ -140,11 +140,11 @@ def perform_split_packages(request, pretty_json=False, published_date='', size=1
 
         context = package[package_data]
 
-        # based on the code
+        # based on:
         # cdskit/ocdskit/cli/commands/split_record_packages.py
         # cdskit/ocdskit/cli/commands/split_release_packages.py
 
-        # We can't determine which records came from which packages.
+        # we don't know which packages were used for each record.
         if package_data == 'records' and 'packages' in package:
             del package['packages']
 
