@@ -94,7 +94,8 @@ class DriveTestCase(ViewTestCase, ViewTests):
 
         self.assertEqual(contents['status'], 'failed')
         self.assertEqual(contents['message'],
-                         'There was an authorization issue when saving the file to Google Drive, please try again.')
+                         'There was an authorization issue when saving the file to Google Drive, please try again '
+                         'later.')
 
     @patch('default.google_drive.Flow.from_client_secrets_file')
     def test_save_failure(self, mock_flow):
