@@ -199,7 +199,6 @@
                     });
             })
             .fail(function(jqXHR, textStatus, errorThrown) {
-                alert(JSON.parse(jqXHR.responseText));
                 $.each(JSON.parse(jqXHR.responseText), function(i, item) {
                     slt = "#" + item.id;
                     msg = item.message;
