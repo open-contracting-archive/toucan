@@ -1,4 +1,5 @@
 {% extends 'default/base-uploader.html' %}
+{% load static %}
 {% load i18n %}
 
 {% block subtitle %} &gt;&gt; {% trans "Compile Releases" %} {% endblock %}
@@ -52,6 +53,6 @@
         });
     })();
     </script>
-    {% include "default/snippets/optional_arguments_scripts.html" %}
-    {% include "default/snippets/published_date_scripts.html" %}
+    <script src="{% static "js/optional_arguments.js" %}"></script>
+    <script src="{% static "js/published_date.js" %}"></script>
 {% endblock %}

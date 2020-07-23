@@ -1,4 +1,5 @@
 {% extends 'default/base-uploader.html' %}
+{% load static %}
 {% load i18n %}
 
 {% block subtitle %} &gt;&gt; {% trans "Upgrade from 1.0 to 1.1" %} {% endblock %}
@@ -27,5 +28,5 @@
 
 {% block scripts %}
     {{ block.super }}
-    {% include "default/snippets/optional_arguments_scripts.html" %}
+    <script src="{% static "js/optional_arguments.js" %}"></script>
 {% endblock %}

@@ -1,12 +1,16 @@
 var app = {};
 (function () {
-
+    var _validatorList = [];
     var _fileItems = [];
     var _paramSetters = [];
     var _done = false;
 
     this.setParams = function (func) {
         _paramSetters.push(func);
+    };
+
+    this.addValidator = function (validator) {
+         _validatorList.push(validator);
     };
 
     /** functions **/
@@ -65,6 +69,16 @@ var app = {};
 
     function clearFiles(){
         _fileItems = [];
+    }
+
+    function executeValidators(){
+        is_valid = true;
+        $.each(_validatorList, function(i, e){
+            if (e() == false){
+                is_valid = false;
+            }
+        });
+        return is_valid;
     }
 
     function showProcessingModal() {
@@ -134,7 +148,7 @@ var app = {};
                 $('.response-success').removeClass('hidden');
                 if (data.hasOwnProperty('warnings') && data.warnings.length > 0) {
                     $('.response-warning.action-failed').removeClass('hidden');
-                    $('.response-warning.action-failed ul').html($.map(data.warnings, function (o) {
+                    $('.response-warning.action-failed').html($.map(data.warnings, function (o) {
                         return '<li>' + o + '</li>'
                     }).join('\n'))
                 }
@@ -149,6 +163,9 @@ var app = {};
     }
 
     function upload() {
+        if (executeValidators() == false){
+            return;
+        }
         disableUploadButton();
         disableAddFiles();
         hideMessages();
@@ -178,6 +195,9 @@ var app = {};
     }
 
     function upload_url() {
+        if (executeValidators() == false){
+            return;
+        }
         hideMessages();
         $('#processing-modal .total-files')
             .html($('.input-url-container .form-group .input-group .form-control').length);
@@ -239,8 +259,10 @@ var app = {};
     $("#url-button").click(upload_url);
 
     window.onload = function () {
-        /* clear URL input text */
+        /* clear input values */
         $('#input_url_0 input').val('');
+        $('#encoding').val('utf-8');
+        $('#splitSize').val('1')
 
         /* add warning before closing/navigating away from page */
         window.addEventListener("beforeunload", function (e) {
@@ -256,4 +278,3 @@ var app = {};
     };
 
 }).apply(app);
-
