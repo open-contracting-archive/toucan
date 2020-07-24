@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-07-20 21:40-0400\n"
+"POT-Creation-Date: 2020-07-23 19:59-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -242,12 +242,12 @@ msgstr "Agregar más archivos"
 msgid "OCDS Toucan"
 msgstr "OCDS Toucan"
 
-#: default/templates/default/combine-packages.html:4
+#: default/templates/default/combine-packages.html:5
 #: default/templates/default/index.html:29
 msgid "Combine Packages"
 msgstr "Combinar Paquetes"
 
-#: default/templates/default/combine-packages.html:10
+#: default/templates/default/combine-packages.html:11
 msgid ""
 "Use this tool to combine <a href=\"https://standard.open-contracting.org/"
 "latest/en/schema/release_package/\" target=\"_blank\">release packages</a> "
@@ -262,9 +262,9 @@ msgstr ""
 "record_package/\" target=\"_blank\">paquetes de record</a> en un solo "
 "paquete."
 
-#: default/templates/default/combine-packages.html:17
-#: default/templates/default/compile.html:17
-#: default/templates/default/package-releases.html:16
+#: default/templates/default/combine-packages.html:18
+#: default/templates/default/compile.html:18
+#: default/templates/default/package-releases.html:17
 msgid ""
 "Fill in the <strong>Published date</strong> textbox to set "
 "<code>publishedDate</code> in the output package."
@@ -272,24 +272,12 @@ msgstr ""
 "Use la opción <strong>Fecha de Publicación</strong> para establecer "
 "<code>publishedDate</code> del paquete de salida."
 
-#: default/templates/default/combine-packages.html:18
+#: default/templates/default/combine-packages.html:19
 msgid ""
 "Select the correct <strong>Package type</strong> option before starting."
 msgstr ""
 "Seleccione la opción correcta de <strong>Tipo de Paquete</strong> antes de "
 "empezar."
-
-#: default/templates/default/combine-packages.html:21
-#: default/templates/default/compile.html:25
-#: default/templates/default/package-releases.html:19
-#: default/templates/default/split-packages.html:28
-#: default/templates/default/upgrade.html:19
-msgid ""
-"Check the <strong>Pretty JSON</strong> checkbox to get a pretty print on the "
-"output files."
-msgstr ""
-"Seleccione la opción <strong>JSON Indentado</strong> para indentar los "
-"archivos de salida."
 
 #: default/templates/default/combine-packages.html:22
 #: default/templates/default/compile.html:26
@@ -297,14 +285,26 @@ msgstr ""
 #: default/templates/default/split-packages.html:29
 #: default/templates/default/upgrade.html:20
 msgid ""
+"Check the <strong>Pretty JSON</strong> checkbox to get a pretty print on the "
+"output files."
+msgstr ""
+"Seleccione la opción <strong>JSON Indentado</strong> para indentar los "
+"archivos de salida."
+
+#: default/templates/default/combine-packages.html:23
+#: default/templates/default/compile.html:27
+#: default/templates/default/package-releases.html:21
+#: default/templates/default/split-packages.html:30
+#: default/templates/default/upgrade.html:21
+msgid ""
 "By default the output encoding is utf-8, you can change it in "
 "<strong>Encoding</strong> text box."
 msgstr ""
 "Por defecto la codificación de salida es utf-8, utiliza la caja de texto "
 "<strong>Codificación</strong> para ingresar otra codificación."
 
-#: default/templates/default/combine-packages.html:25
-#: default/templates/default/split-packages.html:32
+#: default/templates/default/combine-packages.html:26
+#: default/templates/default/split-packages.html:33
 msgid ""
 "Each input file must be a JSON file containing either a single package or an "
 "array of packages."
@@ -312,27 +312,27 @@ msgstr ""
 "Los archivos de entrada deben ser JSON con un solo paquete cada uno o un "
 "array de paquetes"
 
-#: default/templates/default/combine-packages.html:32
-#: default/templates/default/split-packages.html:44
+#: default/templates/default/combine-packages.html:33
+#: default/templates/default/split-packages.html:45
 msgid "Package type:"
 msgstr "Tipo de Paquete:"
 
-#: default/templates/default/combine-packages.html:34
-#: default/templates/default/split-packages.html:46
+#: default/templates/default/combine-packages.html:35
+#: default/templates/default/split-packages.html:47
 msgid "Release Package"
 msgstr "Paquete de Release"
 
-#: default/templates/default/combine-packages.html:35
-#: default/templates/default/split-packages.html:47
+#: default/templates/default/combine-packages.html:36
+#: default/templates/default/split-packages.html:48
 msgid "Record Package"
 msgstr "Paquete de Record"
 
-#: default/templates/default/compile.html:4
+#: default/templates/default/compile.html:5
 #: default/templates/default/index.html:49
 msgid "Compile Releases"
 msgstr "Compilar Releases"
 
-#: default/templates/default/compile.html:10
+#: default/templates/default/compile.html:11
 msgid ""
 "Use this tool to create a <a href=\"https://standard.open-contracting.org/"
 "latest/en/schema/record_package/\" target=\"_blank\">record package</a> with "
@@ -346,7 +346,7 @@ msgstr ""
 "standard.open-contracting.org/latest/es/schema/release_package/\" target="
 "\"_blank\">paquetes de release</a>."
 
-#: default/templates/default/compile.html:18
+#: default/templates/default/compile.html:19
 msgid ""
 "Check the <strong>Include Versioned Releases</strong> checkbox if you want "
 "to add a versioned release to each record. Read more about compiled releases "
@@ -359,27 +359,27 @@ msgstr ""
 "contracting.org/latest/es/schema/merging/\" target=\"_blank\">documentación "
 "de OCDS</a>."
 
-#: default/templates/default/compile.html:28
+#: default/templates/default/compile.html:29
 msgid "Please verify that your files are release packages before uploading."
 msgstr ""
 "Favor verifique que sus archivos sean paquetes de release antes de subirlos."
 
-#: default/templates/default/compile.html:34
+#: default/templates/default/compile.html:35
 msgid "Include Versioned Releases: "
 msgstr "Incluir el bloque versionedRelease: "
 
 #: default/templates/default/index.html:19
-#: default/templates/default/package-releases.html:4
+#: default/templates/default/package-releases.html:5
 msgid "Create Release Packages"
 msgstr "Crear Paquetes de Entregas"
 
 #: default/templates/default/index.html:39
-#: default/templates/default/split-packages.html:4
+#: default/templates/default/split-packages.html:5
 msgid "Split Packages"
 msgstr "Dividir Paquetes"
 
 #: default/templates/default/index.html:59
-#: default/templates/default/upgrade.html:4
+#: default/templates/default/upgrade.html:5
 msgid "Upgrade from 1.0 to 1.1"
 msgstr "Actualizar de 1.0 a 1.1"
 
@@ -542,7 +542,7 @@ msgstr ""
 msgid "Generate"
 msgstr "Generar"
 
-#: default/templates/default/package-releases.html:10
+#: default/templates/default/package-releases.html:11
 msgid ""
 "Use this tool to create a <a href=\"https://standard.open-contracting.org/"
 "latest/en/schema/release_package/\" target=\"_blank\">release package</a> "
@@ -556,7 +556,7 @@ msgstr ""
 "contracting.org/latest/es/getting_started/releases_and_records/#releases\" "
 "target=\"_blank\">releases</a> individuales"
 
-#: default/templates/default/package-releases.html:23
+#: default/templates/default/package-releases.html:24
 msgid ""
 "Each input file must be a JSON file containing either one release or an "
 "array of releases."
@@ -576,7 +576,7 @@ msgstr "JSON Indentado:"
 msgid "Published date:"
 msgstr "Fecha de Publicación:"
 
-#: default/templates/default/split-packages.html:10
+#: default/templates/default/split-packages.html:11
 msgid ""
 "Use this tool to split <a href=\"https://standard.open-contracting.org/"
 "latest/en/schema/record_package/\" target=\"_blank\">record package</a> or "
@@ -591,7 +591,7 @@ msgstr ""
 "record_package/\" target=\"_blank\">paquetes de record</a> en paquetes más "
 "pequeños."
 
-#: default/templates/default/split-packages.html:18
+#: default/templates/default/split-packages.html:19
 msgid ""
 "To change the <code>publishedDate</code> for the output package fill in the "
 "<strong>Published date</strong> textbox and check the <strong>checkbox</"
@@ -602,7 +602,7 @@ msgstr ""
 "use la opción <strong>Fecha de Publicación</strong> y marque la "
 "<strong>casilla de selección</strong> junto a ella."
 
-#: default/templates/default/split-packages.html:25
+#: default/templates/default/split-packages.html:26
 msgid ""
 "Enter the number of items (records or releases) per divided package in "
 "<strong>Items per Package</strong> box before start process."
@@ -611,13 +611,15 @@ msgstr ""
 "la caja de texto <strong>Elementos por Paquete</strong> antes de comenzar el "
 "proceso."
 
-#: default/templates/default/split-packages.html:51
+#: default/templates/default/split-packages.html:52
 msgid "Items per Package:"
 msgstr "Elementos por Paquete:"
 
-#: default/templates/default/split-packages.html:93
-msgid "An invalid split size was entered. Change it to a valid number."
-msgstr "El tamaño de paquete ingresado es inválido, ingrese un valor válido."
+#: default/templates/default/split-packages.html:67
+msgid "An invalid split size was entered. Please change it to a valid number."
+msgstr ""
+"El tamaño de paquete ingresado es inválido. Por favor cámbielo por un valor "
+"válido."
 
 #: default/templates/default/to-json.html:23
 #: default/templates/default/to-spreadsheet.html:27
@@ -681,7 +683,7 @@ msgstr ""
 "contracting.org/latest/es/schema/release_package/\" target=\"_blank"
 "\">paquete de release</a> a su versión CSV y Excel."
 
-#: default/templates/default/upgrade.html:10
+#: default/templates/default/upgrade.html:11
 msgid ""
 "Use this tool to update <a href=\"https://standard.open-contracting.org/"
 "latest/en/getting_started/releases_and_records/#releases\" target=\"_blank"
