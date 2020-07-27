@@ -93,10 +93,6 @@ var app = {};
         addFile(data);
         if (!isUploadButtonEnabled()) {
             enableUploadButton();
-            // if UploadButton was disabled in split-packages, check split size
-            if ($(location).attr('pathname') === '/split-packages/') {
-                $.event.trigger('appHookCheckSplitSize');
-            }
         }
         if (getNumOfFiles() === 1) {
             $('.file-selector-empty').addClass('hidden');
