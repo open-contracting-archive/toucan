@@ -74,9 +74,7 @@ var app = {};
     function executeValidators(){
         is_valid = true;
         $.each(_validatorList, function(i, e){
-            if (e() == false){
-                is_valid = false;
-            }
+            is_valid = is_valid && e();
         });
         return is_valid;
     }
