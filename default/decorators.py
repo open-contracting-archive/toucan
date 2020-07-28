@@ -32,13 +32,14 @@ def published_date(function):
         if published_date:
             try:
                 parser.parse(published_date)
-                kwargs['published_date'] = published_date
             except ValueError:
                 kwargs['warnings'] = [
                     _('An invalid published date was submitted, and therefore ignored: %(date)s') % {
                         'date': published_date,
                     },
                 ]
+            else:
+                kwargs['published_date'] = published_date
         return function(request, *args, **kwargs)
 
     return wrap
