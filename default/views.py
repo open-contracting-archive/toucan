@@ -1,3 +1,4 @@
+import json
 import os
 import shutil
 import warnings
@@ -18,7 +19,7 @@ from ocdskit.upgrade import upgrade_10_11
 from requests.exceptions import ConnectionError, HTTPError, SSLError
 
 from default.data_file import DataFile
-from default.decorators import clear_files, published_date, require_files
+from default.decorators import clear_files, published_date, validate_files
 from default.forms import MappingSheetOptionsForm
 from default.mapping_sheet import (get_extended_mapping_sheet, get_mapping_sheet_from_uploaded_file,
                                    get_mapping_sheet_from_url)
@@ -27,7 +28,6 @@ from default.util import (get_files_from_session, invalid_request_file_message, 
 
 
 def retrieve_result(request, folder, id, format=None):
-    destination = request.GET.get('destination')
     if format is None:
         prefix = 'result'
         ext = '.zip'
@@ -44,11 +44,7 @@ def retrieve_result(request, folder, id, format=None):
         raise Http404('Invalid option')
 
     file = DataFile(prefix, ext, id=str(id), folder=folder)
-
-    if destination == 'function':
-        return add_result(request, file)
-    else:
-        return FileResponse(open(file.path, 'rb'), filename=filename, as_attachment=True)
+    return FileResponse(open(file.path, 'rb'), filename=filename, as_attachment=True)
 
 
 def index(request):
@@ -85,20 +81,21 @@ def upgrade(request):
     return ocds_command(request, 'upgrade')
 
 
-@require_files
+@validate_files
 def perform_upgrade(request):
-    return json_response((file.name_with_suffix('upgraded'), upgrade_10_11(file.json(object_pairs_hook=OrderedDict)))
-                         for file in get_files_from_session(request))
+    return json_response(request,
+                         ((file.name_with_suffix('upgraded'), upgrade_10_11(file.json(object_pairs_hook=OrderedDict)))
+                          for file in get_files_from_session(request)))
 
 
-@require_files
+@validate_files
 @published_date
 def perform_package_releases(request, published_date='', warnings=None):
     method = package_releases_method
     return make_package(request, published_date, method, warnings)
 
 
-@require_files
+@validate_files
 @published_date
 def perform_combine_packages(request, published_date='', warnings=None):
     if request.GET.get('packageType') == 'release':
@@ -108,13 +105,13 @@ def perform_combine_packages(request, published_date='', warnings=None):
     return make_package(request, published_date, method, warnings)
 
 
-@require_files
+@validate_files
 @published_date
 def perform_compile(request, published_date='', warnings=None):
     packages = [file.json() for file in get_files_from_session(request)]
     return_versioned_release = request.GET.get('includeVersioned') == 'true'
 
-    return json_response({
+    return json_response(request, {
         'result.json': next(merge(packages, return_package=True, published_date=published_date,
                                   return_versioned_release=return_versioned_release)),
     }, warnings)
@@ -171,7 +168,7 @@ def mapping_sheet(request):
     return render(request, 'default/mapping_sheet.html', context)
 
 
-@require_files
+@validate_files
 def perform_to_spreadsheet(request):
     input_file = next(get_files_from_session(request))
     output_dir = DataFile('flatten', '', input_file.id, input_file.folder)
@@ -211,7 +208,7 @@ def perform_to_spreadsheet(request):
     })
 
 
-@require_files
+@validate_files
 def perform_to_json(request):
     input_file = next(get_files_from_session(request))
     output_dir = DataFile('unflatten', '', input_file.id, input_file.folder)
@@ -246,72 +243,15 @@ def perform_to_json(request):
     if extension in ('.csv', '.zip'):
         shutil.rmtree(input_file_path)
 
-    # Create a ZIP file of the JSON file.
-    json_zip = DataFile('result', '.zip', id=input_file.id, folder=input_file.folder)
-    with ZipFile(json_zip.path, 'w', compression=ZIP_DEFLATED) as zipfile:
-        zipfile.write(output_name, 'result.json')
-
-    return JsonResponse({
-        'url': input_file.url,
-        'size': json_zip.size,
-    })
-
-
-def add_result(request, data_file):
-    request.session['files'] = []
-    if data_file.ext == '.zip':
-        with ZipFile(data_file.path) as zipfile:
-            for file in zipfile.infolist():
-                prefix, ext = os.path.splitext(file.filename)
-                new_file = DataFile(prefix, ext)
-                path, file.filename = os.path.split(new_file.path)
-                zipfile.extract(file, 'media/' + new_file.folder)
-                request.session['files'].append(new_file.as_dict())
-    else:
-        request.session['files'].append(data_file.as_dict())
-    request.session['clear'] = False
-    request.session.modified = True
-
-    return JsonResponse({
-        'files': request.session['files']
-    })
-
-
-@require_GET
-def receive_result(request):
-    if 'clear' not in request.session:
-        return JsonResponse({
-            'receive_result': False,
-        })
-
-    clear = request.session['clear']
-    if clear:
-        return JsonResponse({
-            'receive_result': False,
-        })
-
-    request.session['clear'] = True
-    for file in request.session['files']:
-        result_file = DataFile(**file)
-        file_type = request.GET.get('type', None)
-
-        with open(result_file.path, 'rb') as f:
-            message = invalid_request_file_message(f, file_type)
-            if message:
-                return HttpResponse(message, status=400)
-            else:
-                return JsonResponse({
-                    'receive_result': True,
-                    'prefix': file['prefix'],
-                    'ext': file['ext'],
-                })
+    with open(output_name) as json_file:
+        return json_response(request, {'result.json': json.load(json_file)})
 
 
 @require_POST
 def upload_url(request):
     request.session['files'] = []
     errors = []
-    status = 401
+    status = 401  # error 401 for invalid type
 
     for data in request.POST:
         if 'input_url' in data:
@@ -382,7 +322,7 @@ def uploadfile(request):
 
     message = invalid_request_file_message(request_file, file_type)
     if message:
-        return HttpResponse(message, status=400)
+        return HttpResponse(message, status=401)  # error 401 for invalid type
     else:
         data_file.write(request_file)
 

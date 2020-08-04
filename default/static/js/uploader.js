@@ -118,7 +118,10 @@ var app = {};
     }
 
     function whenAjaxReqFails(jqXHR) {
-        $('.response-fail').removeClass('hidden');
+        if (jqXHR.status === 401)
+            $('.response-warning.file-process-failed').removeClass('hidden');
+        else
+            $('.response-fail').removeClass('hidden');
         hideProcessingModal();
     }
 
@@ -132,7 +135,6 @@ var app = {};
             .done(function (data) {
                 $('.response-success .file-size').html(utils.readableFileSize(data.size));
                 $('.response-success .download').attr('href', data.url);
-                $('.response-success .send-button').attr('data-url', data.url + '?destination=function');
                 $('.response-success').removeClass('hidden');
                 if (data.hasOwnProperty('warnings') && data.warnings.length > 0) {
                     $('.response-warning.action-failed').removeClass('hidden');
@@ -144,7 +146,9 @@ var app = {};
                 $('.actions').hide();
                 $('#fileupload').fileupload('destroy');
             })
-            .fail(whenAjaxReqFails)
+            .fail(function(jqXHR, textStatus, errorThrown) {
+                whenAjaxReqFails(jqXHR);
+            })
             .always(function () {
                 _done = true
             });
@@ -155,28 +159,34 @@ var app = {};
         disableAddFiles();
         hideMessages();
 
-        var promises = $.map(_fileItems, function (val) {
-            return val.submit();
-        });
-        $.when.apply($, promises)
-            .done(function () {
-                performAction($('#fileupload').attr('data-perform-action'));
-            })
-            .fail(function () {
-                enableAddFiles();
-                $('.response-warning.file-process-failed').removeClass('hidden');
-            })
-            .always(function () {
-                clearFiles(); // so they will not be uploaded again
-                var failures = $.grep(promises, function (promise) {
-                    return promise.state() === 'rejected';
-                });
-                if (failures.length){
-                    // validations failed for some files, show message
+        /* check if results were sent and performAction directly, otherwise files are uploaded first */
+        if ($('#upload-button').hasClass('sendResult') == true) {
+            params = '?sendResult=true&type=' + JSON.parse($('#fileupload').attr('data-form-data')).type
+            performAction($('#fileupload').attr('data-perform-action') + params);
+        } else {
+            var promises = $.map(_fileItems, function (val) {
+                return val.submit();
+            });
+            $.when.apply($, promises)
+                .done(function () {
+                    performAction($('#fileupload').attr('data-perform-action'));
+                })
+                .fail(function () {
+                    enableAddFiles();
                     $('.response-warning.file-process-failed').removeClass('hidden');
-                }
-            })
-        ;
+                })
+                .always(function () {
+                    clearFiles(); // so they will not be uploaded again
+                    var failures = $.grep(promises, function (promise) {
+                        return promise.state() === 'rejected';
+                    });
+                    if (failures.length){
+                        // validations failed for some files, show message
+                        $('.response-warning.file-process-failed').removeClass('hidden');
+                    }
+                })
+            ;
+        }
     }
 
     function upload_url() {
@@ -203,13 +213,7 @@ var app = {};
                     $(slt).addClass('has-error');
                     $(slt).append('<div class="help-block">' + msg + '</div>');
                 });
-                if (jqXHR.status === 400) {
-                    $('.response-fail').removeClass('hidden');
-                }
-                if (jqXHR.status === 401) {
-                    $('.response-warning.file-process-failed').removeClass('hidden');
-                }
-                hideProcessingModal();
+                whenAjaxReqFails(jqXHR);
                 $('#processing-modal .downloading-status').addClass('hidden');
             })
             .always(function () {
@@ -225,23 +229,8 @@ var app = {};
         ;
     }
 
-    function go() {
-        disableGoButton();
-        hideMessages();
-
-        var promises = $.map(_fileItems, function (val) {
-            return val.submit();
-        });
-        performAction($('#fileupload').attr('data-perform-action'));
-    }
-
     function send_to() {
-        hideMessages();
-        showProcessingModal();
-        $.ajax($('.response-success .send-button').attr('data-url'), { 'dataType': 'json' })
-            .done(function (data) {
-                window.location.href = $('.to-function').val();
-            })
+        window.location.href = $('.to-function').val() + '?sendResult=true';
     }
 
     /** plugin initialization & listeners**/
@@ -259,10 +248,7 @@ var app = {};
     /* click upload url button behaviour */
     $("#url-button").click(upload_url);
 
-    /** go call binding **/
-    $("#go-button").click(go);
-
-    /** click send button behaviour **/
+    /* click send button behaviour */
     $('.send-button').click(send_to);
 
     /* add warning before closing/navigating away from page */
@@ -271,27 +257,19 @@ var app = {};
         $('#input_url_0 input').val('');
 
         /* check if results were sent to this page */
-        url = '/result/receive/?type=' + JSON.parse($('#fileupload').attr('data-form-data')).type;
-        $.ajax(url, { 'dataType': 'json' })
-            .done(function (data) {
-                if (data.receive_result) {
-                    showProcessingModal();
-                    disableAddFiles();
-                    $('.drop-area').removeClass('empty');
-                    $('.drop-area').addClass('single');
-                    $('.drop-area .file-selector-empty').addClass('hidden');
-                    $('.drop-area .drop-area-received-msg').removeClass('hidden');
-                    $('.drop-area .drop-area-received-msg .file-result').html(data.prefix + data.ext);
-                    $('.actions').removeClass('hidden');
-                    $('#upload-button').addClass('hidden');
-                    $('#go-button').removeClass('hidden');
-                }})
-            .fail(function () {
-                $('.response-warning.file-process-failed').removeClass('hidden');
-            })
-            .always(function () {
-                hideProcessingModal();
-                });
+        if (window.location.search == '?sendResult=true') {
+            showProcessingModal();
+            disableAddFiles();
+            enableUploadButton();
+            $('.drop-area').removeClass('empty');
+            $('.drop-area').addClass('single');
+            $('.drop-area .file-selector-empty').addClass('hidden');
+            $('.drop-area .drop-area-received-msg').removeClass('hidden');
+            $('.drop-area .drop-area-received-msg .file-result').html('result.zip');
+            $('.actions').removeClass('hidden');
+            $('#upload-button').addClass('sendResult');
+            hideProcessingModal();
+        }
 
         /* add warning before closing/navigating away from page */
         window.addEventListener("beforeunload", function (e) {

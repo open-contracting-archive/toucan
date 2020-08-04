@@ -23,7 +23,7 @@ def get_files_from_session(request):
         yield DataFile(**fileinfo)
 
 
-def json_response(files, warnings=None):
+def json_response(request, files, warnings=None):
     file = DataFile('result', '.zip')
     file.write_json_to_zip(files)
 
@@ -34,6 +34,10 @@ def json_response(files, warnings=None):
 
     if warnings:
         response['warnings'] = warnings
+
+    # Save the last generated result on session
+    request.session['results'] = []
+    request.session['results'].append(file.as_dict())
 
     return JsonResponse(response)
 
@@ -47,9 +51,7 @@ def make_package(request, published_date, method, warnings):
         else:
             items.append(item)
 
-    return json_response({
-        'result.json': method(items, published_date=published_date),
-    }, warnings=warnings)
+    return json_response(request, {'result.json': method(items, published_date=published_date)}, warnings=warnings)
 
 
 def invalid_request_file_message(f, file_type):

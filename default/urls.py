@@ -11,7 +11,6 @@ urlpatterns = [
     path('delete/<uuid:id>', views.deletefile, name='delete_file'),
     path('result/<str:folder>/<uuid:id>/', views.retrieve_result, name='retrieve_result'),
     path('result/<str:folder>/<uuid:id>/<str:format>/', views.retrieve_result, name='retrieve_result'),
-    path('result/receive/', views.receive_result, name='receive_result'),
     path('upgrade/', views.upgrade, name='upgrade'),
     path('upgrade/go/', views.perform_upgrade, name='perform_upgrade'),
     path('package-releases/', views.package_releases, name='package_releases'),
