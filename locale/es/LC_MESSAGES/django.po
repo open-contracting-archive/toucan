@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-07-01 18:30-0400\n"
+"POT-Creation-Date: 2020-08-04 14:50-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: default/decorators.py:38
+#: default/decorators.py:65
 #, python-format
 msgid ""
 "An invalid published date was submitted, and therefore ignored: %(date)s"
@@ -193,7 +193,7 @@ msgstr "Indique URLs"
 
 #: default/templates/default/base-uploader.html:75
 #: default/templates/default/to-json.html:119
-#: default/templates/default/to-spreadsheet.html:120
+#: default/templates/default/to-spreadsheet.html:116
 msgid ""
 "Processing operation. Please don't refresh nor close the browser window!"
 msgstr ""
@@ -251,11 +251,6 @@ msgstr "<b>Recibido</b>: "
 #: default/templates/default/base-uploader.html:144
 msgid "Add more files"
 msgstr "Agregar más archivos"
-
-#: default/templates/default/base-uploader.html:152
-#: default/templates/default/to-spreadsheet.html:111
-msgid "Process"
-msgstr "Procesar"
 
 #: default/templates/default/base.html:16
 #: default/templates/default/base.html:24
@@ -588,7 +583,7 @@ msgstr ""
 "ocds/\" target=\"_blank\">Flatten Tool</a> para OCDS."
 
 #: default/templates/default/to-json.html:141
-#: default/templates/default/to-spreadsheet.html:142
+#: default/templates/default/to-spreadsheet.html:138
 msgid "Added:"
 msgstr "Añadido:"
 
@@ -604,26 +599,18 @@ msgstr ""
 "un archivo arrastrándolo y soltándolo en la caja de abajo o usando el enlace "
 "<strong>Agregue un archivo</strong>."
 
-#: default/templates/default/to-spreadsheet.html:161
-#: default/templates/default/to-spreadsheet.html:234
+#: default/templates/default/to-spreadsheet.html:157
+#: default/templates/default/to-spreadsheet.html:227
 msgid "<b>Error when processing file</b>: "
 msgstr "<b>Error al procesar el archivo</b>:"
 
-#: default/templates/default/to-spreadsheet.html:164
-#: default/templates/default/to-spreadsheet.html:237
+#: default/templates/default/to-spreadsheet.html:160
+#: default/templates/default/to-spreadsheet.html:230
 msgid ""
 "Please verify that the file is a valid OCDS Release Package and try again."
 msgstr ""
 "Favor verifique que su archivo es un Paquete de Release OCDS válido e "
 "intente de nuevo."
-
-#: default/templates/default/to-spreadsheet.html:259
-msgid ""
-"An error has occurred! Please verify that all your files are valid OCDS "
-"JSON, and try again in a few minutes."
-msgstr ""
-"¡Ha ocurrido un error! Por favor verifique que todos sus archivos son "
-"válidos de acuerdo al estándar OCDS, e intente de nuevo en unos minutos."
 
 #: default/templates/default/upgrade.html:10
 msgid ""
@@ -654,40 +641,40 @@ msgstr "Borrar"
 msgid "Processing..."
 msgstr "Procesando..."
 
-#: default/util.py:65
+#: default/util.py:67
 msgid "Not a record package"
 msgstr "No es un paquete de records"
 
-#: default/util.py:68
+#: default/util.py:70
 msgid "Not a release package"
 msgstr "No es un paquete de releases"
 
-#: default/util.py:71
+#: default/util.py:73
 msgid "Not a release or package"
 msgstr "No es un release o paquete"
 
-#: default/util.py:75
+#: default/util.py:77
 msgid "Not a package or list of packages"
 msgstr "No es un paquete o lista de paquetes"
 
-#: default/util.py:79
+#: default/util.py:81
 msgid "Not a release or list of releases"
 msgstr "No es un release o lista de releases"
 
-#: default/util.py:81
+#: default/util.py:83
 #, python-format
 msgid "\"%(type)s\" not recognized"
 msgstr "No se reconoce \"%(type)s\""
 
-#: default/util.py:83
+#: default/util.py:85
 msgid "Error decoding JSON"
 msgstr "Error al decodificar JSON"
 
-#: default/views.py:340
+#: default/views.py:283
 msgid "Enter a valid URL."
 msgstr "Introduzca una URL válida."
 
-#: default/views.py:344
+#: default/views.py:287
 msgid ""
 "There was an error when trying to access this URL. Please verify that the "
 "URL is correct and the file has the expected format."
@@ -695,11 +682,11 @@ msgstr ""
 "Se produjo un error al intentar acceder a esta URL. Favor verifique que la "
 "URL sea correcta y el archivo tenga el formato esperado."
 
-#: default/views.py:404 default/views.py:412
+#: default/views.py:347 default/views.py:355
 msgid "File not found"
 msgstr "Archivo no encontrado"
 
-#: default/views.py:410
+#: default/views.py:353
 msgid "File deleted"
 msgstr "Archivo eliminado"
 
