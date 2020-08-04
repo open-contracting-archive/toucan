@@ -29,14 +29,14 @@ class FileUploadTestCase(TestCase):
         with open(path('object.json')) as f:
             response = self.client.post('/upload/', {'file': f, 'type': file_type})
 
-            self.assertEqual(response.status_code, 400)
+            self.assertEqual(response.status_code, 401)
             self.assertEqual(response.content.decode('utf-8'), message)
 
     def test_fail(self):
         with open(path('empty.json')) as f:
             response = self.client.post('/upload/', {'file': f, 'type': 'release-package'})
 
-        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.status_code, 401)
         self.assertEqual(response.content.decode('utf-8'), 'Error decoding JSON')
 
     def test_delete_file(self):
