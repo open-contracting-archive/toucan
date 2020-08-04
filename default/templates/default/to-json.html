@@ -177,16 +177,11 @@
 
     /** click send button behaviour **/
     $('.send-button').click(function(){
-        $('#processing-modal').modal('show');
-        $.ajax($('.response-success .send-button').attr('data-url'), { 'dataType': 'json' })
-            .done(function (data) {
-                window.location.href = $('.to-function').val();
-            })
+        window.location.href = $('.to-function').val() + '?sendResult=true';
     });
 
     /** click url button behaviour **/
     $("#url-button-ts").click(function(){
-        $('.response-warning').addClass('hidden');
         $('#processing-modal').modal('show');
         $('.response-fail').addClass('hidden');
         $('.form-group').removeClass('has-error');

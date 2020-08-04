@@ -106,10 +106,6 @@
               <span>{% trans "Start" %}</span>
             </button>
         </form>
-        <button type="submit" class="btn btn-primary pull-right start hidden" id="go-button">
-            <i class="glyphicon glyphicon-play-circle"></i>
-            <span>{% trans "Process" %}</span>
-        </button>
     </div>
 </div>
 <!-- Processing modal -->
@@ -154,7 +150,7 @@
             data
                 .submit()
                 .done(function(){
-                    performAction();
+                    performAction('/to-spreadsheet/go/');
                 })
                 .fail(function(jqXHR, textStatus, errorThrown){
                     $('.response-fail').html(
@@ -168,9 +164,12 @@
         });
     });
 
-    /** click go button behaviour **/
-    $('#go-button').click(function(){
-        performAction();
+    /** click upload-button behaviour if results where sent **/
+    $('#upload-button').click(function(){
+        if ($('#upload-button').hasClass('sendResult') == true) {
+            params = '?sendResult=true&type=' + JSON.parse($('#fileupload').attr('data-form-data')).type
+            performAction('/to-spreadsheet/go/' + params);
+        }
     });
 
     /** click url button behaviour **/
@@ -213,40 +212,9 @@
             });
     });
 
-    /* clear URL input text */
-    $('#input_url_0 input').val('');
-
-    /** check if results were sent to this page and validate it with 'type' if so **/
-    window.onload = function () {
-        url = '/result/receive/?type=' + JSON.parse($('#fileupload').attr('data-form-data')).type;
-        $.ajax(url, { 'dataType': 'json' })
-            .done(function (data) {
-                if (data.receive_result) {
-                    $('#processing-modal').modal('show');
-                    $('.drop-area').removeClass('empty');
-                    $('.drop-area .file-selector-empty').addClass('hidden');
-                    $('.drop-area .drop-area-received-msg').removeClass('hidden');
-                    $('.drop-area .drop-area-received-msg .file-result').html(data.prefix + data.ext);
-                    $('#go-button').removeClass('hidden');
-                }})
-            .fail(function(jqXHR, textStatus, errorThrown){
-                $('.response-fail').html(
-                    '{% trans "<b>Error when processing file</b>: " %}'
-                    + ( jqXHR.responseText || textStatus )
-                    + '. '
-                    + '{% trans "Please verify that the file is a valid OCDS Release Package and try again." %}'
-                );
-                $('.response-fail').removeClass('hidden');
-            })
-            .always(function () {
-                $('#processing-modal').modal('hide');
-                });
-    };
-
-    /** perform go ajax call **/
-    function performAction() {
+    function performAction(url) {
         $('#processing-modal').modal('show');
-        $.ajax('/to-spreadsheet/go/', { 'dataType': 'json' })
+        $.ajax(url, { 'dataType': 'json' })
             .done(function(data){
                 $('.response-success .download-xlsx').attr('href', data.xlsx.url);
                 $('.response-success .download-csv').attr('href', data.csv.url);
@@ -254,21 +222,43 @@
                 $('.response-success .file-size-csv').html(utils.readableFileSize(data.csv.size));
                 $('.response-success').removeClass('hidden');
                 })
-            .fail(function(){
-                $('.response-fail').html(
-                    '{% trans "An error has occurred! Please verify that all your files are valid OCDS JSON, and try again in a few minutes." %}'
-                );
+            .fail(function(jqXHR, textStatus, errorThrown){
+                if (jqXHR.status === 401) {
+                    $('.response-fail').html('{% trans "<b>Error when processing file</b>: " %}'
+                    + ( jqXHR.responseText || textStatus )
+                    + '. '
+                    + '{% trans "Please verify that the file is a valid OCDS Release Package and try again." %}'
+                    );
+                }
                 $('.response-fail').removeClass('hidden');
                 })
             .always(function(){
                 $('#processing-modal').modal('hide');
                 });
-    }
+    };
 
     /* prevent browser's default action when dragging and dropping files */
     $(document).bind('drop dragover', function (e) {
         e.preventDefault();
     });
+
+    window.onload = function () {
+        /* clear URL input text */
+        $('#input_url_0 input').val('');
+
+        /* check if results were sent to this page */
+        if (window.location.search == '?sendResult=true') {
+            $('#processing-modal').modal('show');
+            $('.drop-area').removeClass('empty');
+            $('.drop-area .file-selector-empty').addClass('hidden');
+            $('.drop-area .drop-area-received-msg').removeClass('hidden');
+            $('.drop-area .drop-area-received-msg .file-result').html('result.zip');
+            $('.actions').removeClass('hidden');
+            $('#upload-button').removeClass('hidden');
+            $('#upload-button').addClass('sendResult');
+            $('#processing-modal').modal('hide');
+        }
+    }
 </script>
 {% include "default/snippets/url_uploader_scripts.html" %}
 {% endblock %}
