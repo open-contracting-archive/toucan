@@ -158,7 +158,6 @@
                         .done(function(data){
                             $('.response-success .download-json').attr('href', data.url);
                             $('.response-success .file-size-json').html(utils.readableFileSize(data.size));
-                            $('.response-success .send-button').attr('data-url', data.url + '?destination=function');
                             $('.response-success').removeClass('hidden');
                             })
                         .fail(function(){

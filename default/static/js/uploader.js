@@ -23,10 +23,6 @@ var app = {};
         $('#upload-button').attr('disabled', true);
     }
 
-    function disableGoButton() {
-        $('#go-button').attr('disabled', true);
-    }
-
     function disableAddFiles() {
         $('.fileinput-button').attr('disabled', true);
         $('.fileinput-button input:file').attr('disabled', true);
