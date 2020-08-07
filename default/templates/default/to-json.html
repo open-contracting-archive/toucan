@@ -22,6 +22,9 @@
     <b>{% trans "An error has occurred!" %}</b>
     {% trans "Please verify that the file is valid OCDS JSON, and try again in a few minutes." %}
 </div>
+<div class="response-warning action-failed alert alert-warning hidden">
+    <ul></ul>
+</div>
 <div class="info panel panel-default">
   <div class="panel-body">
     <p>
@@ -61,6 +64,9 @@
         <input type="radio" name="type" class="choice-header toucan-nav-input" autocomplete="off" value="input">
                 {% trans "Provide a URL" %}
     </label>
+</div>
+<div class="action-extra-params form-inline"style="margin-bottom: 10px;">
+    {% include "default/snippets/optional_arguments.html" %}
 </div>
 
 <div role="tabpanel" class="panel-collapse toucan-nav-input collapse">
@@ -151,10 +157,18 @@
                 .submit()
                 .done(function(){
                     $('#processing-modal').modal('show');
-                    $.ajax('/to-json/go/', { 'dataType': 'json' })
+                    pretty_json = $('#pretty-json').is(":checked");
+                    encoding = $('#encoding').val();
+                    $.ajax('/to-json/go/', { data: {'pretty-json': pretty_json, 'encoding': encoding}, 'dataType': 'json' })
                         .done(function(data){
                             $('.response-success .download-json').attr('href', data.url);
                             $('.response-success .file-size-json').html(utils.readableFileSize(data.size));
+                            if (data.hasOwnProperty('warnings') && data.warnings.length > 0) {
+                                $('.response-warning.action-failed').removeClass('hidden');
+                                $('.response-warning.action-failed').html($.map(data.warnings, function (o) {
+                                    return '<li>' + o + '</li>'
+                                }).join('\n'))
+                            }
                             $('.response-success').removeClass('hidden');
                             })
                         .fail(function(){

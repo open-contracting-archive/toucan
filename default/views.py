@@ -1,3 +1,4 @@
+import json
 import os
 import shutil
 import warnings
@@ -265,7 +266,8 @@ def perform_to_spreadsheet(request):
 
 
 @require_files
-def perform_to_json(request):
+@validate_optional_args
+def perform_to_json(request, pretty_json=False, encoding='utf-8', warnings=None):
     input_file = next(get_files_from_session(request))
     output_dir = DataFile('unflatten', '', input_file.id, input_file.folder)
 
@@ -299,15 +301,8 @@ def perform_to_json(request):
     if extension in ('.csv', '.zip'):
         shutil.rmtree(input_file_path)
 
-    # Create a ZIP file of the JSON file.
-    json_zip = DataFile('result', '.zip', id=input_file.id, folder=input_file.folder)
-    with ZipFile(json_zip.path, 'w', compression=ZIP_DEFLATED) as zipfile:
-        zipfile.write(output_name, 'result.json')
-
-    return JsonResponse({
-        'url': input_file.url,
-        'size': json_zip.size,
-    })
+    with open(output_name) as json_file:
+        return json_response({'result.json': json.load(json_file)}, warnings, pretty_json, encoding)
 
 
 @require_POST
