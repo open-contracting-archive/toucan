@@ -168,3 +168,5 @@ if os.getenv('SENTRY_DSN') is not None:
         dsn=os.getenv('SENTRY_DSN'),
         integrations=[DjangoIntegration(), SqlalchemyIntegration()]
     )
+
+OCDS_TOUCAN_GOOGLE_API_CREDENTIALS_FILE = os.getenv('OCDS_TOUCAN_CREDENTIALS_DRIVE', 'googleapi_credentials.json')
