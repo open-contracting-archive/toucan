@@ -37,7 +37,7 @@ def validate_files(function):
                             prefix, ext = os.path.splitext(f.filename)
                             new_file = DataFile(prefix, ext)
                             path, f.filename = os.path.split(new_file.path)
-                            zipfile.extract(f, 'media/' + new_file.folder)
+                            zipfile.extract(f, path)
                             # Open the file to check if it is the correct type
                             with open(new_file.path, 'rb') as h:
                                 file_type = request.GET.get('type', None)

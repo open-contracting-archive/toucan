@@ -167,8 +167,8 @@
     /** click upload-button behaviour if results where sent **/
     $('#upload-button').click(function(){
         if ($('#upload-button').hasClass('sendResult') == true) {
-            params = '?sendResult=true&type=' + JSON.parse($('#fileupload').attr('data-form-data')).type
-            performAction('/to-spreadsheet/go/' + params);
+            params = {sendResult: 'true', type: JSON.parse($('#fileupload').attr('data-form-data')).type}
+            performAction('/to-spreadsheet/go/', params);
         }
     });
 
@@ -212,9 +212,9 @@
             });
     });
 
-    function performAction(url) {
+    function performAction(url, params) {
         $('#processing-modal').modal('show');
-        $.ajax(url, { 'dataType': 'json' })
+        $.ajax(url, { 'data': params, 'dataType': 'json' })
             .done(function(data){
                 $('.response-success .download-xlsx').attr('href', data.xlsx.url);
                 $('.response-success .download-csv').attr('href', data.csv.url);
@@ -249,14 +249,23 @@
         /* check if results were sent to this page */
         if (window.location.search == '?sendResult=true') {
             $('#processing-modal').modal('show');
-            $('.drop-area').removeClass('empty');
-            $('.drop-area .file-selector-empty').addClass('hidden');
-            $('.drop-area .drop-area-received-msg').removeClass('hidden');
-            $('.drop-area .drop-area-received-msg .file-result').html('result.zip');
-            $('.actions').removeClass('hidden');
-            $('#upload-button').removeClass('hidden');
-            $('#upload-button').addClass('sendResult');
-            $('#processing-modal').modal('hide');
+            $.ajax('/send-result/validate/', {'dataType': 'json', type: 'GET'})
+                .done(function (data) {
+                    $('.drop-area').removeClass('empty');
+                    $('.drop-area .file-selector-empty').addClass('hidden');
+                    $('.drop-area .drop-area-received-msg').removeClass('hidden');
+                    $('.drop-area .drop-area-received-msg .file-result').html(data);
+                    $('.actions').removeClass('hidden');
+                    $('#upload-button').removeClass('hidden');
+                    $('#upload-button').addClass('sendResult');
+                    $('#processing-modal').modal('hide');
+                })
+                .fail(function () {
+                    $('.response-fail').removeClass('hidden');
+                })
+                .always(function () {
+                    $('#processing-modal').modal('hide');
+                });
         }
     }
 </script>

@@ -12,18 +12,25 @@ class SendTestCase(ViewTestCase, ViewTests):
         self.url = '/upgrade/'
         content = self.upload_and_go({'type': 'release-package'})
 
-        response = self.client.get(content['url'] + '?sendResult=true')
+        response = self.client.get(content['url'], data={'sendResult': 'true'})
+        self.assertEqual(response.status_code, 200)
+
+        response = self.client.get('/send-result/validate/')
         self.assertEqual(response.status_code, 200)
 
         response = self.client.get(self.send_to_url)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response['Content-Type'], 'application/json')
 
+    def test_send_result_error(self):
+        response = self.client.get('/send-result/validate/')
+        self.assertEqual(response.status_code, 400)
+
     def test_send_result_invalid_type(self):
         self.url = '/compile/'
         content = self.upload_and_go({'type': 'release-package'})
 
-        response = self.client.get(content['url'] + '?sendResult=true')
+        response = self.client.get(content['url'], data={'sendResult': 'true'})
         self.assertEqual(response.status_code, 200)
 
         response = self.client.get(self.send_to_url)

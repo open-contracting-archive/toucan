@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-08-04 14:50-0400\n"
+"POT-Creation-Date: 2020-08-07 21:36-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -682,11 +682,11 @@ msgstr ""
 "Se produjo un error al intentar acceder a esta URL. Favor verifique que la "
 "URL sea correcta y el archivo tenga el formato esperado."
 
-#: default/views.py:347 default/views.py:355
+#: default/views.py:355 default/views.py:363
 msgid "File not found"
 msgstr "Archivo no encontrado"
 
-#: default/views.py:353
+#: default/views.py:361
 msgid "File deleted"
 msgstr "Archivo eliminado"
 

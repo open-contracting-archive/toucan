@@ -312,6 +312,14 @@ def upload_url_status(request):
     return JsonResponse(len(request.session['files']), safe=False)
 
 
+@require_GET
+def validate_send_result(request):
+    if 'results' in request.session and request.session['results']:
+        file = request.session['results'][0]  # always one result is saved
+        return JsonResponse(file['prefix'] + file['ext'], safe=False)
+    return HttpResponse(status=400)
+
+
 @require_POST
 def uploadfile(request):
     request_file = request.FILES['file']
