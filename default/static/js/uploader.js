@@ -1,6 +1,6 @@
-var app = {};
+var toucanApp = toucanApp || {};
 (function () {
-
+    var app = this;
     var _fileItems = [];
     var _paramSetters = [];
     var _done = false;
@@ -68,14 +68,6 @@ var app = {};
         _fileItems = [];
     }
 
-    function showProcessingModal() {
-        $('#processing-modal').modal('show');
-    }
-
-    function hideProcessingModal() {
-        $('#processing-modal').modal('hide');
-    }
-
     /** listeners **/
 
     function whenUploadAdded(e, data) {
@@ -115,30 +107,39 @@ var app = {};
 
     function whenAjaxReqFails(jqXHR) {
         if (jqXHR.status === 401)
-            $('.response-warning.file-process-failed').removeClass('hidden');
+            $('.response-fail.default-error').removeClass('hidden');
         else
             $('.response-fail').removeClass('hidden');
-        hideProcessingModal();
+        app.hideProcessingModal();
+    }
+
+    function showResponseData(container, data){
+        $(container +' .file.size').html(utils.readableFileSize(data.size));
+        $(container + ' .file.download-link').attr('href', data.url);
+        $(container + ' .file.save-drive-link').attr('data-url', data.driveUrl);
+        $(container).removeClass('hidden');
+    }
+
+    function showWarnings(warnings) {
+        $('.response-warning.action-failed').html('<ul>' + $.map(warnings, function (o) {
+            return '<li>' + o + '</li>'
+        }).join('\n') + '</ul>');
+        $('.response-warning.action-failed').removeClass('hidden');
     }
 
     function performAction(url) {
-        showProcessingModal();
+        app.showProcessingModal();
         var actionParams = {};
         _paramSetters.forEach(function (f) {
             f(actionParams);
         });
         $.ajax(url, {data: actionParams})
             .done(function (data) {
-                $('.response-success .file-size').html(utils.readableFileSize(data.size));
-                $('.response-success .download').attr('href', data.url);
-                $('.response-success').removeClass('hidden');
+                showResponseData('.response-success', data);
                 if (data.hasOwnProperty('warnings') && data.warnings.length > 0) {
-                    $('.response-warning.action-failed').removeClass('hidden');
-                    $('.response-warning.action-failed ul').html($.map(data.warnings, function (o) {
-                        return '<li>' + o + '</li>'
-                    }).join('\n'))
+                    showWarnings(data.warnings);
                 }
-                hideProcessingModal();
+                app.hideProcessingModal();
                 $('.actions').hide();
                 $('#fileupload').fileupload('destroy');
             })
@@ -146,7 +147,8 @@ var app = {};
                 whenAjaxReqFails(jqXHR);
             })
             .always(function () {
-                _done = true
+                _done = true;
+                $('#processing-modal .downloading-status').addClass('hidden');
             });
     }
 
@@ -194,8 +196,8 @@ var app = {};
         $('#processing-modal .total-files')
             .html($('.input-url-container .form-group .input-group .form-control').length);
         $('#processing-modal .downloading-status').removeClass('hidden');
-        showProcessingModal();
-        $('.response-fail').addClass('hidden');
+        app.showProcessingModal();
+        $('.response-fail.default-error').addClass('hidden');
         $('.form-group').removeClass('has-error');
         $('.help-block').remove();
 
@@ -218,7 +220,7 @@ var app = {};
             })
             .always(function () {
                 clearInterval(pollInterval);
-            })
+            });
             pollInterval = setInterval(function () {
                 $.ajax('/upload-url/status/', {'dataType': 'json', type: 'GET'})
                     .done(function (data) {
@@ -292,5 +294,5 @@ var app = {};
         });
     };
 
-}).apply(app);
+}).apply(toucanApp);
 

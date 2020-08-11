@@ -1,0 +1,79 @@
+{% extends 'default/base.html' %}
+{% load static %}
+{% load i18n %}
+{% load google_api_auth %}
+
+{% block body %}
+
+{# Info panel #}
+<div class="panel panel-default info">
+    <div class="panel-heading">
+        <div class="panel-title">
+            {% block info_title %}{% endblock %}
+            <a id="collapse-control" href="#collapseInfo" class="pull-right text-muted">
+                <span class="control more"> <i class="glyphicon glyphicon-chevron-down"></i> {% trans "more" %}</span>
+                <span class="control less hidden"> <i class="glyphicon glyphicon-chevron-up"></i> {% trans "less" %}</span>
+            </a>
+        </div>
+    </div>
+    <div id="collapse-panel" class="panel-collapse collapse">
+        <div class="panel-body">
+            {% block info_content %}{% endblock %}
+        </div>
+    </div>
+</div>
+
+{# messages #}
+{% block messages %}
+<div class="response-success alert alert-info hidden">
+    <b>{% trans "Success!" %}</b>
+    result.zip(<span class="file size"></span>)
+    <a class="file download-link" href="#" role="button">
+        {% trans "Download" %}
+    </a>
+    <span>  /  </span>
+    <a class="file save-drive-link" role="button">
+        {% trans "Save to Google Drive" %}
+    </a>
+    <span class="file open-drive-link hidden">
+        {% trans "File saved on Google Drive" %}&nbsp;<a target="_blank" role="button"> {% trans "Open" %}</a>
+    </span>
+</div>
+<div class="response-warning action-failed alert alert-warning hidden">
+</div>
+<div class="response-fail-empty alert alert-danger alert-dismissible hidden">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    <span class="message-content"></span>
+</div>
+{% endblock messages %}
+
+{# content #}
+{% block content %}{% endblock %}
+
+{# Processing modal, active when all files has been uploaded and the requested operation is in progress #}
+<div id="processing-modal" class="modal fade" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <p class="default-message">{% trans "Processing operation. Please don't refresh nor close the browser window!" %}</p>
+                <p class="auth-message hidden">{% trans "Please wait... If a new window opens, please authorize the application." %}</p>
+                {% block additional_progress_messages %}{% endblock %}
+                <div class="progress">
+                  <div class="progress-bar progress-bar-striped active" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+                  </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock body %}
+{# scripts #}
+{% block scripts %}
+<script src="{% static "js/base.js" %}"></script>
+<script src="{% static "js/utils.js" %}"></script>
+<script src="{% static "js/googleDriveUploader.js" %}"></script>
+<script type="text/javascript">
+    toucanApp.setGoogleApiClientID('{% google_api_client_id %}');
+</script>
+{% endblock %}

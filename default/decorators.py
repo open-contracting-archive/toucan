@@ -71,3 +71,14 @@ def published_date(function):
         return function(request, *args, **kwargs)
 
     return wrap
+
+
+def clear_drive_session_vars(function):
+    @wraps(function)
+    def wrap(request, *args, **kwargs):
+        val = function(request, *args, **kwargs)
+        if 'auth_status' in request.session and request.session['auth_status'] in ('completed', 'success', 'failed'):
+            for key in ('auth_status', 'auth_response', 'auth_status_error', 'google_drive_file'):
+                request.session.pop(key, None)
+        return val
+    return wrap

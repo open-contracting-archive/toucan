@@ -5,8 +5,7 @@
 
 {% block form-options %}, "type": "package release"{% endblock %}
 
-{% block info %}
-<p>
+{% block info_title %}
     {% blocktrans trimmed %}
         Use this tool to update
         <a href="https://standard.open-contracting.org/latest/en/getting_started/releases_and_records/#releases" target="_blank">releases</a>,
@@ -14,7 +13,6 @@
         <a href="https://standard.open-contracting.org/latest/en/schema/record_package/" target="_blank">record packages</a>
         to OCDS 1.1.
     {% endblocktrans %}
-</p>
 {% endblock %}
 
 {% block scripts %}

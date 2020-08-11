@@ -1,160 +1,114 @@
-{% extends 'default/base.html' %}
+{% extends 'default/base-tool.html' %}
 {# extend this template to include a default upload view using jquery-fileupload plugin #}
 {% load static %}
 {% load i18n %}
 
 {% block css %}
-<!-- CSS to style the file input field as button and adjust the Bootstrap progress bars -->
-<link rel="stylesheet" href="{% static "css/jquery.fileupload.css" %}">
-<link rel="stylesheet" href="{% static "css/jquery.fileupload-ui.css" %}">
-<link rel="stylesheet" href="{% static "css/uploader.css" %}">
+    <link rel="stylesheet" href="{% static "css/jquery.fileupload.css" %}">
+    <link rel="stylesheet" href="{% static "css/jquery.fileupload-ui.css" %}">
+    <link rel="stylesheet" href="{% static "css/uploader.css" %}">
 {% endblock css %}
 
-{% block body %}
-<div class="response-success alert alert-info hidden">
-    <b>{% trans "Success!" %}</b> result.zip(<span class="file-size"></span>)
-    <a href="javascript:void(0)" class="download" target="_blank">{% trans "Download" %}</a>
-    <div class="form-group form-inline form-send hidden">
-        <label>{% trans "Send result to function:" %}</label>
-        <select class="form-control to-function">
-            <option id="compile" value="/compile/">{% trans "Compile Releases" %}</option>
-            <option id="upgrade" value="/upgrade/">{% trans "Upgrade from 1.0 to 1.1" %}</option>
-            <option id="convert" value="/to-spreadsheet/">{% trans "Convert to CSV/Excel" %}</option>
-        </select>
-        <a class="send-button" href="#" role="button">{% trans "Send" %}</a>
+{% block messages %}
+{{ block.super }}
+    <div class="response-warning file-process-failed alert alert-warning hidden">
+        {% trans "We couldn't check that all files were JSON or of the OCDS type requested." %}
+        {% trans "You can add more files or remove them, then click on <b>Start</b> again." %}
+        {% trans "Files with validation issues will be ignored by default." %}
     </div>
-</div>
-<div class="response-warning action-failed alert alert-warning hidden">
-    <ul></ul>
-</div>
-<div class="response-warning file-process-failed alert alert-warning hidden">
-    {% trans "We couldn't check that all files were JSON or of the OCDS type requested." %}
-    {% trans "Please verify each file and try again." %}
-    {% trans "Files with validation issues will be ignored by default." %}
-</div>
-<div class="response-fail alert alert-danger hidden">
-    <b>{% trans "An error has occurred!" %}</b>
-    {% trans "Please verify that all your files are valid OCDS JSON, and try again in a few minutes." %}
-</div>
-<div class="panel panel-default info">
-  <div class="panel-body">
-    {% block info %}{% endblock %}
-    <p>{% trans "The options available for input files are:" %}</p>
-    <ul class="list-unstyled">
-        <li>
-            <strong>{% trans "Upload a file:" %}</strong>
-            {% trans "Drag and drop one or more files." %}
-            {% trans "You can also click the <strong>Add a file</strong> link below." %}
-        </li>
-        <li>
-            <strong>{% trans "Provide a URL:" %}</strong>
-            {% trans "Enter one or more URLs to each file. Click <strong>Add URL</strong> to provide more URLs." %}
-        </li>
-    </ul>
-  </div>
-</div>
-<div class="text-danger"></div>
-<div class="btn-group schema-nav" data-toggle="buttons" style="margin-top: 0px;margin-bottom: 15px;">
-    <label class="btn btn-default active">
-        <input type="radio" name="type" class="choice-header toucan-nav-file" autocomplete="off" value="file">
-                {% trans "Upload files" %}
-    </label>
-    <label class="btn btn-default">
-        <input type="radio" name="type" class="choice-header toucan-nav-input" autocomplete="off" value="input">
-                {% trans "Provide URLs" %}
-    </label>
-</div>
-<div class="action-extra-params form-inline"style="margin-bottom: 10px;">
-    {% block extraoptions %}{% endblock %}
-</div>
-<!-- Processing modal, active when all files has been uploaded and the requested operation is in progress -->
-<div id="processing-modal" class="modal fade" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false">
-    <div class="modal-dialog modal-sm" role="document">
-        <div class="modal-content">
-            <div class="modal-body">
-                <p>{% trans "Processing operation. Please don't refresh nor close the browser window!" %}</p>
-                <div class="downloading-status hidden">
-                    <p>{% trans "Processed " %}<span class="current-files">0</span>{% trans " of " %}<span class="total-files"></span>{% trans " files ..." %}</p>
-                </div>
-                <div class="progress">
-                  <div class="progress-bar progress-bar-striped active" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
-                  </div>
+    <div class="response-fail default-error alert alert-danger hidden">
+        <b>{% trans "An error has occurred!" %}</b>
+        {% trans "Please verify that all your files are valid OCDS JSON, and try again in a few minutes." %}
+    </div>
+{% endblock messages %}
+{% block info_content %}
+    {% include "default/snippets/input-options/input_description.html" %}
+{% endblock %}
+{% block content %}
+    {% include "default/snippets/input-options/input_tabs.html" %}
+    <div class="action-extra-params form-inline"style="margin-bottom: 10px;">
+        {% block extraoptions %}{% endblock %}
+    </div>
+
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane" id="urls">
+            <div class="input-url-container">
+                <div class="form-group" id="input_url_0">
+                    <label>{% blocktrans trimmed %}
+                        Provide the URL to a file:
+                        {% endblocktrans %}</label>
+                    <div class="input-group">
+                        <input type="text" name="input_url_0" class="form-control"/>
+                        <span class="input-group-btn">
+                            <button class="btn btn-danger input-delete"
+                                    type="button"
+                                    onclick="inputDelete(this)"
+                                    disabled="disabled">
+                                    x
+                            </button>
+                        </span>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
-</div>
-
-<div role="tabpanel" class="panel-collapse toucan-nav-input collapse">
-    <div class="input-url-container">
-        <div class="form-group" id="input_url_0">
-            <label>{% blocktrans trimmed %}
-                Provide the URL to a file:
-                {% endblocktrans %}</label>
-            <div class="input-group">
-                <input type="text" name="input_url_0" class="form-control"/>
-                <span class="input-group-btn">
-                    <button class="btn btn-danger input-delete"
-                            type="button"
-                            onclick="inputDelete(this)"
-                            disabled="disabled">
-                            x
-                    </button>
-                </span>
-            </div>
-        </div>
-    </div>
-    <div class="buttons">
-    <a class="pull-right" href="#" id="add-url" style="margin-top: 5px;">+{% trans "Add URL" %}</a>
-    <button type="submit" class="btn btn-primary" id="url-button" data-perform-action="{{performAction}}">
-        {% trans "Start" %}
-        <i class="glyphicon glyphicon-play-circle"></i>
-    </button>
-    </div>
-</div>
-
-<div role="tabpanel" class="panel-collapse toucan-nav-file collapse in">
-    <div class="form-group">
-        <form
-            id="fileupload"
-            method="POST"
-            action="/upload/"
-            onsubmit="return false;"
-            data-accept-file-types="/(\.|\/)json$/i"
-            data-files-container=".files"
-            data-sequential-uploads="true"
-            data-form-data='{"csrfmiddlewaretoken": "{{csrf_token}}"{% block form-options %}{% endblock %}}'
-            data-max-number-of-files="{{maxNumOfFiles}}"
-            data-max-file-size="{{maxFileSize}}"
-            data-perform-action="{{performAction}}"
-          >
-          <!-- The container for the uploaded files -->
-          <div class="drop-area empty">
-            <!-- The file input field used as target for the file upload widget -->
-            <input type="file" name="file" id="file" accept=".json" multiple/>
-            <span class="file-selector-empty"><label for="file">{% trans "Add a file" %}</label> {% trans "or drag and drop here." %}</span>
-            <div class="files hidden">
-            </div>
-            <span class="drop-area-received-msg hidden">{% trans "<b>Received</b>: " %}<span class="file-result"></span></span>
-          </div>
-          <div class="actions hidden">
             <div class="buttons">
-              <div class="btn btn-default fileinput-button">
-                <i class="glyphicon glyphicon-plus"></i>
-                <label for="file" id="file-selector">{% trans "Add more files" %}</label>
-              </div>
-              <button type="submit" class="btn btn-primary pull-right start" id="upload-button" disabled>
-                <i class="glyphicon glyphicon-cloud-upload"></i>
-                <span>{% trans "Start" %}</span>
-              </button>
+            <a class="pull-right" href="#" id="add-url" style="margin-top: 5px;">+{% trans "Add URL" %}</a>
+            <button type="submit" class="btn btn-primary" id="url-button" data-perform-action="{{performAction}}">
+                {% trans "Start" %}
+                <i class="glyphicon glyphicon-play-circle"></i>
+            </button>
             </div>
-          </div>
-        </form>
+        </div>
+
+        <div role="tabpanel" class="tab-pane active" id="files">
+            <div class="form-group">
+                <form
+                    id="fileupload"
+                    method="POST"
+                    action="/upload/"
+                    onsubmit="return false;"
+                    data-accept-file-types="/(\.|\/)json$/i"
+                    data-files-container=".files"
+                    data-sequential-uploads="true"
+                    data-form-data='{"csrfmiddlewaretoken": "{{csrf_token}}"{% block form-options %}{% endblock %}}'
+                    data-max-number-of-files="{{maxNumOfFiles}}"
+                    data-max-file-size="{{maxFileSize}}"
+                    data-perform-action="{{performAction}}"
+                  >
+                  <!-- The container for the uploaded files -->
+                  <div class="drop-area empty">
+                    <!-- The file input field used as target for the file upload widget -->
+                    <input type="file" name="file" id="file" accept=".json" multiple/>
+                    <span class="file-selector-empty"><label for="file">{% trans "Add a file" %}</label> {% trans "or drag and drop here." %}</span>
+                    <div class="files hidden">
+                    </div>
+                    <span class="drop-area-received-msg hidden">{% trans "<b>Received</b>: " %}<span class="file-result"></span></span>
+                  </div>
+                  <div class="actions hidden">
+                    <div class="buttons">
+                      <div class="btn btn-default fileinput-button">
+                        <i class="glyphicon glyphicon-plus"></i>
+                        <label for="file" id="file-selector">{% trans "Add more files" %}</label>
+                      </div>
+                      <button type="submit" class="btn btn-primary pull-right start" id="upload-button" disabled>
+                        <i class="glyphicon glyphicon-cloud-upload"></i>
+                        <span>{% trans "Start" %}</span>
+                    </button>
+                    </div>
+                  </div>
+                </form>
+            </div>
+        </div>
     </div>
+{% endblock content %}
+
+{% block additional_progress_messages %}
+<div class="downloading-status hidden">
+    <p>{% trans "Processed " %}<span class="current-files">0</span>{% trans " of " %}<span class="total-files"></span>{% trans " files ..." %}</p>
 </div>
-{% endblock body %}
+{% endblock %}
 
 {% block scripts %}
+    {{ block.super }}
 <script src="{% static "js/vendor/jquery.ui.widget.js" %}"></script>
 <script src="https://blueimp.github.io/JavaScript-Templates/js/tmpl.min.js"></script>
 <script src="{% static "js/jquery.iframe-transport.js" %}"></script>
@@ -166,7 +120,5 @@
 {% include "default/snippets/url_uploader_scripts.html" %}
 {% include "jquery-file-upload/upload.html"%}
 {% include "jquery-file-upload/download.html"%}
-<script src="{% static "js/utils.js" %}"></script>
 <script src="{% static "js/uploader.js" %}"></script>
-<script type="text-javascript"></script>
 {% endblock scripts %}
