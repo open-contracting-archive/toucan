@@ -19,14 +19,21 @@ def clear_files(function):
     return wrap
 
 
-def validate_files(function):
+def require_files(function):
     @wraps(function)
     def wrap(request, *args, **kwargs):
         if 'files' not in request.session:
             return JsonResponse({'error': 'No files uploaded'}, status=400, reason='No files available for operation')
+        return function(request, *args, **kwargs)
 
+    return wrap
+
+
+def extract_last_result(function):
+    @wraps(function)
+    def wrap(request, *args, **kwargs):
         send_result = request.GET.get('sendResult')
-        if send_result:
+        if 'files' in request.session and send_result:
             # Set files session to the last generated results
             for file in request.session['results']:
                 data_file = DataFile(**file)
@@ -47,7 +54,6 @@ def validate_files(function):
                                 else:
                                     request.session['files'].append(new_file.as_dict())
             request.session.modified = True
-
         return function(request, *args, **kwargs)
 
     return wrap

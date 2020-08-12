@@ -19,7 +19,8 @@ from ocdskit.upgrade import upgrade_10_11
 from requests.exceptions import ConnectionError, HTTPError, SSLError
 
 from default.data_file import DataFile
-from default.decorators import clear_drive_session_vars, clear_files, published_date, validate_files
+from default.decorators import (clear_drive_session_vars, clear_files, extract_last_result, published_date,
+                                require_files)
 from default.forms import MappingSheetOptionsForm
 from default.google_drive import get_credentials_from_session, google_api_messages, upload_to_drive
 from default.mapping_sheet import (get_extended_mapping_sheet, get_mapping_sheet_from_uploaded_file,
@@ -91,21 +92,24 @@ def upgrade(request):
     return ocds_command(request, 'upgrade')
 
 
-@validate_files
+@require_files
+@extract_last_result
 def perform_upgrade(request):
     return json_response(request,
                          ((file.name_with_suffix('upgraded'), upgrade_10_11(file.json(object_pairs_hook=OrderedDict)))
                           for file in get_files_from_session(request)))
 
 
-@validate_files
+@require_files
+@extract_last_result
 @published_date
 def perform_package_releases(request, published_date='', warnings=None):
     method = package_releases_method
     return make_package(request, published_date, method, warnings)
 
 
-@validate_files
+@require_files
+@extract_last_result
 @published_date
 def perform_combine_packages(request, published_date='', warnings=None):
     if request.GET.get('packageType') == 'release':
@@ -115,7 +119,8 @@ def perform_combine_packages(request, published_date='', warnings=None):
     return make_package(request, published_date, method, warnings)
 
 
-@validate_files
+@require_files
+@extract_last_result
 @published_date
 def perform_compile(request, published_date='', warnings=None):
     packages = [file.json() for file in get_files_from_session(request)]
@@ -181,7 +186,8 @@ def mapping_sheet(request):
     return render(request, 'default/mapping_sheet.html', context)
 
 
-@validate_files
+@require_files
+@extract_last_result
 def perform_to_spreadsheet(request):
     input_file = next(get_files_from_session(request))
     output_dir = DataFile('flatten', '', input_file.id, input_file.folder)
@@ -223,7 +229,8 @@ def perform_to_spreadsheet(request):
     })
 
 
-@validate_files
+@require_files
+@extract_last_result
 def perform_to_json(request):
     input_file = next(get_files_from_session(request))
     output_dir = DataFile('unflatten', '', input_file.id, input_file.folder)
