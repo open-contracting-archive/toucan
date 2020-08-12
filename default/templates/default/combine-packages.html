@@ -6,14 +6,14 @@
 
 {% block form-options %}, "type": "package package-array"{% endblock %}
 
-{% block info %}
-<p>
+{% block info_title %}
     {% blocktrans trimmed %}
         Use this tool to combine <a href="https://standard.open-contracting.org/latest/en/schema/release_package/" target="_blank">release packages</a>
         or <a href="https://standard.open-contracting.org/latest/en/schema/record_package/" target="_blank">record packages</a>
         into a single package.
     {% endblocktrans %}
-</p>
+{% endblock %}
+{% block info_content %}
 <p>
     {% trans "Fill in the <strong>Published date</strong> textbox to set <code>publishedDate</code> in the output package." %}
     {% trans "Select the correct <strong>Package type</strong> option before starting." %}
@@ -25,6 +25,7 @@
 <p>
     {% trans "Each input file must be a JSON file containing either a single package or an array of packages." %}
 </p>
+    {{ block.super }}
 {% endblock %}
 
 {% block extraoptions %}
@@ -43,7 +44,7 @@
     {{ block.super }}
     <script type="text/javascript">
     (function(){
-        app.setParams(function(params){
+        toucanApp.setParams(function(params){
             if ($('.packageType').val() == 'release')
                 params['packageType'] = 'release';
             else if ($('.packageType').val() == 'record')

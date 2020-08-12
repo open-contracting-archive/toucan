@@ -50,7 +50,7 @@ class DataFile:
         """
         Returns the full path to the file.
         """
-        return os.path.join(self._directory, self._name)
+        return os.path.join(self._directory, self.name)
 
     @property
     def url(self):
@@ -73,16 +73,19 @@ class DataFile:
         with open(self.path, encoding=codec) as f:
             return json.load(f, **kwargs)
 
-    def write(self, file):
+    def write(self, content):
         """
         Write another file's contents to this file.
 
-        :param file: a ``django.core.files.File`` object
+        :param content: either a ``django.core.files.File`` object or a bytes array
         """
         self._makedirs()
         with open(self.path, 'wb') as f:
-            for chunk in file.chunks():
-                f.write(chunk)
+            if getattr(content, 'chunks', None):
+                for chunk in content.chunks():
+                    f.write(chunk)
+            else:
+                f.write(content)
 
     def write_json_to_zip(self, files, pretty_json=None, codec=None):
         """
@@ -105,7 +108,7 @@ class DataFile:
                 zipfile.writestr(name, (json_dumps(content, **kwargs) + '\n').encode(codec))
 
     @property
-    def _name(self):
+    def name(self):
         """
         Returns the file's name.
         """

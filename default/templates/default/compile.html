@@ -6,14 +6,14 @@
 
 {% block form-options %}, "type": "release-package"{% endblock %}
 
-{% block info %}
-<p>
+{% block info_title %}
     {% blocktrans trimmed %}
         Use this tool to create a
         <a href="https://standard.open-contracting.org/latest/en/schema/record_package/" target="_blank">record package</a>
         with compiled releases included from <a href="https://standard.open-contracting.org/latest/en/schema/release_package/" target="_blank">release packages</a>.
     {% endblocktrans %}
-</p>
+{% endblock %}
+{% block info_content %}
 <p>
     {% trans "Fill in the <strong>Published date</strong> textbox to set <code>publishedDate</code> in the output package." %}
     {% blocktrans trimmed %}
@@ -26,7 +26,10 @@
     {% trans "Check the <strong>Pretty JSON</strong> checkbox to get a pretty print on the output files." %}
     {% trans "By default the output encoding is utf-8, you can change it in <strong>Encoding</strong> text box." %}
 </p>
-<p>{% trans "Please verify that your files are release packages before uploading." %}</p>
+<p>
+    {% trans "Please verify that your files are release packages before uploading." %}
+</p>
+    {{ block.super }}
 {% endblock %}
 
 {% block extraoptions %}
@@ -44,7 +47,7 @@
     {{ block.super }}
     <script type="text/javascript">
     (function(){
-        app.setParams(function(params){
+        toucanApp.setParams(function(params){
             if ($('.include-versioned').is(':checked') )
                 params['includeVersioned'] = true;
             else

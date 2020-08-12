@@ -6,13 +6,13 @@
 
 {% block form-options %}, "type": "release release-array"{% endblock %}
 
-{% block info %}
-<p>
+{% block info_title %}
     {% blocktrans trimmed %}
         Use this tool to create a <a href="https://standard.open-contracting.org/latest/en/schema/release_package/" target="_blank">release package</a>
         from <a href="https://standard.open-contracting.org/latest/en/getting_started/releases_and_records/#releases" target="_blank">releases</a>.
     {% endblocktrans %}
-</p>
+{% endblock info_title %}
+{% block info_content %}
 <p>
     {% trans "Fill in the <strong>Published date</strong> textbox to set <code>publishedDate</code> in the output package." %}
 </p>
@@ -23,7 +23,8 @@
 <p>
     {% trans "Each input file must be a JSON file containing either one release or an array of releases." %}
 </p>
-{% endblock %}
+    {{ block.super }}
+{% endblock info_content %}
 
 {% block extraoptions %}
 {% include "default/snippets/optional_arguments.html" %}

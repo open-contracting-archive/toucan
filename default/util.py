@@ -30,6 +30,7 @@ def json_response(files, warnings=None, pretty_json=False, codec='utf-8'):
     response = {
         'url': file.url,
         'size': file.size,
+        'driveUrl': file.url.replace('result', 'google-drive-save-start')
     }
 
     if warnings:

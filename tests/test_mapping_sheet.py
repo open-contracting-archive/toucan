@@ -1,3 +1,4 @@
+import re
 from unittest.mock import patch
 
 from django.test import TestCase
@@ -11,10 +12,19 @@ class MappingSheetTestCase(TestCase):
     def assertSuccess(self, method, expected, data):
         response = getattr(self.client, method)(self.url, data)
 
+        if not (method == 'get' and ('source' in data.keys() or 'extension' in data.keys())):
+            self.assertEqual(response.status_code, 200)
+            content = response.content.decode('utf-8')
+            self.assertIn('<div class="response-success alert alert-info">', content)
+
+            response_url = re.search(r'/result/\d{4}\-\d{2}\-\d{2}/[0-9a-fA-F\-]{36}/csv/', content).group(0)
+
+            response = self.client.get(response_url)
+
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response['Content-Type'], 'text/csv')
-        self.assertEqual(response['Content-Disposition'], 'attachment; filename="mapping-sheet.csv"')
-        self.assertEqual(response.content.decode('utf-8').replace('\r\n', '\n'), read(expected))
+        self.assertEqual(response['Content-Disposition'], 'attachment; filename="result.csv"')
+        self.assertEqual(response.getvalue().decode('utf-8').replace('\r\n', '\n'), read(expected))
 
     def assertError(self, data, message, nonfield=None):
         response = self.client.post(self.url, data)
