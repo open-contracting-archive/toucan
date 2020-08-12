@@ -107,9 +107,9 @@ var toucanApp = toucanApp || {};
 
     function whenAjaxReqFails(jqXHR) {
         if (jqXHR.status === 401)
-            $('.response-fail.default-error').removeClass('hidden');
+            $('.response-warning.file-process-failed').removeClass('hidden');
         else
-            $('.response-fail').removeClass('hidden');
+            $('.response-fail.default-error').removeClass('hidden');
         app.hideProcessingModal();
     }
 
@@ -215,6 +215,7 @@ var toucanApp = toucanApp || {};
                     $(slt).addClass('has-error');
                     $(slt).append('<div class="help-block">' + msg + '</div>');
                 });
+                alert(jqXHR.status);
                 whenAjaxReqFails(jqXHR);
                 $('#processing-modal .downloading-status').addClass('hidden');
             })
@@ -260,7 +261,7 @@ var toucanApp = toucanApp || {};
 
         /* check if results were sent to this page */
         if (window.location.search == '?sendResult=true') {
-            showProcessingModal();
+            app.showProcessingModal();
             $.ajax('/send-result/validate/', {'dataType': 'json', type: 'GET'})
                 .done(function (data) {
                     disableAddFiles();
@@ -277,7 +278,7 @@ var toucanApp = toucanApp || {};
                     $('.response-fail').removeClass('hidden');
                 })
                 .always(function () {
-                    hideProcessingModal();
+                    app.hideProcessingModal();
                 });
         }
 

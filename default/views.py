@@ -19,7 +19,7 @@ from ocdskit.upgrade import upgrade_10_11
 from requests.exceptions import ConnectionError, HTTPError, SSLError
 
 from default.data_file import DataFile
-from default.decorators import clear_drive_session_vars, clear_files, published_date
+from default.decorators import clear_drive_session_vars, clear_files, published_date, validate_files
 from default.forms import MappingSheetOptionsForm
 from default.google_drive import get_credentials_from_session, google_api_messages, upload_to_drive
 from default.mapping_sheet import (get_extended_mapping_sheet, get_mapping_sheet_from_uploaded_file,

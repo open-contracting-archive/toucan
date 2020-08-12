@@ -138,11 +138,6 @@
             });
         });
 
-            /** click send button behaviour **/
-        $('.send-button').click(function(){
-            window.location.href = $('.to-function').val() + '?sendResult=true';
-        });
-
         /** click send button behaviour **/
         $('.send-button').click(function(){
             window.location.href = $('.to-function').val() + '?sendResult=true';
@@ -189,6 +184,9 @@
 
         /* clear URL input text */
         $('#input_url_0 input').val('');
+
+        /* show form-send options */
+        $('.response-success .form-send').removeClass('hidden');
 
         /* prevent browser's default action when dragging and dropping files */
         $(document).bind('drop dragover', function (e) {

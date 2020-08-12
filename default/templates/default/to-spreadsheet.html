@@ -168,48 +168,48 @@
         $('.form-group').removeClass('has-error');
         $('.help-block').remove();
 
-            $.ajax('/upload-url/', {'dataType': 'json', type: 'POST',
-            'data': $('.input-url-container .form-group .form-control').serialize() +
-            '&type=' + JSON.parse($('#fileupload').attr('data-form-data')).type,
-            headers: {'X-CSRFToken': JSON.parse($('#fileupload').attr('data-form-data')).csrfmiddlewaretoken}})
-                .done(function (data) {
-                    $.ajax('/to-spreadsheet/go/', { 'dataType': 'json' })
-                        .done(function (data) {
-                            $('.response-success .download.xlsx').attr('href', data.xlsx.url);
-                            $('.response-success .download.csv').attr('href', data.csv.url);
-                            $('.response-success .file-size.xlsx').html(utils.readableFileSize(data.xlsx.size));
-                            $('.response-success .file-size.csv').html(utils.readableFileSize(data.csv.size));
-                            $('.response-success .save-drive-link.xlsx').attr('data-url', data.xlsx.driveUrl);
-                            $('.response-success .save-drive-link.csv').attr('data-url', data.csv.driveUrl);
-                            $('.response-success').removeClass('hidden');
-                        })
-                        .fail(function () {
-                            $('.response-fail').removeClass('hidden');
-                        })
-                        .always(function () {
-                            $('#processing-modal').modal('hide');
-                        });
-                })
-                .fail(function(jqXHR, textStatus, errorThrown) {
-                    $.each(JSON.parse(jqXHR.responseText), function(i, item) {
-                        slt = "#" + item.id;
-                        msg = item.message;
-                        $(slt).addClass('has-error');
-                        $(slt).append('<div class="help-block">' + msg + '</div>');
+        $.ajax('/upload-url/', {'dataType': 'json', type: 'POST',
+        'data': $('.input-url-container .form-group .form-control').serialize() +
+        '&type=' + JSON.parse($('#fileupload').attr('data-form-data')).type,
+        headers: {'X-CSRFToken': JSON.parse($('#fileupload').attr('data-form-data')).csrfmiddlewaretoken}})
+            .done(function (data) {
+                $.ajax('/to-spreadsheet/go/', { 'dataType': 'json' })
+                    .done(function (data) {
+                        $('.response-success .download.xlsx').attr('href', data.xlsx.url);
+                        $('.response-success .download.csv').attr('href', data.csv.url);
+                        $('.response-success .file-size.xlsx').html(utils.readableFileSize(data.xlsx.size));
+                        $('.response-success .file-size.csv').html(utils.readableFileSize(data.csv.size));
+                        $('.response-success .save-drive-link.xlsx').attr('data-url', data.xlsx.driveUrl);
+                        $('.response-success .save-drive-link.csv').attr('data-url', data.csv.driveUrl);
+                        $('.response-success').removeClass('hidden');
+                    })
+                    .fail(function () {
+                        $('.response-fail').removeClass('hidden');
+                    })
+                    .always(function () {
+                        $('#processing-modal').modal('hide');
                     });
-                    $('.response-fail').removeClass('hidden');
-                    $('#processing-modal').modal('hide');
+            })
+            .fail(function(jqXHR, textStatus, errorThrown) {
+                $.each(JSON.parse(jqXHR.responseText), function(i, item) {
+                    slt = "#" + item.id;
+                    msg = item.message;
+                    $(slt).addClass('has-error');
+                    $(slt).append('<div class="help-block">' + msg + '</div>');
                 });
+                $('.response-fail').removeClass('hidden');
+                $('#processing-modal').modal('hide');
+            });
         });
 
     function performAction(url, params) {
         $('#processing-modal').modal('show');
         $.ajax(url, { 'data': params, 'dataType': 'json' })
             .done(function(data){
-                $('.response-success .download-xlsx').attr('href', data.xlsx.url);
-                $('.response-success .download-csv').attr('href', data.csv.url);
-                $('.response-success .file-size-xlsx').html(utils.readableFileSize(data.xlsx.size));
-                $('.response-success .file-size-csv').html(utils.readableFileSize(data.csv.size));
+                $('.response-success .download.xlsx').attr('href', data.xlsx.url);
+                $('.response-success .download.csv').attr('href', data.csv.url);
+                $('.response-success .file-size.xlsx').html(utils.readableFileSize(data.xlsx.size));
+                $('.response-success .file-size.csv').html(utils.readableFileSize(data.csv.size));
                 $('.response-success').removeClass('hidden');
                 $('.response-success .save-drive-link.xlsx').attr('data-url', data.xlsx.driveUrl);
                 $('.response-success .save-drive-link.csv').attr('data-url', data.csv.driveUrl);
