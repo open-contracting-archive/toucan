@@ -98,7 +98,7 @@
                             </span>
                         </span>
                         <span class="drop-area-received-msg hidden">
-                            {% trans "<b>Received</b>: " %}<span class="file-result"></span>
+                            <b>{% trans "Received: " %}</b><span class="file-result"></span>
                         </span>
                     </div>
                     <button type="button" class="btn btn-primary pull-right hidden" id="upload-button">
@@ -142,7 +142,7 @@
                 })
                 .fail(function(jqXHR, textStatus, errorThrown){
                     $('.response-fail').html(
-                        '{% trans "<b>Error when processing file</b>: " %}'
+                        '<b>' + '{% trans "Error when processing file: " %}' + '<b>'
                         + ( jqXHR.responseText || textStatus )
                         + '. '
                         + '{% trans "Please verify that the file is a valid OCDS Release Package and try again." %}'
@@ -216,7 +216,8 @@
                 })
             .fail(function(jqXHR, textStatus, errorThrown){
                 if (jqXHR.status === 401) {
-                    $('.response-fail').html('{% trans "<b>Error when processing file</b>: " %}'
+                    $('.response-fail').html(
+                    '<b>' + '{% trans "Error when processing file: " %}' + '<b>'
                     + ( jqXHR.responseText || textStatus )
                     + '. '
                     + '{% trans "Please verify that the file is a valid OCDS Release Package and try again." %}'

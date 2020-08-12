@@ -143,9 +143,7 @@ var toucanApp = toucanApp || {};
                 $('.actions').hide();
                 $('#fileupload').fileupload('destroy');
             })
-            .fail(function(jqXHR, textStatus, errorThrown) {
-                whenAjaxReqFails(jqXHR);
-            })
+            .fail(whenAjaxReqFails)
             .always(function () {
                 _done = true;
                 $('#processing-modal .downloading-status').addClass('hidden');
@@ -215,7 +213,6 @@ var toucanApp = toucanApp || {};
                     $(slt).addClass('has-error');
                     $(slt).append('<div class="help-block">' + msg + '</div>');
                 });
-                alert(jqXHR.status);
                 whenAjaxReqFails(jqXHR);
                 $('#processing-modal .downloading-status').addClass('hidden');
             })
