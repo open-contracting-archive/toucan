@@ -31,14 +31,19 @@
             target="_blank">Flatten Tool</a> for OCDS.
         {% endblocktrans %}
     </p>
+    <p>
+        {% trans "Check the <strong>Pretty JSON</strong> checkbox to get a pretty print on the output files." %}
+        {% trans "By default the output encoding is utf-8, you can change it in <strong>Encoding</strong> text box." %}
+    </p>
     {% include "default/snippets/input-options/input_description.html" %}
-    <div class="action-extra-params form-inline"style="margin-bottom: 10px;">
-        {% include "default/snippets/optional_arguments.html" %}
-    </div>
 {% endblock %}
 
 {% block content %}
     {% include "default/snippets/input-options/input_tabs.html" %}
+
+    <div class="action-extra-params form-inline"style="margin-bottom: 10px;">
+        {% include "default/snippets/optional_arguments.html" %}
+    </div>
 
     <div class="tab-content">
         <div role="tabpanel" class="tab-pane" id="urls">

@@ -1,5 +1,5 @@
 (function(){
-    app.setParams(function(params){
+    toucanApp.setParams(function(params){
         if ($('.packageType').val() == 'release')
             params['packageType'] = 'release';
         else if ($('.packageType').val() == 'record')
@@ -10,11 +10,11 @@
         else
             params['changePublishedDate'] = 'false';
 
-        params['splitSize'] = $('#splitSize').val()
+        params['splitSize'] = $('#splitSize').val();
         return params;
     });
 
-    app.addValidator(function(){
+    toucanApp.addValidator(function(){
         if (splitSize.checkValidity() && $('#splitSize').val() != '') {
             $('.response-warning.action-failed').addClass('hidden');
             return true;

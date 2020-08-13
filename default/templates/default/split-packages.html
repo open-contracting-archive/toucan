@@ -6,15 +6,15 @@
 
 {% block form-options %}, "type": "package package-array"{% endblock %}
 
-{% block info %}
-<p>
+{% block info_title %}
     {% blocktrans trimmed %}
         Use this tool to split
-        <a href="https://standard.open-contracting.org/latest/en/schema/record_package/" target="_blank">record package</a>
-        or <a href="https://standard.open-contracting.org/latest/en/schema/release_package/" target="_blank">release packages</a>
+        <a href="https://standard.open-contracting.org/latest/en/schema/release_package/" target="_blank">release packages</a>
+        or <a href="https://standard.open-contracting.org/latest/en/schema/record_package/" target="_blank">record package</a>
         into smaller packages for each.
     {% endblocktrans %}
-</p>
+{% endblock info_title %}
+{% block info_content %}
 <p>
     {% blocktrans trimmed %}
         To change the <code>publishedDate</code> for the output package fill in the <strong>Published date</strong>
@@ -32,7 +32,8 @@
 <p>
     {% trans "Each input file must be a JSON file containing either a single package or an array of packages." %}
 </p>
-{% endblock %}
+    {{ block.super }}
+{% endblock info_content %}
 
 {% block extraoptions %}
 <div class="form-group pull-right">
@@ -41,13 +42,7 @@
     </div>
 </div>
 {% include "default/snippets/published_date.html" %}
-<div class="form-group">
-    <label>{% trans "Package type:" %}</label>
-    <select class="form-control packageType">
-        <option value="release">{% trans "Release Package" %}</option>
-        <option value="record">{% trans "Record Package" %}</option>
-	</select>
-</div>
+{% include "default/snippets/package_type.html" %}
 <div class="form-group" style="width: 25%;">
     <label>{% trans "Items per Package:" %}</label>
     <input type="number" id="splitSize" min="1" value="1" max="99" class="form-control" style="width: 25%;">
@@ -61,6 +56,7 @@
     <script src="{% static "js/optional_arguments.js" %}"></script>
     <script src="{% static "js/published_date.js" %}"></script>
     <script type="text/javascript">
+    $('.opt-arg').attr('style', 'margin-top: 5px;');
     var splitPackages = {};
     (function(){
         this.msj_warning = function () {

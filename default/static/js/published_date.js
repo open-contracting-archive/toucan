@@ -1,5 +1,5 @@
 (function(){
-    app.setParams(function(params){
+    toucanApp.setParams(function(params){
         params['publishedDate'] = $('#publishedDate').val()
         return params;
     });

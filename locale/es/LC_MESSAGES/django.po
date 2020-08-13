@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-07-23 19:59-0400\n"
+"POT-Creation-Date: 2020-08-13 13:10-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: default/decorators.py:37
+#: default/decorators.py:36
 #, python-format
 msgid ""
 "An invalid published date was submitted, and therefore ignored: %(date)s"
@@ -26,7 +26,7 @@ msgstr ""
 "La fecha enviada es inválida: %(date)s, por lo que se omitió en los "
 "resultados."
 
-#: default/decorators.py:53
+#: default/decorators.py:54
 msgid ""
 "An invalid split size was submitted, and therefore ignored. Default value is "
 "used, split size: 1"
@@ -34,7 +34,7 @@ msgstr ""
 "El tamaño de paquete ingresado es inválido, se omitió el valor. Se utiliza "
 "el valor por defecto. Tamaño de paquete: 1"
 
-#: default/decorators.py:72
+#: default/decorators.py:73
 #, python-format
 msgid ""
 "Encoding %(encoding)s ... is not recognized. The default value 'utf-8' was "
@@ -95,7 +95,7 @@ msgstr ""
 "Hubo un error tratando de subir el archivo a Google Drive, favor intente de "
 "nuevo más tarde."
 
-#: default/google_drive.py:32
+#: default/google_drive.py:33
 msgid ""
 "There was an authorization issue when saving the file to Google Drive, "
 "please try again later."
@@ -190,7 +190,7 @@ msgstr ""
 "estándar OCDS, e intente de nuevo en unos minutos."
 
 #: default/templates/default/base-uploader.html:37
-#: default/templates/default/to-json.html:44
+#: default/templates/default/to-json.html:52
 #: default/templates/default/to-spreadsheet.html:66
 msgid "Provide the URL to a file:"
 msgstr "Provea la URL a un archivo:"
@@ -202,21 +202,21 @@ msgstr "Añadir URL"
 
 #: default/templates/default/base-uploader.html:56
 #: default/templates/default/base-uploader.html:93
-#: default/templates/default/to-json.html:52
-#: default/templates/default/to-json.html:81
+#: default/templates/default/to-json.html:60
+#: default/templates/default/to-json.html:89
 #: default/templates/default/to-spreadsheet.html:74
 #: default/templates/default/to-spreadsheet.html:103
 msgid "Start"
 msgstr "Procesar"
 
 #: default/templates/default/base-uploader.html:81
-#: default/templates/default/to-json.html:74
+#: default/templates/default/to-json.html:82
 #: default/templates/default/to-spreadsheet.html:96
 msgid "Add a file"
 msgstr "Agregue un archivo"
 
 #: default/templates/default/base-uploader.html:81
-#: default/templates/default/to-json.html:75
+#: default/templates/default/to-json.html:83
 #: default/templates/default/to-spreadsheet.html:97
 msgid "or drag and drop here."
 msgstr "o arrastre y suelte aquí"
@@ -247,7 +247,7 @@ msgstr "OCDS Toucan"
 msgid "Combine Packages"
 msgstr "Combinar Paquetes"
 
-#: default/templates/default/combine-packages.html:11
+#: default/templates/default/combine-packages.html:10
 msgid ""
 "Use this tool to combine <a href=\"https://standard.open-contracting.org/"
 "latest/en/schema/release_package/\" target=\"_blank\">release packages</a> "
@@ -283,7 +283,8 @@ msgstr ""
 #: default/templates/default/compile.html:26
 #: default/templates/default/package-releases.html:20
 #: default/templates/default/split-packages.html:29
-#: default/templates/default/upgrade.html:20
+#: default/templates/default/to-json.html:35
+#: default/templates/default/upgrade.html:19
 msgid ""
 "Check the <strong>Pretty JSON</strong> checkbox to get a pretty print on the "
 "output files."
@@ -295,7 +296,8 @@ msgstr ""
 #: default/templates/default/compile.html:27
 #: default/templates/default/package-releases.html:21
 #: default/templates/default/split-packages.html:30
-#: default/templates/default/upgrade.html:21
+#: default/templates/default/to-json.html:36
+#: default/templates/default/upgrade.html:20
 msgid ""
 "By default the output encoding is utf-8, you can change it in "
 "<strong>Encoding</strong> text box."
@@ -310,29 +312,14 @@ msgid ""
 "array of packages."
 msgstr ""
 "Los archivos de entrada deben ser JSON con un solo paquete cada uno o un "
-"array de paquetes"
-
-#: default/templates/default/combine-packages.html:33
-#: default/templates/default/split-packages.html:45
-msgid "Package type:"
-msgstr "Tipo de Paquete:"
-
-#: default/templates/default/combine-packages.html:35
-#: default/templates/default/split-packages.html:47
-msgid "Release Package"
-msgstr "Paquete de Release"
-
-#: default/templates/default/combine-packages.html:36
-#: default/templates/default/split-packages.html:48
-msgid "Record Package"
-msgstr "Paquete de Record"
+"array de paquetes."
 
 #: default/templates/default/compile.html:5
 #: default/templates/default/index.html:49
 msgid "Compile Releases"
 msgstr "Compilar Releases"
 
-#: default/templates/default/compile.html:11
+#: default/templates/default/compile.html:10
 msgid ""
 "Use this tool to create a <a href=\"https://standard.open-contracting.org/"
 "latest/en/schema/record_package/\" target=\"_blank\">record package</a> with "
@@ -359,12 +346,12 @@ msgstr ""
 "contracting.org/latest/es/schema/merging/\" target=\"_blank\">documentación "
 "de OCDS</a>."
 
-#: default/templates/default/compile.html:29
+#: default/templates/default/compile.html:30
 msgid "Please verify that your files are release packages before uploading."
 msgstr ""
 "Favor verifique que sus archivos sean paquetes de release antes de subirlos."
 
-#: default/templates/default/compile.html:35
+#: default/templates/default/compile.html:38
 msgid "Include Versioned Releases: "
 msgstr "Incluir el bloque versionedRelease: "
 
@@ -558,7 +545,7 @@ msgstr ""
 msgid "Generate"
 msgstr "Generar"
 
-#: default/templates/default/package-releases.html:11
+#: default/templates/default/package-releases.html:10
 msgid ""
 "Use this tool to create a <a href=\"https://standard.open-contracting.org/"
 "latest/en/schema/release_package/\" target=\"_blank\">release package</a> "
@@ -579,14 +566,6 @@ msgid ""
 msgstr ""
 "Los archivos de entrada deben ser JSON con un solo Release cada uno o un "
 "array de releases."
-
-#: default/templates/default/snippets/optional_arguments.html:3
-msgid "Encoding:"
-msgstr "Codificación:"
-
-#: default/templates/default/snippets/optional_arguments.html:5
-msgid "Pretty JSON:"
-msgstr "JSON Indentado:"
 
 #: default/templates/default/snippets/input-options/input_description.html:3
 #: default/templates/default/snippets/input-options/input_description_single.html:3
@@ -637,24 +616,43 @@ msgstr "Subir archivos"
 msgid "Provide URLs"
 msgstr "Indique URLs"
 
+#: default/templates/default/snippets/optional_arguments.html:3
+msgid "Encoding:"
+msgstr "Codificación:"
+
+#: default/templates/default/snippets/optional_arguments.html:5
+msgid "Pretty JSON:"
+msgstr "JSON Indentado:"
+
+#: default/templates/default/snippets/package_type.html:3
+msgid "Package type:"
+msgstr "Tipo de Paquete:"
+
+#: default/templates/default/snippets/package_type.html:5
+msgid "Release Package"
+msgstr "Paquete de Release"
+
+#: default/templates/default/snippets/package_type.html:6
+msgid "Record Package"
+msgstr "Paquete de Record"
+
 #: default/templates/default/snippets/published_date.html:3
 msgid "Published date:"
 msgstr "Fecha de Publicación:"
 
-#: default/templates/default/split-packages.html:11
+#: default/templates/default/split-packages.html:10
 msgid ""
 "Use this tool to split <a href=\"https://standard.open-contracting.org/"
-"latest/en/schema/record_package/\" target=\"_blank\">record package</a> or "
-"<a href=\"https://standard.open-contracting.org/latest/en/schema/"
-"release_package/\" target=\"_blank\">release packages</a> into smaller "
-"packages for each."
+"latest/en/schema/release_package/\" target=\"_blank\">release packages</a> "
+"or <a href=\"https://standard.open-contracting.org/latest/en/schema/"
+"record_package/\" target=\"_blank\">record package</a> into smaller packages "
+"for each."
 msgstr ""
 "Use esta herramienta para dividir <a href=\"https://standard.open-"
-"contracting.org/latest/es/schema/release_package/\" target=\"_blank"
-"\">paquetes de release</a> o\n"
-" <a href=\"https://standard.open-contracting.org/latest/es/schema/"
-"record_package/\" target=\"_blank\">paquetes de record</a> en paquetes más "
-"pequeños."
+"contracting.org/latest/es/schema/record_package/\" target=\"_blank"
+"\">paquetes de release</a> o <a href=\"https://standard.open-contracting.org/"
+"latest/es/schema/release_package/\" target=\"_blank\">paquetes de record</a> "
+"en paquetes más pequeños."
 
 #: default/templates/default/split-packages.html:19
 msgid ""
@@ -676,18 +674,18 @@ msgstr ""
 "la caja de texto <strong>Elementos por Paquete</strong> antes de comenzar el "
 "proceso."
 
-#: default/templates/default/split-packages.html:52
+#: default/templates/default/split-packages.html:47
 msgid "Items per Package:"
 msgstr "Elementos por Paquete:"
 
-#: default/templates/default/split-packages.html:67
+#: default/templates/default/split-packages.html:63
 msgid "An invalid split size was entered. Please change it to a valid number."
 msgstr ""
 "El tamaño de paquete ingresado es inválido. Por favor cámbielo por un valor "
 "válido."
 
-#: default/templates/default/to-json.html:23
-#: default/templates/default/to-spreadsheet.html:27
+#: default/templates/default/to-json.html:15
+#: default/templates/default/to-spreadsheet.html:45
 msgid ""
 "Please verify that the file is valid OCDS JSON, and try again in a few "
 "minutes."
@@ -719,12 +717,12 @@ msgstr ""
 "herramienta <a href=\"https://flatten-tool.readthedocs.io/en/latest/usage-"
 "ocds/\" target=\"_blank\">Flatten Tool</a> para OCDS."
 
-#: default/templates/default/to-json.html:101
+#: default/templates/default/to-json.html:109
 #: default/templates/default/to-spreadsheet.html:123
 msgid "Added:"
 msgstr "Añadido:"
 
-#: default/templates/default/to-json.html:126
+#: default/templates/default/to-json.html:142
 msgid ""
 "An error has occurred! Please verify that all your files are valid OCDS "
 "JSON, and try again in a few minutes."
@@ -742,7 +740,7 @@ msgstr ""
 "contracting.org/latest/es/schema/release_package/\" target=\"_blank"
 "\">paquete de release</a> a su versión CSV y Excel."
 
-#: default/templates/default/upgrade.html:11
+#: default/templates/default/upgrade.html:10
 msgid ""
 "Use this tool to update <a href=\"https://standard.open-contracting.org/"
 "latest/en/getting_started/releases_and_records/#releases\" target=\"_blank"
@@ -800,15 +798,15 @@ msgstr "No se reconoce \"%(type)s\""
 msgid "Error decoding JSON"
 msgstr "Error al decodificar JSON"
 
-#: default/views.py:164
+#: default/views.py:224
 msgid "No valid option selected"
 msgstr "No se seleccionó ninguna opción válida"
 
-#: default/views.py:304
+#: default/views.py:357
 msgid "Enter a valid URL."
 msgstr "Introduzca una URL válida."
 
-#: default/views.py:308
+#: default/views.py:361
 msgid ""
 "There was an error when trying to access this URL. Please verify that the "
 "URL is correct and the file has the expected format."
@@ -816,15 +814,15 @@ msgstr ""
 "Se produjo un error al intentar acceder a esta URL. Favor verifique que la "
 "URL sea correcta y el archivo tenga el formato esperado."
 
-#: default/views.py:368 default/views.py:376
+#: default/views.py:421 default/views.py:429
 msgid "File not found"
 msgstr "Archivo no encontrado"
 
-#: default/views.py:374
+#: default/views.py:427
 msgid "File deleted"
 msgstr "Archivo eliminado"
 
-#: default/views.py:401
+#: default/views.py:454
 msgid "Invalid request, authentication process has not been started."
 msgstr "Solicitud inválida, el proceso de autenticación no ha sido iniciado"
 

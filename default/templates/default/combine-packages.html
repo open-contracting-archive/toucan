@@ -30,13 +30,7 @@
 
 {% block extraoptions %}
 {% include "default/snippets/published_date.html" %}
-<div class="form-group">
-    <label>{% trans "Package type:" %}</label>
-    <select class="form-control packageType">
-        <option value="release">{% trans "Release Package" %}</option>
-        <option value="record">{% trans "Record Package" %}</option>
-    </select>
-</div>
+{% include "default/snippets/package_type.html" %}
 {% include "default/snippets/optional_arguments.html" %}
 {% endblock %}
 

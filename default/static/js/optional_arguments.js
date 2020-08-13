@@ -1,5 +1,5 @@
 (function(){
-    app.setParams(function(params){
+    toucanApp.setParams(function(params){
         if ($('#pretty-json').is(":checked"))
             params['pretty-json'] = true;
         else
