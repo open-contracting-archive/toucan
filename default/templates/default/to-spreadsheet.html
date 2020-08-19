@@ -55,6 +55,7 @@
 {% endblock %}
 {% block info_content %}
     {% include "default/snippets/input-options/input_description_single.html" %}
+    {% include "default/snippets/output_description.html" %}
 {% endblock %}
 
 {% block content %}
@@ -238,6 +239,9 @@
     window.onload = function () {
         /* clear URL input text */
         $('#input_url_0 input').val('');
+
+        /* hide send feature description */
+        $('.info-send').addClass('hidden');
 
         /* check if results were sent to this page */
         if (window.location.search == '?sendResult=true') {

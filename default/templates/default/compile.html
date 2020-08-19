@@ -39,6 +39,9 @@
 {% block scripts %}
     {{ block.super }}
     <script type="text/javascript">
+    /* hide send feature description */
+    $('.info-send').addClass('hidden');
+
     (function(){
         toucanApp.setParams(function(params){
             if ($('.include-versioned').is(':checked') )

@@ -36,6 +36,7 @@
             {% trans "Generate a patched version of the Release Schema with one or more OCDS extensions." %}
         </li>
     </ul>
+    {% include "default/snippets/output_description.html" %}
 {% endblock %}
 {% block messages %}
     {% if result %}
@@ -181,5 +182,8 @@
                 $('.extension-url-container .btn.input-delete').attr('disabled', true);
             }
         }
+
+        /* hide send feature description */
+        $('.info-send').addClass('hidden');
     </script>
 {% endblock scripts %}
