@@ -347,9 +347,7 @@ def uploadfile(request):
     else:
         data_file.write(request_file)
 
-    if 'files' not in request.session:
-        request.session['files'] = []
-    request.session['files'].append(data_file.as_dict())
+    request.session.setdefault('files', []).append(data_file.as_dict())
     # https://docs.djangoproject.com/en/2.2/topics/http/sessions/#when-sessions-are-saved
     request.session.modified = True
 
