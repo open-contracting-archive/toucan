@@ -29,7 +29,7 @@ jsonpointer==2.0          # via ocdskit
 jsonref==0.2
 jsonschema==3.2.0         # via libcove, libcoveocds, ocdskit
 libcove==0.12.0           # via libcoveocds
-libcoveocds==0.7.4
+libcoveocds==0.7.5
 lxml==4.4.1               # via flattentool
 more-itertools==8.0.2     # via zipp
 oauthlib==3.1.0
