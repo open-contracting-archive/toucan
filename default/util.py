@@ -4,9 +4,14 @@ from django.http import JsonResponse
 from django.shortcuts import render
 from django.utils.translation import gettext_lazy as _
 from ocdskit.util import is_package, is_record_package, is_release, is_release_package
+from ocdsmerge.util import get_tags
 
 from default.data_file import DataFile
 from ocdstoucan.settings import OCDS_TOUCAN_MAXFILESIZE, OCDS_TOUCAN_MAXNUMFILES
+
+
+def ocds_tags():
+    return cache.get_or_set('git_tags', sorted(get_tags(), reverse=True), 3600)
 
 
 def ocds_command(request, command):

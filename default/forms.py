@@ -1,11 +1,8 @@
 from django import forms
 from django.core.cache import cache
 from django.utils.translation import gettext_lazy as _
-from ocdsmerge.util import get_tags
 
-
-def _get_tags():
-    return cache.get_or_set('git_tags', sorted(get_tags(), reverse=True), 3600)
+from default.util import ocds_tags
 
 
 def _get_extension_keys(data):
@@ -25,7 +22,7 @@ class MappingSheetOptionsForm(forms.Form):
     custom_url = forms.URLField(required=False, label=_('Provide the URL to a custom schema below'))
     custom_file = forms.FileField(required=False, label=_('Upload a file'))
     version = forms.ChoiceField(required=False, label=_('Please select an OCDS version'),
-                                choices=[(tag, tag.replace('__', '.')) for tag in _get_tags()],
+                                choices=[(tag, tag.replace('__', '.')) for tag in ocds_tags()],
                                 widget=forms.Select(attrs={'class': 'form-control'}))
 
     def __init__(self, query=None, *args, **kwargs):
