@@ -1,5 +1,6 @@
 import json
 
+from django.core.cache import cache
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.utils.translation import gettext_lazy as _
