@@ -118,7 +118,7 @@ msgstr ""
 
 #: default/forms.py:138
 msgid "Remove empty schema columns"
-msgstr "Remover columnas del esquema vacías"
+msgstr "Remover columnas vacías del esquema"
 
 #: default/forms.py:165
 msgid "Define both the field and value to filter data"
@@ -574,8 +574,6 @@ msgid "Options"
 msgstr "Opciones"
 
 #: default/templates/default/snippets/unflatten-options-modal.html:30
-#, fuzzy
-#| msgid "Please choose an operation type"
 msgid "Please choose at least one output format."
 msgstr "Elija un tipo de operación"
 
