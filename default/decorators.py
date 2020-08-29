@@ -31,15 +31,27 @@ def published_date(function):
         if published_date:
             try:
                 parser.parse(published_date)
-                kwargs['published_date'] = published_date
             except ValueError:
                 kwargs['warnings'] = [
                     _('An invalid published date was submitted, and therefore ignored: %(date)s') % {
                         'date': published_date,
                     },
                 ]
+            else:
+                kwargs['published_date'] = published_date
         return function(request, *args, **kwargs)
 
+    return wrap
+
+
+def clear_drive_session_vars(function):
+    @wraps(function)
+    def wrap(request, *args, **kwargs):
+        val = function(request, *args, **kwargs)
+        if 'auth_status' in request.session and request.session['auth_status'] in ('completed', 'success', 'failed'):
+            for key in ('auth_status', 'auth_response', 'auth_status_error', 'google_drive_file'):
+                request.session.pop(key, None)
+        return val
     return wrap
 
 

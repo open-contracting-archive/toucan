@@ -1,0 +1,14 @@
+{% load i18n %}
+<p>
+    {% trans "The options available for input files are:" %}
+</p>
+<ul class="list-unstyled">
+    <li>
+        <strong>{% trans "Upload a file:" %}</strong>
+        {% trans "Upload no more than one file by dragging and dropping in the box below or using the <strong>Add a file</strong> link." %}
+    </li>
+    <li>
+        <strong>{% trans "Provide a URL:" %}</strong>
+        {% trans "Provide a single URL to a file." %}
+    </li>
+</ul>

@@ -19,23 +19,32 @@ from ocdskit.upgrade import upgrade_10_11
 from requests.exceptions import ConnectionError, HTTPError, SSLError
 
 from default.data_file import DataFile
+from default.decorators import clear_drive_session_vars, clear_files, published_date, require_files
+from default.forms import MappingSheetOptionsForm
+from default.google_drive import get_credentials_from_session, google_api_messages, upload_to_drive
 from default.decorators import clear_files, published_date, require_files, require_get_param
 from default.forms import MappingSheetOptionsForm, UnflattenOptionsForm
 from default.mapping_sheet import (get_extended_mapping_sheet, get_mapping_sheet_from_uploaded_file,
                                    get_mapping_sheet_from_url)
+from default.util import (get_files_from_session, invalid_request_file_message, json_response, make_package,
+                          ocds_command, ocds_tags)
 from default.util import (flatten, get_cache_name, get_files_from_session, invalid_request_file_message, json_response,
                           make_package, ocds_command, resolve_schema_refs)
 
 
-def retrieve_result(request, folder, id, format=None):
+def get_datafile_filename(folder, id, format):
     if format is None:
         prefix = 'result'
         ext = '.zip'
         filename = 'result.zip'
     elif format == 'csv':
+        prefix = 'result'
+        ext = '.csv'
+        filename = 'result.csv'
+    elif format == 'csv.zip':
         prefix = 'flatten-csv'
         ext = '.zip'
-        filename = 'result-csv.zip'
+        filename = 'result.csv.zip'
     elif format == 'xlsx':
         prefix = 'flatten'
         ext = '.xlsx'
@@ -43,7 +52,12 @@ def retrieve_result(request, folder, id, format=None):
     else:
         raise Http404('Invalid option')
 
-    file = DataFile(prefix, ext, id=str(id), folder=folder)
+    return DataFile(prefix, ext, id=str(id), folder=folder), filename
+
+
+def retrieve_result(request, folder, id, format=None):
+    file, filename = get_datafile_filename(folder, id, format)
+
     return FileResponse(open(file.path, 'rb'), filename=filename, as_attachment=True)
 
 
@@ -135,36 +149,56 @@ def perform_compile(request, published_date='', warnings=None):
 
 
 def mapping_sheet(request):
+    context = {
+        'versionOptions': {
+            '1.1': {
+                'Release': 'https://standard.open-contracting.org/1.1/en/release-schema.json',
+                'Release Package': 'https://standard.open-contracting.org/1.1/en/release-package-schema.json',
+                'Record Package': 'https://standard.open-contracting.org/1.1/en/record-package-schema.json',
+            },
+            '1.1 (Español)': {
+                'Release': 'http://standard.open-contracting.org/1.1/es/release-schema.json',
+                'Paquete de Release': 'http://standard.open-contracting.org/1.1/es/release-schema.json',
+                'Paquete de Record': 'http://standard.open-contracting.org/1.1/es/record-package-schema.json',
+            },
+            '1.0': {
+                'Release': 'https://standard.open-contracting.org/schema/1__0__3/release-schema.json',
+                'Release Package': 'https://standard.open-contracting.org/schema/1__0__3/release-package-schema.json',
+                'Record Package': 'https://standard.open-contracting.org/schema/1__0__3/record-package-schema.json',
+            },
+        },
+    }
+
     if request.method == 'POST':
         form = MappingSheetOptionsForm(request.POST, request.FILES)
 
         if form.is_valid():
             type_selected = form.cleaned_data['type']
+            result = None
             if type_selected == 'select':
-                return get_mapping_sheet_from_url(form.cleaned_data['select_url'])
+                result = get_mapping_sheet_from_url(form.cleaned_data['select_url'])
             if type_selected == 'url':
-                return get_mapping_sheet_from_url(form.cleaned_data['custom_url'])
+                result = get_mapping_sheet_from_url(form.cleaned_data['custom_url'])
             if type_selected == 'file':
-                return get_mapping_sheet_from_uploaded_file(request.FILES['custom_file'])
+                result = get_mapping_sheet_from_uploaded_file(request.FILES['custom_file'])
             if type_selected == 'extension':
-                return get_extended_mapping_sheet(form.cleaned_data['extension_urls'], form.cleaned_data['version'])
+                result = get_extended_mapping_sheet(form.cleaned_data['extension_urls'], form.cleaned_data['version'])
+
+            context['result'] = result or {'error': _('No valid option selected')}
 
     elif request.method == 'GET':
         if 'source' in request.GET:
-            return get_mapping_sheet_from_url(request.GET['source'])
+            return get_mapping_sheet_from_url(request.GET['source'], as_response=True)
         if 'extension' in request.GET:
             if 'version' in request.GET:
                 version = request.GET['version']
             else:
-                version = '1__1__4'
-            return get_extended_mapping_sheet(request.GET.getlist('extension'), version)
+                version = ocds_tags()[-1]
+            return get_extended_mapping_sheet(request.GET.getlist('extension'), version, as_response=True)
 
         form = MappingSheetOptionsForm()
 
-    context = {
-        'form': form
-    }
-
+    context['form'] = form
     return render(request, 'default/mapping_sheet.html', context)
 
 
@@ -191,14 +225,16 @@ def perform_to_spreadsheet(request):
         shutil.rmtree(output_dir.path)
 
         response['csv'] = {
-            'url': input_file.url + 'csv/',
+            'url': input_file.url + 'csv.zip/',
             'size': csv_zip.size,
+            'driveUrl': input_file.url.replace('result', 'google-drive-save-start') + 'csv.zip/'
         }
 
     if form.cleaned_data['output_format'] == 'all' or form.cleaned_data['output_format'] == 'xlsx':
         response['xlsx'] = {
             'url': input_file.url + 'xlsx/',
             'size': os.path.getsize(output_dir.path + '.xlsx'),
+            'driveUrl': input_file.url.replace('result', 'google-drive-save-start') + 'xlsx/'
         }
 
     return JsonResponse(response)
@@ -247,6 +283,7 @@ def perform_to_json(request):
     return JsonResponse({
         'url': input_file.url,
         'size': json_zip.size,
+        'driveUrl': input_file.url.replace('result', 'google-drive-save-start')
     })
 
 
@@ -329,9 +366,7 @@ def uploadfile(request):
     else:
         data_file.write(request_file)
 
-    if 'files' not in request.session:
-        request.session['files'] = []
-    request.session['files'].append(data_file.as_dict())
+    request.session.setdefault('files', []).append(data_file.as_dict())
     # https://docs.djangoproject.com/en/2.2/topics/http/sessions/#when-sessions-are-saved
     request.session.modified = True
 
@@ -356,3 +391,54 @@ def deletefile(request, id):
             return JsonResponse({'message': _('File deleted')})
 
     return JsonResponse({'message': _('File not found')}, status=404)
+
+
+@require_GET
+def googleapi_auth_callback(request):
+    params = {}
+    if 'code' in request.GET:
+        request.session['auth_status'] = 'success'
+        request.session['auth_response'] = request.build_absolute_uri(request.get_full_path())
+    else:
+        request.session['auth_status'] = 'failed'
+        request.session['auth_status_error'] = request.GET.get('error')
+        params['status'] = 'failed'
+        params['error'] = request.GET.get('error')
+    return render(request, 'default/googleapi-auth-finished.html')
+
+
+@require_GET
+@clear_drive_session_vars
+def get_google_drive_save_status(request):
+
+    if 'auth_status' not in request.session or \
+            request.session['auth_status'] not in ('waiting', 'success', 'failed'):
+        return JsonResponse({
+            'error': True,
+            'message': _('Invalid request, authentication process has not been started.')
+        }, status=400)
+    if request.session['auth_status'] == 'waiting':
+        return JsonResponse({'status': 'waiting'})
+    elif request.session['auth_status'] == 'failed':
+        message_key = request.session['auth_status_error'] if request.session['auth_status_error'] else '_default'
+        return JsonResponse({
+            'status': 'failed',
+            'message': google_api_messages[message_key]
+        }, status=500)
+    return upload_to_drive(request)
+
+
+@require_GET
+@clear_drive_session_vars
+def google_drive_save_start(request, folder, id, format=None):
+
+    file, filename = get_datafile_filename(folder, id, format)
+    request.session['google_drive_file'] = file.as_dict()
+    credentials = get_credentials_from_session(request)
+
+    if credentials:
+        request.session['auth_status'] = 'completed'
+        return upload_to_drive(request)
+
+    request.session['auth_status'] = 'waiting'
+    return JsonResponse({'authenticated': False})

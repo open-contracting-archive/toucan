@@ -17,9 +17,9 @@ class ToSpreadsheetTestCase(ViewTestCase, ViewTests):
         prefix = r'^/result/' + '{:%Y-%m-%d}'.format(date.today()) + r'/[0-9a-f-]{36}/'
 
         for extension, content in contents.items():
-            self.assertEqual(len(content), 2)
+            self.assertEqual(len(content), 3)
             self.assertIsInstance(content['size'], int)
-            self.assertRegex(content['url'], prefix + extension + r'/$')
+            self.assertRegex(content['url'], prefix + extension + ('.zip' if extension == 'csv' else '') + r'/$')
 
         if csv_path:
             zipfile = self.get_zipfile(contents['csv'])

@@ -34,7 +34,7 @@ class UploadUrlTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response['Content-Type'], 'application/json')
 
-        keys = ['url', 'size']
+        keys = ['url', 'size', 'driveUrl']
         content = json.loads(response.content.decode('utf-8'))
         for key in keys:
             self.assertIn(key, content.keys())

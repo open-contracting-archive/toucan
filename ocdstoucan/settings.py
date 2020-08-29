@@ -18,6 +18,8 @@ from sentry_sdk.integrations.django import DjangoIntegration
 from sentry_sdk.integrations.logging import ignore_logger
 from sentry_sdk.integrations.sqlalchemy import SqlalchemyIntegration
 
+production = os.getenv('DJANGO_ENV') == 'production'
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -26,15 +28,16 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '0cxa(_o&i+f%3ua3c-%ox-lf_f_-8)%tc2x8zr4^iblbn9yp3d'
+SECRET_KEY = os.getenv('SECRET_KEY', '0cxa(_o&i+f%3ua3c-%ox-lf_f_-8)%tc2x8zr4^iblbn9yp3d')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False if os.getenv('DEBUG', 'True').lower() == 'false' else True
+DEBUG = not production
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1']
-
-if os.getenv('ALLOWED_HOSTS') is not None:
+if 'ALLOWED_HOSTS' in os.environ:
     ALLOWED_HOSTS.extend(os.getenv('ALLOWED_HOSTS').split(','))
+
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -69,6 +72,7 @@ TEMPLATES = [
                 'django.template.context_processors.i18n',
                 # 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'default.context_processors.analytics',
             ],
         },
     },
@@ -158,13 +162,30 @@ LOGGING = {
     },
 }
 
-OCDS_TOUCAN_MAXNUMFILES = os.getenv('OCDS_TOUCAN_MAXNUMFILES', 20)
-OCDS_TOUCAN_MAXFILESIZE = os.getenv('OCDS_TOUCAN_MAXFILESIZE', 10000000)  # in bytes
+GOOGLE_ANALYTICS_ID = os.getenv('GOOGLE_ANALYTICS_ID')
 
-if os.getenv('SENTRY_DSN') is not None:
+if 'SENTRY_DSN' in os.environ:
     # https://docs.sentry.io/platforms/python/logging/#ignoring-a-logger
     ignore_logger('django.security.DisallowedHost')
     sentry_sdk.init(
         dsn=os.getenv('SENTRY_DSN'),
         integrations=[DjangoIntegration(), SqlalchemyIntegration()]
     )
+
+OCDS_TOUCAN_MAXNUMFILES = os.getenv('OCDS_TOUCAN_MAXNUMFILES', 20)
+OCDS_TOUCAN_MAXFILESIZE = os.getenv('OCDS_TOUCAN_MAXFILESIZE', 10000000)  # in bytes
+OCDS_TOUCAN_GOOGLE_API_CREDENTIALS_FILE = os.getenv('OCDS_TOUCAN_CREDENTIALS_DRIVE', 'googleapi_credentials.json')
+
+# https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
+if production:
+    # Run: env DJANGO_ENV=production SECURE_HSTS_SECONDS=1 ./manage.py check --deploy
+    CSRF_COOKIE_SECURE = True
+    SESSION_COOKIE_SECURE = True
+    SECURE_SSL_REDIRECT = True
+    SECURE_REFERRER_POLICY = 'same-origin'
+
+    # https://docs.djangoproject.com/en/3.0/ref/middleware/#http-strict-transport-security
+    if 'SECURE_HSTS_SECONDS' in os.environ:
+        SECURE_HSTS_SECONDS = os.getenv('SECURE_HSTS_SECONDS')
+        SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+        SECURE_HSTS_PRELOAD = True
