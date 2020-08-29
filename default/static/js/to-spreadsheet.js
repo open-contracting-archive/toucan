@@ -8,7 +8,7 @@
         dropAreaFileLink = $('.drop-area-msg label'),
         urlInput = $('#input_url_0 input'),
         urlHelpBlock = $('.input-url-container .help-block'),
-        tabPanels = $('.schema-nav .btn')
+        tabPanels = $('.nav.nav-tabs a')
     ;
 
     var selectedFile;
@@ -42,14 +42,16 @@
     function showLinksToResults(data) {
         /* show links to results (and file sizes) */
         if (data.xlsx) {
-            successBox.find('.xlsx').removeClass('hidden');
+            successBox.find('li.xlsx').removeClass('hidden');
             successBox.find('.download-xlsx').attr('href', data.xlsx.url);
             successBox.find('.file-size-xlsx').html(utils.readableFileSize(data.xlsx.size));
+            successBox.find('.save-drive-link.xlsx').attr('data-url', data.xlsx.driveUrl);
         }
         if (data.csv) {
-            successBox.find('.csv').removeClass('hidden');
+            successBox.find('li.csv').removeClass('hidden');
             successBox.find('.download-csv').attr('href', data.csv.url);
             successBox.find('.file-size-csv').html(utils.readableFileSize(data.csv.size));
+            successBox.find('.save-drive-link.csv').attr('data-url', data.csv.driveUrl);
         }
         successBox.removeClass('hidden');
     }
@@ -90,8 +92,12 @@
             .children()
             .addClass('hidden')
         ;
-        successBox.find('.xlsx').addClass('hidden');
-        successBox.find('.csv').addClass('hidden');
+        successBox.find('li.xlsx').addClass('hidden');
+        successBox.find('.xlsx .save-drive-link').removeClass('hidden');
+        successBox.find('.xlsx .open-drive-link').addClass('hidden');
+        successBox.find('li.csv').addClass('hidden');
+        successBox.find('.csv .save-drive-link').removeClass('hidden');
+        successBox.find('.csv .open-drive-link').addClass('hidden');
         successBox.addClass('hidden');
         urlHelpBlock.empty();
 
@@ -111,8 +117,8 @@
     }
 
     function getActiveTab() {
-        var selection = $('.panel-collapse.collapse.in');
-        if (selection.hasClass('toucan-nav-input')){
+        var selection = $('.nav.nav-tabs .active a');
+        if (selection.attr('href') === '#urls'){
             return 'url';
         }
         else{
@@ -170,7 +176,7 @@
     }
 
     function uploadButtonStatus(event) {
-        if ($(event.target).children('input').hasClass('toucan-nav-input')){
+        if ($(event.target).attr('href') === '#urls'){
             enableUploadButton();
         }
         else {

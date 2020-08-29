@@ -19,17 +19,13 @@ from ocdskit.upgrade import upgrade_10_11
 from requests.exceptions import ConnectionError, HTTPError, SSLError
 
 from default.data_file import DataFile
-from default.decorators import clear_drive_session_vars, clear_files, published_date, require_files
-from default.forms import MappingSheetOptionsForm
-from default.google_drive import get_credentials_from_session, google_api_messages, upload_to_drive
-from default.decorators import clear_files, published_date, require_files, require_get_param
+from default.decorators import clear_drive_session_vars, clear_files, published_date, require_files, require_get_param
 from default.forms import MappingSheetOptionsForm, UnflattenOptionsForm
+from default.google_drive import get_credentials_from_session, google_api_messages, upload_to_drive
 from default.mapping_sheet import (get_extended_mapping_sheet, get_mapping_sheet_from_uploaded_file,
                                    get_mapping_sheet_from_url)
-from default.util import (get_files_from_session, invalid_request_file_message, json_response, make_package,
-                          ocds_command, ocds_tags)
 from default.util import (flatten, get_cache_name, get_files_from_session, invalid_request_file_message, json_response,
-                          make_package, ocds_command, resolve_schema_refs)
+                          make_package, ocds_command, ocds_tags, resolve_schema_refs)
 
 
 def get_datafile_filename(folder, id, format):
@@ -436,7 +432,9 @@ def google_drive_save_start(request, folder, id, format=None):
     request.session['google_drive_file'] = file.as_dict()
     credentials = get_credentials_from_session(request)
 
-    if credentials:
+    # credentials must be valid
+    # in the case there is no refresh_token, we should prompt the user for authentication again
+    if credentials and (credentials.valid or credentials.refresh_token):
         request.session['auth_status'] = 'completed'
         return upload_to_drive(request)
 

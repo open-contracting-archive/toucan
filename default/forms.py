@@ -1,8 +1,7 @@
 from django import forms
 from django.utils.translation import gettext_lazy as _
 
-from default.util import ocds_tags
-from default.util import get_schema_field_list
+from default.util import get_schema_field_list, ocds_tags
 
 
 def _get_extension_keys(data):
