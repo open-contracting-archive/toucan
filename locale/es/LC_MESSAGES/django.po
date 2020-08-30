@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-07-21 23:32+0000\n"
+"POT-Creation-Date: 2020-08-30 03:45+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: default/decorators.py:37
+#: default/decorators.py:36
 #, python-format
 msgid ""
 "An invalid published date was submitted, and therefore ignored: %(date)s"
@@ -26,58 +26,100 @@ msgstr ""
 "La fecha enviada es inválida: %(date)s, por lo que se omitió en los "
 "resultados."
 
-#: default/decorators.py:51
+#: default/decorators.py:63
 msgid "The {} parameter is required"
 msgstr "El parámetro {} es requerido"
 
-#: default/forms.py:25 default/forms.py:31
+#: default/forms.py:19 default/forms.py:25
 msgid "Select a schema and version"
 msgstr "Seleccione un esquema y versión"
 
-#: default/forms.py:26 default/templates/default/to-json.html:62
-#: default/templates/default/to-spreadsheet.html:60
-#: default/forms.py:19
+#: default/forms.py:20
 msgid "Provide a URL"
 msgstr "Indique una URL"
 
-#: default/forms.py:20 default/forms.py:26
-#: default/forms.py:27 default/forms.py:64
-#: default/templates/default/to-json.html:58
-#: default/templates/default/to-spreadsheet.html:56
+#: default/forms.py:21 default/forms.py:58
 msgid "Upload a file"
 msgstr "Subir un archivo"
 
-#: default/forms.py:28
+#: default/forms.py:22
 msgid "For an OCDS Extension"
 msgstr "Para una Extensión OCDS"
 
-#: default/forms.py:30
+#: default/forms.py:24
 msgid "Please choose an operation type"
 msgstr "Elija un tipo de operación"
 
-#: default/forms.py:63
+#: default/forms.py:57
 msgid "Provide the URL to a custom schema below"
 msgstr "Provea la URL a un esquema personalizado"
 
-#: default/forms.py:65
+#: default/forms.py:59
 msgid "Please select an OCDS version"
 msgstr "Seleccione una versión OCDS"
 
-#: default/forms.py:84
+#: default/forms.py:78
 msgid "Please select an option"
 msgstr "Seleccione una opción"
 
-#: default/forms.py:87
+#: default/forms.py:81
 msgid "Please provide a URL"
 msgstr "Indique una URL"
 
-#: default/forms.py:90
+#: default/forms.py:84
 msgid "Please provide a file"
 msgstr "Cargue un archivo"
 
-#: default/forms.py:93
+#: default/forms.py:87
 msgid "Provide at least one extension URL"
 msgstr "Indique al menos una URL de extensión"
+
+#: default/forms.py:97
+msgid "Schema version"
+msgstr "Versión del esquema"
+
+#: default/forms.py:107
+msgid "Output formats"
+msgstr "Formatos de salida"
+
+#: default/forms.py:115
+msgid "Use titles instead of field names"
+msgstr "Usar títulos en lugar de nombres de campos"
+
+#: default/forms.py:116 default/forms.py:133
+msgid "Yes"
+msgstr "Sí"
+
+#: default/forms.py:116 default/forms.py:133
+msgid "No"
+msgstr "No"
+
+#: default/forms.py:120
+msgid "Enter the field (top level fields only)"
+msgstr "Ingrese el campo (sólo se aceptan campos de primer nivel)"
+
+#: default/forms.py:123
+msgid "Enter a value"
+msgstr "Ingrese un valor"
+
+#: default/forms.py:127
+msgid "Include the following fields only"
+msgstr "Incluir estos campos solamente"
+
+#: default/forms.py:128
+msgid ""
+"Use the tree to select the fields. Top-level required fields are disabled"
+msgstr ""
+"Use el árbol para seleccionar los campos. Los campos requeridos de primer "
+"nivel están deshabilitados."
+
+#: default/forms.py:132
+msgid "Remove empty schema columns"
+msgstr "Remover columnas vacías del esquema"
+
+#: default/forms.py:159
+msgid "Define both the field and value to filter data"
+msgstr "Defina el nombre del campo y un valor para el filtro de datos"
 
 #: default/google_drive.py:31
 msgid ""
@@ -87,7 +129,7 @@ msgstr ""
 "Hubo un error tratando de subir el archivo a Google Drive, favor intente de "
 "nuevo más tarde."
 
-#: default/google_drive.py:32
+#: default/google_drive.py:33
 msgid ""
 "There was an authorization issue when saving the file to Google Drive, "
 "please try again later."
@@ -105,93 +147,40 @@ msgstr "menos"
 
 #: default/templates/default/base-tool.html:29
 #: default/templates/default/mapping_sheet.html:43
-#: default/templates/default/to-spreadsheet.html:13
-#: default/forms.py:103
-msgid "Schema version"
-msgstr "Versión del esquema"
-
-#: default/forms.py:113
-msgid "Output formats"
-msgstr "Formatos de salida"
-
-#: default/forms.py:121
-msgid "Use titles instead of field names"
-msgstr "Usar títulos en lugar de nombres de campos"
-
-#: default/forms.py:122 default/forms.py:139
-msgid "Yes"
-msgstr "Sí"
-
-#: default/forms.py:122 default/forms.py:139
-msgid "No"
-msgstr "No"
-
-#: default/forms.py:126
-msgid "Enter the field (top level fields only)"
-msgstr "Ingrese el campo (sólo se aceptan campos de primer nivel)"
-
-#: default/forms.py:129
-msgid "Enter a value"
-msgstr "Ingrese un valor"
-
-#: default/forms.py:133
-msgid "Include the following fields only"
-msgstr "Incluir estos campos solamente"
-
-#: default/forms.py:134
-msgid ""
-"Use the tree to select the fields. Top-level required fields are disabled"
-msgstr ""
-"Use el árbol para seleccionar los campos. Los campos requeridos de primer "
-"nivel están deshabilitados."
-
-#: default/forms.py:138
-msgid "Remove empty schema columns"
-msgstr "Remover columnas vacías del esquema"
-
-#: default/forms.py:165
-msgid "Define both the field and value to filter data"
-msgstr "Defina el nombre del campo y un valor para el filtro de datos"
-
-#: default/templates/default/base-uploader.html:15
-#: default/templates/default/to-json.html:13
 #: default/templates/default/to-spreadsheet.html:14
 msgid "Success!"
 msgstr "¡Éxito!"
 
-#: default/templates/default/base-uploader.html:16
-#: default/templates/default/to-json.html:17
-#: default/templates/default/to-spreadsheet.html:18
-#: default/templates/default/to-spreadsheet.html:22
 #: default/templates/default/base-tool.html:32
 #: default/templates/default/mapping_sheet.html:46
 #: default/templates/default/to-spreadsheet.html:18
-#: default/templates/default/to-spreadsheet.html:31
+#: default/templates/default/to-spreadsheet.html:29
 msgid "Download"
 msgstr "Descargar"
 
 #: default/templates/default/base-tool.html:36
 #: default/templates/default/mapping_sheet.html:50
-#: default/templates/default/to-spreadsheet.html:22
-#: default/templates/default/to-spreadsheet.html:35
+#: default/templates/default/to-spreadsheet.html:21
+#: default/templates/default/to-spreadsheet.html:32
 msgid "Save to Google Drive"
 msgstr "Guardar en Google Drive"
 
 #: default/templates/default/base-tool.html:39
 #: default/templates/default/mapping_sheet.html:53
-#: default/templates/default/to-spreadsheet.html:25
-#: default/templates/default/to-spreadsheet.html:38
+#: default/templates/default/to-spreadsheet.html:24
+#: default/templates/default/to-spreadsheet.html:35
 msgid "File saved on Google Drive"
 msgstr "Archivo guardado en Google Drive"
 
 #: default/templates/default/base-tool.html:39
 #: default/templates/default/mapping_sheet.html:53
-#: default/templates/default/to-spreadsheet.html:25
-#: default/templates/default/to-spreadsheet.html:38
+#: default/templates/default/to-spreadsheet.html:24
+#: default/templates/default/to-spreadsheet.html:35
 msgid "Open"
 msgstr "Abrir"
 
 #: default/templates/default/base-tool.html:58
+#: default/templates/default/to-spreadsheet.html:116
 msgid ""
 "Processing operation. Please don't refresh nor close the browser window!"
 msgstr ""
@@ -221,9 +210,9 @@ msgstr ""
 msgid "Files with validation issues will be ignored by default."
 msgstr "Los archivos con problemas de validación serán ignorados por defecto."
 
-#: default/templates/default/base-uploader.html:27
-#: default/templates/default/to-json.html:22
-#: default/templates/default/to-spreadsheet.html:27
+#: default/templates/default/base-uploader.html:20
+#: default/templates/default/to-json.html:14
+#: default/templates/default/to-spreadsheet.html:41
 msgid "An error has occurred!"
 msgstr "¡Ha ocurrido un error!"
 
@@ -235,101 +224,34 @@ msgstr ""
 "Por favor verifique que todos sus archivos son válidos de acuerdo al "
 "estándar OCDS, e intente de nuevo en unos minutos."
 
-#: default/templates/default/base-uploader.html:33
-#: default/templates/default/to-json.html:34
-#: default/templates/default/to-spreadsheet.html:39
-msgid "The options available for input files are:"
-msgstr "Las opciones disponibles para los archivos de entrada son:"
-
-#: default/templates/default/base-uploader.html:36
-#: default/templates/default/mapping_sheet.html:33
-#: default/templates/default/to-json.html:38
-#: default/templates/default/to-spreadsheet.html:43
-msgid "Upload a file:"
-msgstr "Cargue un archivo:"
-
 #: default/templates/default/base-uploader.html:37
-msgid "Drag and drop one or more files."
-msgstr "Arrastre y suelte uno o más archivos."
-
-#: default/templates/default/base-uploader.html:38
-msgid "You can also click the <strong>Add a file</strong> link below."
-msgstr ""
-"También puede hacer clic en el enlace de <strong>Agregue un archivo</strong> "
-"más abajo."
-
-#: default/templates/default/base-uploader.html:41
-#: default/templates/default/mapping_sheet.html:29
-#: default/templates/default/to-json.html:42
-#: default/templates/default/to-spreadsheet.html:47
-msgid "Provide a URL:"
-msgstr "Indique una URL:"
-
-#: default/templates/default/base-uploader.html:42
-msgid ""
-"Enter one or more URLs to each file. Click <strong>Add URL</strong> to "
-"provide more URLs."
-msgstr ""
-"Ingresa una o más URLs a cada archivo. Haga click en <strong>Añadir URL</"
-"strong> para ingresar más URLs."
-
-#: default/templates/default/base-uploader.html:51
-msgid "Upload files"
-msgstr "Subir archivos"
-
-#: default/templates/default/base-uploader.html:55
-msgid "Provide URLs"
-msgstr "Indique URLs"
-
-#: default/templates/default/base-uploader.html:66
-#: default/templates/default/to-json.html:116
-#: default/templates/default/to-spreadsheet.html:120
-msgid ""
-"Processing operation. Please don't refresh nor close the browser window!"
-msgstr ""
-"Procesando la operación. Por favor no refresque ni cierre el navegador."
-
-#: default/templates/default/base-uploader.html:68
-msgid "Processed "
-msgstr "Procesado "
-
-#: default/templates/default/base-uploader.html:68
-msgid " of "
-msgstr " de "
-
-#: default/templates/default/base-uploader.html:68
-msgid " files ..."
-msgstr " archivos..."
-
-#: default/templates/default/base-uploader.html:82
-#: default/templates/default/to-json.html:69
-#: default/templates/default/to-spreadsheet.html:78
+#: default/templates/default/to-json.html:44
+#: default/templates/default/to-spreadsheet.html:73
 msgid "Provide the URL to a file:"
 msgstr "Provea la URL a un archivo:"
 
-#: default/templates/default/base-uploader.html:99
-#: default/templates/default/mapping_sheet.html:124
+#: default/templates/default/base-uploader.html:54
+#: default/templates/default/mapping_sheet.html:137
 msgid "Add URL"
 msgstr "Añadir URL"
 
-#: default/templates/default/base-uploader.html:101
-#: default/templates/default/base-uploader.html:138
-#: default/templates/default/to-json.html:77
-#: default/templates/default/to-json.html:106
-#: default/templates/default/to-spreadsheet.html:74
-#: default/templates/default/to-spreadsheet.html:103
+#: default/templates/default/base-uploader.html:56
+#: default/templates/default/base-uploader.html:93
+#: default/templates/default/to-json.html:52
+#: default/templates/default/to-json.html:81
+#: default/templates/default/to-spreadsheet.html:105
 msgid "Start"
 msgstr "Procesar"
 
-#: default/templates/default/base-uploader.html:126
-#: default/templates/default/to-json.html:99
-#: default/templates/default/to-spreadsheet.html:96
+#: default/templates/default/base-uploader.html:81
+#: default/templates/default/to-json.html:74
+#: default/templates/default/to-spreadsheet.html:86
 msgid "Add a file"
 msgstr "Agregue un archivo"
 
-#: default/templates/default/base-uploader.html:126
-#: default/templates/default/to-json.html:100
-#: default/templates/default/to-spreadsheet.html:97
+#: default/templates/default/base-uploader.html:81
+#: default/templates/default/to-json.html:75
+#: default/templates/default/to-spreadsheet.html:87
 msgid "or drag and drop here."
 msgstr "o arrastre y suelte aquí"
 
@@ -625,7 +547,7 @@ msgstr ""
 "Genera una versión parcheada del esquema de Release con una o más "
 "extensiones OCDS."
 
-#: default/templates/default/mapping_sheet.html:101
+#: default/templates/default/mapping_sheet.html:114
 msgid ""
 "Please provide one or more URLs to the <code>extension.json</code> file for "
 "each OCDS extension you want to use:"
@@ -633,7 +555,7 @@ msgstr ""
 "Favor indique una o más URLs del archivo <code>extension.json</code> por "
 "cada extensión OCDS que desee:"
 
-#: default/templates/default/mapping_sheet.html:127
+#: default/templates/default/mapping_sheet.html:140
 msgid "Generate"
 msgstr "Generar"
 
@@ -664,6 +586,8 @@ msgstr ""
 msgid "The options available for input files are:"
 msgstr "Las opciones disponibles para los archivos de entrada son:"
 
+# msgid "The options available for input files are:"
+# msgstr "Las opciones disponibles para los archivos de entrada son:"
 #: default/templates/default/snippets/input-options/input_description.html:7
 msgid "Upload files:"
 msgstr "Subir archivos:"
@@ -713,13 +637,13 @@ msgid "Published date:"
 msgstr "Fecha de Publicación:"
 
 #: default/templates/default/snippets/unflatten-options-modal.html:7
-#: default/templates/default/to-spreadsheet.html:106
+#: default/templates/default/to-spreadsheet.html:101
 msgid "Options"
 msgstr "Opciones"
 
 #: default/templates/default/snippets/unflatten-options-modal.html:30
-msgid "Please choose at least one output format."
-msgstr "Elija un tipo de operación"
+msgid "Please choose at least one output format"
+msgstr "Por favor elija al menos un tipo de operación"
 
 #: default/templates/default/snippets/unflatten-options-modal.html:42
 msgid "Filter data by field"
@@ -737,8 +661,8 @@ msgstr "Por favor espere..."
 msgid "Close"
 msgstr "Cerrar"
 
-#: default/templates/default/to-json.html:23
-#: default/templates/default/to-spreadsheet.html:28
+#: default/templates/default/to-json.html:15
+#: default/templates/default/to-spreadsheet.html:42
 msgid ""
 "Please verify that the file is valid OCDS JSON, and try again in a few "
 "minutes."
@@ -756,21 +680,7 @@ msgstr ""
 "\"https://standard.open-contracting.org/latest/es/schema/release_package/\" "
 "target=\"_blank\">paquete de release</a>."
 
-#: default/templates/default/to-json.html:39
-#: default/templates/default/to-spreadsheet.html:44
-msgid ""
-"Upload no more than one file by dragging and dropping in the box below or "
-"using the <strong>Add a file</strong> link."
-msgstr ""
-"Suba no mas de un archivo arrastrándolo y soltándolo en la caja de abajo o "
-"usando el enlace <strong>Agregue un archivo</strong>."
-
-#: default/templates/default/to-json.html:43
-#: default/templates/default/to-spreadsheet.html:48
-msgid "Provide a single URL to a file."
-msgstr "Ingresa una sola URL al archivo."
-
-#: default/templates/default/to-json.html:47
+#: default/templates/default/to-json.html:28
 msgid ""
 "The input CSV files must be compressed at the root of a ZIP file if there is "
 "more than one file, and the Excel file must be an XLSX file. Please verify "
@@ -784,8 +694,7 @@ msgstr ""
 "herramienta <a href=\"https://flatten-tool.readthedocs.io/en/latest/usage-"
 "ocds/\" target=\"_blank\">Flatten Tool</a> para OCDS."
 
-#: default/templates/default/to-json.html:138
-#: default/templates/default/to-spreadsheet.html:135
+#: default/templates/default/to-json.html:101
 msgid "Added:"
 msgstr "Añadido:"
 
@@ -797,7 +706,7 @@ msgstr ""
 "¡Ha ocurrido un error! Por favor verifique que todos sus archivos son "
 "válidos  de acuerdo al estándar OCDS, e intente de nuevo en unos minutos."
 
-#: default/templates/default/to-spreadsheet.html:51
+#: default/templates/default/to-spreadsheet.html:48
 msgid ""
 "Use this page to convert a <a href=\"https://standard.open-contracting.org/"
 "latest/en/schema/release_package/\" target=\"_blank\">release package</a> to "
@@ -807,11 +716,11 @@ msgstr ""
 "contracting.org/latest/es/schema/release_package/\" target=\"_blank"
 "\">paquete de release</a> a su versión CSV y Excel."
 
-#: default/templates/default/to-spreadsheet.html:96
+#: default/templates/default/to-spreadsheet.html:91
 msgid "Change"
 msgstr "Cambiar"
 
-#: default/templates/default/upgrade.html:10
+#: default/templates/default/upgrade.html:9
 msgid ""
 "Use this tool to update <a href=\"https://standard.open-contracting.org/"
 "latest/en/getting_started/releases_and_records/#releases\" target=\"_blank"
@@ -840,49 +749,48 @@ msgstr "Borrar"
 msgid "Processing..."
 msgstr "Procesando..."
 
-#: default/util.py:65
+#: default/util.py:84
 msgid "Not a record package"
 msgstr "No es un paquete de records"
 
-#: default/util.py:68
+#: default/util.py:87
 msgid "Not a release package"
 msgstr "No es un paquete de releases"
 
-#: default/util.py:71
+#: default/util.py:90
 msgid "Not a release or package"
 msgstr "No es un release o paquete"
 
-#: default/util.py:75
+#: default/util.py:94
 msgid "Not a package or list of packages"
 msgstr "No es un paquete o lista de paquetes"
 
-#: default/util.py:79
+#: default/util.py:98
 msgid "Not a release or list of releases"
 msgstr "No es un release o lista de releases"
 
-#: default/util.py:81
+#: default/util.py:100
 #, python-format
 msgid "\"%(type)s\" not recognized"
 msgstr "No se reconoce \"%(type)s\""
 
-#: default/util.py:83
+#: default/util.py:102
 msgid "Error decoding JSON"
 msgstr "Error al decodificar JSON"
 
-#: default/views.py:105
+#: default/views.py:115
 msgid "There was an error retrieving the schema requested"
 msgstr "Hubo un error al obtener el esquema solicitado"
 
-#: default/views.py:286
-#: default/views.py:164
+#: default/views.py:183
 msgid "No valid option selected"
 msgstr "No se seleccionó ninguna opción válida"
 
-#: default/views.py:304
+#: default/views.py:319
 msgid "Enter a valid URL."
 msgstr "Introduzca una URL válida."
 
-#: default/views.py:289
+#: default/views.py:323
 msgid ""
 "There was an error when trying to access this URL. Please verify that the "
 "URL is correct and the file has the expected format."
@@ -890,22 +798,22 @@ msgstr ""
 "Se produjo un error al intentar acceder a esta URL. Favor verifique que la "
 "URL sea correcta y el archivo tenga el formato esperado."
 
-#: default/views.py:349 default/views.py:357
+#: default/views.py:381 default/views.py:389
 msgid "File not found"
 msgstr "Archivo no encontrado"
 
-#: default/views.py:355
+#: default/views.py:387
 msgid "File deleted"
 msgstr "Archivo eliminado"
 
-#: default/views.py:401
+#: default/views.py:414
 msgid "Invalid request, authentication process has not been started."
 msgstr "Solicitud inválida, el proceso de autenticación no ha sido iniciado"
 
-#: ocdstoucan/settings.py:140
+#: ocdstoucan/settings.py:145
 msgid "English"
 msgstr "Inglés"
 
-#: ocdstoucan/settings.py:141
+#: ocdstoucan/settings.py:146
 msgid "Spanish"
 msgstr "Español"
