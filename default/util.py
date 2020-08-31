@@ -102,33 +102,30 @@ def invalid_request_file_message(f, file_type):
         return _('Error decoding JSON')
 
 
-def get_schema_field_list(option):
+def get_schema_field_lists(option):
 
-    def make_list():
+    def make_lists():
         buff = io.StringIO(newline='')
         schema = jsonref.load_uri(option)
         mapping_sheet_method(schema, buff, infer_required=True)
         path_list = []
-        option_list = []
+        top_level_fields = []
 
         csv_list = buff.getvalue().split('\n')
 
-        for row in csv_list:
+        for row in csv_list[1:]:
             element = row.split(',')
             if len(element) > 1:
                 path_list.append(element[1])
+                if '/' not in element[1] and element[5] not in ('object', 'array'):
+                    top_level_fields.append(element[1])
 
         path_list = list(set(path_list))
-        del(path_list[0])
-        path_list.sort()
 
-        for element in path_list:
-            option_list.append((element, element))
-
-        return tuple(option_list)
+        return tuple([(x, x) for x in path_list]), tuple([(x, x) for x in top_level_fields])
 
     key = get_cache_name('schema_val_options', option)
-    return cache.get_or_set(key, make_list, 60*60*24*2)
+    return cache.get_or_set(key, make_lists(), 60*60*24*2)
 
 
 def resolve_schema_refs(schema):

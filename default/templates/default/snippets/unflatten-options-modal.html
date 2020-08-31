@@ -4,6 +4,9 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
                 <h4 class="modal-title">{% trans "Options" %}</h4>
             </div>
             <div class="modal-body form-horizontal">
@@ -14,7 +17,7 @@
                             <input type="hidden" name="csrfmiddlewaretoken" value="{{csrf_token}}">
                             <div class="form-group">
                                 <label for="{{ form.schema.id_for_label }}" class="col-sm-4">
-                                    {{ form.schema.label }}
+                                    {{ form.schema.label }} *
                                 </label>
                                 <div class="col-sm-8">
                                     {{ form.schema }}
@@ -22,7 +25,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="{{ form.output_format.id_for_label }}" class="col-sm-4">
-                                    {{ form.output_format.label }}
+                                    {{ form.output_format.label }} *
                                 </label>
                                 <div class="col-sm-8">
                                     {{ form.output_format }}
@@ -33,7 +36,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="{{ form.use_titles.id_for_label }}"
-                                       class="col-sm-4">{{ form.use_titles.label }}</label>
+                                       class="col-sm-4">{{ form.use_titles.label }} *</label>
                                 <div class="col-sm-8">
                                     {{ form.use_titles }}
                                 </div>
@@ -49,7 +52,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="{{ form.remove_empty_schema_columns.id_for_label }}" class="col-sm-4">
-                                    {{ form.remove_empty_schema_columns.label }}
+                                    {{ form.remove_empty_schema_columns.label }} *
                                 </label>
                                 <div class="col-sm-8">
                                     {{ form.remove_empty_schema_columns }}
@@ -76,6 +79,7 @@
                         </div>
                     </div>
                 </form>
+                <span><small>* Mandatory fields</small></span>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary close-modal" data-dismiss="modal">{% trans "Close" %}</button>

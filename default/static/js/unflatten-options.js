@@ -4,7 +4,7 @@ var toucanApp = toucanApp || {};
     var _optionsCache = {};
 
     var outputFormatBox = $('input[name="output_format"]').parents('.form-group'),
-        filterField = $('input[name="filter_field"]'),
+        filterField = $('select[name="filter_field"]'),
         filterValue = $('input[name="filter_value"]'),
         filterBox = filterField.parents('.form-group'),
         alertBox = $('#unflatten-options-modal .alert.alert-danger'),
@@ -13,7 +13,9 @@ var toucanApp = toucanApp || {};
         progressBar = $('#unflatten-options .progress'),
         closeButton = $('.close-modal'),
         preserveFieldsContainer = $('#preserve-fields-container'),
-        preserveFieldsSearchInput = $('#preserve_fields_search')
+        preserveFieldsSearchInput = $('#preserve_fields_search'),
+        modal = $('#unflatten-options-modal'),
+        filterFieldEmptyText
     ;
 
     function showSchemaTree() {
@@ -53,14 +55,18 @@ var toucanApp = toucanApp || {};
 
     function validateFilters(e) {
         /* validate the filter options (filter-field, filter-value) */
-        if (e.type === 'keyup') {
+        if (e.type === 'keyup' || e.type === 'change') {
             removeError(filterBox);
-            return;
+            return true;
         }
-        if (filterField.val()
-            && !filterValue.val()
+        if ((filterField.val()
+            && !filterValue.val())
+            ||
+            (!filterField.val()
+            && filterValue.val())
         ) {
             addError(filterBox);
+            return false;
         } else if (filterBox.hasClass('has-error')) {
             removeError(filterBox);
         }
@@ -103,11 +109,25 @@ var toucanApp = toucanApp || {};
                     url: schemaSelected
                 }
             }).done(function(data){
-                createSchemaOptionsTree(data, schemaSelected)
+                createSchemaOptionsTree(data, schemaSelected);
+                loadFilterFieldOptions(data);
             });
         } else {
             createSchemaOptionsTree(_optionsCache[schemaSelected]);
+            loadFilterFieldOptions(_optionsCache[schemaSelected]);
         }
+    }
+
+    function loadFilterFieldOptions(data){
+        var ul = $.parseHTML(data.trim())[0];
+        var options = $(ul).children().filter(':not(:has(*))').map(function(i, el){
+            return $(el).text().trim();
+        }).get();
+        var htmlOptions = '<option value="">&lt;' + filterFieldEmptyText + '&gt;</option>';
+        $.each(options, function(i, el){
+            htmlOptions = htmlOptions + '<option value="'+ el + '">' + el + '</option>';
+        });
+        filterField.html(htmlOptions);
     }
 
     function setPreserveFields() {
@@ -148,12 +168,18 @@ var toucanApp = toucanApp || {};
         $('.form-group').removeClass('has-error');
     };
 
+    namespace.setFilterFieldEmptyText = function(text){
+        filterFieldEmptyText = text;
+    };
+
     outputFormatBox.change(validateOutputFormat);
     filterValue.blur(validateFilters);
     filterValue.keyup(validateFilters);
+    filterField.change(validateFilters);
     schemaSelector.change(loadSchemaOptions);
     closeButton.click(setPreserveFields);
     preserveFieldsSearchInput.typeWatch({ callback: searchInTree });
+    modal.on('hide.bs.modal', validateFilters);
 
     $(document).ready(loadSchemaOptions);
 

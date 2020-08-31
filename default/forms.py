@@ -1,7 +1,7 @@
 from django import forms
 from django.utils.translation import gettext_lazy as _
 
-from default.util import get_schema_field_list, ocds_tags
+from default.util import get_schema_field_lists, ocds_tags
 
 
 def _get_extension_keys(data):
@@ -116,9 +116,11 @@ class UnflattenOptionsForm(forms.Form):
                                    choices=((True, _('Yes')), (False, _('No'))),
                                    widget=forms.Select(attrs={'class': 'form-control'}),
                                    initial=False)
-    filter_field = forms.CharField(required=False,
-                                   help_text=_('Enter the field (top level fields only)'),
-                                   widget=forms.TextInput(attrs={'class': 'form-control'}))
+    filter_field = forms.ChoiceField(required=False,
+                                     help_text=_('Select the field (top level fields only)'),
+                                     widget=forms.Select(attrs={'class': 'form-control'}),
+                                     error_messages={'invalid_choice': _('%(value)s is not a valid choice. Choose a '
+                                                                         'valid field from the schema selected.')})
     filter_value = forms.CharField(required=False,
                                    help_text=_('Enter a value'),
                                    widget=forms.TextInput(attrs={'class': 'form-control'}))
@@ -141,7 +143,9 @@ class UnflattenOptionsForm(forms.Form):
         except forms.ValidationError:
             schema_valid = False
         if self.is_bound and schema_valid:
-            self.fields['preserve_fields'].choices = get_schema_field_list(self.data.get('schema'))
+            preserve_fields_choices, top_level_fields_choices = get_schema_field_lists(self.data.get('schema'))
+            self.fields['preserve_fields'].choices = preserve_fields_choices
+            self.fields['filter_field'].choices = top_level_fields_choices
 
     def clean_output_format(self):
         return 'all' if len(self.cleaned_data['output_format']) > 1 else self.cleaned_data['output_format'][0]
@@ -155,8 +159,10 @@ class UnflattenOptionsForm(forms.Form):
     def clean(self):
         cleaned_data = super().clean()
 
-        if bool(cleaned_data['filter_field']) ^ bool(cleaned_data['filter_value']):
-            self.add_error('filter_field', _('Define both the field and value to filter data'))
+        # filter_field is not validated if schema is invalid
+        if 'schema' in cleaned_data.keys():
+            if bool(cleaned_data['filter_field']) ^ bool(cleaned_data['filter_value']):
+                self.add_error('filter_field', _('Define both the field and value to filter data'))
 
     def non_empty_values(self):
         return {key: value for key, value in self.cleaned_data.items() if value}

@@ -38,6 +38,20 @@ class ToSpreadsheetTestCase(ViewTestCase, ViewTests):
                 for name in results['xlsx']:
                     self.assertEqual(actual.read(name), expected.read(name))
 
+    def _test_validation_errors(self, options, response_expected):
+        file = 'tests/fixtures/1.1/release-packages/ocds-213czf-000-00001.json'
+
+        with open(file) as fd:
+            response = self.client.post('/upload/', {'file': fd, 'type': 'release-package'})
+            self.assertEqual(response.status_code, 200)
+
+        response = self.client.post(self.url + 'go/', data=options)
+        self.assertEqual(response.status_code, 400)
+
+        content = response.content.decode('utf-8')
+
+        self.assertEqual(json.dumps(response_expected), content)
+
     def test_go_with_files(self):
         self.files = [
             '1.1/release-packages/0001-tender.json',
@@ -99,8 +113,6 @@ class ToSpreadsheetTestCase(ViewTestCase, ViewTests):
         self.assertPostResults(results, options, xlsx_path='results/flattened-with-options.xlsx')
 
     def test_validation_errors(self):
-        file = 'tests/fixtures/1.1/release-packages/ocds-213czf-000-00001.json'
-
         options = {
             'filter_field': 'ocid'
         }
@@ -110,21 +122,29 @@ class ToSpreadsheetTestCase(ViewTestCase, ViewTests):
                 'schema': ['This field is required.'],
                 'output_format': ['This field is required.'],
                 'use_titles': ['This field is required.'],
-                'remove_empty_schema_columns': ['This field is required.'],
+                'filter_field': ['ocid is not a valid choice. Choose a valid field from the schema selected.'],
+                'remove_empty_schema_columns': ['This field is required.']
+            }
+        }
+
+        self._test_validation_errors(options, response_expected)
+
+    def test_filter_validation_errors(self):
+        options = {
+            'schema': 'https://standard.open-contracting.org/1.1/en/release-schema.json',
+            'output_format': ['xlsx'],
+            'use_titles': 'True',
+            'filter_field': 'ocid',
+            'remove_empty_schema_columns': False
+        }
+
+        response_expected = {
+            'form_errors': {
                 'filter_field': ['Define both the field and value to filter data']
             }
         }
 
-        with open(file) as fd:
-            response = self.client.post('/upload/', {'file': fd, 'type': 'release-package'})
-            self.assertEqual(response.status_code, 200)
-
-        response = self.client.post(self.url + 'go/', data=options)
-        self.assertEqual(response.status_code, 400)
-
-        content = response.content.decode('utf-8')
-
-        self.assertEqual(json.dumps(response_expected), content)
+        self._test_validation_errors(options, response_expected)
 
     def test_get_schema_options(self):
         options_url = self.url + 'get-schema-options'
