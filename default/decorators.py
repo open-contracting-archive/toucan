@@ -53,3 +53,14 @@ def clear_drive_session_vars(function):
                 request.session.pop(key, None)
         return val
     return wrap
+
+
+def require_get_param(param_name):
+    def decorator(function):
+        @wraps(function)
+        def wrap(request, *args, **kwargs):
+            if param_name not in request.GET:
+                return JsonResponse({'error': _('The {} parameter is required'.format(param_name))}, status=400)
+            return function(request, *args, **kwargs)
+        return wrap
+    return decorator

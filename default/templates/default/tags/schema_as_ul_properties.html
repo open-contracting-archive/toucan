@@ -1,0 +1,24 @@
+{% load flatten_options_tags_filters %}
+
+{% for key, value in properties|items_method %}
+    {% with path=key|get_path:prefix %}
+        {% if not omitDeprecated or not 'deprecated' in value.keys %}
+            <li
+                    data-jstree='{% jstree_data path value %}'
+                    data-path="{{ path }}"
+            >
+            {{ key }}
+            {% if value.properties|length %}
+                <ul>
+                {% include "default/tags/schema_as_ul_properties.html" with properties=value.properties prefix=path %}
+                </ul>
+            {% endif %}
+            {% if 'items' in value.keys and value.items.properties %}
+                <ul>
+                {% include "default/tags/schema_as_ul_properties.html" with properties=value.items.properties prefix=path %}
+                </ul>
+            {% endif %}
+            </li>
+        {% endif %}
+    {% endwith %}
+{% endfor %}
