@@ -38,7 +38,7 @@ class MappingSheetTestCase(TestCase):
             self.assertIn('<ul class="errorlist"><li>', content)
         self.assertIn(message, content)
 
-    @patch('default.forms._get_tags')
+    @patch('default.util.ocds_tags')
     def test_get(self, mocked):
         mocked.return_value = ('1__0__0', '1__0__1')
 
@@ -74,7 +74,7 @@ class MappingSheetTestCase(TestCase):
                 'custom_file': f,
             })
 
-    @patch('default.forms._get_tags')
+    @patch('default.util.ocds_tags')
     def test_get_extension(self, mocked):
         mocked.return_value = ('1__1__3', '1__1__4')
 
@@ -86,7 +86,7 @@ class MappingSheetTestCase(TestCase):
             ]
         })
 
-    @patch('default.forms._get_tags')
+    @patch('default.util.ocds_tags')
     def test_post_extension(self, mocked):
         mocked.return_value = ('1__1__3', '1__1__4')
 

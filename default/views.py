@@ -26,7 +26,7 @@ from default.google_drive import get_credentials_from_session, google_api_messag
 from default.mapping_sheet import (get_extended_mapping_sheet, get_mapping_sheet_from_uploaded_file,
                                    get_mapping_sheet_from_url)
 from default.util import (get_files_from_session, invalid_request_file_message, json_response, make_package,
-                          ocds_command)
+                          ocds_command, ocds_tags)
 
 
 def get_datafile_filename(folder, id, format):
@@ -230,7 +230,7 @@ def mapping_sheet(request):
             if 'version' in request.GET:
                 version = request.GET['version']
             else:
-                version = '1__1__4'
+                version = ocds_tags()[-1]
             return get_extended_mapping_sheet(request.GET.getlist('extension'), version, as_response=True)
 
         form = MappingSheetOptionsForm()
@@ -400,9 +400,7 @@ def uploadfile(request):
     else:
         data_file.write(request_file)
 
-    if 'files' not in request.session:
-        request.session['files'] = []
-    request.session['files'].append(data_file.as_dict())
+    request.session.setdefault('files', []).append(data_file.as_dict())
     # https://docs.djangoproject.com/en/2.2/topics/http/sessions/#when-sessions-are-saved
     request.session.modified = True
 
