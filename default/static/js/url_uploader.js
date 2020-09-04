@@ -5,15 +5,6 @@
             $('.input-url-container .btn.input-delete').attr('disabled', true);
         }
     };
-    $('.choice-header').on('change', function() {
-        if ($(this).is(':checked')) {
-            var allClasses = $(this).attr('class');
-            var operationIndex = allClasses.search(/toucan-nav-[^\s]+/);
-            var operationClass = allClasses.substring(operationIndex);
-            $('.panel-collapse.collapse ').not(this).collapse('hide');
-            $('.panel-collapse.collapse.' + operationClass).collapse('show');
-        }
-    });
     $('#add-url').click(function () {
         var numInputs = $('.input-url-container').children().length;
         $('.input-url-container .btn.btn-danger').attr('disabled', false);
