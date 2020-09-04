@@ -168,7 +168,7 @@ var toucanApp = toucanApp || {};
     }
 
     function upload() {
-        if (executeValidators() == false){
+        if (!executeValidators()){
             return;
         }
         disableUploadButton();
@@ -200,7 +200,7 @@ var toucanApp = toucanApp || {};
     }
 
     function upload_url() {
-        if (executeValidators() == false){
+        if (!executeValidators()){
             return;
         }
         hideMessages();
