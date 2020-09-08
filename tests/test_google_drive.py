@@ -1,6 +1,5 @@
 import json
 from datetime import datetime
-
 from unittest.mock import patch
 
 from tests import ViewTestCase, ViewTests
@@ -11,10 +10,16 @@ class DriveTestCase(ViewTestCase, ViewTests):
     files = [
         '1.1/release-packages/0001-tender.json',
     ]
+    options = {
+        'schema': 'https://standard.open-contracting.org/1.1/en/release-schema.json',
+        'output_format': ['csv', 'xlsx'],
+        'use_titles': 'False',
+        'remove_empty_schema_columns': 'False'
+    }
 
     def _test_base(self, auth_response_success=True):
         # run the transformation as usual
-        file_response = self.upload_and_go({'type': 'release-package'})
+        file_response = self.upload_and_go({'type': 'release-package'}, method='post', data=self.options)
         self.assertIn('xlsx', file_response.keys())
         self.assertIn('driveUrl', file_response['xlsx'].keys())
 

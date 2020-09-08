@@ -98,3 +98,8 @@
 .panel-title a .control .glyphicon{
     top: 5px;
 }
+
+#tree-container{
+    height: 400px;
+    overflow-y: auto;
+}
