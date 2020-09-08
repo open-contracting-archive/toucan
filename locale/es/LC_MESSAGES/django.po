@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-09-03 21:21-0400\n"
+"POT-Creation-Date: 2020-09-08 10:11-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -26,11 +26,6 @@ msgstr ""
 "La fecha enviada es inválida: %(date)s, por lo que se omitió en los "
 "resultados."
 
-#: default/decorators.py:63
-msgid "The {} parameter is required"
-msgstr "El parámetro {} es requerido"
-
-#: default/forms.py:19 default/forms.py:25
 #: default/decorators.py:54
 msgid ""
 "An invalid split size was submitted, and therefore ignored. Default value is "
@@ -48,7 +43,11 @@ msgstr ""
 "La codificación %(encoding)s ... no se reconoce. Se utiliza la codificación "
 "'utf-8' por defecto."
 
-#: default/forms.py:18 default/forms.py:24
+#: default/decorators.py:102
+msgid "The {} parameter is required"
+msgstr "El parámetro {} es requerido"
+
+#: default/forms.py:19 default/forms.py:25
 msgid "Select a schema and version"
 msgstr "Seleccione un esquema y versión"
 
@@ -104,38 +103,47 @@ msgstr "Formatos de salida"
 msgid "Use titles instead of field names"
 msgstr "Usar títulos en lugar de nombres de campos"
 
-#: default/forms.py:116 default/forms.py:133
+#: default/forms.py:116 default/forms.py:135
 msgid "Yes"
 msgstr "Sí"
 
-#: default/forms.py:116 default/forms.py:133
+#: default/forms.py:116 default/forms.py:135
 msgid "No"
 msgstr "No"
 
 #: default/forms.py:120
-msgid "Enter the field (top level fields only)"
-msgstr "Ingrese el campo (sólo se aceptan campos de primer nivel)"
+msgid "Select the field (top level fields only)"
+msgstr "Seleccione el campo (sólo se aceptan campos de primer nivel)"
 
-#: default/forms.py:123
+#: default/forms.py:122
+#, python-format
+msgid ""
+"%(value)s is not a valid choice. Choose a valid field from the schema "
+"selected."
+msgstr ""
+"%(value)s no es una opción válida. Elija un campo válido del esquema "
+"seleccionado."
+
+#: default/forms.py:125
 msgid "Enter a value"
 msgstr "Ingrese un valor"
 
-#: default/forms.py:127
+#: default/forms.py:129
 msgid "Include the following fields only"
 msgstr "Incluir estos campos solamente"
 
-#: default/forms.py:128
+#: default/forms.py:130
 msgid ""
 "Use the tree to select the fields. Top-level required fields are disabled"
 msgstr ""
 "Use el árbol para seleccionar los campos. Los campos requeridos de primer "
 "nivel están deshabilitados."
 
-#: default/forms.py:132
+#: default/forms.py:134
 msgid "Remove empty schema columns"
 msgstr "Remover columnas vacías del esquema"
 
-#: default/forms.py:159
+#: default/forms.py:165
 msgid "Define both the field and value to filter data"
 msgstr "Defina el nombre del campo y un valor para el filtro de datos"
 
@@ -165,7 +173,7 @@ msgstr "menos"
 
 #: default/templates/default/base-tool.html:29
 #: default/templates/default/mapping_sheet.html:43
-#: default/templates/default/to-spreadsheet.html:13
+#: default/templates/default/to-spreadsheet.html:14
 msgid "Success!"
 msgstr "¡Éxito!"
 
@@ -244,7 +252,7 @@ msgstr ""
 
 #: default/templates/default/base-uploader.html:37
 #: default/templates/default/to-json.html:52
-#: default/templates/default/to-spreadsheet.html:66
+#: default/templates/default/to-spreadsheet.html:73
 msgid "Provide the URL to a file:"
 msgstr "Provea la URL a un archivo:"
 
@@ -257,20 +265,19 @@ msgstr "Añadir URL"
 #: default/templates/default/base-uploader.html:93
 #: default/templates/default/to-json.html:60
 #: default/templates/default/to-json.html:89
-#: default/templates/default/to-spreadsheet.html:74
-#: default/templates/default/to-spreadsheet.html:103
+#: default/templates/default/to-spreadsheet.html:105
 msgid "Start"
 msgstr "Procesar"
 
 #: default/templates/default/base-uploader.html:81
 #: default/templates/default/to-json.html:82
-#: default/templates/default/to-spreadsheet.html:96
+#: default/templates/default/to-spreadsheet.html:86
 msgid "Add a file"
 msgstr "Agregue un archivo"
 
 #: default/templates/default/base-uploader.html:81
 #: default/templates/default/to-json.html:83
-#: default/templates/default/to-spreadsheet.html:97
+#: default/templates/default/to-spreadsheet.html:87
 msgid "or drag and drop here."
 msgstr "o arrastre y suelte aquí"
 
@@ -433,11 +440,11 @@ msgid "Generate a spreadsheet version of schema"
 msgstr "Generar una planilla del esquema"
 
 #: default/templates/default/index.html:79
-#: default/templates/default/to-spreadsheet.html:9
+#: default/templates/default/to-spreadsheet.html:10
 msgid "Convert to CSV/Excel"
 msgstr "Convertir a CSV/Excel"
 
-#: default/templates/default/index.html:79
+#: default/templates/default/index.html:89
 #: default/templates/default/to-json.html:9
 msgid "Convert to JSON"
 msgstr "Convertir a JSON"
@@ -696,28 +703,32 @@ msgstr "Paquete de Record"
 msgid "Published date:"
 msgstr "Fecha de Publicación:"
 
-#: default/templates/default/snippets/unflatten-options-modal.html:7
+#: default/templates/default/snippets/unflatten-options-modal.html:10
 #: default/templates/default/to-spreadsheet.html:101
 msgid "Options"
 msgstr "Opciones"
 
-#: default/templates/default/snippets/unflatten-options-modal.html:30
+#: default/templates/default/snippets/unflatten-options-modal.html:33
 msgid "Please choose at least one output format"
 msgstr "Por favor elija al menos un tipo de operación"
 
-#: default/templates/default/snippets/unflatten-options-modal.html:42
+#: default/templates/default/snippets/unflatten-options-modal.html:45
 msgid "Filter data by field"
 msgstr "Filtrar los datos por campo"
 
-#: default/templates/default/snippets/unflatten-options-modal.html:66
+#: default/templates/default/snippets/unflatten-options-modal.html:69
 msgid "Search"
 msgstr "Buscar"
 
-#: default/templates/default/snippets/unflatten-options-modal.html:69
+#: default/templates/default/snippets/unflatten-options-modal.html:72
 msgid "Please wait..."
 msgstr "Por favor espere..."
 
-#: default/templates/default/snippets/unflatten-options-modal.html:81
+#: default/templates/default/snippets/unflatten-options-modal.html:82
+msgid "* Mandatory fields"
+msgstr "* Campos obligatorios"
+
+#: default/templates/default/snippets/unflatten-options-modal.html:85
 msgid "Close"
 msgstr "Cerrar"
 
@@ -798,7 +809,6 @@ msgstr ""
 "ocds/\" target=\"_blank\">Flatten Tool</a> para OCDS."
 
 #: default/templates/default/to-json.html:109
-#: default/templates/default/to-spreadsheet.html:123
 msgid "Added:"
 msgstr "Añadido:"
 
@@ -824,7 +834,11 @@ msgstr ""
 msgid "Change"
 msgstr "Cambiar"
 
-#: default/templates/default/upgrade.html:9
+#: default/templates/default/to-spreadsheet.html:137
+msgid "No filter"
+msgstr "Sin filtro"
+
+#: default/templates/default/upgrade.html:10
 msgid ""
 "Use this tool to update <a href=\"https://standard.open-contracting.org/"
 "latest/en/getting_started/releases_and_records/#releases\" target=\"_blank"
@@ -882,19 +896,19 @@ msgstr "No se reconoce \"%(type)s\""
 msgid "Error decoding JSON"
 msgstr "Error al decodificar JSON"
 
-#: default/views.py:115
+#: default/views.py:125
 msgid "There was an error retrieving the schema requested"
 msgstr "Hubo un error al obtener el esquema solicitado"
 
-#: default/views.py:183
+#: default/views.py:242
 msgid "No valid option selected"
 msgstr "No se seleccionó ninguna opción válida"
 
-#: default/views.py:319
+#: default/views.py:371
 msgid "Enter a valid URL."
 msgstr "Introduzca una URL válida."
 
-#: default/views.py:323
+#: default/views.py:375
 msgid ""
 "There was an error when trying to access this URL. Please verify that the "
 "URL is correct and the file has the expected format."
@@ -902,22 +916,22 @@ msgstr ""
 "Se produjo un error al intentar acceder a esta URL. Favor verifique que la "
 "URL sea correcta y el archivo tenga el formato esperado."
 
-#: default/views.py:421 default/views.py:429
+#: default/views.py:433 default/views.py:441
 msgid "File not found"
 msgstr "Archivo no encontrado"
 
-#: default/views.py:427
+#: default/views.py:439
 msgid "File deleted"
 msgstr "Archivo eliminado"
 
-#: default/views.py:454
+#: default/views.py:466
 msgid "Invalid request, authentication process has not been started."
 msgstr "Solicitud inválida, el proceso de autenticación no ha sido iniciado"
 
-#: ocdstoucan/settings.py:145
+#: ocdstoucan/settings.py:144
 msgid "English"
 msgstr "Inglés"
 
-#: ocdstoucan/settings.py:146
+#: ocdstoucan/settings.py:145
 msgid "Spanish"
 msgstr "Español"
