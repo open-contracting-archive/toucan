@@ -20,7 +20,7 @@ def read(filename, mode='rt', encoding=None, **kwargs):
 class ViewTestCase(TestCase):
     maxDiff = None
 
-    def upload_and_go(self, upload_data=None, data=None, mode='r'):
+    def upload_and_go(self, upload_data=None, data=None, mode='r', method='get'):
         if upload_data is None:
             upload_data = {}
         if data is None:
@@ -31,7 +31,7 @@ class ViewTestCase(TestCase):
                 upload_data['file'] = f
                 self.client.post('/upload/', upload_data)
 
-        response = self.client.get(self.url + 'go/', data)
+        response = getattr(self.client, method)(self.url + 'go/', data)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response['Content-Type'], 'application/json')
 

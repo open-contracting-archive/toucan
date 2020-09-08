@@ -47,7 +47,7 @@
     float: left;
     margin-right: 10px;
     margin-top: -8px;
-    color: #9BAF00; 
+    color: #9BAF00;
 }
 .schema-nav {
     margin-bottom: 10px;
@@ -93,4 +93,9 @@
 
 .panel-title a .control .glyphicon{
     top: 5px;
+}
+
+#tree-container{
+    height: 400px;
+    overflow-y: auto;
 }

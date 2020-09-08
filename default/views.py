@@ -1,12 +1,12 @@
 import json
 import os
 import shutil
-import warnings
 from collections import OrderedDict
 from urllib.parse import urlparse
 from zipfile import ZIP_DEFLATED, ZipFile
 
 import flattentool
+from django.core.cache import cache
 from django.http import FileResponse, Http404, HttpResponse, JsonResponse
 from django.shortcuts import render
 from django.utils.translation import gettext as _
@@ -20,13 +20,13 @@ from requests.exceptions import ConnectionError, HTTPError, SSLError
 
 from default.data_file import DataFile
 from default.decorators import (clear_drive_session_vars, clear_files, published_date, require_files,
-                                validate_optional_args, validate_split_size)
-from default.forms import MappingSheetOptionsForm
+                                require_get_param, validate_optional_args, validate_split_size)
+from default.forms import MappingSheetOptionsForm, UnflattenOptionsForm
 from default.google_drive import get_credentials_from_session, google_api_messages, upload_to_drive
 from default.mapping_sheet import (get_extended_mapping_sheet, get_mapping_sheet_from_uploaded_file,
                                    get_mapping_sheet_from_url)
-from default.util import (get_files_from_session, invalid_request_file_message, json_response, make_package,
-                          ocds_command, ocds_tags)
+from default.util import (flatten, get_cache_name, get_files_from_session, invalid_request_file_message, json_response,
+                          make_package, ocds_command, ocds_tags, resolve_schema_refs)
 
 
 def get_datafile_filename(folder, id, format):
@@ -64,7 +64,7 @@ def index(request):
 
 @clear_files
 def to_spreadsheet(request):
-    return render(request, 'default/to-spreadsheet.html')
+    return render(request, 'default/to-spreadsheet.html', {'form': UnflattenOptionsForm()})
 
 
 @clear_files
@@ -105,6 +105,24 @@ def perform_upgrade(request, pretty_json=False, encoding='utf-8', warnings=None)
         data.update({file.name_with_suffix('upgraded'): upgrade_10_11(
             file.json(codec=encoding, object_pairs_hook=OrderedDict))})
     return json_response(data, warnings, pretty_json, encoding)
+
+
+@require_GET
+@require_get_param('url')
+def get_schema_as_options(request):
+    try:
+        key = get_cache_name('schema_options', request.GET.get('url'))
+        omit_deprecated = request.GET.get('omitDeprecated', 'true')
+        schema = cache.get(key)
+        if not schema:
+            response = requests.get(request.GET.get('url'))
+            response.raise_for_status()
+            schema = resolve_schema_refs(json.loads(response.text))
+            cache.set(key, schema, 60*60*24*2)
+        return render(request, 'default/flatten_schema_options.html',
+                      {'schema': schema, 'omitDeprecated': omit_deprecated == 'true'})
+    except Exception:
+        return HttpResponse(_('There was an error retrieving the schema requested'), status=500)
 
 
 @require_files
@@ -240,45 +258,41 @@ def mapping_sheet(request):
 
 
 @require_files
+@require_POST
 def perform_to_spreadsheet(request):
     input_file = next(get_files_from_session(request))
     output_dir = DataFile('flatten', '', input_file.id, input_file.folder)
 
-    config = LibCoveOCDSConfig().config
-    with warnings.catch_warnings():
-        warnings.filterwarnings('ignore')  # flattentool uses UserWarning, so we can't set a specific category
+    form = UnflattenOptionsForm(request.POST)
 
-        flattentool.flatten(
-            input_file.path,
-            output_name=output_dir.path,
-            main_sheet_name=config['root_list_path'],
-            root_list_path=config['root_list_path'],
-            root_id=config['root_id'],
-            schema=config['schema_version_choices']['1.1'][1] + 'release-schema.json',
-            disable_local_refs=config['flatten_tool']['disable_local_refs'],
-            remove_empty_schema_columns=config['flatten_tool']['remove_empty_schema_columns'],
-            root_is_list=False,
-        )
+    if not form.is_valid():
+        return JsonResponse({'form_errors': dict(form.errors)}, status=400)
 
-    # Create a ZIP file of the CSV files, and delete the output CSV files.
-    csv_zip = DataFile('flatten-csv', '.zip', id=input_file.id, folder=input_file.folder)
-    with ZipFile(csv_zip.path, 'w', compression=ZIP_DEFLATED) as zipfile:
-        for filename in os.listdir(output_dir.path):
-            zipfile.write(os.path.join(output_dir.path, filename), filename)
-    shutil.rmtree(output_dir.path)
+    flatten(input_file, output_dir, form.non_empty_values())
 
-    return JsonResponse({
-        'csv': {
+    response = {}
+    if form.cleaned_data['output_format'] == 'all' or form.cleaned_data['output_format'] == 'csv':
+        # Create a ZIP file of the CSV files, and delete the output CSV files.
+        csv_zip = DataFile('flatten-csv', '.zip', id=input_file.id, folder=input_file.folder)
+        with ZipFile(csv_zip.path, 'w', compression=ZIP_DEFLATED) as zipfile:
+            for filename in os.listdir(output_dir.path):
+                zipfile.write(os.path.join(output_dir.path, filename), filename)
+        shutil.rmtree(output_dir.path)
+
+        response['csv'] = {
             'url': input_file.url + 'csv.zip/',
             'size': csv_zip.size,
             'driveUrl': input_file.url.replace('result', 'google-drive-save-start') + 'csv.zip/'
-        },
-        'xlsx': {
+        }
+
+    if form.cleaned_data['output_format'] == 'all' or form.cleaned_data['output_format'] == 'xlsx':
+        response['xlsx'] = {
             'url': input_file.url + 'xlsx/',
             'size': os.path.getsize(output_dir.path + '.xlsx'),
             'driveUrl': input_file.url.replace('result', 'google-drive-save-start') + 'xlsx/'
         }
-    })
+
+    return JsonResponse(response)
 
 
 @require_files
@@ -470,7 +484,9 @@ def google_drive_save_start(request, folder, id, format=None):
     request.session['google_drive_file'] = file.as_dict()
     credentials = get_credentials_from_session(request)
 
-    if credentials:
+    # credentials must be valid
+    # in the case there is no refresh_token, we should prompt the user for authentication again
+    if credentials and (credentials.valid or credentials.refresh_token):
         request.session['auth_status'] = 'completed'
         return upload_to_drive(request)
 

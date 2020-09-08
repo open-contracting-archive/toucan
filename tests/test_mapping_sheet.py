@@ -56,9 +56,9 @@ class MappingSheetTestCase(TestCase):
         })
 
     def test_post_select(self):
-        self.assertSuccess('post', 'results/mapping-sheet.csv', {
+        self.assertSuccess('post', 'results/mapping-sheet-2.csv', {
             'type': 'select',
-            'select_url': 'https://standard.open-contracting.org/schema/1__1__4/release-schema.json',
+            'select_url': 'https://standard.open-contracting.org/1.1/en/release-schema.json',
         })
 
     def test_post_url(self):
