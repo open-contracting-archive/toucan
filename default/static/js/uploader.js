@@ -1,12 +1,17 @@
 var toucanApp = toucanApp || {};
 (function () {
     var app = this;
+    var _validatorList = [];
     var _fileItems = [];
     var _paramSetters = [];
     var _done = false;
 
     this.setParams = function (func) {
         _paramSetters.push(func);
+    };
+
+    this.addValidator = function (validator) {
+         _validatorList.push(validator);
     };
 
     /** functions **/
@@ -65,6 +70,22 @@ var toucanApp = toucanApp || {};
 
     function clearFiles(){
         _fileItems = [];
+    }
+
+    function executeValidators(){
+        is_valid = true;
+        $.each(_validatorList, function(i, e){
+            is_valid = is_valid && e();
+        });
+        return is_valid;
+    }
+
+    function showProcessingModal() {
+        $('#processing-modal').modal('show');
+    }
+
+    function hideProcessingModal() {
+        $('#processing-modal').modal('hide');
     }
 
     /** listeners **/
@@ -147,6 +168,9 @@ var toucanApp = toucanApp || {};
     }
 
     function upload() {
+        if (!executeValidators()){
+            return;
+        }
         disableUploadButton();
         disableAddFiles();
         hideMessages();
@@ -176,6 +200,9 @@ var toucanApp = toucanApp || {};
     }
 
     function upload_url() {
+        if (!executeValidators()){
+            return;
+        }
         hideMessages();
         $('#processing-modal .total-files')
             .html($('.input-url-container .form-group .input-group .form-control').length);
@@ -237,8 +264,10 @@ var toucanApp = toucanApp || {};
     $("#url-button").click(upload_url);
 
     window.onload = function () {
-        /* clear URL input text */
+        /* clear input values */
         $('#input_url_0 input').val('');
+        $('#encoding').val('utf-8');
+        $('#splitSize').val('1')
 
         /* add warning before closing/navigating away from page */
         window.addEventListener("beforeunload", function (e) {
@@ -254,4 +283,3 @@ var toucanApp = toucanApp || {};
     };
 
 }).apply(toucanApp);
-

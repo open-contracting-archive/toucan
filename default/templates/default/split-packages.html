@@ -1,0 +1,67 @@
+{% extends 'default/base-uploader.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block subtitle %} &gt;&gt; {% trans "Split Packages" %} {% endblock %}
+
+{% block form-options %}, "type": "package package-array"{% endblock %}
+
+{% block info_title %}
+    {% blocktrans trimmed %}
+        Use this tool to split
+        <a href="https://standard.open-contracting.org/latest/en/schema/release_package/" target="_blank">release packages</a>
+        or <a href="https://standard.open-contracting.org/latest/en/schema/record_package/" target="_blank">record package</a>
+        into smaller packages for each.
+    {% endblocktrans %}
+{% endblock info_title %}
+{% block info_content %}
+<p>
+    {% blocktrans trimmed %}
+        To change the <code>publishedDate</code> for the output package fill in the <strong>Published date</strong>
+        textbox and check the <strong>checkbox</strong> next to it.
+    {% endblocktrans %}
+    {% trans "Select the correct <strong>Package type</strong> option before starting." %}
+</p>
+<p>
+    {% trans "Enter the number of items (records or releases) per divided package in <strong>Items per Package</strong> box before start process." %}
+</p>
+<p>
+    {% trans "Check the <strong>Pretty JSON</strong> checkbox to get a pretty print on the output files." %}
+    {% trans "By default the output encoding is utf-8, you can change it in <strong>Encoding</strong> text box." %}
+</p>
+<p>
+    {% trans "Each input file must be a JSON file containing either a single package or an array of packages." %}
+</p>
+    {{ block.super }}
+{% endblock info_content %}
+
+{% block extraoptions %}
+<div class="form-group pull-right">
+    <div class="checkbox">
+        <input type="checkbox" id="change-published-date">
+    </div>
+</div>
+{% include "default/snippets/published_date.html" %}
+{% include "default/snippets/package_type.html" %}
+<div class="form-group" style="width: 25%;">
+    <label>{% trans "Items per Package:" %}</label>
+    <input type="number" id="splitSize" min="1" value="1" max="99" class="form-control" style="width: 25%;">
+</div>
+{% include "default/snippets/optional_arguments.html" %}
+{% endblock %}
+
+{% block scripts %}
+    {{ block.super }}
+    <script src="{% static "js/split-packages.js" %}"></script>
+    <script src="{% static "js/optional_arguments.js" %}"></script>
+    <script src="{% static "js/published_date.js" %}"></script>
+    <script type="text/javascript">
+    $('.opt-arg').attr('style', 'margin-top: 5px;');
+    var splitPackages = {};
+    (function(){
+        this.msj_warning = function () {
+            return '{% trans "An invalid split size was entered. Please change it to a valid number." %}'
+        };
+    }).apply(splitPackages);
+    </script>
+{% endblock %}

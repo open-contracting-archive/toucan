@@ -31,11 +31,19 @@
             target="_blank">Flatten Tool</a> for OCDS.
         {% endblocktrans %}
     </p>
+    <p>
+        {% trans "Check the <strong>Pretty JSON</strong> checkbox to get a pretty print on the output files." %}
+        {% trans "By default the output encoding is utf-8, you can change it in <strong>Encoding</strong> text box." %}
+    </p>
     {% include "default/snippets/input-options/input_description.html" %}
 {% endblock %}
 
 {% block content %}
     {% include "default/snippets/input-options/input_tabs.html" %}
+
+    <div class="action-extra-params form-inline"style="margin-bottom: 10px;">
+        {% include "default/snippets/optional_arguments.html" %}
+    </div>
 
     <div class="tab-content">
         <div role="tabpanel" class="tab-pane" id="urls">
@@ -114,11 +122,19 @@
                     .submit()
                     .done(function(){
                         toucanApp.showProcessingModal();
-                        $.ajax('/to-json/go/', { 'dataType': 'json' })
+                        pretty_json = $('#pretty-json').is(":checked");
+                        encoding = $('#encoding').val();
+                        $.ajax('/to-json/go/', { data: {'pretty-json': pretty_json, 'encoding': encoding}, 'dataType': 'json' })
                             .done(function(data){
                                 $('.response-success .file.download-link').attr('href', data.url);
                                 $('.response-success .file.size').html(utils.readableFileSize(data.size));
                                 $('.response-success .file.save-drive-link').attr('data-url', data.driveUrl);
+                                if (data.hasOwnProperty('warnings') && data.warnings.length > 0) {
+                                    $('.response-warning.action-failed').removeClass('hidden');
+                                    $('.response-warning.action-failed').html($.map(data.warnings, function (o) {
+                                        return '<li>' + o + '</li>'
+                                    }).join('\n'))
+                                }
                                 $('.response-success').removeClass('hidden');
                                 })
                             .fail(function(){
@@ -185,5 +201,5 @@
             e.preventDefault();
         });
     </script>
-{% include "default/snippets/url_uploader_scripts.html" %}
+<script src="{% static "js/url_uploader.js" %}"></script>
 {% endblock %}

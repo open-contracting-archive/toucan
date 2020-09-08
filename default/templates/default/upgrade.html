@@ -1,4 +1,5 @@
 {% extends 'default/base-uploader.html' %}
+{% load static %}
 {% load i18n %}
 
 {% block subtitle %} &gt;&gt; {% trans "Upgrade from 1.0 to 1.1" %} {% endblock %}
@@ -13,4 +14,18 @@
         <a href="https://standard.open-contracting.org/latest/en/schema/record_package/" target="_blank">record packages</a>
         to OCDS 1.1.
     {% endblocktrans %}
+</p>
+<p>
+    {% trans "Check the <strong>Pretty JSON</strong> checkbox to get a pretty print on the output files." %}
+    {% trans "By default the output encoding is utf-8, you can change it in <strong>Encoding</strong> text box." %}
+</p>
+{% endblock %}
+
+{% block extraoptions %}
+{% include "default/snippets/optional_arguments.html" %}
+{% endblock %}
+
+{% block scripts %}
+    {{ block.super }}
+    <script src="{% static "js/optional_arguments.js" %}"></script>
 {% endblock %}

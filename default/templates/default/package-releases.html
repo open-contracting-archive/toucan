@@ -1,4 +1,5 @@
 {% extends 'default/base-uploader.html' %}
+{% load static %}
 {% load i18n %}
 
 {% block subtitle %} &gt;&gt; {% trans "Create Release Packages" %}{% endblock %}
@@ -16,16 +17,22 @@
     {% trans "Fill in the <strong>Published date</strong> textbox to set <code>publishedDate</code> in the output package." %}
 </p>
 <p>
+    {% trans "Check the <strong>Pretty JSON</strong> checkbox to get a pretty print on the output files." %}
+    {% trans "By default the output encoding is utf-8, you can change it in <strong>Encoding</strong> text box." %}
+</p>
+<p>
     {% trans "Each input file must be a JSON file containing either one release or an array of releases." %}
 </p>
     {{ block.super }}
 {% endblock info_content %}
 
 {% block extraoptions %}
+{% include "default/snippets/optional_arguments.html" %}
 {% include "default/snippets/published_date.html" %}
 {% endblock %}
 
 {% block scripts %}
     {{ block.super }}
-    {% include "default/snippets/published_date_scripts.html" %}
+    <script src="{% static "js/optional_arguments.js" %}"></script>
+    <script src="{% static "js/published_date.js" %}"></script>
 {% endblock %}

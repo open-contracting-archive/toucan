@@ -44,6 +44,45 @@ def published_date(function):
     return wrap
 
 
+def validate_split_size(function):
+    @wraps(function)
+    def wrap(request, *args, **kwargs):
+        split_size = request.GET.get('splitSize')
+        if split_size.isdecimal():
+            kwargs['size'] = int(split_size)
+        else:
+            msg = _('An invalid split size was submitted, and therefore ignored. Default value is used, split size: 1')
+            if 'warnings' in kwargs:
+                kwargs['warnings'].append(msg)
+            else:
+                kwargs['warnings'] = [msg]
+        return function(request, *args, **kwargs)
+
+    return wrap
+
+
+def validate_optional_args(function):
+    @wraps(function)
+    def wrap(request, *args, **kwargs):
+        encoding = request.GET.get('encoding', 'utf-8')
+        try:
+            test_str = "test"
+            test_str.encode(encoding)
+            kwargs['encoding'] = encoding
+        except LookupError:
+            msg = _('Encoding %(encoding)s ... is not recognized. The default value \'utf-8\' was used.') % {
+                        'encoding': encoding,
+                    }
+            if 'warnings' in kwargs:
+                kwargs['warnings'].append(msg)
+            else:
+                kwargs['warnings'] = [msg]
+        kwargs['pretty_json'] = request.GET.get('pretty-json') == 'true'
+        return function(request, *args, **kwargs)
+
+    return wrap
+
+
 def clear_drive_session_vars(function):
     @wraps(function)
     def wrap(request, *args, **kwargs):
