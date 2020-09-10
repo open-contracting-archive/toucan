@@ -191,7 +191,7 @@ def perform_split_packages(request, pretty_json=False, published_date='', size=1
             content[package_data] = context[i:i + size]
             result.update({name: content})
 
-    return json_response(result, warnings, pretty_json, encoding)
+    return json_response(request, result, warnings, pretty_json, encoding)
 
 
 @require_files

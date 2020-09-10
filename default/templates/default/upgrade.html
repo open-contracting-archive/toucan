@@ -28,10 +28,6 @@
 {% block scripts %}
     {{ block.super }}
     <script src="{% static "js/optional_arguments.js" %}"></script>
-{% endblock %}
-
-{% block scripts %}
-    {{ block.super }}
     <script type="text/javascript">
         $('#upgrade').remove();
         $('.response-success .form-send').removeClass('hidden');
