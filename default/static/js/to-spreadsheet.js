@@ -7,6 +7,8 @@
         errorBox = $('.response-fail'),
         dropAreaFileLink = $('.drop-area-msg label'),
         urlInput = $('#input_url_0 input'),
+        infoSend = $('.info-send'),
+        actions = $('.actions'),
         urlHelpBlock = $('.input-url-container .help-block'),
         tabPanels = $('.nav.nav-tabs a')
     ;
@@ -21,19 +23,25 @@
         uploadButton.attr('disabled', 'disabled');
     }
 
-    function transformInServer() {
+    function transformInServer(send) {
         /* call the server to transform the files */
         // mask the page
         processingModal.modal('show');
+        data = $('#unflatten-options').serialize()
+        // check if results were sent
+        if (send === 'sendResult'){
+            data = data + '&sendResult=true&type=' + JSON.parse($('#fileupload').attr('data-form-data')).type;
+        }
+
         $.ajax('/to-spreadsheet/go/', {
              'dataType': 'json',
-             'data': $('#unflatten-options').serialize(),
+             'data': data,
              'method': 'POST'
             })
              .done(showLinksToResults)
              .fail(showActionErrorMessage)
              .always(function () {
-                 // hide the modal after the ajax call
+                // hide the modal after the ajax call
                 processingModal.modal('hide');
              })
         ;
@@ -126,6 +134,10 @@
         }
     }
 
+    function checkSendResult() {
+        return uploadButton.hasClass('sendResult');
+    }
+
     function uploadAndSubmitFile() {
         // we don't want to add any more files
         disableFileInput();
@@ -167,11 +179,16 @@
     }
 
     function send() {
-        if (getActiveTab() === 'url') {
-            sendUrlAndSubmit();
+        if (checkSendResult) {
+            transformInServer('sendResult');
         }
         else {
-            uploadAndSubmitFile();
+            if (getActiveTab() === 'url') {
+                sendUrlAndSubmit();
+            }
+            else {
+                uploadAndSubmitFile();
+            }
         }
     }
 
@@ -220,6 +237,29 @@
     $(document).ready(function(){
         // clear the input's value
         urlInput.val('');
+        // hide send feature description
+        infoSend.addClass('hidden');
         disableUploadButton();
+
+        // check if results were sent to this page
+        if (window.location.search == '?sendResult=true') {
+            processingModal.modal('show');
+            $.ajax('/send-result/validate/', {'dataType': 'json', type: 'GET'})
+                .done(function (data) {
+                    dropArea.removeClass('empty');
+                    dropArea.children('.drop-area-msg-empty').addClass('hidden');
+                    dropArea.children('.drop-area-received-msg').removeClass('hidden');
+                    $('.drop-area-received-msg .file-result').html(data);
+                    actions.removeClass('hidden');
+                    uploadButton.addClass('sendResult');
+                    enableUploadButton();
+                })
+                .fail(function () {
+                    errorBox.removeClass('hidden');
+                })
+                .always(function () {
+                    processingModal.modal('hide');
+                });
+        }
     });
 })();

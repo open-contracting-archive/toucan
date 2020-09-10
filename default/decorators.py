@@ -32,7 +32,8 @@ def require_files(function):
 def extract_last_result(function):
     @wraps(function)
     def wrap(request, *args, **kwargs):
-        send_result = request.GET.get('sendResult')
+        request_object = getattr(request, request.method)
+        send_result = request_object.get('sendResult')
         if 'files' in request.session and send_result:
             # Set files session to the last generated results
             for file in request.session['results']:
@@ -47,7 +48,7 @@ def extract_last_result(function):
                             zipfile.extract(f, path)
                             # Open the file to check if it is the correct type
                             with open(new_file.path, 'rb') as h:
-                                file_type = request.GET.get('type', None)
+                                file_type = request_object.get('type', None)
                                 message = invalid_request_file_message(h, file_type)
                                 if message:
                                     return HttpResponse(message, status=401)  # error 401 for invalid type
