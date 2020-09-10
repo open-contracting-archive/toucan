@@ -1,4 +1,5 @@
 {% extends 'default/base-uploader.html' %}
+{% load static %}
 {% load i18n %}
 
 {% block subtitle %} &gt;&gt; {% trans "Compile Releases" %} {% endblock %}
@@ -22,6 +23,10 @@
     {% endblocktrans %}
 </p>
 <p>
+    {% trans "Check the <strong>Pretty JSON</strong> checkbox to get a pretty print on the output files." %}
+    {% trans "By default the output encoding is utf-8, you can change it in <strong>Encoding</strong> text box." %}
+</p>
+<p>
     {% trans "Please verify that your files are release packages before uploading." %}
 </p>
     {{ block.super }}
@@ -29,11 +34,13 @@
 
 {% block extraoptions %}
 {% include "default/snippets/published_date.html" %}
-<div class="checkbox">
-    <label>
-        <input type="checkbox" class="include-versioned"> {% trans "Include Versioned Releases" %}
-    </label>
+<div class="form-group">
+    <label>{% trans "Include Versioned Releases: " %}</label>
+    <div class="checkbox">
+        <input type="checkbox" class="include-versioned">
+    </div>
 </div>
+{% include "default/snippets/optional_arguments.html" %}
 {% endblock %}
 
 {% block scripts %}
@@ -52,5 +59,6 @@
         });
     })();
     </script>
-    {% include "default/snippets/published_date_scripts.html" %}
+    <script src="{% static "js/optional_arguments.js" %}"></script>
+    <script src="{% static "js/published_date.js" %}"></script>
 {% endblock %}

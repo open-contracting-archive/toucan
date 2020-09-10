@@ -20,7 +20,7 @@ from requests.exceptions import ConnectionError, HTTPError, SSLError
 
 from default.data_file import DataFile
 from default.decorators import (clear_drive_session_vars, clear_files, extract_last_result, published_date,
-                                require_files, require_get_param)
+                                require_files, require_get_param, validate_optional_args, validate_split_size)
 from default.forms import MappingSheetOptionsForm, UnflattenOptionsForm
 from default.google_drive import get_credentials_from_session, google_api_messages, upload_to_drive
 from default.mapping_sheet import (get_extended_mapping_sheet, get_mapping_sheet_from_uploaded_file,
@@ -88,16 +88,24 @@ def combine_packages(request):
 
 
 @clear_files
+def split_packages(request):
+    return ocds_command(request, 'split-packages')
+
+
+@clear_files
 def upgrade(request):
     return ocds_command(request, 'upgrade')
 
 
 @require_files
 @extract_last_result
-def perform_upgrade(request):
-    return json_response(request,
-                         ((file.name_with_suffix('upgraded'), upgrade_10_11(file.json(object_pairs_hook=OrderedDict)))
-                          for file in get_files_from_session(request)))
+@validate_optional_args
+def perform_upgrade(request, pretty_json=False, encoding='utf-8', warnings=None):
+    data = {}
+    for file in get_files_from_session(request):
+        data.update({file.name_with_suffix('upgraded'): upgrade_10_11(
+            file.json(codec=encoding, object_pairs_hook=OrderedDict))})
+    return json_response(request, data, warnings, pretty_json, encoding)
 
 
 @require_GET
@@ -121,33 +129,82 @@ def get_schema_as_options(request):
 @require_files
 @extract_last_result
 @published_date
-def perform_package_releases(request, published_date='', warnings=None):
+@validate_optional_args
+def perform_package_releases(request, pretty_json=False, published_date='', encoding='utf-8', warnings=None):
     method = package_releases_method
-    return make_package(request, published_date, method, warnings)
+    return make_package(request, published_date, method, pretty_json, encoding, warnings)
 
 
 @require_files
 @extract_last_result
 @published_date
-def perform_combine_packages(request, published_date='', warnings=None):
+@validate_optional_args
+def perform_combine_packages(request, pretty_json=False, published_date='', encoding='utf-8', warnings=None):
     if request.GET.get('packageType') == 'release':
         method = combine_release_packages
     else:
         method = combine_record_packages
-    return make_package(request, published_date, method, warnings)
+    return make_package(request, published_date, method, pretty_json, encoding, warnings)
 
 
 @require_files
 @extract_last_result
 @published_date
-def perform_compile(request, published_date='', warnings=None):
-    packages = [file.json() for file in get_files_from_session(request)]
+@validate_optional_args
+@validate_split_size
+def perform_split_packages(request, pretty_json=False, published_date='', size=1, encoding='utf-8', warnings=None):
+    change_published_date = request.GET.get('changePublishedDate') == 'true'
+    packages = [file.json(codec=encoding) for file in get_files_from_session(request)]
+
+    if request.GET.get('packageType') == 'release':
+        package_data = 'releases'
+    else:
+        package_data = 'records'
+
+    if not published_date:
+        change_published_date = False
+
+    count = 0
+    result = {}
+
+    for package in packages:
+        if isinstance(package, list):
+            packages.extend(package)
+            continue
+
+        context = package[package_data]
+
+        # based on:
+        # cdskit/ocdskit/cli/commands/split_record_packages.py
+        # cdskit/ocdskit/cli/commands/split_release_packages.py
+
+        # we don't know which packages were used for each record.
+        if package_data == 'records' and 'packages' in package:
+            del package['packages']
+
+        for i in range(0, len(context), size):
+            count += 1
+            name = "result{}.json".format(count)
+            content = dict(package)
+            if change_published_date:
+                content['publishedDate'] = published_date
+            content[package_data] = context[i:i + size]
+            result.update({name: content})
+
+    return json_response(result, warnings, pretty_json, encoding)
+
+
+@require_files
+@published_date
+@validate_optional_args
+def perform_compile(request, pretty_json=False, published_date='', encoding='utf-8', warnings=None):
+    packages = [file.json(codec=encoding) for file in get_files_from_session(request)]
     return_versioned_release = request.GET.get('includeVersioned') == 'true'
 
     return json_response(request, {
         'result.json': next(merge(packages, return_package=True, published_date=published_date,
                                   return_versioned_release=return_versioned_release)),
-    }, warnings)
+    }, warnings, pretty_json, encoding)
 
 
 def mapping_sheet(request):
@@ -245,7 +302,8 @@ def perform_to_spreadsheet(request):
 
 @require_files
 @extract_last_result
-def perform_to_json(request):
+@validate_optional_args
+def perform_to_json(request, pretty_json=False, encoding='utf-8', warnings=None):
     input_file = next(get_files_from_session(request))
     output_dir = DataFile('unflatten', '', input_file.id, input_file.folder)
 
@@ -280,7 +338,7 @@ def perform_to_json(request):
         shutil.rmtree(input_file_path)
 
     with open(output_name) as json_file:
-        return json_response(request, {'result.json': json.load(json_file)})
+        return json_response(request, {'result.json': json.load(json_file)}, warnings, pretty_json, encoding)
 
 
 @require_POST

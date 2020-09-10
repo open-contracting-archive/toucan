@@ -1,4 +1,5 @@
 {% extends 'default/base-uploader.html' %}
+{% load static %}
 {% load i18n %}
 
 {% block subtitle %} &gt;&gt; {% trans "Combine Packages" %} {% endblock %}
@@ -18,6 +19,10 @@
     {% trans "Select the correct <strong>Package type</strong> option before starting." %}
 </p>
 <p>
+    {% trans "Check the <strong>Pretty JSON</strong> checkbox to get a pretty print on the output files." %}
+    {% trans "By default the output encoding is utf-8, you can change it in <strong>Encoding</strong> text box." %}
+</p>
+<p>
     {% trans "Each input file must be a JSON file containing either a single package or an array of packages." %}
 </p>
     {{ block.super }}
@@ -25,13 +30,8 @@
 
 {% block extraoptions %}
 {% include "default/snippets/published_date.html" %}
-<div class="form-group">
-    <label>{% trans "Package type:" %}</label>
-    <select class="form-control packageType">
-        <option value="release">{% trans "Release Package" %}</option>
-        <option value="record">{% trans "Record Package" %}</option>
-    </select>
-</div>
+{% include "default/snippets/package_type.html" %}
+{% include "default/snippets/optional_arguments.html" %}
 {% endblock %}
 
 {% block scripts %}
@@ -48,5 +48,6 @@
         });
     })();
     </script>
-    {% include "default/snippets/published_date_scripts.html" %}
+    <script src="{% static "js/optional_arguments.js" %}"></script>
+    <script src="{% static "js/published_date.js" %}"></script>
 {% endblock %}

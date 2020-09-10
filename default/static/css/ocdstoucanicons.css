@@ -43,9 +43,12 @@
 .ok-upgrade:before {
   content: "\e907";
 }
-.ok-combine-package:before {
+.ok-combine-packages:before {
   content: "\e908";
 }
 .ok-convert-to-json:before {
   content: "\e909";
+}
+.ok-split-packages:before {
+  content: "\e910";
 }

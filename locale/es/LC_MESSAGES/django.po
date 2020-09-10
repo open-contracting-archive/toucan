@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-08-30 03:45+0000\n"
+"POT-Creation-Date: 2020-09-08 10:11-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -26,7 +26,24 @@ msgstr ""
 "La fecha enviada es inválida: %(date)s, por lo que se omitió en los "
 "resultados."
 
-#: default/decorators.py:63
+#: default/decorators.py:54
+msgid ""
+"An invalid split size was submitted, and therefore ignored. Default value is "
+"used, split size: 1"
+msgstr ""
+"El tamaño de paquete ingresado es inválido, se omitió el valor. Se utiliza "
+"el valor por defecto. Tamaño de paquete: 1"
+
+#: default/decorators.py:73
+#, python-format
+msgid ""
+"Encoding %(encoding)s ... is not recognized. The default value 'utf-8' was "
+"used."
+msgstr ""
+"La codificación %(encoding)s ... no se reconoce. Se utiliza la codificación "
+"'utf-8' por defecto."
+
+#: default/decorators.py:102
 msgid "The {} parameter is required"
 msgstr "El parámetro {} es requerido"
 
@@ -86,38 +103,47 @@ msgstr "Formatos de salida"
 msgid "Use titles instead of field names"
 msgstr "Usar títulos en lugar de nombres de campos"
 
-#: default/forms.py:116 default/forms.py:133
+#: default/forms.py:116 default/forms.py:135
 msgid "Yes"
 msgstr "Sí"
 
-#: default/forms.py:116 default/forms.py:133
+#: default/forms.py:116 default/forms.py:135
 msgid "No"
 msgstr "No"
 
 #: default/forms.py:120
-msgid "Enter the field (top level fields only)"
-msgstr "Ingrese el campo (sólo se aceptan campos de primer nivel)"
+msgid "Select the field (top level fields only)"
+msgstr "Seleccione el campo (sólo se aceptan campos de primer nivel)"
 
-#: default/forms.py:123
+#: default/forms.py:122
+#, python-format
+msgid ""
+"%(value)s is not a valid choice. Choose a valid field from the schema "
+"selected."
+msgstr ""
+"%(value)s no es una opción válida. Elija un campo válido del esquema "
+"seleccionado."
+
+#: default/forms.py:125
 msgid "Enter a value"
 msgstr "Ingrese un valor"
 
-#: default/forms.py:127
+#: default/forms.py:129
 msgid "Include the following fields only"
 msgstr "Incluir estos campos solamente"
 
-#: default/forms.py:128
+#: default/forms.py:130
 msgid ""
 "Use the tree to select the fields. Top-level required fields are disabled"
 msgstr ""
 "Use el árbol para seleccionar los campos. Los campos requeridos de primer "
 "nivel están deshabilitados."
 
-#: default/forms.py:132
+#: default/forms.py:134
 msgid "Remove empty schema columns"
 msgstr "Remover columnas vacías del esquema"
 
-#: default/forms.py:159
+#: default/forms.py:165
 msgid "Define both the field and value to filter data"
 msgstr "Defina el nombre del campo y un valor para el filtro de datos"
 
@@ -250,7 +276,7 @@ msgstr ""
 "estándar OCDS, e intente de nuevo en unos minutos."
 
 #: default/templates/default/base-uploader.html:37
-#: default/templates/default/to-json.html:44
+#: default/templates/default/to-json.html:52
 #: default/templates/default/to-spreadsheet.html:73
 msgid "Provide the URL to a file:"
 msgstr "Provea la URL a un archivo:"
@@ -270,13 +296,13 @@ msgid "Start"
 msgstr "Iniciar"
 
 #: default/templates/default/base-uploader.html:81
-#: default/templates/default/to-json.html:74
+#: default/templates/default/to-json.html:82
 #: default/templates/default/to-spreadsheet.html:86
 msgid "Add a file"
 msgstr "Agregue un archivo"
 
 #: default/templates/default/base-uploader.html:81
-#: default/templates/default/to-json.html:75
+#: default/templates/default/to-json.html:83
 #: default/templates/default/to-spreadsheet.html:87
 msgid "or drag and drop here."
 msgstr "o arrastre y suelte aquí"
@@ -307,12 +333,12 @@ msgstr " archivos..."
 msgid "OCDS Toucan"
 msgstr "OCDS Toucan"
 
-#: default/templates/default/combine-packages.html:4
+#: default/templates/default/combine-packages.html:5
 #: default/templates/default/index.html:29
 msgid "Combine Packages"
 msgstr "Combinar Paquetes"
 
-#: default/templates/default/combine-packages.html:9
+#: default/templates/default/combine-packages.html:10
 msgid ""
 "Use this tool to combine <a href=\"https://standard.open-contracting.org/"
 "latest/en/schema/release_package/\" target=\"_blank\">release packages</a> "
@@ -327,9 +353,9 @@ msgstr ""
 "record_package/\" target=\"_blank\">paquetes de record</a> en un solo "
 "paquete."
 
-#: default/templates/default/combine-packages.html:17
-#: default/templates/default/compile.html:17
-#: default/templates/default/package-releases.html:16
+#: default/templates/default/combine-packages.html:18
+#: default/templates/default/compile.html:18
+#: default/templates/default/package-releases.html:17
 msgid ""
 "Fill in the <strong>Published date</strong> textbox to set "
 "<code>publishedDate</code> in the output package."
@@ -337,24 +363,48 @@ msgstr ""
 "Use la opción <strong>Fecha de Publicación</strong> para establecer "
 "<code>publishedDate</code> del paquete de salida."
 
-#: default/templates/default/combine-packages.html:18
+#: default/templates/default/combine-packages.html:19
+#: default/templates/default/split-packages.html:23
 msgid ""
 "Select the correct <strong>Package type</strong> option before starting."
 msgstr ""
 "Seleccione la opción correcta de <strong>Tipo de Paquete</strong> antes de "
 "empezar."
 
-#: default/templates/default/combine-packages.html:21
+#: default/templates/default/combine-packages.html:22
+#: default/templates/default/compile.html:26
+#: default/templates/default/package-releases.html:20
+#: default/templates/default/split-packages.html:29
+#: default/templates/default/to-json.html:35
+#: default/templates/default/upgrade.html:19
+msgid ""
+"Check the <strong>Pretty JSON</strong> checkbox to get a pretty print on the "
+"output files."
+msgstr ""
+"Seleccione la opción <strong>JSON Indentado</strong> para indentar los "
+"archivos de salida."
+
+#: default/templates/default/combine-packages.html:23
+#: default/templates/default/compile.html:27
+#: default/templates/default/package-releases.html:21
+#: default/templates/default/split-packages.html:30
+#: default/templates/default/to-json.html:36
+#: default/templates/default/upgrade.html:20
+msgid ""
+"By default the output encoding is utf-8, you can change it in "
+"<strong>Encoding</strong> text box."
+msgstr ""
+"Por defecto la codificación de salida es utf-8, utiliza la caja de texto "
+"<strong>Codificación</strong> para ingresar otra codificación."
+
+#: default/templates/default/combine-packages.html:26
+#: default/templates/default/split-packages.html:33
 msgid ""
 "Each input file must be a JSON file containing either a single package or an "
 "array of packages."
 msgstr ""
 "Los archivos de entrada deben ser JSON con un solo paquete cada uno o un "
-"array de paquetes"
-
-#: default/templates/default/combine-packages.html:29
-msgid "Package type:"
-msgstr "Tipo de Paquete:"
+"array de paquetes."
 
 #: default/templates/default/combine-packages.html:31
 msgid "Release Package"
@@ -378,7 +428,7 @@ msgstr ""
 "standard.open-contracting.org/latest/es/schema/release_package/\" target="
 "\"_blank\">paquetes de release</a>."
 
-#: default/templates/default/compile.html:18
+#: default/templates/default/compile.html:19
 msgid ""
 "Check the <strong>Include Versioned Releases</strong> checkbox if you want "
 "to add a versioned release to each record. Read more about compiled releases "
@@ -391,39 +441,44 @@ msgstr ""
 "contracting.org/latest/es/schema/merging/\" target=\"_blank\">documentación "
 "de OCDS</a>."
 
-#: default/templates/default/compile.html:25
+#: default/templates/default/compile.html:30
 msgid "Please verify that your files are release packages before uploading."
 msgstr ""
 "Favor verifique que sus archivos sean paquetes de release antes de subirlos."
 
-#: default/templates/default/compile.html:34
-msgid "Include Versioned Releases"
-msgstr "Incluir el bloque versionedRelease"
+#: default/templates/default/compile.html:38
+msgid "Include Versioned Releases: "
+msgstr "Incluir el bloque versionedRelease: "
 
 #: default/templates/default/googleapi-auth-finished.html:4
 msgid "The authentication has finished, you can close this window now."
 msgstr "El flujo de autenticación se ha completado. Puede cerrar esta ventana."
 
 #: default/templates/default/index.html:19
-#: default/templates/default/package-releases.html:4
+#: default/templates/default/package-releases.html:5
 msgid "Create Release Packages"
 msgstr "Crear Paquetes de Entregas"
 
-#: default/templates/default/index.html:59
+#: default/templates/default/index.html:39
+#: default/templates/default/split-packages.html:5
+msgid "Split Packages"
+msgstr "Dividir Paquetes"
+
+#: default/templates/default/index.html:69
 msgid "Generate a spreadsheet version of schema"
 msgstr "Generar una planilla del esquema"
 
-#: default/templates/default/index.html:69
+#: default/templates/default/index.html:79
 #: default/templates/default/to-spreadsheet.html:10
 msgid "Convert to CSV/Excel"
 msgstr "Convertir a CSV/Excel"
 
-#: default/templates/default/index.html:79
+#: default/templates/default/index.html:89
 #: default/templates/default/to-json.html:9
 msgid "Convert to JSON"
 msgstr "Convertir a JSON"
 
-#: default/templates/default/index.html:87
+#: default/templates/default/index.html:97
 msgid ""
 "<a href=\"https://standard.open-contracting.org/\" target=\"_blank\">OCDS</"
 "a> Toucan offers a set of transformation tools."
@@ -431,7 +486,7 @@ msgstr ""
 "<a href=\"https://standard.open-contracting.org/latest/es/\" target=\"_blank"
 "\">OCDS</a> Toucan ofrece un conjunto de herramientas de transformación. "
 
-#: default/templates/default/index.html:93
+#: default/templates/default/index.html:103
 msgid ""
 "You sometimes need to transform OCDS data before you can use it or publish "
 "it."
@@ -439,12 +494,12 @@ msgstr ""
 "Algunas veces usted necesita transformar los datos OCDS antes de usarlos o "
 "publicarlos."
 
-#: default/templates/default/index.html:96
+#: default/templates/default/index.html:106
 msgid "Toucan allows you to get OCDS data ready for use, in your browser:"
 msgstr ""
 "Toucan le permite tener los datos OCDS listos para su uso, en su navegador:"
 
-#: default/templates/default/index.html:100
+#: default/templates/default/index.html:110
 msgid ""
 "Create a <a href=\"https://standard.open-contracting.org/latest/en/schema/"
 "release_package/\" target=\"_blank\">release package</a> from individual <a "
@@ -456,11 +511,11 @@ msgstr ""
 "href=\"https://standard.open-contracting.org/latest/es/getting_started/"
 "releases_and_records/#releases\" target=\"_blank\">releases</a> individuales"
 
-#: default/templates/default/index.html:110
+#: default/templates/default/index.html:120
 msgid "Combine many small packages into a large package"
 msgstr "Combine muchos paquetes pequeños en un paquete grande"
 
-#: default/templates/default/index.html:114
+#: default/templates/default/index.html:124
 msgid ""
 "Transform release packages into a <a href=\"https://standard.open-"
 "contracting.org/latest/en/schema/record_package/\" target=\"_blank\">record "
@@ -470,19 +525,19 @@ msgstr ""
 "contracting.org/latest/es/schema/record_package/\" target=\"_blank"
 "\">paquetes de record</a> incluyendo compiled releases y versioned releases"
 
-#: default/templates/default/index.html:122
+#: default/templates/default/index.html:132
 msgid "Upgrade from an old version of OCDS to a new version"
 msgstr "Actualice una versión anterior de OCDS a una nueva versión"
 
-#: default/templates/default/index.html:126
+#: default/templates/default/index.html:136
 msgid "Convert release packages to/from Excel and CSV"
 msgstr "Convierte paquetes de release a/desde Excel y CSV"
 
-#: default/templates/default/index.html:130
+#: default/templates/default/index.html:140
 msgid "Generate a spreadsheet version of OCDS schema"
 msgstr "Generar una planilla del esquema"
 
-#: default/templates/default/index.html:134
+#: default/templates/default/index.html:144
 msgid ""
 "You can upload up to 20 files to each tool, and each file should be less "
 "than 20MB. Results remain available for 2 days."
@@ -490,7 +545,7 @@ msgstr ""
 "Puede subir hasta 20 archivos en cada herramienta, y cada archivo debe ser "
 "menor a 20MB. Los Resultados permanecerán disponibles por 2 días."
 
-#: default/templates/default/index.html:140
+#: default/templates/default/index.html:150
 msgid ""
 "If you have more or larger files, try using <a href=\"https://ocdskit."
 "readthedocs.io/en/latest/\" target=\"_blank\">OCDS Kit</a> from the command "
@@ -580,7 +635,7 @@ msgstr ""
 msgid "Generate"
 msgstr "Generar"
 
-#: default/templates/default/package-releases.html:9
+#: default/templates/default/package-releases.html:10
 msgid ""
 "Use this tool to create a <a href=\"https://standard.open-contracting.org/"
 "latest/en/schema/release_package/\" target=\"_blank\">release package</a> "
@@ -594,7 +649,7 @@ msgstr ""
 "contracting.org/latest/es/getting_started/releases_and_records/#releases\" "
 "target=\"_blank\">releases</a> individuales"
 
-#: default/templates/default/package-releases.html:19
+#: default/templates/default/package-releases.html:24
 msgid ""
 "Each input file must be a JSON file containing either one release or an "
 "array of releases."
@@ -653,6 +708,26 @@ msgstr "Subir archivos"
 msgid "Provide URLs"
 msgstr "Indique URLs"
 
+#: default/templates/default/snippets/optional_arguments.html:3
+msgid "Encoding:"
+msgstr "Codificación:"
+
+#: default/templates/default/snippets/optional_arguments.html:5
+msgid "Pretty JSON:"
+msgstr "JSON Indentado:"
+
+#: default/templates/default/snippets/package_type.html:3
+msgid "Package type:"
+msgstr "Tipo de Paquete:"
+
+#: default/templates/default/snippets/package_type.html:5
+msgid "Release Package"
+msgstr "Paquete de Release"
+
+#: default/templates/default/snippets/package_type.html:6
+msgid "Record Package"
+msgstr "Paquete de Record"
+
 #: default/templates/default/snippets/output_description.html:3
 msgid "The features available for the results files are:"
 msgstr "Las funcionalidades disponibles para los archivos de resultados son:"
@@ -677,30 +752,77 @@ msgstr "Envíe el resultado directamente a la función seleccionada como un arch
 msgid "Published date:"
 msgstr "Fecha de Publicación:"
 
-#: default/templates/default/snippets/unflatten-options-modal.html:7
+#: default/templates/default/snippets/unflatten-options-modal.html:10
 #: default/templates/default/to-spreadsheet.html:101
 msgid "Options"
 msgstr "Opciones"
 
-#: default/templates/default/snippets/unflatten-options-modal.html:30
+#: default/templates/default/snippets/unflatten-options-modal.html:33
 msgid "Please choose at least one output format"
 msgstr "Por favor elija al menos un tipo de operación"
 
-#: default/templates/default/snippets/unflatten-options-modal.html:42
+#: default/templates/default/snippets/unflatten-options-modal.html:45
 msgid "Filter data by field"
 msgstr "Filtrar los datos por campo"
 
-#: default/templates/default/snippets/unflatten-options-modal.html:66
+#: default/templates/default/snippets/unflatten-options-modal.html:69
 msgid "Search"
 msgstr "Buscar"
 
-#: default/templates/default/snippets/unflatten-options-modal.html:69
+#: default/templates/default/snippets/unflatten-options-modal.html:72
 msgid "Please wait..."
 msgstr "Por favor espere..."
 
-#: default/templates/default/snippets/unflatten-options-modal.html:81
+#: default/templates/default/snippets/unflatten-options-modal.html:82
+msgid "* Mandatory fields"
+msgstr "* Campos obligatorios"
+
+#: default/templates/default/snippets/unflatten-options-modal.html:85
 msgid "Close"
 msgstr "Cerrar"
+
+#: default/templates/default/split-packages.html:10
+msgid ""
+"Use this tool to split <a href=\"https://standard.open-contracting.org/"
+"latest/en/schema/release_package/\" target=\"_blank\">release packages</a> "
+"or <a href=\"https://standard.open-contracting.org/latest/en/schema/"
+"record_package/\" target=\"_blank\">record package</a> into smaller packages "
+"for each."
+msgstr ""
+"Use esta herramienta para dividir <a href=\"https://standard.open-"
+"contracting.org/latest/es/schema/record_package/\" target=\"_blank"
+"\">paquetes de release</a> o <a href=\"https://standard.open-contracting.org/"
+"latest/es/schema/release_package/\" target=\"_blank\">paquetes de record</a> "
+"en paquetes más pequeños."
+
+#: default/templates/default/split-packages.html:19
+msgid ""
+"To change the <code>publishedDate</code> for the output package fill in the "
+"<strong>Published date</strong> textbox and check the <strong>checkbox</"
+"strong> next to it."
+msgstr ""
+"Para cambiar el valor de <code>publishedDate</code> del paquete de salida "
+"use la opción <strong>Fecha de Publicación</strong> y marque la "
+"<strong>casilla de selección</strong> junto a ella."
+
+#: default/templates/default/split-packages.html:26
+msgid ""
+"Enter the number of items (records or releases) per divided package in "
+"<strong>Items per Package</strong> box before start process."
+msgstr ""
+"Ingrese el número de elementos (records o releases) por paquete dividido en "
+"la caja de texto <strong>Elementos por Paquete</strong> antes de comenzar el "
+"proceso."
+
+#: default/templates/default/split-packages.html:47
+msgid "Items per Package:"
+msgstr "Elementos por Paquete:"
+
+#: default/templates/default/split-packages.html:63
+msgid "An invalid split size was entered. Please change it to a valid number."
+msgstr ""
+"El tamaño de paquete ingresado es inválido. Por favor cámbielo por un valor "
+"válido."
 
 #: default/templates/default/to-json.html:15
 #: default/templates/default/to-spreadsheet.html:42
@@ -775,7 +897,11 @@ msgstr ""
 msgid "Change"
 msgstr "Cambiar"
 
-#: default/templates/default/upgrade.html:9
+#: default/templates/default/to-spreadsheet.html:137
+msgid "No filter"
+msgstr "Sin filtro"
+
+#: default/templates/default/upgrade.html:10
 msgid ""
 "Use this tool to update <a href=\"https://standard.open-contracting.org/"
 "latest/en/getting_started/releases_and_records/#releases\" target=\"_blank"
@@ -833,19 +959,19 @@ msgstr "No se reconoce \"%(type)s\""
 msgid "Error decoding JSON"
 msgstr "Error al decodificar JSON"
 
-#: default/views.py:115
+#: default/views.py:125
 msgid "There was an error retrieving the schema requested"
 msgstr "Hubo un error al obtener el esquema solicitado"
 
-#: default/views.py:183
+#: default/views.py:242
 msgid "No valid option selected"
 msgstr "No se seleccionó ninguna opción válida"
 
-#: default/views.py:319
+#: default/views.py:371
 msgid "Enter a valid URL."
 msgstr "Introduzca una URL válida."
 
-#: default/views.py:323
+#: default/views.py:375
 msgid ""
 "There was an error when trying to access this URL. Please verify that the "
 "URL is correct and the file has the expected format."
@@ -853,22 +979,22 @@ msgstr ""
 "Se produjo un error al intentar acceder a esta URL. Favor verifique que la "
 "URL sea correcta y el archivo tenga el formato esperado."
 
-#: default/views.py:381 default/views.py:389
+#: default/views.py:433 default/views.py:441
 msgid "File not found"
 msgstr "Archivo no encontrado"
 
-#: default/views.py:387
+#: default/views.py:439
 msgid "File deleted"
 msgstr "Archivo eliminado"
 
-#: default/views.py:414
+#: default/views.py:466
 msgid "Invalid request, authentication process has not been started."
 msgstr "Solicitud inválida, el proceso de autenticación no ha sido iniciado"
 
-#: ocdstoucan/settings.py:145
+#: ocdstoucan/settings.py:144
 msgid "English"
 msgstr "Inglés"
 
-#: ocdstoucan/settings.py:146
+#: ocdstoucan/settings.py:145
 msgid "Spanish"
 msgstr "Español"
