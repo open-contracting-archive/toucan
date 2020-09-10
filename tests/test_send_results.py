@@ -3,7 +3,7 @@ from tests import ViewTestCase, ViewTests
 
 class SendTestCase(ViewTestCase, ViewTests):
     url = '/upgrade/'
-    send_to_url = '/to-spreadsheet/go/?sendResult=true&type=release-package'
+    send_to_url = '/combine-packages/go/?packageType=release&sendResult=true&type=release-package'
     files = [
         '1.0/release-packages/0001-tender.json',
     ]
