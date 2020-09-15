@@ -1,0 +1,5 @@
+{% load send_options_tag %}
+
+{% for option in options %}
+    <option id="{{ option.id }}" value="{{ option.value }}">{{ option.text }}</option>
+{% endfor %}

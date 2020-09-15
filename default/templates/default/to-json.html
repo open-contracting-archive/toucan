@@ -1,12 +1,15 @@
 {% extends 'default/base-tool.html' %}
 {% load i18n %}
 {% load static %}
+{% load send_options_tag %}
 
 {% block css %}
     <link href="{% static "css/uploader.css"%}" rel="stylesheet"/>
 {% endblock %}
 
 {% block subtitle %} &gt;&gt; {% trans "Convert to JSON" %} {% endblock %}
+
+{% block send-options %}, {% show_options "compile split upgrade convert" %}{% endblock %}
 
 {% block messages %}
     {{ block.super }}
@@ -201,9 +204,6 @@
 
         /* clear URL input text */
         $('#input_url_0 input').val('');
-
-        /* show form-send options */
-        $('.response-success .form-send').removeClass('hidden');
 
         /* prevent browser's default action when dragging and dropping files */
         $(document).bind('drop dragover', function (e) {

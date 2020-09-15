@@ -46,7 +46,8 @@
 {% block scripts %}
     {{ block.super }}
     <script type="text/javascript">
-    /* hide send feature description */
+    /* hide send feature */
+    $('.response-success .form-send').addClass('hidden');
     $('.info-send').addClass('hidden');
 
     (function(){

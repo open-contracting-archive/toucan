@@ -1,10 +1,13 @@
 {% extends 'default/base-uploader.html' %}
 {% load static %}
 {% load i18n %}
+{% load send_options_tag %}
 
 {% block subtitle %} &gt;&gt; {% trans "Upgrade from 1.0 to 1.1" %} {% endblock %}
 
 {% block form-options %}, "type": "package release"{% endblock %}
+
+{% block send-options %}, {% show_options "compile split convert" %}{% endblock %}
 
 {% block info_title %}
     {% blocktrans trimmed %}
@@ -28,8 +31,4 @@
 {% block scripts %}
     {{ block.super }}
     <script src="{% static "js/optional_arguments.js" %}"></script>
-    <script type="text/javascript">
-        $('#upgrade').remove();
-        $('.response-success .form-send').removeClass('hidden');
-    </script>
 {% endblock %}
