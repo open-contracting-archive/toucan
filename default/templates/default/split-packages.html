@@ -1,10 +1,13 @@
 {% extends 'default/base-uploader.html' %}
 {% load static %}
 {% load i18n %}
+{% load send_options_tag %}
 
 {% block subtitle %} &gt;&gt; {% trans "Split Packages" %} {% endblock %}
 
 {% block form-options %}, "type": "package package-array"{% endblock %}
+
+{% block send-options %}{% show_options "compile upgrade convert" %}{% endblock %}
 
 {% block info_title %}
     {% blocktrans trimmed %}

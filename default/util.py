@@ -41,7 +41,7 @@ def get_files_from_session(request):
         yield DataFile(**fileinfo)
 
 
-def json_response(files, warnings=None, pretty_json=False, codec='utf-8'):
+def json_response(request, files, warnings=None, pretty_json=False, codec='utf-8'):
     file = DataFile('result', '.zip')
     file.write_json_to_zip(files, pretty_json=pretty_json, codec=codec)
 
@@ -53,6 +53,9 @@ def json_response(files, warnings=None, pretty_json=False, codec='utf-8'):
 
     if warnings:
         response['warnings'] = warnings
+
+    # Save the last generated result on session
+    request.session['results'] = [file.as_dict()]
 
     return JsonResponse(response)
 
@@ -66,7 +69,7 @@ def make_package(request, published_date, method, pretty_json, codec, warnings):
         else:
             items.append(item)
 
-    return json_response({
+    return json_response(request, {
         'result.json': method(items, published_date=published_date),
     }, warnings=warnings, pretty_json=pretty_json, codec=codec)
 

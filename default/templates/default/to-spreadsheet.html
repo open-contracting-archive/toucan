@@ -52,6 +52,7 @@
 {% endblock %}
 {% block info_content %}
     {% include "default/snippets/input-options/input_description_single.html" %}
+    {% include "default/snippets/output_description.html" %}
 {% endblock %}
 
 {% block content %}
@@ -89,6 +90,9 @@
                             <span class="drop-area-msg hidden">
                                 <span class="file-selected"></span>&nbsp;
                                 <label for="file">{% trans "Change" %}</label>
+                            </span>
+                            <span class="drop-area-received-msg hidden">
+                                <b>{% trans "Received: " %}</b><span class="file-result"></span>
                             </span>
                         </div>
                 </div>

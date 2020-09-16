@@ -13,7 +13,7 @@
 {{ block.super }}
     <div class="response-warning file-process-failed alert alert-warning hidden">
         {% trans "We couldn't check that all files were JSON or of the OCDS type requested." %}
-        {% trans "You can add more files or remove them, then click on <b>Start</b> again." %}
+        {% trans "Please verify each file and try again." %}
         {% trans "Files with validation issues will be ignored by default." %}
     </div>
     <div class="response-fail default-error alert alert-danger hidden">
@@ -23,6 +23,7 @@
 {% endblock messages %}
 {% block info_content %}
     {% include "default/snippets/input-options/input_description.html" %}
+    {% include "default/snippets/output_description.html" with show_info_send="true" %}
 {% endblock %}
 {% block content %}
     {% include "default/snippets/input-options/input_tabs.html" %}
@@ -81,6 +82,7 @@
                     <span class="file-selector-empty"><label for="file">{% trans "Add a file" %}</label> {% trans "or drag and drop here." %}</span>
                     <div class="files hidden">
                     </div>
+                    <span class="drop-area-received-msg hidden"><b>{% trans "Received: " %}</b><span class="file-result"></span></span>
                   </div>
                   <div class="actions hidden">
                     <div class="buttons">

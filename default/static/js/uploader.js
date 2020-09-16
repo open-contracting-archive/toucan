@@ -31,6 +31,7 @@ var toucanApp = toucanApp || {};
     function disableAddFiles() {
         $('.fileinput-button').attr('disabled', true);
         $('.fileinput-button input:file').attr('disabled', true);
+        $('.fileinput-button label').removeAttr("for");
     }
 
     function enableAddFiles() {
@@ -126,7 +127,10 @@ var toucanApp = toucanApp || {};
     }
 
     function whenAjaxReqFails(jqXHR) {
-        $('.response-fail.default-error').removeClass('hidden');
+        if (jqXHR.status === 401)
+            $('.response-warning.file-process-failed').removeClass('hidden');
+        else
+            $('.response-fail.default-error').removeClass('hidden');
         app.hideProcessingModal();
     }
 
@@ -175,28 +179,38 @@ var toucanApp = toucanApp || {};
         disableAddFiles();
         hideMessages();
 
-        var promises = $.map(_fileItems, function (val) {
-            return val.submit();
-        });
-        $.when.apply($, promises)
-            .done(function () {
-                performAction($('#fileupload').attr('data-perform-action'));
-            })
-            .fail(function () {
-                enableAddFiles();
-                $('.response-warning.file-process-failed').removeClass('hidden');
-            })
-            .always(function () {
-                clearFiles(); // so they will not be uploaded again
-                var failures = $.grep(promises, function (promise) {
-                    return promise.state() === 'rejected';
-                });
-                if (failures.length){
-                    // validations failed for some files, show message
+        /* check if results were sent and performAction directly, otherwise files are uploaded first */
+        if ($('#upload-button').hasClass('sendResult') == true) {
+            app.setParams(function(params){
+                params['sendResult'] = 'true';
+                params['type'] = JSON.parse($('#fileupload').attr('data-form-data')).type;
+                return params;
+            });
+            performAction($('#fileupload').attr('data-perform-action'));
+        } else {
+            var promises = $.map(_fileItems, function (val) {
+                return val.submit();
+            });
+            $.when.apply($, promises)
+                .done(function () {
+                    performAction($('#fileupload').attr('data-perform-action'));
+                })
+                .fail(function () {
+                    enableAddFiles();
                     $('.response-warning.file-process-failed').removeClass('hidden');
-                }
-            })
-        ;
+                })
+                .always(function () {
+                    clearFiles(); // so they will not be uploaded again
+                    var failures = $.grep(promises, function (promise) {
+                        return promise.state() === 'rejected';
+                    });
+                    if (failures.length){
+                        // validations failed for some files, show message
+                        $('.response-warning.file-process-failed').removeClass('hidden');
+                    }
+                })
+            ;
+        }
     }
 
     function upload_url() {
@@ -226,13 +240,7 @@ var toucanApp = toucanApp || {};
                     $(slt).addClass('has-error');
                     $(slt).append('<div class="help-block">' + msg + '</div>');
                 });
-                if (jqXHR.status === 400) {
-                    $('.response-fail.default-error').removeClass('hidden');
-                }
-                if (jqXHR.status === 401) {
-                    $('.response-warning.file-process-failed').removeClass('hidden');
-                }
-                app.hideProcessingModal();
+                whenAjaxReqFails(jqXHR);
                 $('#processing-modal .downloading-status').addClass('hidden');
             })
             .always(function () {
@@ -246,6 +254,10 @@ var toucanApp = toucanApp || {};
                 ;
             }, 500);
         ;
+    }
+
+    function send_to() {
+        window.location.href = $('.to-function').val() + '?sendResult=true';
     }
 
     /** plugin initialization & listeners**/
@@ -263,11 +275,38 @@ var toucanApp = toucanApp || {};
     /* click upload url button behaviour */
     $("#url-button").click(upload_url);
 
+    /* click send button behaviour */
+    $('.send-button').click(send_to);
+
+    /* add warning before closing/navigating away from page */
     window.onload = function () {
         /* clear input values */
         $('#input_url_0 input').val('');
         $('#encoding').val('utf-8');
         $('#splitSize').val('1')
+
+        /* check if results were sent to this page */
+        if (window.location.search == '?sendResult=true') {
+            app.showProcessingModal();
+            $.ajax('/send-result/validate/', {'dataType': 'json', type: 'GET'})
+                .done(function (data) {
+                    disableAddFiles();
+                    enableUploadButton();
+                    $('.drop-area').removeClass('empty');
+                    $('.drop-area').addClass('single');
+                    $('.drop-area .file-selector-empty').addClass('hidden');
+                    $('.drop-area .drop-area-received-msg').removeClass('hidden');
+                    $('.drop-area .drop-area-received-msg .file-result').html(data);
+                    $('.actions').removeClass('hidden');
+                    $('#upload-button').addClass('sendResult');
+                })
+                .fail(function () {
+                    $('.response-fail').removeClass('hidden');
+                })
+                .always(function () {
+                    app.hideProcessingModal();
+                });
+        }
 
         /* add warning before closing/navigating away from page */
         window.addEventListener("beforeunload", function (e) {

@@ -19,8 +19,8 @@ from ocdskit.upgrade import upgrade_10_11
 from requests.exceptions import ConnectionError, HTTPError, SSLError
 
 from default.data_file import DataFile
-from default.decorators import (clear_drive_session_vars, clear_files, published_date, require_files,
-                                require_get_param, validate_optional_args, validate_split_size)
+from default.decorators import (clear_drive_session_vars, clear_files, extract_last_result, published_date,
+                                require_files, require_get_param, validate_optional_args, validate_split_size)
 from default.forms import MappingSheetOptionsForm, UnflattenOptionsForm
 from default.google_drive import get_credentials_from_session, google_api_messages, upload_to_drive
 from default.mapping_sheet import (get_extended_mapping_sheet, get_mapping_sheet_from_uploaded_file,
@@ -98,13 +98,14 @@ def upgrade(request):
 
 
 @require_files
+@extract_last_result
 @validate_optional_args
 def perform_upgrade(request, pretty_json=False, encoding='utf-8', warnings=None):
     data = {}
     for file in get_files_from_session(request):
         data.update({file.name_with_suffix('upgraded'): upgrade_10_11(
             file.json(codec=encoding, object_pairs_hook=OrderedDict))})
-    return json_response(data, warnings, pretty_json, encoding)
+    return json_response(request, data, warnings, pretty_json, encoding)
 
 
 @require_GET
@@ -126,6 +127,7 @@ def get_schema_as_options(request):
 
 
 @require_files
+@extract_last_result
 @published_date
 @validate_optional_args
 def perform_package_releases(request, pretty_json=False, published_date='', encoding='utf-8', warnings=None):
@@ -134,6 +136,7 @@ def perform_package_releases(request, pretty_json=False, published_date='', enco
 
 
 @require_files
+@extract_last_result
 @published_date
 @validate_optional_args
 def perform_combine_packages(request, pretty_json=False, published_date='', encoding='utf-8', warnings=None):
@@ -145,6 +148,7 @@ def perform_combine_packages(request, pretty_json=False, published_date='', enco
 
 
 @require_files
+@extract_last_result
 @published_date
 @validate_optional_args
 @validate_split_size
@@ -187,7 +191,7 @@ def perform_split_packages(request, pretty_json=False, published_date='', size=1
             content[package_data] = context[i:i + size]
             result.update({name: content})
 
-    return json_response(result, warnings, pretty_json, encoding)
+    return json_response(request, result, warnings, pretty_json, encoding)
 
 
 @require_files
@@ -197,7 +201,7 @@ def perform_compile(request, pretty_json=False, published_date='', encoding='utf
     packages = [file.json(codec=encoding) for file in get_files_from_session(request)]
     return_versioned_release = request.GET.get('includeVersioned') == 'true'
 
-    return json_response({
+    return json_response(request, {
         'result.json': next(merge(packages, return_package=True, published_date=published_date,
                                   return_versioned_release=return_versioned_release)),
     }, warnings, pretty_json, encoding)
@@ -258,6 +262,7 @@ def mapping_sheet(request):
 
 
 @require_files
+@extract_last_result
 @require_POST
 def perform_to_spreadsheet(request):
     input_file = next(get_files_from_session(request))
@@ -296,6 +301,7 @@ def perform_to_spreadsheet(request):
 
 
 @require_files
+@extract_last_result
 @validate_optional_args
 def perform_to_json(request, pretty_json=False, encoding='utf-8', warnings=None):
     input_file = next(get_files_from_session(request))
@@ -332,14 +338,14 @@ def perform_to_json(request, pretty_json=False, encoding='utf-8', warnings=None)
         shutil.rmtree(input_file_path)
 
     with open(output_name) as json_file:
-        return json_response({'result.json': json.load(json_file)}, warnings, pretty_json, encoding)
+        return json_response(request, {'result.json': json.load(json_file)}, warnings, pretty_json, encoding)
 
 
 @require_POST
 def upload_url(request):
     request.session['files'] = []
     errors = []
-    status = 401
+    status = 401  # error 401 for invalid type
 
     for data in request.POST:
         if 'input_url' in data:
@@ -400,6 +406,14 @@ def upload_url_status(request):
     return JsonResponse(len(request.session['files']), safe=False)
 
 
+@require_GET
+def validate_send_result(request):
+    if 'results' in request.session and request.session['results']:
+        file = request.session['results'][0]  # always one result is saved
+        return JsonResponse(file['prefix'] + file['ext'], safe=False)
+    return HttpResponse(status=400)
+
+
 @require_POST
 def uploadfile(request):
     request_file = request.FILES['file']
@@ -410,7 +424,7 @@ def uploadfile(request):
 
     message = invalid_request_file_message(request_file, file_type)
     if message:
-        return HttpResponse(message, status=400)
+        return HttpResponse(message, status=401)  # error 401 for invalid type
     else:
         data_file.write(request_file)
 

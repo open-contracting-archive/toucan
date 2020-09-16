@@ -1,0 +1,20 @@
+{% load i18n %}
+<p>
+    {% trans "The features available for the results files are:" %}
+</p>
+<ul class="list-unstyled">
+    <li>
+        <strong>{% trans "Download" %}:</strong>
+        {% trans "Download the file." %}
+    </li>
+    <li>
+        <strong>{% trans "Save to Google Drive" %}:</strong>
+        {% trans "Save the file in your Google Drive account after the authentication flow is complete." %}
+    </li>
+    {% if show_info_send %}
+        <li>
+            <strong>{% trans "Send" %}:</strong>
+            {% trans "Send the result directly to the selected function as an input file." %}
+        </li>
+    {% endif %}
+</ul>

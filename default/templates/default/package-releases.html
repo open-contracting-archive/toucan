@@ -1,10 +1,13 @@
 {% extends 'default/base-uploader.html' %}
 {% load static %}
 {% load i18n %}
+{% load send_options_tag %}
 
 {% block subtitle %} &gt;&gt; {% trans "Create Release Packages" %}{% endblock %}
 
 {% block form-options %}, "type": "release release-array"{% endblock %}
+
+{% block send-options %}{% show_options "compile split upgrade convert" %}{% endblock %}
 
 {% block info_title %}
     {% blocktrans trimmed %}
