@@ -42,10 +42,10 @@ mccabe==0.6.1             # via flake8
 more-itertools==8.0.2
 oauthlib==3.1.0
 ocdsextensionregistry==0.0.16
-ocdskit[perf]==0.2.6
+ocdskit[perf]==0.2.14
 ocdsmerge==0.6.4
 openpyxl==3.0.1
-orjson==2.1.3
+orjson==3.3.1
 pip-tools==4.3.0
 pyasn1-modules==0.2.8
 pyasn1==0.4.8
