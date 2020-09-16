@@ -7,7 +7,7 @@
 
 {% block form-options %}, "type": "package package-array"{% endblock %}
 
-{% block send-options %}, {% show_options "compile upgrade convert" %}{% endblock %}
+{% block send-options %}{% show_options "compile upgrade convert" %}{% endblock %}
 
 {% block info_title %}
     {% blocktrans trimmed %}

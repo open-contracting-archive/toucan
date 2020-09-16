@@ -7,7 +7,6 @@
         errorBox = $('.response-fail'),
         dropAreaFileLink = $('.drop-area-msg label'),
         urlInput = $('#input_url_0 input'),
-        infoSend = $('.info-send'),
         actions = $('.actions'),
         urlHelpBlock = $('.input-url-container .help-block'),
         tabPanels = $('.nav.nav-tabs a')
@@ -237,8 +236,6 @@
     $(document).ready(function(){
         // clear the input's value
         urlInput.val('');
-        // hide send feature description
-        infoSend.addClass('hidden');
         disableUploadButton();
 
         // check if results were sent to this page

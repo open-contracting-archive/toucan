@@ -7,7 +7,7 @@
 
 {% block form-options %}, "type": "package release"{% endblock %}
 
-{% block send-options %}, {% show_options "compile split convert" %}{% endblock %}
+{% block send-options %}{% show_options "compile split convert" %}{% endblock %}
 
 {% block info_title %}
     {% blocktrans trimmed %}
@@ -17,11 +17,14 @@
         <a href="https://standard.open-contracting.org/latest/en/schema/record_package/" target="_blank">record packages</a>
         to OCDS 1.1.
     {% endblocktrans %}
+{% endblock %}
 </p>
+{% block info_content %}
 <p>
     {% trans "Check the <strong>Pretty JSON</strong> checkbox to get a pretty print on the output files." %}
     {% trans "By default the output encoding is utf-8, you can change it in <strong>Encoding</strong> text box." %}
 </p>
+    {{ block.super }}
 {% endblock %}
 
 {% block extraoptions %}

@@ -11,8 +11,10 @@
         <strong>{% trans "Save to Google Drive" %}:</strong>
         {% trans "Save the file in your Google Drive account after the authentication flow is complete." %}
     </li>
-    <li class="info-send">
-        <strong>{% trans "Send" %}:</strong>
-        {% trans "Send the result directly to the selected function as an input file." %}
-    </li>
+    {% if show_info_send %}
+        <li>
+            <strong>{% trans "Send" %}:</strong>
+            {% trans "Send the result directly to the selected function as an input file." %}
+        </li>
+    {% endif %}
 </ul>

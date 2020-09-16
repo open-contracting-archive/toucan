@@ -23,7 +23,7 @@
 {% endblock messages %}
 {% block info_content %}
     {% include "default/snippets/input-options/input_description.html" %}
-    {% include "default/snippets/output_description.html" %}
+    {% include "default/snippets/output_description.html" with show_info_send="true" %}
 {% endblock %}
 {% block content %}
     {% include "default/snippets/input-options/input_tabs.html" %}

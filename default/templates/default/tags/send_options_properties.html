@@ -1,5 +1,12 @@
 {% load send_options_tag %}
+{% load i18n %}
 
-{% for option in options %}
-    <option id="{{ option.id }}" value="{{ option.value }}">{{ option.text }}</option>
-{% endfor %}
+<div class="form-group form-inline form-send">
+    <label>{% trans "Send result to function:" %}</label>
+    <select class="form-control to-function">
+        {% for option in options %}
+        <option id="{{ option.id }}" value="{{ option.value }}">{{ option.text }}</option>
+        {% endfor %}
+    </select>
+    <a class="send-button" href="#" role="button">{% trans "Send" %}</a>
+</div>

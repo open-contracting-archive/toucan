@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-09-14 21:03-0400\n"
+"POT-Creation-Date: 2020-09-16 12:23-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -207,23 +207,14 @@ msgstr "Archivo guardado en Google Drive"
 msgid "Open"
 msgstr "Abrir"
 
-#: default/templates/default/base-tool.html:42
-msgid "Send result to function:"
-msgstr "Enviar resultado a función:"
-
-#: default/templates/default/base-tool.html:46
-#: default/templates/default/snippets/output_description.html:15
-msgid "Send"
-msgstr "Enviar"
-
-#: default/templates/default/base-tool.html:65
+#: default/templates/default/base-tool.html:59
 #: default/templates/default/to-spreadsheet.html:120
 msgid ""
 "Processing operation. Please don't refresh nor close the browser window!"
 msgstr ""
 "Procesando la operación. Por favor no refresque ni cierre el navegador."
 
-#: default/templates/default/base-tool.html:66
+#: default/templates/default/base-tool.html:60
 msgid "Please wait... If a new window opens, please authorize the application."
 msgstr ""
 "Por favor espere... Si se abre una nueva ventana, favor autorice la "
@@ -358,7 +349,7 @@ msgstr ""
 #: default/templates/default/package-releases.html:23
 #: default/templates/default/split-packages.html:32
 #: default/templates/default/to-json.html:38
-#: default/templates/default/upgrade.html:22
+#: default/templates/default/upgrade.html:24
 msgid ""
 "Check the <strong>Pretty JSON</strong> checkbox to get a pretty print on the "
 "output files."
@@ -371,7 +362,7 @@ msgstr ""
 #: default/templates/default/package-releases.html:24
 #: default/templates/default/split-packages.html:33
 #: default/templates/default/to-json.html:39
-#: default/templates/default/upgrade.html:23
+#: default/templates/default/upgrade.html:25
 msgid ""
 "By default the output encoding is utf-8, you can change it in "
 "<strong>Encoding</strong> text box."
@@ -426,7 +417,7 @@ msgid "Please verify that your files are release packages before uploading."
 msgstr ""
 "Favor verifique que sus archivos sean paquetes de release antes de subirlos."
 
-#: default/templates/default/compile.html:38
+#: default/templates/default/compile.html:39
 msgid "Include Versioned Releases: "
 msgstr "Incluir el bloque versionedRelease: "
 
@@ -721,6 +712,11 @@ msgstr ""
 "autenticación sea completado."
 
 #: default/templates/default/snippets/output_description.html:16
+#: default/templates/default/tags/send_options_properties.html:11
+msgid "Send"
+msgstr "Enviar"
+
+#: default/templates/default/snippets/output_description.html:17
 msgid "Send the result directly to the selected function as an input file."
 msgstr ""
 "Envíe el resultado directamente a la función seleccionada como un archivo de "
@@ -813,6 +809,10 @@ msgid "An invalid split size was entered. Please change it to a valid number."
 msgstr ""
 "El tamaño de paquete ingresado es inválido. Por favor cámbielo por un valor "
 "válido."
+
+#: default/templates/default/tags/send_options_properties.html:5
+msgid "Send result to function:"
+msgstr "Enviar resultado a función:"
 
 #: default/templates/default/to-json.html:18
 #: default/templates/default/to-spreadsheet.html:42

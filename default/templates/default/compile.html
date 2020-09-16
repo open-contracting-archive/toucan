@@ -29,7 +29,8 @@
 <p>
     {% trans "Please verify that your files are release packages before uploading." %}
 </p>
-    {{ block.super }}
+    {% include "default/snippets/input-options/input_description.html" %}
+    {% include "default/snippets/output_description.html" %}
 {% endblock %}
 
 {% block extraoptions %}
@@ -46,10 +47,6 @@
 {% block scripts %}
     {{ block.super }}
     <script type="text/javascript">
-    /* hide send feature */
-    $('.response-success .form-send').addClass('hidden');
-    $('.info-send').addClass('hidden');
-
     (function(){
         toucanApp.setParams(function(params){
             if ($('.include-versioned').is(':checked') )

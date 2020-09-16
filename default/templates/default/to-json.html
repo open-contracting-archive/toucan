@@ -9,7 +9,7 @@
 
 {% block subtitle %} &gt;&gt; {% trans "Convert to JSON" %} {% endblock %}
 
-{% block send-options %}, {% show_options "compile split upgrade convert" %}{% endblock %}
+{% block send-options %}{% show_options "compile split upgrade convert" %}{% endblock %}
 
 {% block messages %}
     {{ block.super }}
@@ -39,7 +39,7 @@
         {% trans "By default the output encoding is utf-8, you can change it in <strong>Encoding</strong> text box." %}
     </p>
     {% include "default/snippets/input-options/input_description.html" %}
-    {% include "default/snippets/output_description.html" %}
+    {% include "default/snippets/output_description.html" with show_info_send="true" %}
 {% endblock %}
 
 {% block content %}
