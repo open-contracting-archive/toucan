@@ -195,6 +195,7 @@ def perform_split_packages(request, pretty_json=False, published_date='', size=1
 
 
 @require_files
+@extract_last_result
 @published_date
 @validate_optional_args
 def perform_compile(request, pretty_json=False, published_date='', encoding='utf-8', warnings=None):
