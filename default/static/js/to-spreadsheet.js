@@ -178,7 +178,7 @@
     }
 
     function send() {
-        if (checkSendResult) {
+        if (checkSendResult()) {
             transformInServer('sendResult');
         }
         else {
