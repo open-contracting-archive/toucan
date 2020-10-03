@@ -1,4 +1,5 @@
 import base64
+import collections
 import copy
 import hashlib
 import io
@@ -20,7 +21,7 @@ from ocdsmerge.util import get_tags
 
 from default.data_file import DataFile
 from default.mapping_sheet import mapping_sheet_method
-from ocdstoucan.settings import OCDS_TOUCAN_MAXFILESIZE, OCDS_TOUCAN_MAXNUMFILES
+from ocdstoucan.settings import OCDS_TOUCAN_MAXFILESIZE, OCDS_TOUCAN_MAXNUMFILES, OCDS_TOUCAN_MAX_RESULTS
 
 
 def ocds_tags():
@@ -41,26 +42,27 @@ def get_files_from_session(request):
         yield DataFile(**fileinfo)
 
 
-def json_response(request, files, warnings=None, pretty_json=False, codec='utf-8'):
-    file = DataFile('result', '.zip')
+def json_response(request, files, warnings=None, pretty_json=False, codec='utf-8', origin=None):
+    file = DataFile('result', '.zip', origin=origin)
     file.write_json_to_zip(files, pretty_json=pretty_json, codec=codec)
 
     response = {
         'url': file.url,
         'size': file.size,
-        'driveUrl': file.url.replace('result', 'google-drive-save-start')
+        'driveUrl': file.drive_url
     }
 
     if warnings:
         response['warnings'] = warnings
 
     # Save the last generated result on session
-    request.session['results'] = [file.as_dict()]
+    # request.session['results'] = [file.as_dict()]
+    save_results(request, file)
 
     return JsonResponse(response)
 
 
-def make_package(request, published_date, method, pretty_json, codec, warnings):
+def make_package(request, published_date, method, pretty_json, codec, warnings, origin=None):
     items = []
     for file in get_files_from_session(request):
         item = file.json(codec=codec)
@@ -71,7 +73,7 @@ def make_package(request, published_date, method, pretty_json, codec, warnings):
 
     return json_response(request, {
         'result.json': method(items, published_date=published_date),
-    }, warnings=warnings, pretty_json=pretty_json, codec=codec)
+    }, warnings=warnings, pretty_json=pretty_json, codec=codec, origin=origin)
 
 
 def invalid_request_file_message(f, file_type):
@@ -191,3 +193,11 @@ def flatten(input_file, output_dir, options):
 
 def get_cache_name(key, param):
     return key + '_' + str(base64.b64encode(hashlib.md5(param.encode('utf-8')).digest()))
+
+
+def save_results(request, file):
+    deque = collections.deque(request.session.get('results', []), maxlen=OCDS_TOUCAN_MAX_RESULTS)
+    deque.append(file.as_dict())
+
+    request.session['results'] = list(deque)
+    request.session.modified = True

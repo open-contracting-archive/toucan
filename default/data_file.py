@@ -1,7 +1,7 @@
 import json
 import os
 import uuid
-from datetime import date
+from datetime import date, datetime
 from zipfile import ZIP_DEFLATED, ZipFile
 
 from django.conf import settings
@@ -18,13 +18,16 @@ class DataFile:
     """
     sep = '-'
 
-    def __init__(self, prefix, ext, id=None, folder=None):
+    def __init__(self, prefix, ext, id=None, folder=None, timestamp=None, origin=None, url_suffix=None):
         if len(prefix) > 20:
             prefix = prefix[:20 + 1]
 
         self.prefix = prefix
         self.ext = ext
         self.id = id or str(uuid.uuid4())
+        self.timestamp = timestamp or str(datetime.now())
+        self.origin = origin
+        self.url_suffix = url_suffix
 
         if folder is not None:
             self.folder = folder
@@ -57,7 +60,16 @@ class DataFile:
         """
         Returns the URL path to the file.
         """
+        if self.url_suffix:
+            return '/result/{}/{}/{}/'.format(self.folder, self.id, self.url_suffix)
         return '/result/{}/{}/'.format(self.folder, self.id)
+
+    @property
+    def drive_url(self):
+        """
+        Returns the URL path to the Google Drive save feature for the file.
+        """
+        return '/google-drive-save-start/{}/{}/'.format(self.folder, self.id)
 
     @property
     def size(self):

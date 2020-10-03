@@ -26,7 +26,7 @@ from default.google_drive import get_credentials_from_session, google_api_messag
 from default.mapping_sheet import (get_extended_mapping_sheet, get_mapping_sheet_from_uploaded_file,
                                    get_mapping_sheet_from_url)
 from default.util import (flatten, get_cache_name, get_files_from_session, invalid_request_file_message, json_response,
-                          make_package, ocds_command, ocds_tags, resolve_schema_refs)
+                          make_package, ocds_command, ocds_tags, resolve_schema_refs, save_results)
 
 
 def get_datafile_filename(folder, id, format):
@@ -60,6 +60,11 @@ def retrieve_result(request, folder, id, format=None):
 
 def index(request):
     return render(request, 'default/index.html')
+
+
+def list_my_files(request):
+    results = [DataFile(**file) for file in request.session.get('results', [])]
+    return render(request, 'default/my-files.html', {'results': results})
 
 
 @clear_files
@@ -105,7 +110,7 @@ def perform_upgrade(request, pretty_json=False, encoding='utf-8', warnings=None)
     for file in get_files_from_session(request):
         data.update({file.name_with_suffix('upgraded'): upgrade_10_11(
             file.json(codec=encoding, object_pairs_hook=OrderedDict))})
-    return json_response(request, data, warnings, pretty_json, encoding)
+    return json_response(request, data, warnings, pretty_json, encoding, origin='Upgrade from 1.0 to 1.1')
 
 
 @require_GET
@@ -132,7 +137,8 @@ def get_schema_as_options(request):
 @validate_optional_args
 def perform_package_releases(request, pretty_json=False, published_date='', encoding='utf-8', warnings=None):
     method = package_releases_method
-    return make_package(request, published_date, method, pretty_json, encoding, warnings)
+    return make_package(request, published_date, method, pretty_json, encoding, warnings,
+                        origin='Create Release Packages')
 
 
 @require_files
@@ -144,7 +150,7 @@ def perform_combine_packages(request, pretty_json=False, published_date='', enco
         method = combine_release_packages
     else:
         method = combine_record_packages
-    return make_package(request, published_date, method, pretty_json, encoding, warnings)
+    return make_package(request, published_date, method, pretty_json, encoding, warnings, origin='Combine Packages')
 
 
 @require_files
@@ -191,7 +197,7 @@ def perform_split_packages(request, pretty_json=False, published_date='', size=1
             content[package_data] = context[i:i + size]
             result.update({name: content})
 
-    return json_response(request, result, warnings, pretty_json, encoding)
+    return json_response(request, result, warnings, pretty_json, encoding, origin='Split Packages')
 
 
 @require_files
@@ -205,7 +211,7 @@ def perform_compile(request, pretty_json=False, published_date='', encoding='utf
     return json_response(request, {
         'result.json': next(merge(packages, return_package=True, published_date=published_date,
                                   return_versioned_release=return_versioned_release)),
-    }, warnings, pretty_json, encoding)
+    }, warnings, pretty_json, encoding, origin='Compile Releases')
 
 
 def mapping_sheet(request):
@@ -279,7 +285,8 @@ def perform_to_spreadsheet(request):
     response = {}
     if form.cleaned_data['output_format'] == 'all' or form.cleaned_data['output_format'] == 'csv':
         # Create a ZIP file of the CSV files, and delete the output CSV files.
-        csv_zip = DataFile('flatten-csv', '.zip', id=input_file.id, folder=input_file.folder)
+        csv_zip = DataFile('flatten-csv', '.zip', id=input_file.id, folder=input_file.folder,
+                           origin='Convert to CSV/Excel', url_suffix='csv.zip')
         with ZipFile(csv_zip.path, 'w', compression=ZIP_DEFLATED) as zipfile:
             for filename in os.listdir(output_dir.path):
                 zipfile.write(os.path.join(output_dir.path, filename), filename)
@@ -290,6 +297,7 @@ def perform_to_spreadsheet(request):
             'size': csv_zip.size,
             'driveUrl': input_file.url.replace('result', 'google-drive-save-start') + 'csv.zip/'
         }
+        save_results(request, csv_zip)
 
     if form.cleaned_data['output_format'] == 'all' or form.cleaned_data['output_format'] == 'xlsx':
         response['xlsx'] = {
@@ -297,6 +305,9 @@ def perform_to_spreadsheet(request):
             'size': os.path.getsize(output_dir.path + '.xlsx'),
             'driveUrl': input_file.url.replace('result', 'google-drive-save-start') + 'xlsx/'
         }
+        output_xlsx = DataFile('flatten', '.xlsx', input_file.id, input_file.folder, origin='Convert to CSV/Excel',
+                               url_suffix='xlsx')
+        save_results(request, output_xlsx)
 
     return JsonResponse(response)
 
@@ -339,7 +350,8 @@ def perform_to_json(request, pretty_json=False, encoding='utf-8', warnings=None)
         shutil.rmtree(input_file_path)
 
     with open(output_name) as json_file:
-        return json_response(request, {'result.json': json.load(json_file)}, warnings, pretty_json, encoding)
+        return json_response(request, {'result.json': json.load(json_file)}, warnings, pretty_json, encoding,
+                             origin='Convert to JSON')
 
 
 @require_POST

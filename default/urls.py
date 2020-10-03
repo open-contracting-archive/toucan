@@ -33,5 +33,6 @@ urlpatterns = [
     path('google-drive-save-start/<str:folder>/<uuid:id>/', views.google_drive_save_start,
          name='googleapi_auth_start'),
     path('google-drive-save-start/<str:folder>/<uuid:id>/<str:format>/', views.google_drive_save_start,
-         name='googleapi_auth_start')
+         name='googleapi_auth_start'),
+    path('my-files', views.list_my_files, name='my_files')
 ]

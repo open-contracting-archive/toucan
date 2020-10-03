@@ -41,6 +41,7 @@ if 'ALLOWED_HOSTS' in os.environ:
 # Application definition
 
 INSTALLED_APPS = [
+    'sslserver',
     'default.apps.DefaultConfig',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -174,6 +175,7 @@ if 'SENTRY_DSN' in os.environ:
 
 OCDS_TOUCAN_MAXNUMFILES = os.getenv('OCDS_TOUCAN_MAXNUMFILES', 20)
 OCDS_TOUCAN_MAXFILESIZE = os.getenv('OCDS_TOUCAN_MAXFILESIZE', 10000000)  # in bytes
+OCDS_TOUCAN_MAX_RESULTS = os.getenv('OCDS_TOUCAN_MAX_RESULTS', 50)
 OCDS_TOUCAN_GOOGLE_API_CREDENTIALS_FILE = os.getenv('OCDS_TOUCAN_CREDENTIALS_DRIVE', 'googleapi_credentials.json')
 
 # https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/

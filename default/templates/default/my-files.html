@@ -1,0 +1,29 @@
+{% extends "default/base.html" %}
+{% load i18n %}
+
+{% block title %}{{ block.super }} | {% trans "My files" %}{% endblock %}
+{% block subtitle %} >> {% trans "My files" %}{% endblock %}
+{% block body %}
+<table class="table">
+    <thead>
+    <tr>
+        <th>#</th>
+        <th>{% trans "File" %}</th>
+        <th>{% trans "Created" %}</th>
+        <th>{% trans "Output from" %}</th>
+        <th>{% trans "Actions" %}</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for result in results %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ result.prefix }}{{ result.ext }}</td>
+            <td>{{ result.timestamp }}</td>
+            <td>{% if result.origin %}{% trans result.origin %}{% endif %}</td>
+            <td><a href="{{ result.url }}">{% trans "Download" %}</a></td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock body %}

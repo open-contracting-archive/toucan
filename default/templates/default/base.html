@@ -42,6 +42,13 @@
                       {% endfor %}
                   </ul>
                 </li>
+                <li>
+                    <a href="/my-files" style="margin-top:15px;">
+                        <i class="glyphicon glyphicon-folder-open"></i>&nbsp;
+                        {% trans "My files" %}
+                        <span class="badge">{% if request.session.results %}{{ request.session.results|length }}{% endif %}</span>
+                    </a>
+                </li>
             </ul>
         </div>
       </nav>
