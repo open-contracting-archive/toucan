@@ -81,8 +81,8 @@ class MappingSheetTestCase(TestCase):
         self.assertSuccess('get', 'results/bids-location-mapping-sheet.csv', {
             'version': '1__1__4',
             'extension': [
-                'https://raw.githubusercontent.com/open-contracting-extensions/ocds_bid_extension/v1.1.4/extension.json',  # noqa
-                'https://raw.githubusercontent.com/open-contracting-extensions/ocds_location_extension/v1.1.4/extension.json',  # noqa
+                'https://raw.githubusercontent.com/open-contracting-extensions/ocds_bid_extension/v1.1.4/extension.json',  # noqa: E501
+                'https://raw.githubusercontent.com/open-contracting-extensions/ocds_location_extension/v1.1.4/extension.json',  # noqa: E501
             ]
         })
 
@@ -93,8 +93,8 @@ class MappingSheetTestCase(TestCase):
         self.assertSuccess('post', 'results/bids-location-mapping-sheet.csv', {
             'type': 'extension',
             'version': '1__1__4',
-            'extension_url_0': 'https://raw.githubusercontent.com/open-contracting-extensions/ocds_bid_extension/v1.1.4/extension.json',  # noqa
-            'extension_url_1': 'https://raw.githubusercontent.com/open-contracting-extensions/ocds_location_extension/v1.1.4/extension.json',  # noqa
+            'extension_url_0': 'https://raw.githubusercontent.com/open-contracting-extensions/ocds_bid_extension/v1.1.4/extension.json',  # noqa: E501
+            'extension_url_1': 'https://raw.githubusercontent.com/open-contracting-extensions/ocds_location_extension/v1.1.4/extension.json',  # noqa: E501
         })
 
     def test_post_empty(self):
