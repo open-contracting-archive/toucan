@@ -76,9 +76,12 @@ def make_package(request, published_date, method, pretty_json, codec, warnings):
 
 def invalid_request_file_message(f, file_type):
     try:
-        # Only validate JSON files.
-        if file_type == 'csv xlsx zip':
-            return
+        if file_type == '.csv .xlsx .zip':
+            basename, extension = os.path.splitext(f.name)
+            if extension not in file_type:
+                return _('Not an csv, xlsx or zip file')
+            else:
+                return
 
         data = json.load(f)
 
