@@ -64,12 +64,19 @@ def index(request):
 
 @clear_files
 def to_spreadsheet(request):
-    return render(request, 'default/to-spreadsheet.html', {'form': UnflattenOptionsForm()})
+    context = {
+        'form': UnflattenOptionsForm(),
+        'performAction': '/to-spreadsheet/go/'
+    }
+    return render(request, 'default/to-spreadsheet.html', context)
 
 
 @clear_files
 def to_json(request):
-    return render(request, 'default/to-json.html')
+    context = {
+        'performAction': '/to-json/go/'
+    }
+    return render(request, 'default/to-json.html', context)
 
 
 @clear_files
