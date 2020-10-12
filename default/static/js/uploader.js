@@ -141,6 +141,19 @@ var toucanApp = toucanApp || {};
         $(container).removeClass('hidden');
     }
 
+    function enableProcessRestart(status){
+        $('.nav-tabs').addClass('hidden');
+        $('.action-extra-params').addClass('hidden');
+        // if the process was completed successfully, the file upload box is hidden
+        if (status === 'success') {
+            $('.tab-content').addClass('hidden');
+        } else if (status === 'fail') {
+            // only hide the `add` and `upload` buttons when it fails because the file upload box shows error messages
+            $('.file-process-buttons').addClass('hidden');
+        }
+        $('.response-restart').removeClass('hidden');
+    }
+
     function showWarnings(warnings) {
         $('.response-warning.action-failed').html('<ul>' + $.map(warnings, function (o) {
             return '<li>' + o + '</li>'
@@ -148,7 +161,7 @@ var toucanApp = toucanApp || {};
         $('.response-warning.action-failed').removeClass('hidden');
     }
 
-    function performAction(url) {
+    function performAction(url, input_flow) {
         app.showProcessingModal();
         var actionParams = {};
         _paramSetters.forEach(function (f) {
@@ -160,11 +173,18 @@ var toucanApp = toucanApp || {};
                 if (data.hasOwnProperty('warnings') && data.warnings.length > 0) {
                     showWarnings(data.warnings);
                 }
+                enableProcessRestart('success');
                 app.hideProcessingModal();
                 $('.actions').hide();
                 $('#fileupload').fileupload('destroy');
             })
-            .fail(whenAjaxReqFails)
+            .fail(function(jqXHR, textStatus, errorThrown) {
+                whenAjaxReqFails(jqXHR);
+                // if a provided URL doesn't work, it's possible to correct it without having to restart the page
+                if (input_flow != 'url') {
+                    enableProcessRestart('fail');
+                }
+            })
             .always(function () {
                 _done = true;
                 $('#processing-modal .downloading-status').addClass('hidden');
@@ -197,6 +217,7 @@ var toucanApp = toucanApp || {};
                 })
                 .fail(function () {
                     enableAddFiles();
+                    enableProcessRestart('fail');
                     $('.response-warning.file-process-failed').removeClass('hidden');
                 })
                 .always(function () {
@@ -231,7 +252,7 @@ var toucanApp = toucanApp || {};
         '&type=' + JSON.parse($('#fileupload').attr('data-form-data')).type,
         headers: {'X-CSRFToken': JSON.parse($('#fileupload').attr('data-form-data')).csrfmiddlewaretoken}})
             .done(function () {
-                performAction($('#url-button').attr('data-perform-action'));
+                performAction($('#url-button').attr('data-perform-action'), 'url');
             })
             .fail(function(jqXHR, textStatus, errorThrown) {
                 $.each(JSON.parse(jqXHR.responseText), function(i, item) {

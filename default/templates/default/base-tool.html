@@ -68,6 +68,14 @@
     </div>
 </div>
 
+{# Restart button, is shown when the process ends successfully or fails #}
+<div class="response-restart hidden">
+    <button type="submit" class="btn btn-primary pull-left restart" onClick="window.location.assign(window.location.pathname);">
+        <i class="glyphicon glyphicon-repeat"></i>
+        <span>{% trans "Restart" %}</span>
+    </button>
+</div>
+
 {% endblock body %}
 {# scripts #}
 {% block scripts %}
