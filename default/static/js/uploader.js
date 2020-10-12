@@ -28,15 +28,28 @@ var toucanApp = toucanApp || {};
         $('#upload-button').attr('disabled', true);
     }
 
+    function enableAddFiles() {
+        $('.fileinput-button').removeAttr('disabled');
+        $('.fileinput-button input:file').removeAttr('disabled');
+    }
+
     function disableAddFiles() {
         $('.fileinput-button').attr('disabled', true);
         $('.fileinput-button input:file').attr('disabled', true);
         $('.fileinput-button label').removeAttr("for");
     }
 
-    function enableAddFiles() {
-        $('.fileinput-button').removeAttr('disabled');
-        $('.fileinput-button input:file').removeAttr('disabled');
+    function enableProcessRestart(status){
+        $('.nav-tabs').addClass('hidden');
+        $('.action-extra-params').addClass('hidden');
+        // if the process was completed successfully, the file upload box is hidden
+        if (status === 'success') {
+            $('.tab-content').addClass('hidden');
+        } else if (status === 'fail') {
+            // only hide the `add` and `upload` buttons when it fails because the file upload box shows error messages
+            $('.file-process-buttons').addClass('hidden');
+        }
+        $('.response-restart').removeClass('hidden');
     }
 
     function hideMessages() {
@@ -89,6 +102,20 @@ var toucanApp = toucanApp || {};
         $('#processing-modal').modal('hide');
     }
 
+    function showResponseData(container, data){
+        $(container +' .file.size').html(utils.readableFileSize(data.size));
+        $(container + ' .file.download-link').attr('href', data.url);
+        $(container + ' .file.save-drive-link').attr('data-url', data.driveUrl);
+        $(container).removeClass('hidden');
+    }
+
+    function showWarnings(warnings) {
+        $('.response-warning.action-failed').html('<ul>' + $.map(warnings, function (o) {
+            return '<li>' + o + '</li>'
+        }).join('\n') + '</ul>');
+        $('.response-warning.action-failed').removeClass('hidden');
+    }
+
     /** listeners **/
 
     function whenUploadAdded(e, data) {
@@ -134,33 +161,6 @@ var toucanApp = toucanApp || {};
         app.hideProcessingModal();
     }
 
-    function showResponseData(container, data){
-        $(container +' .file.size').html(utils.readableFileSize(data.size));
-        $(container + ' .file.download-link').attr('href', data.url);
-        $(container + ' .file.save-drive-link').attr('data-url', data.driveUrl);
-        $(container).removeClass('hidden');
-    }
-
-    function enableProcessRestart(status){
-        $('.nav-tabs').addClass('hidden');
-        $('.action-extra-params').addClass('hidden');
-        // if the process was completed successfully, the file upload box is hidden
-        if (status === 'success') {
-            $('.tab-content').addClass('hidden');
-        } else if (status === 'fail') {
-            // only hide the `add` and `upload` buttons when it fails because the file upload box shows error messages
-            $('.file-process-buttons').addClass('hidden');
-        }
-        $('.response-restart').removeClass('hidden');
-    }
-
-    function showWarnings(warnings) {
-        $('.response-warning.action-failed').html('<ul>' + $.map(warnings, function (o) {
-            return '<li>' + o + '</li>'
-        }).join('\n') + '</ul>');
-        $('.response-warning.action-failed').removeClass('hidden');
-    }
-
     function performAction(url, input_flow) {
         app.showProcessingModal();
         var actionParams = {};
@@ -188,7 +188,8 @@ var toucanApp = toucanApp || {};
             .always(function () {
                 _done = true;
                 $('#processing-modal .downloading-status').addClass('hidden');
-            });
+            })
+        ;
     }
 
     function upload() {
@@ -247,10 +248,11 @@ var toucanApp = toucanApp || {};
         $('.form-group').removeClass('has-error');
         $('.help-block').remove();
 
-        $.ajax('/upload-url/', {'dataType': 'json', type: 'POST',
-        'data': $('.input-url-container .form-group .input-group .form-control').serialize() +
-        '&type=' + JSON.parse($('#fileupload').attr('data-form-data')).type,
-        headers: {'X-CSRFToken': JSON.parse($('#fileupload').attr('data-form-data')).csrfmiddlewaretoken}})
+        $.ajax('/upload-url/', {
+            'dataType': 'json', type: 'POST',
+            'data': $('.input-url-container .form-group .input-group .form-control').serialize() + '&type=' + JSON.parse($('#fileupload').attr('data-form-data')).type,
+            'headers': {'X-CSRFToken': JSON.parse($('#fileupload').attr('data-form-data')).csrfmiddlewaretoken}
+        })
             .done(function () {
                 performAction($('#url-button').attr('data-perform-action'), 'url');
             })

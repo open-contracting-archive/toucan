@@ -58,7 +58,9 @@
             <div class="modal-body">
                 <p class="default-message">{% trans "Processing operation. Please don't refresh nor close the browser window!" %}</p>
                 <p class="auth-message hidden">{% trans "Please wait... If a new window opens, please authorize the application." %}</p>
-                {% block additional_progress_messages %}{% endblock %}
+                <div class="downloading-status hidden">
+                    <p>{% trans "Processed " %}<span class="current-files">0</span>{% trans " of " %}<span class="total-files"></span>{% trans " files ..." %}</p>
+                </div>
                 <div class="progress">
                   <div class="progress-bar progress-bar-striped active" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
                   </div>

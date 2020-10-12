@@ -102,12 +102,6 @@
     </div>
 {% endblock content %}
 
-{% block additional_progress_messages %}
-<div class="downloading-status hidden">
-    <p>{% trans "Processed " %}<span class="current-files">0</span>{% trans " of " %}<span class="total-files"></span>{% trans " files ..." %}</p>
-</div>
-{% endblock %}
-
 {% block scripts %}
     {{ block.super }}
 <script src="{% static "js/vendor/jquery.ui.widget.js" %}"></script>
