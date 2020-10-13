@@ -10,7 +10,7 @@
 {% endblock css %}
 
 {% block messages %}
-{{ block.super }}
+    {{ block.super }}
     <div class="response-warning file-process-failed alert alert-warning hidden">
         {% trans "We couldn't check that all files were JSON or of the OCDS type requested." %}
         {% trans "Please verify each file and try again." %}
@@ -21,12 +21,14 @@
         {% trans "Please verify that all your files are valid OCDS JSON, and try again in a few minutes." %}
     </div>
 {% endblock messages %}
+
 {% block info_content %}
-    {% include "default/snippets/input-options/input_description.html" %}
-    {% include "default/snippets/output_description.html" with show_info_send="true" %}
+    {% include "default/snippets/input-options/input_description.html" with show_default=True %}
+    {% include "default/snippets/output_description.html" with show_info_send=True %}
 {% endblock %}
+
 {% block content %}
-    {% include "default/snippets/input-options/input_tabs.html" %}
+    {% include "default/snippets/input-options/input_tabs.html" with show_default=True %}
     <div class="action-extra-params form-inline"style="margin-bottom: 10px;">
         {% block extraoptions %}{% endblock %}
     </div>
@@ -104,17 +106,17 @@
 
 {% block scripts %}
     {{ block.super }}
-<script src="{% static "js/vendor/jquery.ui.widget.js" %}"></script>
-<script src="https://blueimp.github.io/JavaScript-Templates/js/tmpl.min.js"></script>
-<script src="{% static "js/jquery.iframe-transport.js" %}"></script>
-<script src="{% static "js/jquery.fileupload.js" %}"></script>
-<script src="{% static "js/jquery.fileupload-process.js" %}"></script>
-<script src="{% static "js/jquery.fileupload-validate.js" %}"></script>
-<script src="{% static "js/jquery.fileupload-ui.js" %}"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.js"></script>
-{% include "jquery-file-upload/upload.html"%}
-{% include "jquery-file-upload/download.html"%}
-<script src="{% static "js/utils.js" %}"></script>
-<script src="{% static "js/url_uploader.js" %}"></script>
-<script src="{% static "js/uploader.js" %}"></script>
+    <script src="{% static "js/vendor/jquery.ui.widget.js" %}"></script>
+    <script src="https://blueimp.github.io/JavaScript-Templates/js/tmpl.min.js"></script>
+    <script src="{% static "js/jquery.iframe-transport.js" %}"></script>
+    <script src="{% static "js/jquery.fileupload.js" %}"></script>
+    <script src="{% static "js/jquery.fileupload-process.js" %}"></script>
+    <script src="{% static "js/jquery.fileupload-validate.js" %}"></script>
+    <script src="{% static "js/jquery.fileupload-ui.js" %}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.js"></script>
+    {% include "jquery-file-upload/upload.html"%}
+    {% include "jquery-file-upload/download.html"%}
+    <script src="{% static "js/utils.js" %}"></script>
+    <script src="{% static "js/url_uploader.js" %}"></script>
+    <script src="{% static "js/uploader.js" %}"></script>
 {% endblock scripts %}

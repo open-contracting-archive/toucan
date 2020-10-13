@@ -1,7 +1,7 @@
 {% extends 'default/base-tool.html' %}
-{# extend this template to include a single upload view #}
-{% load i18n %}
+{# extend this template to include a single upload view using jquery-fileupload plugin #}
 {% load static %}
+{% load i18n %}
 
 {% block css %}
     <link href="{% static "css/uploader.css"%}" rel="stylesheet"/>
@@ -9,7 +9,12 @@
 
 {% block messages %}
     {{ block.super }}
-    <div class="response-fail alert alert-danger hidden">
+    <div class="response-warning file-process-failed alert alert-warning hidden">
+        {% trans "We couldn't check that the file was JSON or of the OCDS type requested." %}
+        {% trans "Please verify the file and try again." %}
+        {% trans "Files with validation issues will be ignored by default." %}
+    </div>
+    <div class="response-fail default-error alert alert-danger hidden">
         <b>{% trans "An error has occurred!" %}</b>
         {% trans "Please verify that the file is valid OCDS JSON, and try again in a few minutes." %}
     </div>
@@ -17,7 +22,7 @@
 
 {% block info_content %}
     {% include "default/snippets/input-options/input_description.html" %}
-    {% include "default/snippets/output_description.html" %}
+    {% include "default/snippets/output_description.html" with show_info_send=True %}
 {% endblock %}
 
 {% block content %}
@@ -27,6 +32,7 @@
         {% include "default/snippets/optional_arguments.html" %}
     </div>
     {% endif %}
+
     <form
         id="fileupload"
         method="POST"
@@ -62,6 +68,7 @@
                                 <span class="file-selected"></span>&nbsp;
                                 <label for="file">{% trans "Change" %}</label>
                             </span>
+                            <p><span class="text-danger"></span></p>
                             <span class="drop-area-received-msg hidden">
                                 <b>{% trans "Received: " %}</b><span class="file-result"></span>
                             </span>
@@ -70,7 +77,7 @@
             </div>
             <div class="actions file-process-buttons">
                 <div class="buttons">
-                    {% if options %}
+                    {% if unflatten_options %}
                     <button type="button" class="btn btn-default" id="options-button"
                         data-toggle="modal" data-target="#unflatten-options-modal">
                       <i class="glyphicon glyphicon-cog"></i>
