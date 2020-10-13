@@ -33,7 +33,7 @@ libcoveocds==0.7.5
 lxml==4.4.1               # via flattentool
 more-itertools==8.0.2     # via zipp
 oauthlib==3.1.0
-ocdsextensionregistry==0.0.16
+ocdsextensionregistry==0.0.24
 ocdskit[perf]==0.2.14
 ocdsmerge==0.6.4
 openpyxl==3.0.1           # via flattentool
