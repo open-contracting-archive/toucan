@@ -29,7 +29,7 @@
 <p>
     {% trans "Please verify that your files are release packages before uploading." %}
 </p>
-    {% include "default/snippets/input-options/input_description.html" %}
+    {% include "default/snippets/input-options/input_description.html" with show_default=True %}
     {% include "default/snippets/output_description.html" %}
 {% endblock %}
 

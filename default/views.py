@@ -64,12 +64,19 @@ def index(request):
 
 @clear_files
 def to_spreadsheet(request):
-    return render(request, 'default/to-spreadsheet.html', {'form': UnflattenOptionsForm()})
+    context = {
+        'form': UnflattenOptionsForm(),
+        'performAction': '/to-spreadsheet/go/'
+    }
+    return render(request, 'default/to-spreadsheet.html', context)
 
 
 @clear_files
 def to_json(request):
-    return render(request, 'default/to-json.html')
+    context = {
+        'performAction': '/to-json/go/'
+    }
+    return render(request, 'default/to-json.html', context)
 
 
 @clear_files
@@ -352,7 +359,8 @@ def upload_url(request):
         if 'input_url' in data:
             url = request.POST.get(data)
             basename = data
-            if request.POST.get('type') == 'csv xlsx zip':
+            file_type = request.POST.get('type', None)
+            if file_type == '.csv .xlsx .zip':
                 extension = os.path.splitext(urlparse(url).path)[1]
             else:
                 extension = ".json"
@@ -385,7 +393,6 @@ def upload_url(request):
 
             else:
                 with open(data_file.path, 'rb') as f:
-                    file_type = request.POST.get('type', None)
                     message = invalid_request_file_message(f, file_type)
                     if message:
                         errors.append({'id': data, 'message': message})

@@ -77,7 +77,6 @@
     position: relative;
     min-height: 100vh;
 }
-
 .content-wrap.ocp-content {
     padding-bottom: 12rem;
 }
@@ -85,20 +84,24 @@
     margin-bottom: 0;
     margin-top: 10px;
 }
-
 .panel-title a {
     color: #9baf00;
     text-decoration: none;
 }
-
 .panel-title a .control {
     color: #8c8c8c;
 }
-
 .panel-title a .control .glyphicon{
     top: 5px;
 }
-
+.response-restart{
+    width: 100%;
+    padding: 5px 10px;
+    display: inline-block;
+    border-top: 2px dashed #ccc;
+    background-color: #e1f2f5;
+    margin-bottom: 5px;
+}
 #tree-container{
     height: 400px;
     overflow-y: auto;

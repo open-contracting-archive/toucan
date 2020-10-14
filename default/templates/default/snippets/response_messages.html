@@ -1,0 +1,27 @@
+{% load i18n %}
+<div class="response-warning file-process-failed alert alert-warning hidden">
+    {% if show_default %}
+        {% trans "We couldn't check that all files were JSON or of the OCDS type requested." %}
+        {% trans "Please verify each file and try again." %}
+    {% else %}
+        {% if other_type %}
+            {% trans "We couldn't check that the file was the type requested." %}
+        {% else %}
+            {% trans "We couldn't check that the file was JSON or of the OCDS type requested." %}
+        {% endif %}
+    {% trans "Please verify the file and try again." %}
+    {% endif %}
+    {% trans "Files with validation issues will be ignored by default." %}
+</div>
+<div class="response-fail default-error alert alert-danger hidden">
+    <b>{% trans "An error has occurred!" %}</b>
+    {% if show_default %}
+        {% trans "Please verify that all your files are valid OCDS JSON, and try again in a few minutes." %}
+    {% else %}
+        {% if other_type %}
+            {% trans "Please verify that the file is in a format accepted by Flatten Tool for OCDS, and try again in a few minutes." %}
+        {% else %}
+            {% trans "Please verify that the file is valid OCDS JSON, and try again in a few minutes." %}
+        {% endif %}
+    {% endif %}
+</div>

@@ -97,8 +97,14 @@ class FileUploadTestCase(TestCase):
     def test_release_package_error(self):
         self.assertError('release-package', 'Not a release package')
 
+    def test_release_or_package_error(self):
+        self.assertError('package release', 'Not a release or package')
+
     def test_package_error(self):
         self.assertError('package package-array', 'Not a package or list of packages')
 
     def test_release_error(self):
         self.assertError('release release-array', 'Not a release or list of releases')
+
+    def test_csv_xlsx_zip_error(self):
+        self.assertError('.csv .xlsx .zip', 'Not an csv, xlsx or zip file')

@@ -4,11 +4,21 @@
 </p>
 <ul class="list-unstyled">
     <li>
-        <strong>{% trans "Upload files:" %}</strong>
-        {% trans "Drag and drop one or more files. You can also click the <strong>Add a file</strong> link below. " %}
+        {% if show_default %}
+            <strong>{% trans "Upload files" %}:</strong>
+            {% trans "Drag and drop one or more files. You can also click the <strong>Add a file</strong> link below. " %}
+        {% else %}
+            <strong>{% trans "Upload a file" %}:</strong>
+            {% trans "Upload no more than one file by dragging and dropping in the box below or using the <strong>Add a file</strong> link." %}
+        {% endif %}
     </li>
     <li>
-        <strong>{% trans "Provide URLs:" %}</strong>
-        {% trans "Enter one or more URLs to each file. Click <strong>Add URL</strong> to provide more URLs." %}
+        {% if show_default %}
+            <strong>{% trans "Provide URLs" %}:</strong>
+            {% trans "Enter one or more URLs to each file. Click <strong>Add URL</strong> to provide more URLs." %}
+        {% else %}
+            <strong>{% trans "Provide a URL" %}:</strong>
+            {% trans "Provide a single URL to a file." %}
+        {% endif %}
     </li>
 </ul>

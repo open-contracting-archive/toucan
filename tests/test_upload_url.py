@@ -58,7 +58,7 @@ class UploadUrlTestCase(TestCase):
         file_url = {
             'input_url_0': 'https://github.com/open-contracting/toucan/blob/master/tests/fixtures/'
                            '1.1/spreadsheets/flattened.xlsx?raw=true',
-            'type': 'csv xlsx zip'
+            'type': '.csv .xlsx .zip'
         }
         self.client.post('/upload-url/', file_url)
         response = self.client.get('/upload-url/status/')

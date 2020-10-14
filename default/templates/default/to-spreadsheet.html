@@ -1,9 +1,9 @@
-{% extends 'default/base-tool.html' %}
+{% extends 'default/base-single-uploader.html' %}
 {% load i18n %}
 {% load static %}
 
 {% block css %}
-    <link href="{% static "css/uploader.css"%}" rel="stylesheet"/>
+    {{ block.super }}
     <link href="{% static "themes/jstree/default/style.min.css"%}" rel="stylesheet"/>
 {% endblock %}
 
@@ -37,106 +37,38 @@
             </li>
         </ul>
     </div>
-    <div class="response-fail alert alert-danger hidden">
-        <b>{% trans "An error has occurred!" %}</b>
-        {% trans "Please verify that the file is valid OCDS JSON, and try again in a few minutes." %}
-    </div>
-    <div class="response-fail-empty alert alert-danger hidden">
-    </div>
+    {% include "default/snippets/response_messages.html" %}
 {% endblock messages %}
+
 {% block info_title %}
     {% blocktrans trimmed %}
             Use this page to convert a <a href="https://standard.open-contracting.org/latest/en/schema/release_package/"
             target="_blank">release package</a> to its CSV and Excel version.
         {% endblocktrans %}
 {% endblock %}
+
 {% block info_content %}
-    {% include "default/snippets/input-options/input_description_single.html" %}
-    {% include "default/snippets/output_description.html" %}
+    <p>
+        {% blocktrans trimmed %}
+            Click <strong>Options</strong> to display some parameters that allow you to <strong>select</strong> the
+            schema version, <strong>filter</strong> data by field, <strong>check/uncheck</strong> which fields to
+            include in the flattened files, and more.
+        {% endblocktrans %}
+    </p>
+    {{ block.super }}
 {% endblock %}
 
 {% block content %}
-    {% include "default/snippets/input-options/input_tabs.html" %}
-    <form
-        id="fileupload"
-        method="POST"
-        action="/upload/"
-        data-form-data='{"csrfmiddlewaretoken": "{{csrf_token}}", "type": "release-package"}'
-        data-auto-upload="false"
-        data-replace-file-input="false"
-        accept="text/json"
-        data-accept-file-types="/\.json$/i"
-        >
-        <div class="tab-content">
-            <div role="tabpanel" class="tab-pane" id="urls">
-                <div class="input-url-container">
-                    <div class="form-group" id="input_url_0">
-                        <label>{% blocktrans trimmed %}
-                            Provide the URL to a file:
-                            {% endblocktrans %}</label>
-                        <input type="text" name="input_url_0" class="form-control"/>
-                        <span class="help-block"></span>
-                    </div>
-                </div>
-            </div>
-            <div role="tabpanel" class="tab-pane active" id="files">
-                <div class="form-group">
-                        <div class="drop-area empty single">
-                            <input type="file" name="file" id="file" accept=".json" multiple/>
-                            <span class="drop-area-msg-empty">
-                                <label for="file">{% trans "Add a file" %}</label>
-                                {% trans "or drag and drop here." %}
-                            </span>
-                            <span class="drop-area-msg hidden">
-                                <span class="file-selected"></span>&nbsp;
-                                <label for="file">{% trans "Change" %}</label>
-                            </span>
-                            <span class="drop-area-received-msg hidden">
-                                <b>{% trans "Received: " %}</b><span class="file-result"></span>
-                            </span>
-                        </div>
-                </div>
-            </div>
-            <div class="actions">
-                <div class="buttons">
-                    <button type="button" class="btn btn-default" id="options-button"
-                        data-toggle="modal" data-target="#unflatten-options-modal">
-                      <i class="glyphicon glyphicon-cog"></i>
-                      <span>{% trans "Options" %}</span>
-                    </button>
-                    <button type="button" class="btn btn-primary pull-right" id="upload-button" disabled="disabled">
-                      <i class="glyphicon glyphicon-cloud-upload"></i>
-                      <span>{% trans "Start" %}</span>
-                    </button>
-                </div>
-            </div>
-        </div>
-    </form>
-    <!-- Processing modal -->
-    <div id="processing-modal" class="modal fade" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false">
-        <div class="modal-dialog modal-sm" role="document">
-            <div class="modal-content">
-                <div class="modal-body">
-                    <p>{% trans "Processing operation. Please don't refresh nor close the browser window!" %}</p>
-                    <div class="progress">
-                      <div class="progress-bar progress-bar-striped active" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
-                      </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    {% include "default/snippets/unflatten-options-modal.html" %}
+    {% with unflatten_options=True pull_right="pull-right" accept=".json" type="release-package" %}
+        {{ block.super }}
+        {% include "default/snippets/unflatten-options-modal.html" %}
+    {% endwith%}
 {% endblock content %}
 
 {% block scripts %}
     {{ block.super }}
-    <script src="{% static "js/vendor/jquery.ui.widget.js" %}"></script>
-    <script src="{% static "js/jquery.iframe-transport.js" %}"></script>
-    <script src="{% static "js/jquery.fileupload.js" %}"></script>
     <script src="{% static "js/vendor/jstree.min.js" %}"></script>
     <script src="{% static "js/jquery.typewatch.js" %}"></script>
     <script src="{% static "js/unflatten-options.js" %}"></script>
-    <script src="{% static "js/to-spreadsheet.js" %}"></script>
     <script type="text/javascript">toucanApp.unflattenOptions.setFilterFieldEmptyText('{% trans "No filter" %}')</script>
 {% endblock %}

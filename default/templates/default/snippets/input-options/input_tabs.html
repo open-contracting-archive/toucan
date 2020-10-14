@@ -2,12 +2,20 @@
 <ul class="nav nav-tabs" role="tablist" style="margin-top: 0px;margin-bottom: 15px;">
     <li role="presentation" class="active">
         <a href="#files" aria-controls="files" role="tab" data-toggle="tab">
-            {% trans "Upload files" %}
+            {% if show_default %}
+                {% trans "Upload files" %}
+            {% else %}
+                {% trans "Upload a file" %}
+            {% endif %}
         </a>
     </li>
     <li role="presentation">
         <a href="#urls" aria-controls="urls" role="tab" data-toggle="tab">
-            {% trans "Provide URLs" %}
+            {% if show_default %}
+                {% trans "Provide URLs" %}
+            {% else %}
+                {% trans "Provide a URL" %}
+            {% endif %}
         </a>
     </li>
 </ul>

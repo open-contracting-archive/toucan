@@ -1,0 +1,93 @@
+{% extends 'default/base-tool.html' %}
+{# extend this template to include a single upload view using jquery-fileupload plugin #}
+{% load static %}
+{% load i18n %}
+
+{% block css %}
+    <link href="{% static "css/uploader.css"%}" rel="stylesheet"/>
+{% endblock %}
+
+{% block messages %}
+    {{ block.super }}
+    {% include "default/snippets/response_messages.html" with other_type=other_type %}
+{% endblock messages %}
+
+{% block info_content %}
+    {% include "default/snippets/input-options/input_description.html" %}
+    {% include "default/snippets/output_description.html" with show_info_send=True %}
+{% endblock %}
+
+{% block content %}
+    {% include "default/snippets/input-options/input_tabs.html" %}
+    {% if extra_params %}
+    <div class="action-extra-params form-inline"style="margin-bottom: 10px;">
+        {% include "default/snippets/optional_arguments.html" %}
+    </div>
+    {% endif %}
+
+    <form
+        id="fileupload"
+        method="POST"
+        action="/upload/"
+        data-form-data='{"csrfmiddlewaretoken": "{{csrf_token}}", "type": "{{type}}"}'
+        data-perform-action="{{performAction}}"
+        data-auto-upload="false"
+        data-replace-file-input="false"
+        accept="text/json"
+        data-accept-file-types="/\.json$/i"
+        >
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane" id="urls">
+                <div class="input-url-container">
+                    <div class="form-group" id="input_url_0">
+                        <label>{% trans "Provide the URL to a file" %}:</label>
+                        <input type="text" name="input_url_0" class="form-control"/>
+                        <span class="help-block"></span>
+                    </div>
+                </div>
+            </div>
+            <div role="tabpanel" class="tab-pane active" id="files">
+                <div class="form-group">
+                        <div class="drop-area empty single">
+                            <input type="file" name="file" id="file" accept="{{accept}}" multiple/>
+                            <span class="drop-area-msg-empty">
+                                <label for="file">{% trans "Add a file" %}</label>
+                                {% trans "or drag and drop here." %}
+                            </span>
+                            <span class="drop-area-msg hidden">
+                                <span class="file-selected"></span>&nbsp;
+                                <label for="file">{% trans "Change" %}</label>
+                            </span>
+                            <p><span class="text-danger"></span></p>
+                            <span class="drop-area-received-msg hidden">
+                                <b>{% trans "Received: " %}</b><span class="file-result"></span>
+                            </span>
+                        </div>
+                </div>
+            </div>
+            <div class="actions file-process-buttons">
+                <div class="buttons">
+                    {% if unflatten_options %}
+                    <button type="button" class="btn btn-default" id="options-button"
+                        data-toggle="modal" data-target="#unflatten-options-modal">
+                      <i class="glyphicon glyphicon-cog"></i>
+                      <span>{% trans "Options" %}</span>
+                    </button>
+                    {% endif %}
+                    <button type="button" class="btn btn-primary {{pull_right}}" id="upload-button" data-perform-action="{{performAction}}" disabled="disabled">
+                      <i class="glyphicon glyphicon-cloud-upload"></i>
+                      <span>{% trans "Start" %}</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </form>
+{% endblock content %}
+
+{% block scripts %}
+    {{ block.super }}
+    <script src="{% static "js/vendor/jquery.ui.widget.js" %}"></script>
+    <script src="{% static "js/jquery.iframe-transport.js" %}"></script>
+    <script src="{% static "js/jquery.fileupload.js" %}"></script>
+    <script src="{% static "js/single_uploader.js" %}"></script>
+{% endblock scripts %}
