@@ -1,6 +1,6 @@
 # OCDS Toucan
 
-OCDS Toucan is a web application for handling OCDS files based on [OCDS Kit](https://github.com/open-contracting/ocdskit).
+OCDS Toucan is a web application to transform OCDS files based on [OCDS Kit](https://github.com/open-contracting/ocdskit).
 OCDS Toucan provides the same functionalities as OCDS Kit through a intuitive and easy to use web interface.
 
 ## Getting Started 
@@ -15,10 +15,10 @@ OCDS Toucan provides the same functionalities as OCDS Kit through a intuitive an
 pip intall -r requirements.txt
 ```
 2. Set the following environment variables:
-* OCDS_TOUCAN_MEDIA_ROOT: path of the directory where the uploaded files will be stored. Any directory of your choice
-* OCDS_TOUCAN_LOCALE_PATH: path to the "locale" directory inside the project.
-* OCDS_TOUCAN_MAXNUMFILES: max number of files to upload per request.
-* OCDS_TOUCAN_MAXFILESIZE: max size of files to upload in bytes.
+* OCDS_TOUCAN_MEDIA_ROOT: path of the directory where the uploaded files will be stored. By default is the `media` folder inside the project's directory.
+* OCDS_TOUCAN_LOCALE_PATH: lookup path for .PO files. By default is the `locale` folder inside the project's directory.
+* OCDS_TOUCAN_MAXNUMFILES: max number of files to upload per request. Default value is 20.
+* OCDS_TOUCAN_MAXFILESIZE: max size of files to upload in bytes. Default value is 10MB.
 
 ### Configuration 
 The system can be configured by setting the environment variables mentioned above, some of this variables have
@@ -37,29 +37,29 @@ python manage.py runserver
 
 ## Functionalities
 ### Create Release Package
-Generates a [Release Package](http://standard.open-contracting.org/latest/en/getting_started/publication_patterns/#packaging-releases-and-records) from many [Release](http://standard.open-contracting.org/latest/en/getting_started/releases_and_records/#releases) files.
+Generates a [Release Package](http://standard.open-contracting.org/latest/en/getting_started/publication_patterns/#packaging-releases-and-records) from one or more [release](http://standard.open-contracting.org/latest/en/getting_started/releases_and_records/#releases) files.
 Uses the command `package-releases`. [More Information](https://ocdskit.readthedocs.io/en/latest/cli/ocds.html#package-releases).
 >Valid file types: [Release](/tests/fixtures/1.1/releases).
 
 ### Combine Packages
 Combines release packages or record packages into a single package.		
-Uses the command `combine-record-packages` for record packages. [More information](https://ocdskit.readthedocs.io/en/latest/cli/ocds.html#combine-record-packages).	
-Uses the command `combine-release-packages` for release packages. [More information](https://ocdskit.readthedocs.io/en/latest/cli/ocds.html#combine-release-packages).
+Uses the `combine-record-packages` command for record packages
+and the `combine-release-packages` command for release packages. More information: [`combine-record-packages`](https://ocdskit.readthedocs.io/en/latest/cli/ocds.html#combine-record-packages) and [`combine-release-packages`](https://ocdskit.readthedocs.io/en/latest/cli/ocds.html#combine-release-packages).
 >Valid file types: [Release Packages](/tests/fixtures/1.1/release-packages), [Record Packages](/tests/fixtures/1.1/record-packages).
 
 ### Compile Releases
 Generates a [Record Package](http://standard.open-contracting.org/latest/en/getting_started/publication_patterns/#packaging-releases-and-records) from Release Package files.
-Uses the command `compile`. **Attention**: this command uses `--package` and `--versioned` as parameters, visit the [documentation](https://ocdskit.readthedocs.io/en/latest/cli/ocds.html#compile) for more information. 
+Uses the `compile` command. **Attention**: the `--package` flag is used by default, visit the [documentation](https://ocdskit.readthedocs.io/en/latest/cli/ocds.html#compile) for more information. 
 >Valid file types: [Release Packages](/tests/fixtures/1.1/release-packages).
 
 ### Upgrade from 1.0 to 1.1
 Updates packages and releases from OCDS version 1.0 to 1.1.
-Uses the command `upgrade`. [More information](https://ocdskit.readthedocs.io/en/latest/cli/ocds.html#upgrade).
+Uses the `upgrade` command. [More information](https://ocdskit.readthedocs.io/en/latest/cli/ocds.html#upgrade).
 >Valid file types: Any OCDS file.
 
 ### Generate a spreadsheet version of schema
 Generates a spreadsheet of any OCDS schema version.
-Uses the command `mapping-sheet`. [More Information](https://ocdskit.readthedocs.io/en/latest/cli/schema.html#mapping-sheet).
+Uses the `mapping-sheet` command. [More Information](https://ocdskit.readthedocs.io/en/latest/cli/schema.html#mapping-sheet).
 >Valid file types: [Release](/tests/fixtures/1.1/releases), [Release Packages](/tests/fixtures/1.1/release-packages) o [Record Packages](/tests/fixtures/1.1/record-packages).
 
 ### Convert to CSV/Excel
@@ -74,9 +74,8 @@ Uses [flatten-tool](https://github.com/OpenDataServices/flatten-tool).
 
 ## Architecture
 ### Architectures Description
-This web application use Django Framework to build Front-end and Backend modules.
-The Front-end module contains the user-interaction elements.
-In the Back-end module, the OCDS Kit and flatten-tool are implemented as libraries that implement the functionalities.
+This web application use Django Framework.
+The OCDS Kit and the flatten-tool are used as support libraries.
 ![alt text](img/architecture.png "Architecture Overview")
 
 ### Design
@@ -95,42 +94,43 @@ Session timeout | 24 hours
 
 ## Use examples
 
-The screenshots used in the differet following examples correspond to how the different functionalities look in the website as of
-april 2020
+The screenshots that follow were taken in April 2020. Each section provides sample files that can be used to test the feature.
 
 ### 1. Create a Release Package
-1. Select a file with "Add a file" or by dragging it to the rectangle. We will be using [Release 1.1](/tests/fixtures/1.1/releases) files.
+[Sample files](/tests/fixtures/1.1/releases)
+1. Select a file clicking the "Add a file" link or by dragging a file to the page. 
 ![Alt text](img/ex1_1.png "Image 1.1")
-2. Add more files with the "Add more files"(2.1) button or create a Release Package with "Start" (2.2). 
+2. Add more files with the "Add more files"(2.1) button. When you're ready, click "Start" (2.2). 
 ![Alt text](img/ex1_2.png "Image 1.2")
-3. When finished, a message will appear to download the generated Release Packaged.
+3. Wait for the processing to finish. A link will appear in the top of the page to download the release package.
 ![Alt text](img/ex1_3.png "Image 1.3")
 
 ### 2. Combine Packages
 
 #### 2.1 Release Package
-1. For this example we selected the Release Package option in the Package type dropdown list.
-2. Select one or more Release Package files with "Add a file" or by dragging to the rectangle. In this example we use the [Release Packages 1.1](/tests/fixtures/1.1/release-packages) files.
+[Example files](/tests/fixtures/1.1/release-packages)
+1. Select one or more Release Package files using the "Add a file" link  or by dragging files to the page. In this example we use the [Release Packages 1.1](/tests/fixtures/1.1/release-packages) files. 
 ![Alt text](img/ex2_1.png "Image 2.1.2")
-3. We can add more files with the "Add more files" button or by dragging to the rectangle, or we can start the operation with "Start".
+2. Add more files by using the "Add more files" button or by dragging and dropping files in the page. When you're ready, click "Start".
 ![Alt text](img/ex2_2.png "Image 2.1.3")
-4. Once finished, a message will appear to download the generated file.
+3. Once the transformation process is finished, a download link will appear at the top of the page.
 ![Alt text](img/ex2_3.png "Image 2.1.4")
 
 ### 2.2 Record Package
-1. For this example we selected the Record Package option in the Package type dropdown list.
-2. Select one or more Release Package files with "Add a file" or by dragging to the rectangle. In this example we use the [Record Packages 1.1](/tests/fixtures/1.1/record-packages) files.
+[Sample files](/tests/fixtures/1.1/record-packages)
+1. Select one or more release package files with the "Add a file" link or by dragging and dropping files in the page.
 ![Alt text](img/ex2_4.png "Image 2.2.2")
-3. We can add more files with the "Add more files" button or by dragging to the rectangle, or we can start the operation with "Start".
+2. Add more files with the "Add more files" button or by dragging and dropping files in the page. When you're ready, click the "Start" button.
 ![Alt text](img/ex2_5.png "Image 2.2.3")
-4. Once finished, a message will appear to download the generated file.
+3. Once the processing ends, a download link will appear at the top of the page.
 ![Alt text](img/ex2_6.png "Image 2.2.4")
 
 ### 3. Compile Release Packages
-1. Select a file with "Add a file" or by dragging to the rectangle, just as the first example. We will use the [Release Packages 1.1](/tests/fixtures/1.1/release-packages) examples.
-2. Just as the example before, we can add more files or start  the operation. We also have the option to include Release versioning on our Record Package that will be generated.
+[Sample files](/tests/fixtures/1.1/release-packages)
+1. Select one or more files with the "Add a file" link or by dragging and dropping files in the page.
+2. By default, versioned releases are included in the records. If you don't need this, find the "Include versioned releases" checkbox and remove the check mark with a click.
 ![Alt text](img/ex3_1.png "Image 3.1")
-3. Just as the example before, a message to download the generated Record Package appears.
+3. Click the "Start" button, and wait for the processing to end. A download link will appear at the top of the page.
 ![Alt text](img/ex3_2.png "Image 3.2")
 
 ### 4. Update a 1.0 OCDS file to 1.1
@@ -162,8 +162,3 @@ april 2020
 * [JQuery 3.3](https://jquery.com/) - JavaScript library.
 * [Bootstrap 3+](https://getbootstrap.com/) - Multiplatform library.
 
-## Versioning
-Git is used for version control.
-
-## Licensing
-Copyright (c) Open Contrantig Partnership
