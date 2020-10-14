@@ -1,21 +1,24 @@
 var toucanApp = toucanApp || {};
 (function(){
     var fileUploadObj = $('#fileupload').fileupload(),
-    dropArea = $('.drop-area'),
-    uploadButton = $('#upload-button'),
-    sendButton = $('.send-button'),
-    processingModal = $('#processing-modal'),
-    successBox = $('.response-success'),
-    restartButton = $('.response-restart'),
-    errorBox = $('.response-fail'),
-    formGroup = $('.form-group'),
-    dropAreaFileLink = $('.drop-area-msg label'),
-    urlInput = $('#input_url_0 input'),
-    actions = $('.actions'),
-    actionsParams = $('.action-extra-params'),
-    urlHelpBlock = $('.input-url-container .help-block'),
-    tabPanels = $('.nav.nav-tabs'),
-    tabContent = $('.tab-content')
+        dropArea = $('.drop-area'),
+        uploadButton = $('#upload-button'),
+        sendButton = $('.send-button'),
+        processingModal = $('#processing-modal'),
+        successBox = $('.response-success'),
+        restartButton = $('.response-restart'),
+        errorBox = $('.response-fail'),
+        defaultErrorBox = $('.response-fail.default-error'),
+        fileWarning = $('.text-danger'),
+        fileErrorBox = $('.response-warning.file-process-failed'),
+        formGroup = $('.form-group'),
+        dropAreaFileLink = $('.drop-area-msg label'),
+        urlInput = $('#input_url_0 input'),
+        actions = $('.actions'),
+        actionsParams = $('.action-extra-params'),
+        urlHelpBlock = $('.input-url-container .help-block'),
+        tabPanels = $('.nav.nav-tabs'),
+        tabContent = $('.tab-content')
     ;
 
     var selectedFile;
@@ -77,30 +80,40 @@ var toucanApp = toucanApp || {};
         successBox.removeClass('hidden');
     }
 
-    function showErrorMessages() {
-        errorBox.removeClass('hidden')
-            .children()
-            .removeClass('hidden');
-    }
-
     function showActionErrorMessage(jqXHR, textStatus, errorThrown) {
-        showErrorMessages();
-        /* show error messages received from the server, after calling the unflatten function */
+        // show error messages received from the server, after calling the unflatten function
         if ('responseJSON' in jqXHR && 'form_errors' in jqXHR.responseJSON) {
             toucanApp.unflattenOptions.showErrorsFromServer(jqXHR.responseJSON.form_errors);
-            errorBox.removeClass('hidden')
+            defaultErrorBox.removeClass('hidden')
                 .children('.unflatten-invalid-options')
                 .removeClass('hidden');
             $('#unflatten-options-modal').modal('show');
+        } else {
+            // shows a default error message written in the template
+            errorBox.removeClass('hidden')
+                .children('.default-message')
+                .removeClass('hidden');
         }
         enableFileInput();
     }
 
     function showFileErrorMsg(jqXHR, textStatus, errorThrown) {
-        showErrorMessages();
-        if (jqXHR || textStatus) {
-            // add message received from the server
-            errorBox.children('.msg').html(jqXHR.responseText || textStatus);
+        // shows the 401 error for invalid type
+        if (jqXHR.status === 401) {
+            fileErrorBox.removeClass('hidden');
+            fileWarning.html(jqXHR.responseText || textStatus);
+        } else {
+            if (jqXHR || textStatus) {
+                // shows an error message received from the server
+                errorBox.removeClass('hidden')
+                    .children('.unflatten-invalid-options')
+                    .removeClass('hidden')
+                    .children('.msg')
+                    .html(jqXHR.responseText || textStatus)
+                ;
+            } else {
+                defaultErrorBox.removeClass('hidden');
+            }
         }
     }
 
@@ -111,7 +124,7 @@ var toucanApp = toucanApp || {};
             $(slt).addClass('has-error');
             urlHelpBlock.html(msg);
         });
-        showErrorMessages();
+        fileErrorBox.removeClass('hidden');
         processingModal.modal('hide');
     }
 
@@ -119,6 +132,10 @@ var toucanApp = toucanApp || {};
         /* removes all messages in screen */
         errorBox
             .addClass('hidden')
+            .children()
+            .addClass('hidden')
+        ;
+        fileErrorBox.addClass('hidden')
             .children()
             .addClass('hidden')
         ;
@@ -312,7 +329,7 @@ var toucanApp = toucanApp || {};
                     enableUploadButton();
                 })
                 .fail(function () {
-                    errorBox.removeClass('hidden');
+                    defaultErrorBox.removeClass('hidden');
                 })
                 .always(function () {
                     processingModal.modal('hide');

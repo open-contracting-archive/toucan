@@ -324,7 +324,7 @@ var toucanApp = toucanApp || {};
                     $('#upload-button').addClass('sendResult');
                 })
                 .fail(function () {
-                    $('.response-fail').removeClass('hidden');
+                    $('.response-fail.default-error').removeClass('hidden');
                 })
                 .always(function () {
                     app.hideProcessingModal();
