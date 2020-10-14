@@ -7,6 +7,12 @@
 
 {% block send-options %}{% show_options "compile split upgrade convert" %}{% endblock %}
 
+{% block messages %}
+    {% with other_type=True %}
+        {{ block.super }}
+    {% endwith%}
+{% endblock messages %}
+
 {% block info_title %}
     {% blocktrans trimmed %}
         Use this page to convert a CSV or Excel version into a <a href="https://standard.open-contracting.org/latest/en/schema/release_package/"
@@ -15,19 +21,20 @@
 {% endblock %}
 
 {% block info_content %}
-    <p>
-        {% blocktrans trimmed %}
-            The input CSV files must be compressed at the root of a ZIP file if there is more than one file, and the Excel file must be an XLSX file.
-            Please verify that your files are in a format accepted by <a href="https://flatten-tool.readthedocs.io/en/latest/usage-ocds/"
-            target="_blank">Flatten Tool</a> for OCDS.
-        {% endblocktrans %}
-    </p>
-    <p>
-        {% trans "Check the <strong>Pretty JSON</strong> checkbox to get a pretty print on the output files." %}
-        {% trans "By default the output encoding is utf-8, you can change it in <strong>Encoding</strong> text box." %}
-    </p>
-    {% include "default/snippets/input-options/input_description.html" %}
-    {% include "default/snippets/output_description.html" with show_info_send="true" %}
+    {% with show_info_send=True %}
+        <p>
+            {% blocktrans trimmed %}
+                The input CSV files must be compressed at the root of a ZIP file if there is more than one file, and the Excel file must be an XLSX file.
+                Please verify that your files are in a format accepted by <a href="https://flatten-tool.readthedocs.io/en/latest/usage-ocds/"
+                target="_blank">Flatten Tool</a> for OCDS.
+            {% endblocktrans %}
+        </p>
+        <p>
+            {% trans "Check the <strong>Pretty JSON</strong> checkbox to get a pretty print on the output files." %}
+            {% trans "By default the output encoding is utf-8, you can change it in <strong>Encoding</strong> text box." %}
+        </p>
+        {{ block.super }}
+    {% endwith%}
 {% endblock %}
 
 {% block content %}

@@ -37,11 +37,7 @@
             </li>
         </ul>
     </div>
-    <div class="response-fail alert alert-danger hidden">
-        <b>{% trans "An error has occurred!" %}</b>
-        {% trans "Please verify that the file is valid OCDS JSON, and try again in a few minutes." %}
-        <span class="msg"></span>
-    </div>
+    {% include "default/snippets/response_messages.html" %}
 {% endblock messages %}
 
 {% block info_title %}
@@ -52,11 +48,18 @@
 {% endblock %}
 
 {% block info_content %}
+    <p>
+        {% blocktrans trimmed %}
+            Click <strong>Options</strong> to display some parameters that allow you to <strong>select</strong> the
+            schema version, <strong>filter</strong> data by field, <strong>check/uncheck</strong> which fields to
+            include in the flattened files, and more.
+        {% endblocktrans %}
+    </p>
     {{ block.super }}
 {% endblock %}
 
 {% block content %}
-    {% with accept=".json" type="release-package" options=True%}
+    {% with unflatten_options=True accept=".json" type="release-package" %}
         {{ block.super }}
         {% include "default/snippets/unflatten-options-modal.html" %}
     {% endwith%}

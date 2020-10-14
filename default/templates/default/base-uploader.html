@@ -11,15 +11,7 @@
 
 {% block messages %}
     {{ block.super }}
-    <div class="response-warning file-process-failed alert alert-warning hidden">
-        {% trans "We couldn't check that all files were JSON or of the OCDS type requested." %}
-        {% trans "Please verify each file and try again." %}
-        {% trans "Files with validation issues will be ignored by default." %}
-    </div>
-    <div class="response-fail default-error alert alert-danger hidden">
-        <b>{% trans "An error has occurred!" %}</b>
-        {% trans "Please verify that all your files are valid OCDS JSON, and try again in a few minutes." %}
-    </div>
+    {% include "default/snippets/response_messages.html" with show_default=True %}
 {% endblock messages %}
 
 {% block info_content %}
