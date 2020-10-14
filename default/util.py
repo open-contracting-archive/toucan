@@ -78,7 +78,7 @@ def invalid_request_file_message(f, file_type):
     try:
         if file_type == '.csv .xlsx .zip':
             basename, extension = os.path.splitext(f.name)
-            if extension not in file_type:
+            if not extension or extension not in file_type:
                 return _('Not an csv, xlsx or zip file')
             else:
                 return

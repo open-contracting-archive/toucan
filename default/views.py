@@ -359,7 +359,8 @@ def upload_url(request):
         if 'input_url' in data:
             url = request.POST.get(data)
             basename = data
-            if request.POST.get('type') == '.csv .xlsx .zip':
+            file_type = request.POST.get('type', None)
+            if file_type == '.csv .xlsx .zip':
                 extension = os.path.splitext(urlparse(url).path)[1]
             else:
                 extension = ".json"
@@ -392,7 +393,6 @@ def upload_url(request):
 
             else:
                 with open(data_file.path, 'rb') as f:
-                    file_type = request.POST.get('type', None)
                     message = invalid_request_file_message(f, file_type)
                     if message:
                         errors.append({'id': data, 'message': message})
