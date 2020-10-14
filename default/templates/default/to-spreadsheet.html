@@ -59,7 +59,7 @@
 {% endblock %}
 
 {% block content %}
-    {% with unflatten_options=True accept=".json" type="release-package" %}
+    {% with unflatten_options=True pull_right="pull-right" accept=".json" type="release-package" %}
         {{ block.super }}
         {% include "default/snippets/unflatten-options-modal.html" %}
     {% endwith%}
