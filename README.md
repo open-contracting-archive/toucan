@@ -2,8 +2,6 @@
 
 # OCDS Toucan
 
-[![Build Status](https://travis-ci.org/open-contracting/toucan.svg)](https://travis-ci.org/open-contracting/toucan) [![Coverage Status](https://coveralls.io/repos/github/open-contracting/toucan/badge.svg?branch=master)](https://coveralls.io/github/open-contracting/toucan?branch=master)
-
 OCDS Toucan is a web application to transform OCDS files using [OCDS Kit](https://github.com/open-contracting/ocdskit), and to convert OCDS files to CSV or Excel using [Flatten Tool](https://github.com/OpenDataServices/flatten-tool).
 
 ## Installation
