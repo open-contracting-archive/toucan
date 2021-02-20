@@ -13,14 +13,10 @@ from tests import read
 class UploadUrlTestCase(TestCase):
     url = '/combine-packages/'
     files_urls = {
-        'input_url_0': 'https://raw.githubusercontent.com/open-contracting/toucan/'
-                       'master/tests/fixtures/1.1/release-packages/0001-tender.json',
-        'input_url_1': 'https://raw.githubusercontent.com/open-contracting/toucan/'
-                       'master/tests/fixtures/1.1/release-packages/0001-award.json',
-        'input_url_2': 'https://raw.githubusercontent.com/open-contracting/toucan/'
-                       'master/tests/fixtures/1.1/release-packages/0002-tender.json',
-        'input_url_3': 'https://raw.githubusercontent.com/open-contracting/toucan/'
-                       'master/tests/fixtures/1.1/release-packages/0003-array-packages.json'
+        'input_url_0': 'https://raw.githubusercontent.com/open-contracting/toucan/main/tests/fixtures/1.1/release-packages/0001-tender.json',  # noqa: E501
+        'input_url_1': 'https://raw.githubusercontent.com/open-contracting/toucan/main/tests/fixtures/1.1/release-packages/0001-award.json',  # noqa: E501
+        'input_url_2': 'https://raw.githubusercontent.com/open-contracting/toucan/main/tests/fixtures/1.1/release-packages/0002-tender.json',  # noqa: E501
+        'input_url_3': 'https://raw.githubusercontent.com/open-contracting/toucan/main/tests/fixtures/1.1/release-packages/0003-array-packages.json'  # noqa: E501
     }
     results = {'result.json': 'results/combine_release_packages.json'}
 
@@ -56,9 +52,8 @@ class UploadUrlTestCase(TestCase):
 
     def test_upload_csv_xlsx_zip(self):
         file_url = {
-            'input_url_0': 'https://github.com/open-contracting/toucan/blob/master/tests/fixtures/'
-                           '1.1/spreadsheets/flattened.xlsx?raw=true',
-            'type': '.csv .xlsx .zip'
+            'input_url_0': 'https://github.com/open-contracting/toucan/blob/main/tests/fixtures/1.1/spreadsheets/flattened.xlsx?raw=true',  # noqa: E501
+            'type': '.csv .xlsx .zip',
         }
         self.client.post('/upload-url/', file_url)
         response = self.client.get('/upload-url/status/')
@@ -66,9 +61,8 @@ class UploadUrlTestCase(TestCase):
 
     def test_bad_url(self):
         bad_files_urls = {
-            'input_url_0': 'https://raw.githubusercontent.com/open-contracting/toucan/'
-                           'master/tests/fixtures/1.1/release-packages/0001-tender.json',
-            'input_url_1': 'badurl'
+            'input_url_0': 'https://raw.githubusercontent.com/open-contracting/toucan/main/tests/fixtures/1.1/release-packages/0001-tender.json',  # noqa: E501
+            'input_url_1': 'badurl',
         }
         bad_files_urls.update({'type': 'package package-array'})
         response = self.client.post('/upload-url/', bad_files_urls)
@@ -77,8 +71,7 @@ class UploadUrlTestCase(TestCase):
 
     def test_file_process_failed(self):
         file_url = {
-            'input_url_0': 'https://raw.githubusercontent.com/open-contracting/toucan/'
-                           'master/tests/fixtures/1.1/releases/0001-award.json'
+            'input_url_0': 'https://raw.githubusercontent.com/open-contracting/toucan/main/tests/fixtures/1.1/releases/0001-award.json',  # noqa: E501
         }
         file_url.update({'type': 'package package-array'})
         response = self.client.post('/upload-url/', file_url)

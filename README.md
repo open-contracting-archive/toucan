@@ -1,4 +1,4 @@
-[Spanish](https://github.com/open-contracting/toucan/blob/master/README_es.md)
+[Spanish](https://github.com/open-contracting/toucan/blob/main/README_es.md)
 
 # OCDS Toucan
 
