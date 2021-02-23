@@ -14,6 +14,9 @@
     {% block css %}{% endblock %}
 
     <title>{% block title %}{% trans "OCDS Toucan" %}{% endblock %}</title>
+    {% if fathom_analytics_id %}
+    <script src="https://{{ fathom_analytics_domain }}/script.js" data-site="{{ fathom_analytics_id }}" defer data-excluded-domains="127.0.0.1,0.0.0.0"></script>
+    {% endif %}
   </head>
   <body>
     <div class="page-container ocp-page">
