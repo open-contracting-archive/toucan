@@ -46,7 +46,7 @@ coverage==5.0.2
     # via coveralls
 coveralls==3.0.0
     # via -r requirements_dev.in
-django==2.2.14
+django==2.2.19
     # via
     #   -r requirements.txt
     #   libcove
@@ -71,7 +71,7 @@ google-auth-httplib2==0.0.3
     #   google-api-python-client
 google-auth-oauthlib==0.4.1
     # via -r requirements.txt
-google-auth==1.11.0
+google-auth==1.28.0
     # via
     #   -r requirements.txt
     #   google-api-python-client
@@ -129,7 +129,7 @@ libcove==0.12.0
     #   libcoveocds
 libcoveocds==0.7.5
     # via -r requirements.txt
-lxml==4.6.2
+lxml==4.6.3
     # via
     #   -r requirements.txt
     #   flattentool
@@ -219,7 +219,7 @@ rfc3987==1.3.8
     # via
     #   -r requirements.txt
     #   ocdskit
-rsa==4.0
+rsa==4.7.2
     # via
     #   -r requirements.txt
     #   google-auth
