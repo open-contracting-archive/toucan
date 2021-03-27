@@ -6,7 +6,7 @@
 #
 attrs==19.3.0
     # via jsonschema
-bleach==3.1.4
+bleach==3.3.0
     # via
     #   libcove
     #   libcoveocds
@@ -51,7 +51,7 @@ google-auth==1.11.0
     #   google-api-python-client
     #   google-auth-httplib2
     #   google-auth-oauthlib
-httplib2==0.18.1
+httplib2==0.19.0
     # via
     #   google-api-python-client
     #   google-auth-httplib2
@@ -107,12 +107,18 @@ openpyxl==3.0.1
     # via flattentool
 orjson==3.3.1
     # via ocdskit
+packaging==20.9
+    # via bleach
 pyasn1-modules==0.2.8
     # via google-auth
 pyasn1==0.4.8
     # via
     #   pyasn1-modules
     #   rsa
+pyparsing==2.4.7
+    # via
+    #   httplib2
+    #   packaging
 pyrsistent==0.15.5
     # via jsonschema
 python-dateutil==2.8.1
