@@ -46,7 +46,7 @@ coverage==5.0.2
     # via coveralls
 coveralls==3.0.0
     # via -r requirements_dev.in
-django==2.2.19
+django==2.2.20
     # via
     #   -r requirements.txt
     #   libcove
