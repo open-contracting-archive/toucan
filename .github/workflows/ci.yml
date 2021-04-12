@@ -24,7 +24,11 @@ jobs:
       - run: pip install -r requirements_dev.txt
       - run: curl -s -S --retry 3 $BASEDIR/tests/script.sh | bash -
       - run: STANDARD_MAINTENANCE_SCRIPTS_IGNORE=google-auth-httplib2 pytest /tmp/test_requirements.py
-      - run: coverage run --source default,ocdstoucan manage.py test
+      - run: |
+          ./manage.py migrate
+          ./manage.py makemigrations --check --dry-run
+          ./manage.py check --fail-level WARNING
+          coverage run --source default,ocdstoucan manage.py test
         if: always()
       - env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
