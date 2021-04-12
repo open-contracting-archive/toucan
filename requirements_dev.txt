@@ -4,6 +4,10 @@
 #
 #    pip-compile requirements_dev.in
 #
+asgiref==3.3.4
+    # via
+    #   -r requirements.txt
+    #   django
 attrs==19.3.0
     # via
     #   -r requirements.txt
@@ -46,7 +50,7 @@ coverage==5.0.2
     # via coveralls
 coveralls==3.0.0
     # via -r requirements_dev.in
-django==2.2.20
+django==3.2
     # via
     #   -r requirements.txt
     #   libcove
@@ -251,6 +255,10 @@ strict-rfc3339==0.7
     # via
     #   -r requirements.txt
     #   ocdskit
+typing-extensions==3.7.4.3
+    # via
+    #   -r requirements.txt
+    #   asgiref
 uritemplate==3.0.1
     # via
     #   -r requirements.txt
