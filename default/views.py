@@ -437,7 +437,7 @@ def uploadfile(request):
         data_file.write(request_file)
 
     request.session.setdefault('files', []).append(data_file.as_dict())
-    # https://docs.djangoproject.com/en/2.2/topics/http/sessions/#when-sessions-are-saved
+    # https://docs.djangoproject.com/en/3.2/topics/http/sessions/#when-sessions-are-saved
     request.session.modified = True
 
     return JsonResponse({

@@ -145,7 +145,7 @@ LANGUAGES = [
     ('es', _('Spanish')),
 ]
 
-# https://docs.djangoproject.com/en/2.2/topics/logging/#django-security
+# https://docs.djangoproject.com/en/3.2/topics/logging/#django-security
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
