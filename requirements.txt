@@ -4,6 +4,8 @@
 #
 #    pip-compile
 #
+asgiref==3.3.4
+    # via django
 attrs==19.3.0
     # via jsonschema
 bleach==3.3.0
@@ -28,7 +30,7 @@ commonmark==0.9.1
     #   libcoveocds
 contextlib2==0.5.5
     # via schema
-django==2.2.20
+django==3.2
     # via
     #   -r requirements.in
     #   libcove
@@ -164,6 +166,8 @@ sqlparse==0.3.0
     # via django
 strict-rfc3339==0.7
     # via ocdskit
+typing-extensions==3.7.4.3
+    # via asgiref
 uritemplate==3.0.1
     # via google-api-python-client
 urllib3==1.25.7
