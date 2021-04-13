@@ -178,7 +178,7 @@ OCDS_TOUCAN_MAXNUMFILES = os.getenv('OCDS_TOUCAN_MAXNUMFILES', 20)
 OCDS_TOUCAN_MAXFILESIZE = os.getenv('OCDS_TOUCAN_MAXFILESIZE', 10000000)  # in bytes
 OCDS_TOUCAN_GOOGLE_API_CREDENTIALS_FILE = os.getenv('OCDS_TOUCAN_CREDENTIALS_DRIVE', 'googleapi_credentials.json')
 
-# https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
+# https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 if production:
     # Run: env DJANGO_ENV=production SECURE_HSTS_SECONDS=1 ./manage.py check --deploy
     CSRF_COOKIE_SECURE = True
@@ -186,7 +186,7 @@ if production:
     SECURE_SSL_REDIRECT = True
     SECURE_REFERRER_POLICY = 'same-origin'
 
-    # https://docs.djangoproject.com/en/3.0/ref/middleware/#http-strict-transport-security
+    # https://docs.djangoproject.com/en/3.2/ref/middleware/#http-strict-transport-security
     if 'SECURE_HSTS_SECONDS' in os.environ:
         SECURE_HSTS_SECONDS = os.getenv('SECURE_HSTS_SECONDS')
         SECURE_HSTS_INCLUDE_SUBDOMAINS = True
