@@ -24,7 +24,8 @@ jobs:
       - run: pip install -r requirements_dev.txt
       - run: curl -s -S --retry 3 $BASEDIR/tests/script.sh | bash -
       - run: STANDARD_MAINTENANCE_SCRIPTS_IGNORE=google-auth-httplib2 pytest /tmp/test_requirements.py
-      - run: |
+      - name: Run checks and tests
+        run: |
           ./manage.py migrate
           ./manage.py makemigrations --check --dry-run
           ./manage.py check --fail-level WARNING
