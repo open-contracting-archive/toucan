@@ -29,6 +29,8 @@ jobs:
           ./manage.py makemigrations --check --dry-run
           ./manage.py check --fail-level WARNING
           coverage run --source default,ocdstoucan manage.py test
+        env:
+          PYTHONWARNINGS: error
         if: always()
       - env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
