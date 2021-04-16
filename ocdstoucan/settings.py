@@ -164,7 +164,6 @@ LOGGING = {
 
 FATHOM_ANALYTICS_DOMAIN = os.getenv('FATHOM_ANALYTICS_DOMAIN', 'cdn.usefathom.com')
 FATHOM_ANALYTICS_ID = os.getenv('FATHOM_ANALYTICS_ID')
-GOOGLE_ANALYTICS_ID = os.getenv('GOOGLE_ANALYTICS_ID')
 
 if 'SENTRY_DSN' in os.environ:
     # https://docs.sentry.io/platforms/python/logging/#ignoring-a-logger
