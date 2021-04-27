@@ -25,6 +25,7 @@ jobs:
       - run: curl -s -S --retry 3 $BASEDIR/tests/script.sh | bash -
       - run: STANDARD_MAINTENANCE_SCRIPTS_IGNORE=google-auth-httplib2 pytest /tmp/test_requirements.py
       - name: Run checks and tests
+        if: always()
         run: |
           ./manage.py migrate
           ./manage.py makemigrations --check --dry-run
@@ -32,7 +33,6 @@ jobs:
           coverage run --source default,ocdstoucan manage.py test
         env:
           PYTHONWARNINGS: error
-        if: always()
       - env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: coveralls --service=github
